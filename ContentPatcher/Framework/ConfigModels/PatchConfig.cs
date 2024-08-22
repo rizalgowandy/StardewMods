@@ -97,6 +97,13 @@ internal class PatchConfig
     [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
     public List<PatchMapTileConfig?> MapTiles { get; } = [];
 
+    /****
+    ** Include
+    *****/
+    /// <summary>Pass through values for includes.</summary>
+    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
+    public InvariantDictionary<string?> PassThroughTokens { get; } = new();
+
 
     /*********
     ** Public methods
@@ -139,5 +146,8 @@ internal class PatchConfig
         this.MapProperties = other.MapProperties.Clone();
         this.AddWarps = other.AddWarps.ToList();
         this.MapTiles = other.MapTiles.Select(p => p != null ? new PatchMapTileConfig(p) : null).ToList();
+
+        // Include
+        this.PassThroughTokens = other.PassThroughTokens.Clone();
     }
 }

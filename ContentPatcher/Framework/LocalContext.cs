@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.Tokens;
 using Pathoschild.Stardew.Common.Utilities;
+using StardewValley.TokenizableStrings;
 
 namespace ContentPatcher.Framework;
 
@@ -117,7 +118,7 @@ internal class LocalContext : IContext
         }
 
         // update values
-        managed.ValueProvider.SetValue(value);
+        managed.ValueProvider.SetValue(ready ? value : null);
         managed.ValueProvider.SetReady(ready);
     }
 }

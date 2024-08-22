@@ -83,7 +83,7 @@ internal class EditMapPatch : Patch
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
-    public EditMapPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, IEnumerable<Condition> conditions, IManagedTokenString? fromAsset, TokenRectangle? fromArea, TokenRectangle? toArea, PatchMapMode patchMode, IEnumerable<EditMapPatchProperty>? mapProperties, IEnumerable<EditMapPatchTile>? mapTiles, IEnumerable<IManagedTokenString>? addWarps, IEnumerable<ITextOperation>? textOperations, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName)
+    public EditMapPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, InvariantDictionary<IManagedTokenString> passthroughTokens, IEnumerable<Condition> conditions, IManagedTokenString? fromAsset, TokenRectangle? fromArea, TokenRectangle? toArea, PatchMapMode patchMode, IEnumerable<EditMapPatchProperty>? mapProperties, IEnumerable<EditMapPatchTile>? mapTiles, IEnumerable<IManagedTokenString>? addWarps, IEnumerable<ITextOperation>? textOperations, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName)
         : base(
             indexPath: indexPath,
             path: path,
@@ -92,6 +92,7 @@ internal class EditMapPatch : Patch
             assetLocale: assetLocale,
             priority: (int)priority,
             updateRate: updateRate,
+            passthroughTokens: passthroughTokens,
             conditions: conditions,
             fromAsset: fromAsset,
             contentPack: contentPack,

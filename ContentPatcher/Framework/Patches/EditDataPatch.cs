@@ -12,6 +12,7 @@ using ContentPatcher.Framework.Tokens;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using xTile;
@@ -96,7 +97,7 @@ internal class EditDataPatch : Patch
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="tryParseFields">Parse the data change fields for an <see cref="PatchType.EditData"/> patch.</param>
-    public EditDataPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, IEnumerable<Condition> conditions, IManagedTokenString? fromFile, IEnumerable<EditDataPatchRecord>? records, IEnumerable<EditDataPatchField>? fields, IEnumerable<EditDataPatchMoveRecord>? moveRecords, IEnumerable<ITextOperation>? textOperations, IEnumerable<IManagedTokenString>? targetField, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName, TryParseFieldsDelegate tryParseFields)
+    public EditDataPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, InvariantDictionary<IManagedTokenString> passthroughTokens, IEnumerable<Condition> conditions, IManagedTokenString? fromFile, IEnumerable<EditDataPatchRecord>? records, IEnumerable<EditDataPatchField>? fields, IEnumerable<EditDataPatchMoveRecord>? moveRecords, IEnumerable<ITextOperation>? textOperations, IEnumerable<IManagedTokenString>? targetField, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName, TryParseFieldsDelegate tryParseFields)
         : base(
             indexPath: indexPath,
             path: path,
@@ -105,6 +106,7 @@ internal class EditDataPatch : Patch
             assetLocale: assetLocale,
             priority: (int)priority,
             updateRate: updateRate,
+            passthroughTokens: passthroughTokens,
             conditions: conditions,
             contentPack: contentPack,
             migrator: migrator,

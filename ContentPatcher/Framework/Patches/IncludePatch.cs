@@ -6,6 +6,7 @@ using System.Reflection;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.ConfigModels;
 using ContentPatcher.Framework.Tokens;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
@@ -31,6 +32,9 @@ internal class IncludePatch : Patch
     /// <summary>Whether the patch already tried loading the <see cref="Patch.FromAsset"/> asset for the current context. This doesn't necessarily means it succeeded (e.g. the file may not have existed).</summary>
     private bool AttemptedDataLoad;
 
+    /// <summary>The passthrough tokens provided.</summary>
+    private InvariantDictionary<IManagedTokenString> PassthroughTokens;
+
 
     /*********
     ** Accessors
@@ -53,7 +57,7 @@ internal class IncludePatch : Patch
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="patchLoader">Handles loading and unloading patches for content packs.</param>
-    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
+    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString> passthroughTokens, InvariantDictionary<IManagedTokenString> passthroughTokensForInclude, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
         : base(
             indexPath: indexPath,
             path: path,
@@ -64,6 +68,7 @@ internal class IncludePatch : Patch
             updateRate: updateRate,
             conditions: conditions,
             fromAsset: fromFile,
+            passthroughTokens: passthroughTokens,
             parentPatch: parentPatch,
             contentPack: contentPack.ContentPack,
             migrator: contentPack.Migrator,
@@ -73,6 +78,7 @@ internal class IncludePatch : Patch
         this.RawContentPack = contentPack;
         this.Monitor = monitor;
         this.PatchLoader = patchLoader;
+        this.PassthroughTokens = passthroughTokensForInclude;
     }
 
     /// <inheritdoc />
@@ -152,7 +158,8 @@ internal class IncludePatch : Patch
                     rawPatches: content.Changes,
                     rootIndexPath: this.IndexPath,
                     path: this.GetIncludedLogPath(this.FromAsset),
-                    parentPatch: this
+                    parentPatch: this,
+                    passthroughTokens: this.PassthroughTokens
                 );
                 this.IsApplied = true;
             }
