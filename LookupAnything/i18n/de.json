@@ -113,6 +113,10 @@
     "location.forest.island-tip": "Waldfluss (Südspitze der großen Insel)",
     "location.forest.lake": "Waldteich",
     "location.forest.river": "Waldfluss",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Nachtmarkt Tiefsee-U-Boot",
     "location.town.northmost-bridge": "Stadt (Nord-östliche Brücke)",
     "location.undergroundMine": "Mine",
@@ -491,6 +495,7 @@
     "npc.neutral-gifts": "Neutrale Geschenke",
     "npc.dislikes-gifts": "Nicht gemochte Geschenke",
     "npc.hates-gifts": "Gehasste Geschenke",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Du bist verheiratet! <", // < turns into a heart
@@ -500,6 +505,7 @@
     "npc.friendship.need-points": "nächstes in {{count}} Punkten",
     "npc.undiscovered-gift-taste": "{{count}} unaufgedeckte Gegenstände",
     "npc.unowned-gift-taste": "{{count}} nicht bessesene Gegenstände",
+    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

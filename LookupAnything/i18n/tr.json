@@ -113,6 +113,10 @@
     "location.forest.island-tip": "Orman Nehri (büyük adanın güney ucu)",
     "location.forest.lake": "Orman Göleti",
     "location.forest.river": "Orman Nehri",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Akşam Pazarı Denizaltısı",
     "location.town.northmost-bridge": "Kasaba (en kuzeydeki köprü)",
     "location.undergroundMine": "Maden",
@@ -491,6 +495,7 @@
     "npc.neutral-gifts": "Nötr hediyeler",
     "npc.dislikes-gifts": "Beğenilmeyen hediyeler",
     "npc.hates-gifts": "Nefret edilen hediyeler",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Evlisin! <", // < turns into a heart
@@ -500,6 +505,7 @@
     "npc.friendship.need-points": "{{count}} puana gelişir",
     "npc.undiscovered-gift-taste": "{{count}} gizli nesneler",
     "npc.unowned-gift-taste": "{{count}} sahipsiz öğe",
+    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

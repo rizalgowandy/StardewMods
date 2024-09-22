@@ -400,6 +400,12 @@ internal class CharacterSubject : BaseSubject
                 if (this.ShowGiftTastes.Hated)
                     yield return this.GetGiftTasteField(I18n.Npc_HatesGifts(), giftTastes, ownedItems, GiftTaste.Hate);
             }
+
+            // schedule
+            if (npc.TryLoadSchedule())
+            {
+                yield return new ScheduleField(npc.Schedule, this.GameHelper);
+            }
         }
     }
 

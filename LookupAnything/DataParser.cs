@@ -324,6 +324,38 @@ internal class DataParser
         return this.GetLocationDisplayName(fishSpawnData.LocationId, locationData, fishSpawnData.Area);
     }
 
+    /// <summary>Get the translated display name for a location and optional fish area.</summary>
+    /// <param name="id">The location's internal name.</param>
+    /// <param name="data">The location data, if available.</param>
+    /// <param name="fishAreaId">The fish area ID within the location, if applicable.</param>
+    public string GetLocationDisplayName(string id, LocationData? data, string? fishAreaId)
+    {
+        // special cases
+        {
+            // skip: no area set
+            if (string.IsNullOrWhiteSpace(fishAreaId))
+                return this.GetLocationDisplayName(id, data);
+
+            // special case: mine level
+            if (string.Equals(id, "UndergroundMine", StringComparison.OrdinalIgnoreCase))
+                return I18n.Location_UndergroundMine_Level(level: fishAreaId);
+        }
+
+        // get base data
+        string locationName = this.GetLocationDisplayName(id, data);
+        string areaName = TokenParser.ParseText(data?.FishAreas?.GetValueOrDefault(fishAreaId)?.DisplayName);
+
+        // build translation
+        string displayName = I18n.GetByKey($"location.{id}.{fishAreaId}", new { locationName }).UsePlaceholder(false); // predefined translation
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            displayName = !string.IsNullOrWhiteSpace(areaName)
+                ? I18n.Location_FishArea(locationName: locationName, areaName: areaName)
+                : I18n.Location_UnknownFishArea(locationName: locationName, id: fishAreaId);
+        }
+        return displayName;
+    }
+
     /// <summary>Parse monster data.</summary>
     /// <remarks>Reverse engineered from <see cref="StardewValley.Monsters.Monster.parseMonsterInfo"/>, <see cref="GameLocation.monsterDrop"/>, and the <see cref="Debris"/> constructor.</remarks>
     public IEnumerable<MonsterData> GetMonsters()
@@ -652,38 +684,6 @@ internal class DataParser
     /*********
     ** Private methods
     *********/
-    /// <summary>Get the translated display name for a location and optional fish area.</summary>
-    /// <param name="id">The location's internal name.</param>
-    /// <param name="data">The location data, if available.</param>
-    /// <param name="fishAreaId">The fish area ID within the location, if applicable.</param>
-    private string GetLocationDisplayName(string id, LocationData? data, string? fishAreaId)
-    {
-        // special cases
-        {
-            // skip: no area set
-            if (string.IsNullOrWhiteSpace(fishAreaId))
-                return this.GetLocationDisplayName(id, data);
-
-            // special case: mine level
-            if (string.Equals(id, "UndergroundMine", StringComparison.OrdinalIgnoreCase))
-                return I18n.Location_UndergroundMine_Level(level: fishAreaId);
-        }
-
-        // get base data
-        string locationName = this.GetLocationDisplayName(id, data);
-        string areaName = TokenParser.ParseText(data?.FishAreas?.GetValueOrDefault(fishAreaId)?.DisplayName);
-
-        // build translation
-        string displayName = I18n.GetByKey($"location.{id}.{fishAreaId}", new { locationName }).UsePlaceholder(false); // predefined translation
-        if (string.IsNullOrWhiteSpace(displayName))
-        {
-            displayName = !string.IsNullOrWhiteSpace(areaName)
-                ? I18n.Location_FishArea(locationName: locationName, areaName: areaName)
-                : I18n.Location_UnknownFishArea(locationName: locationName, id: fishAreaId);
-        }
-        return displayName;
-    }
-
     /// <summary>Get the translated display name for a location.</summary>
     /// <param name="id">The location's internal name.</param>
     /// <param name="data">The location data, if available.</param>

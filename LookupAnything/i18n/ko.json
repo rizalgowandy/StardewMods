@@ -113,6 +113,10 @@
     "location.forest.island-tip": "섬 (큰 섬의 남쪽 끝)",
     "location.forest.lake": "숲 호수",
     "location.forest.river": "숲 강",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "야시장 잠수함",
     "location.town.northmost-bridge": "마을 (최북단의 다리)",
     "location.undergroundMine": "광산",
@@ -491,6 +495,7 @@
     "npc.neutral-gifts": "그저그런 선물",
     "npc.dislikes-gifts": "싫어하는 선물",
     "npc.hates-gifts": "혐오하는 선물",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "당신은 이미 결혼했다!", // < turns into a heart (Korean does not support emoji)
@@ -500,6 +505,7 @@
     "npc.friendship.need-points": "호감도 UP까지 {{count}}점",
     "npc.undiscovered-gift-taste": "공개되지 않은 품목 {{count}}개",
     "npc.unowned-gift-taste": "소유하지 않은 품목 {{count}}개",
+    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

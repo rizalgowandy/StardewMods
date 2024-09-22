@@ -28,6 +28,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Crafting;
 using StardewValley.GameData.Crops;
 using StardewValley.GameData.FishPonds;
+using StardewValley.GameData.Locations;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -373,6 +374,15 @@ internal class GameHelper
     public string GetLocationDisplayName(FishSpawnLocationData fishSpawnData)
     {
         return this.DataParser.GetLocationDisplayName(fishSpawnData);
+    }
+
+    /// <summary>Get the translated display name for a location and optional fish area.</summary>
+    /// <param name="id">The location's internal name.</param>
+    /// <param name="data">The location data.</param>
+    /// <param name="fishAreaId">The fish area ID within the location, if applicable.</param>
+    public string GetLocationDisplayName(string id, LocationData data, string? fishAreaId = null)
+    {
+        return this.DataParser.GetLocationDisplayName(id, data, fishAreaId);
     }
 
     /// <summary>Parse monster data.</summary>

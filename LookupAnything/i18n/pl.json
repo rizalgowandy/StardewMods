@@ -113,6 +113,10 @@
     "location.forest.island-tip": "leśna rzeka (południowy kraniec dużej wyspy)",
     "location.forest.lake": "leśny staw",
     "location.forest.river": "leśna rzeka",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "łódź podwodna Nocnego Rynku",
     "location.town.northmost-bridge": "miasto (kładka na północy)",
     "location.undergroundMine": "kopalnia",
@@ -491,6 +495,7 @@
     "npc.neutral-gifts": "Neutralne prezenty",
     "npc.dislikes-gifts": "Nielubiane prezenty",
     "npc.hates-gifts": "Znienawidzone prezenty",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Jesteście małżeństwem! <", // < turns into a heart
@@ -500,6 +505,7 @@
     "npc.friendship.need-points": "następne za {{count}} pkt",
     "npc.undiscovered-gift-taste": "{{count}} nieodkrytych przedmiotów",
     "npc.unowned-gift-taste": "{{count}} nieposiadanych przedmiotów",
+    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********
