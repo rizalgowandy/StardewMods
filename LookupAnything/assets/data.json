@@ -349,6 +349,93 @@ You shouldn't change this file unless you know what you're doing.
                     "Seasons": [ "winter" ]
                 }
             ]
+        },
+
+        // Son of Crimsonfish
+        "898": {
+            "MinFishingLevel": 5,
+            "Locations": [
+                {
+                    "LocationId": "Beach",
+                    "Area": "east-pier",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ],
+            "TimesOfDay": [
+                {
+                    "MinTime": "600",
+                    "MaxTime": "2600"
+                }
+            ]
+        },
+
+        // Ms. Angler
+        "899": {
+            "MinFishingLevel": 3,
+            "Locations": [
+                {
+                    "LocationId": "Town",
+                    "Area": "northmost-bridge",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ],
+            "TimesOfDay": [
+                {
+                    "MinTime": "600",
+                    "MaxTime": "2600"
+                }
+            ]
+        },
+
+        // Legend II
+        "900": {
+            "MinFishingLevel": 10,
+            "Locations": [
+                {
+                    "LocationId": "Mountain",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ],
+            "TimesOfDay": [
+                {
+                    "MinTime": "600",
+                    "MaxTime": "2600"
+                }
+            ]
+        },
+
+        // Radioactive Carp
+        "901": {
+            "Locations": [
+                {
+                    "LocationId": "Sewer",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ],
+            "TimesOfDay": [
+                {
+                    "MinTime": "600",
+                    "MaxTime": "2600"
+                }
+            ]
+        },
+
+        // Glacierfish Jr.
+        "902": {
+            "MinFishingLevel": 6,
+            "Locations": [
+                {
+                    "LocationId": "Forest",
+                    "Area": "island-tip",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ],
+            "TimesOfDay": [
+                {
+                    "MinTime": "600",
+                    "MaxTime": "2600"
+                }
+            ]
         }
     },
 

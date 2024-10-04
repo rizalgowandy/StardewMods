@@ -399,6 +399,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "Мінімальний рівень рибальства: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "Поки-що не зловлено (Можна зловити лише один раз)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "Місцезнаходження: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "Місцезнаходження:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",

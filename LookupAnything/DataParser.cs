@@ -149,8 +149,9 @@ namespace Pathoschild.Stardew.LookupAnything
         /// <remarks>Derived from <see cref="GameLocation.getFish"/>.</remarks>
         public FishSpawnData? GetFishSpawnRules(string fishID, Metadata metadata)
         {
-            // parse location data
+            // parse location and condition data
             var locations = new List<FishSpawnLocationData>();
+            bool isLegendaryFamily = false;
             foreach ((string locationId, LocationData data) in DataLoader.Locations(Game1.content))
             {
                 if (metadata.IgnoreFishingLocations.Contains(locationId))
@@ -181,6 +182,9 @@ namespace Pathoschild.Stardew.LookupAnything
                             }
                             curLocations.Add(new FishSpawnLocationData(locationId, fish.FishAreaId, seasons.ToArray()));
                         }
+
+                        // check if fish is part of Qi's Extended Family quest
+                        isLegendaryFamily = conditionData.Any(condition => !condition.Negated && condition.Query.SequenceEqual(["PLAYER_SPECIAL_ORDER_RULE_ACTIVE", "Current", "LEGENDARY_FAMILY"]));
                     }
                     else
                         curLocations.Add(new FishSpawnLocationData(locationId, fish.FishAreaId, new[] { "spring", "summer", "fall", "winter" }));
@@ -252,7 +256,8 @@ namespace Pathoschild.Stardew.LookupAnything
                 TimesOfDay: timesOfDay.ToArray(),
                 Weather: weather,
                 MinFishingLevel: minFishingLevel,
-                IsUnique: isUnique
+                IsUnique: isUnique,
+                IsLegendaryFamily: isLegendaryFamily
             );
         }
 

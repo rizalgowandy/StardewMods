@@ -398,6 +398,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "minimum balıkçılık seviyesi: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "henüz yakalanmamış (sadece bir defa yakalanabilir)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "bölgeler: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "bölgeler:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",

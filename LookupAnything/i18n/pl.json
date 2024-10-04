@@ -399,6 +399,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "min. poziom wędkarstwa: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "jeszcze nie złowiono (można złapać tylko raz na grę)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "lokacje: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "lokacje:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",

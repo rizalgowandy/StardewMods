@@ -401,6 +401,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "niveau minimum de pêche : {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "pas encore attrapé (ne peux être attrapé qu'une fois)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "emplacements : {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "emplacements :",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}} : {{locations}}",
