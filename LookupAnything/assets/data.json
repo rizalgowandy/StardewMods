@@ -352,7 +352,7 @@ You shouldn't change this file unless you know what you're doing.
         },
 
         // Son of Crimsonfish
-        "898": {
+        "(O)898": {
             "MinFishingLevel": 5,
             "Locations": [
                 {
@@ -370,7 +370,7 @@ You shouldn't change this file unless you know what you're doing.
         },
 
         // Ms. Angler
-        "899": {
+        "(O)899": {
             "MinFishingLevel": 3,
             "Locations": [
                 {
@@ -388,7 +388,7 @@ You shouldn't change this file unless you know what you're doing.
         },
 
         // Legend II
-        "900": {
+        "(O)900": {
             "MinFishingLevel": 10,
             "Locations": [
                 {
@@ -405,7 +405,7 @@ You shouldn't change this file unless you know what you're doing.
         },
 
         // Radioactive Carp
-        "901": {
+        "(O)901": {
             "Locations": [
                 {
                     "LocationId": "Sewer",
@@ -421,7 +421,7 @@ You shouldn't change this file unless you know what you're doing.
         },
 
         // Glacierfish Jr.
-        "902": {
+        "(O)902": {
             "MinFishingLevel": 6,
             "Locations": [
                 {
