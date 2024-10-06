@@ -30,7 +30,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
         /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
         private static IEnumerable<IFormattedText> GetText(Dictionary<int, SchedulePathDescription> schedule, GameHelper gameHelper)
         {
-            var formattedSchedule = FormatSchedule(schedule).ToList();
+            List<ScheduleEntry> formattedSchedule = FormatSchedule(schedule).ToList();
 
             for (int i = 0; i < formattedSchedule.Count; i++)
             {
@@ -40,7 +40,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
                 string locationDisplayName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
 
                 bool didCurrentEventStart = Game1.timeOfDay >= time;
-                bool didNextEventStart = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].time;
+                bool didNextEventStart = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].Time;
                 Color textColor;
 
                 if (didCurrentEventStart)
@@ -54,7 +54,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
 
         /// <summary>Returns a collection of schedule entries sorted by time. Consecutive entries with the same target location are omitted.</summary>
         /// <param name="schedule">The schedule to format.</param>
-        private static IEnumerable<(int time, SchedulePathDescription entry)> FormatSchedule(Dictionary<int, SchedulePathDescription> schedule)
+        private static IEnumerable<ScheduleEntry> FormatSchedule(Dictionary<int, SchedulePathDescription> schedule)
         {
             List<int> sortedKeys = [.. schedule.Keys.OrderBy(key => key)];
             string prevTargetLocationName = string.Empty;
@@ -66,8 +66,13 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
                     continue;
 
                 prevTargetLocationName = entry.targetLocationName;
-                yield return (time, entry);
+                yield return new ScheduleEntry(time, entry);
             }
         }
+
+        /// <summary>An entry in an NPC's schedule.</summary>
+        /// <param name="Time">The time that the event starts.</param>
+        /// <param name="Description">A description of the event.</param>
+        private record ScheduleEntry(int Time, SchedulePathDescription Description);
     }
 }
