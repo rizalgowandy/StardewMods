@@ -39,9 +39,14 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
                 string timeString = formattedSchedule.Count == 1 ? I18n.Npc_Schedule_AllDay() : Game1.getTimeOfDayString(time);
                 string locationDisplayName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
 
-                // check if the current game time is between current and next schedule entry
-                bool isHappeningNow = Game1.timeOfDay >= time && (i >= formattedSchedule.Count - 1 || Game1.timeOfDay < formattedSchedule[i + 1].time);
-                Color textColor = isHappeningNow ? Color.Black : Color.Gray;
+                bool didCurrentEventStart = Game1.timeOfDay >= time;
+                bool didNextEventStart = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].time;
+                Color textColor;
+
+                if (didCurrentEventStart)
+                    textColor = didNextEventStart ? Color.Gray : Color.Green;
+                else
+                    textColor = Color.Black;
 
                 yield return new FormattedText($"{timeString} - {locationDisplayName}", textColor);
             }
