@@ -137,7 +137,8 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Crops
                 if (this.Mods.MultiFertilizer.IsLoaded)
                     applied = [.. this.Mods.MultiFertilizer.GetAppliedFertilizers(dirt)];
                 else if (this.HasUltimateFertilizer)
-                    applied = [.. dirt.fertilizer.Value.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)]; // Ultimate Fertilizer allows multiple fertilizers
+                    if (dirt.fertilizer.Value != null)
+                        applied = [.. dirt.fertilizer.Value.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)]; // Ultimate Fertilizer allows multiple fertilizers
                 else if (CommonHelper.IsItemId(dirt.fertilizer.Value, allowZero: false))
                     applied = [dirt.fertilizer.Value];
             }
