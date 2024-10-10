@@ -36,8 +36,8 @@
     "config.mount.name": "ขึ้น/ลงจากหลังม้า",
     "config.mount.tooltip": "ต้องการขึ้นหรือลงจากม้าให้มันเร็วแค่ไหน (รวมถึงการขึ้นหรือการขี่แบบกำหนดเองเช่น ม็อดรถแทรกเตอร์) ค่าเริ่มต้นคือ {{defaultValue}}x",
 
-    "config.read-book.name": "Read book", // TODO
-    "config.read-book.tooltip": "How fast you read books. Default {{defaultValue}}x.", // TODO
+    "config.read-book.name": "อ่านหนังสือ",
+    "config.read-book.tooltip": "ต้องการอ่านหนังสือให้จบเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.",
 
     "config.shear.name": "เครื่องมือที่ตัด",
     "config.shear.tooltip": "ต้องการใช้เครื่องที่ตัดให้มันเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x",
@@ -48,8 +48,8 @@
     "config.tool.name": "เครื่องมือที่แกว่ง",
     "config.tool.tooltip": "ต้องการใช้เครื่องมือที่แกว่งให้มันเร็วแค่ไหน (ยกเว้นอาวุธและคันเบ็ด) ค่าเริ่มต้นคือ {{defaultValue}}x, ขอแนะนำ {{defaultValue}}x",
 
-    "config.use-totem.name": "Use totem", // TODO
-    "config.use-totem.tooltip": "How fast you use a totem. Default {{defaultValue}}x.", // TODO
+    "config.use-totem.name": "ใช้โทเทม",
+    "config.use-totem.tooltip": "ต้องการใช้โทเทมให้เสร็จเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.",
 
     "config.weapon.name": "อาวุธที่แกว่ง",
     "config.weapon.tooltip": "ต้องการใช้อาวุธที่แกว่งให้มันเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x, ขอแนะนำ {{defaultValue}}x",
@@ -77,8 +77,8 @@
     "config.forge.name": "Forge", // TODO
     "config.forge.tooltip": "How fast the volcano forge works. Default {{defaultValue}}x.", // TODO
 
-    "config.open-chest.name": "Open chest", // TODO
-    "config.open-chest.tooltip": "How fast you open chests. Default {{defaultValue}}x.", // TODO
+    "config.open-chest.name": "เปิดกล่องเก็บของ",
+    "config.open-chest.tooltip": "ต้องการให้เปิดกล่องเก็บของเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.",
 
     "config.parrot-express.name": "Parrot express", // TODO
     "config.parrot-express.tooltip": "How fast the parrot express runs. Default {{defaultValue}}x.", // TODO
@@ -100,11 +100,11 @@
     ****/
     "config.ui-speeds": "ความเร็วของภาพเคลื่อนไหว UI",
 
-    "config.dialogue-typing.name": "Dialogue typing", // TODO
-    "config.dialogue-typing.tooltip": "How fast text appears in dialogue boxes. Default {{defaultValue}}x", // TODO
+    "config.dialogue-typing.name": "ความเร็วข้อความของบทสนทนา",
+    "config.dialogue-typing.tooltip": "ต้องการให้ข้อความบทสนทนาแสดงจบเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x",
 
-    "config.open-dialogue-box.name": "Open dialogue box", // TODO
-    "config.open-dialogue-box.tooltip": "How fast dialogue boxes open. Default {{defaultValue}}x.", // TODO
+    "config.open-dialogue-box.name": "แสดงบทสทนา",
+    "config.open-dialogue-box.tooltip": "ต้องการแสดงบทสนทนาเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.", 
 
     "config.title-menu.name": "การเปลี่ยนเมนูชื่อเรื่อง",
     "config.title-menu.tooltip": "ความเร็วในการเปลี่ยนเมนูชื่อเรื่องระหว่างหน้าจอ ค่าเริ่มต้นคือ {{defaultValue}}x",
