@@ -157,8 +157,8 @@
     "condition.item-edibility.range": "{{item}} ma jadalność od {{min}} do {{max}}",
 
     "context-tag.bone": "każda kość",
-    "context-tag.egg": "każde jajo",
-    "context-tag.large-egg": "każde duże jajo",
+    "context-tag.egg": "każde jajko",
+    "context-tag.large-egg": "każde duże jajko",
     "context-tag.preserved-item": "zakonserwowane: {{name}}",
 
 
@@ -427,7 +427,7 @@
     "item.melee-weapon.knockback.label": "{{amount}} ({{multiplier}} razy normalny dystans)",
     "item.melee-weapon.reach.label": "{{amount}} piksele",
     "item.melee-weapon.speed.shown-vs-actual": "pokazana: {{shownSpeed}}{{lineBreak}}rzeczywista: {{actualSpeed}}",
-    "item.melee-weapon.speed.summary": "{{speed}} ({{milliseconds}} milisekund za zamach, bez bonusów szybkości gracza)",
+    "item.melee-weapon.speed.summary": "{{speed}} ({{milliseconds}} milisekund na zamach, bez bonusów szybkości gracza)",
 
 
     /*********
