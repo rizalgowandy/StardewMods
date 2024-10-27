@@ -14,7 +14,7 @@
     ** Section titles
     ****/
     "config.main-options": "Hauptoptionen",
-    "config.audio": "Audio", // TODO
+    "config.audio": "Audio",
     "config.controls": "Steuerung",
     "config.axe": "Axteigenschaften",
     "config.hoe": "Hackeneigenschaften",
@@ -30,8 +30,7 @@
     /****
     ** Warnings
     ****/
-    // TODO
-    "config.questable-tractor-warning": "You have Questable Tractor installed. That mod works by overriding the tractor settings, so it may reset changes you make here.",
+    "config.questable-tractor-warning": "Du hast Questable Tractor installiert. Diese Mod funktioniert, indem sie die Traktoreinstellungen überschreibt, sodass hier vorgenommene Änderungen möglicherweise zurückgesetzt werden. ",
 
 
     /****
@@ -49,9 +48,8 @@
     "config.build-price.name": "Baupreis",
     "config.build-price.tooltip": "Der Goldpreis für den Kauf einer Traktor-Garage. Standard {{defaultValue}}g.",
 
-    // TODO
-    "config.require-build-materials.name": "Require Build Materials",
-    "config.require-build-materials.tooltip": "Whether you need to provide materials to build a tractor garage, in addition to the gold price.",
+    "config.require-build-materials.name": "Erforderliche Baumaterialien",
+    "config.require-build-materials.tooltip": "Ob du Materialien für den Bau einer Traktorgarage bereitstellen musst, zusätzlich zum Goldpreis.",
 
     "config.can-summon-without-garage.name": "Kann ohne Garage beschworen werden",
     "config.can-summon-without-garage.tooltip": "Ob man einen vorübergehenden Traktor herbeirufen kann, ohne vorher eine Garage zu bauen.",
@@ -72,9 +70,8 @@
     "config.tractor-sounds.value.Horse": "Pferdegeräusche",
     "config.tractor-sounds.value.Tractor": "Traktorgeräusche",
 
-    // TODO
-    "config.tractor-volume.name": "Sound Effects Volume",
-    "config.tractor-volume.tooltip": "The volume level for the tractor sound effects. Default {{defaultValue}}%.",
+    "config.tractor-volume.name": "Soundeffekt-Laustärke",
+    "config.tractor-volume.tooltip": "Die Lautstärke für die Traktor-Soundeffekte. Standard {{defaultValue}}%.",
 
 
     /****
@@ -120,13 +117,11 @@
     "config.harvest-fruit-trees.name": "Obstbäume ernten",
     "config.harvest-fruit-trees.tooltip": "Ob Obstbäume geerntet werden sollen.",
 
-    // TODO
-    "config.harvest-tree-moss.name": "Harvest Tree Moss",
-    "config.harvest-tree-moss.tooltip": "Whether to collect moss from trees.",
+    "config.harvest-tree-moss.name": "Baummoos ernten",
+    "config.harvest-tree-moss.tooltip": "Ob Moos von Bäumen gesammelt werden soll.",
 
-    // TODO
-    "config.harvest-tree-seeds.name": "Harvest Tree Seeds",
-    "config.harvest-tree-seeds.tooltip": "Whether to collect seeds from trees.",
+    "config.harvest-tree-seeds.name": "Baumsaat ernten",
+    "config.harvest-tree-seeds.tooltip": "Ob Saat von Bäumen gesammelt werden soll.",
 
 
     /****
@@ -176,9 +171,8 @@
     "config.dig-artifact-spots.name": "Artefakt-Spots ausgraben",
     "config.dig-artifact-spots.tooltip": "Ob Artefaktstellen ausgegraben werden sollen.",
 
-    // TODO
-    "config.dig-seed-spots.name": "Dig Seed Spots",
-    "config.dig-seed-spots.tooltip": "Whether to dig up seed spots.",
+    "config.dig-seed-spots.name": "Aufgraben von Saatstellen",
+    "config.dig-seed-spots.tooltip": "Ob Saatstellen ausgegraben werden sollen.",
 
     "config.clear-tilled-dirt.name": "Entferne gepflügten Dreck",
     "config.clear-tilled-dirt.tooltip": "Ob gepflügter Dreck entfernt werden soll",
