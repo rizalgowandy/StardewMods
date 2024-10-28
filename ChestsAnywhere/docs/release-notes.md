@@ -8,7 +8,7 @@
    - a category name to open by default (if set).
 * The default category for chests now uses the location's display name (if available), instead of its internal name.
 * Improved dropdown positioning to reduce overlap with big chest UI.
-* Improved translations. Thanks to celr00 (updated Spanish), ForgottenZ (updated Chinese), MakinDay (updated Italian), and moonggae (updated Korean)!
+* Improved translations. Thanks to celr00 (updated Spanish), Creeperkatze (updated German), ForgottenZ (updated Chinese), MakinDay (updated Italian), and moonggae (updated Korean)!
 
 ## 1.24.1
 Released 01 July 2024 for SMAPI 4.0.7 or later.

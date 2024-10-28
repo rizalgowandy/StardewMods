@@ -8,7 +8,7 @@
   * invalid or duplicate tractors are now removed;
   * duplicate garage IDs are now reassigned.
 * Fixed able to place unplaceable items using the 'custom attachments' option.
-* Improved translations. Thanks to moonggae (updated Korean)!
+* Improved translations. Thanks to Creeperkatze (updated German) and moonggae (updated Korean)!
 
 ## 4.19.2
 Released 29 June 2024 for SMAPI 4.0.7 or later.

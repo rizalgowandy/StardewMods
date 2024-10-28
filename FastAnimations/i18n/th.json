@@ -104,7 +104,7 @@
     "config.dialogue-typing.tooltip": "ต้องการให้ข้อความบทสนทนาแสดงจบเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x",
 
     "config.open-dialogue-box.name": "แสดงบทสทนา",
-    "config.open-dialogue-box.tooltip": "ต้องการแสดงบทสนทนาเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.", 
+    "config.open-dialogue-box.tooltip": "ต้องการแสดงบทสนทนาเร็วแค่ไหน ค่าเริ่มต้นคือ {{defaultValue}}x.",
 
     "config.title-menu.name": "การเปลี่ยนเมนูชื่อเรื่อง",
     "config.title-menu.tooltip": "ความเร็วในการเปลี่ยนเมนูชื่อเรื่องระหว่างหน้าจอ ค่าเริ่มต้นคือ {{defaultValue}}x",

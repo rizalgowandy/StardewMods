@@ -6,7 +6,8 @@
 * On the _Accessible_ layer, warps that are hidden just off-screen are now drawn along the edge.
 * Added support for Ultimate Fertilizer's multi-fertilizer feature.
 * Fixed lag if a bee house, Junimo hut, scarecrow, or sprinkler has an extremely large range.
-* Improved translations. Thanks to moonggae (updated Korean)!
+* Fixed error with unfertilized tiles when Ultimate Fertilizer is installed.
+* Improved translations. Thanks to Creeperkatze (updated German) and moonggae (updated Korean)!
 
 ## 1.17.2
 Released 29 June 2024 for SMAPI 4.0.7 or later.

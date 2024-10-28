@@ -16,13 +16,14 @@
 * Fixed support for custom polyculture crops in 'needed for' field (thanks to Mushymato!).
 * Fixed hidden items being counted when deciding whether to collapse a field (thanks to b3nk3lly!).
 * Fixed fish spawn fields...
+  - not shown for extended family fish (thanksto b3nk3lly!);
   - not showing some locations' display names (thanks to b3nk3lly!);
   - sometimes shown for the wrong item (thanks to Mushymato!);
   - always showing one-time fish as not caught (thanks to Mushymato!).
 * Fixed errors when another mod adds invalid data.
 * Fixed error if an old version of Custom Bush is installed.
 * Fixed format for `DAY_OF_MONTH` queries in lookups (thanks to Mushymato!).
-* Improved translations. Thanks to MakinDay (updated Italian), moonggae (updated Korean), and Mushymato (updated Chinese)!
+* Improved translations. Thanks to Creeperkatze (updated German), Epitopus (updated Polish), MakinDay (updated Italian), moonggae (updated Korean), and Mushymato (updated Chinese)!
 
 ## 1.45.3
 Released 07 July 2024 for SMAPI 4.0.7 or later.
