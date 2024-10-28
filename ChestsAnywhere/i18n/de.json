@@ -59,8 +59,8 @@
     "config.enable-shipping-bin.name": "Versandbehälter aktivieren",
     "config.enable-shipping-bin.desc": "Ob der Zugriff auf den Versandbehälter ermöglicht werden soll.",
 
-    "config.enable-sprinkler-attachments.name": "Enable sprinkler attachments", // TODO
-    "config.enable-sprinkler-attachments.desc": "Whether to enable access to sprinkler attachments like enrichers.", // TODO
+    "config.enable-sprinkler-attachments.name": "Sprinkleraufsätze aktivieren",
+    "config.enable-sprinkler-attachments.desc": "Ob der Zugang zu Sprinkleraufsätzen wie Bereicherern ermöglicht werden soll.",
 
     "config.add-organize-player-items.name": "Button Spieler-Gegenstände Organisieren hinzufügen",
     "config.add-organize-player-items.desc": "Ob eine 'Organisieren' Taste in den Truhen UIs für das Spielerinventar hinzugefügt werden soll.",
@@ -68,7 +68,7 @@
     /****
     ** remote access
     ****/
-    "config.title.remote-access": "Remote access", // TODO
+    "config.title.remote-access": "Fernzugriff",
 
     "config.range.name": "Reichweite",
     "config.range.desc": "Der Abstand, in dem Truhen über das Menü zugänglich sind.",
@@ -86,16 +86,16 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Hotkey to open chest UI", // TODO
+    "config.title.open-menu-hotkey": "Hotkey zum Öffnen der Truhen-UI",
 
     "config.toggle-ui-key.name": "UI umschalten",
     "config.toggle-ui-key.desc": "Die Tasten, die die UI der Truhe anzeigen oder verbergen.",
 
-    "config.reopen-last-chest.name": "Reopen last chest", // TODO
-    "config.reopen-last-chest.desc": "When you press the 'toggle UI' button, whether to reopen the last chest you selected yourself during the current game session.", // TODO
+    "config.reopen-last-chest.name": "Letzte Truhe wieder öffnen",
+    "config.reopen-last-chest.desc": "Wenn du die Schaltfläche „UI umschalten“ drückst, kannst du entscheiden, ob du die letzte Truhe, die du während der aktuellen Spielsitzung ausgewählt hast, wieder öffnen möchtest.",
 
-    "config.default-category.name": "Default category", // TODO
-    "config.default-category.desc": "When you press the 'toggle UI' button, show the chests in this category by default (if set). This applies after 'reopen last chest'.", // TODO
+    "config.default-category.name": "Standard-Kategorie",
+    "config.default-category.desc": "Wenn du die Schaltfläche „UI umschalten“ drückst, werden standardmäßig die Truhen in dieser Kategorie angezeigt (falls eingestellt). Dies gilt nach „Letzte Truhe wieder öffnen“.",
 
     /****
     ** controls when chest UI is open

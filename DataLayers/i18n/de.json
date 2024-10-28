@@ -77,22 +77,21 @@
     /*********
     ** Generic Mod Config Menu UI
     *********/
-    // TODO
     // section names
     "config.section.main-options": "Main options",
     "config.section.main-controls": "Main controls",
     "config.section.layer": "'{{LayerName}}' layer", // {{LayerName}} is the layer name set above.
 
     // main options
-    "config.show-grid.name": "Show grid",
-    "config.show-grid.desc": "Whether to show a tile grid when a layer is open.",
+    "config.show-grid.name": "Gitter anzeigen",
+    "config.show-grid.desc": "Ob ein Kachelgitter angezeigt werden soll, wenn eine Ebene geöffnet ist.",
 
-    "config.combine-borders.name": "Combine overlapping borders",
-    "config.combine-borders.desc": "When two groups of the same color overlap, whether to draw one border around their combined edge instead of their individual borders.",
+    "config.combine-borders.name": "Kombiniere überlappende Ränder",
+    "config.combine-borders.desc": "Ob bei der Überlappung von zwei gleichfarbigen Gruppen anstelle der einzelnen Ränder ein gemeinsamer Rand gezeichnet werden soll.",
 
-    "config.color-scheme.name": "Color scheme",
-    "config.color-schene.desc": "The color scheme to apply, which changes the colors throughout all the data layers.",
-    "config.color-schemes.default": "default colors",
+    "config.color-scheme.name": "Farbschema",
+    "config.color-schene.desc": "Das anzuwendende Farbschema, welches die Farben für alle Datenebenen ändert.",
+    "config.color-schemes.default": "Standardfarben",
 
     // main controls
     "config.toggle-layer-key.name": "Toggle data layers",
@@ -105,15 +104,15 @@
     "config.next-layer-key.desc": "The key binding which cycles forward through the available data layers.",
 
     // data layers
-    "config.layer-enabled.name": "Enabled",
-    "config.layer-enabled.desc": "Whether this layer should be available in-game.",
+    "config.layer-enabled.name": "Aktiviert",
+    "config.layer-enabled.desc": "Ob diese Ebene im Spiel verfügbar sein soll.",
 
-    "config.layer-update-on-view-change.name": "Update when view changes",
-    "config.layer-update-on-view-change.desc": "Whether the drawn layer info should be updated when a new part of the world moves into view, regardless of the 'updates per second' setting.",
+    "config.layer-update-on-view-change.name": "Aktualisieren, wenn sich die Ansicht ändert",
+    "config.layer-update-on-view-change.desc": "Ob die Informationen über die gezeichnete Ebene aktualisiert werden sollen, wenn ein neuer Teil der Welt in die Sicht kommt, unabhängig von der Einstellung „Aktualisierungen pro Sekunde“.",
 
-    "config.layer-updates-per-second.name": "Updates per second",
-    "config.layer-updates-per-second.desc": "How often the layer should update when it's being displayed, as a number per second. Setting this to a higher value than the default may cause lag. Default {{defaultValue}}.",
+    "config.layer-updates-per-second.name": "Aktualisierungen pro Sekunde",
+    "config.layer-updates-per-second.desc": "Wie oft die Ebene aktualisiert werden soll, wenn sie angezeigt wird, als Zahl pro Sekunde. Wird hier ein höherer Wert als der Standardwert eingestellt, kann es zu Verzögerungen kommen. Standardwert {{defaultValue}}.",
 
-    "config.layer-shortcut.name": "Shortcut key",
+    "config.layer-shortcut.name": "Schnellzugriff-Taste",
     "config.layer-shortcut.desc": "The key binding which selects this layer when the overlay is open."
 }
