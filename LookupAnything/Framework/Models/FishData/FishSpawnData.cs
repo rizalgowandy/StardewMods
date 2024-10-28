@@ -10,7 +10,8 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models.FishData
     /// <param name="Weather">The weather in which the fish will spawn.</param>
     /// <param name="MinFishingLevel">The minimum fishing level.</param>
     /// <param name="IsUnique">Whether the fish can only be caught once.</param>
-    internal record FishSpawnData(ParsedItemData FishItem, FishSpawnLocationData[]? Locations, FishSpawnTimeOfDayData[]? TimesOfDay, FishSpawnWeather Weather, int MinFishingLevel, bool IsUnique)
+    /// <param name="IsLegendaryFamily">Whether the fish is part of Qi's Extended Family quest.</param>
+    internal record FishSpawnData(ParsedItemData FishItem, FishSpawnLocationData[]? Locations, FishSpawnTimeOfDayData[]? TimesOfDay, FishSpawnWeather Weather, int MinFishingLevel, bool IsUnique, bool IsLegendaryFamily)
     {
         /*********
         ** Public methods

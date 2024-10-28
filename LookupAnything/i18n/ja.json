@@ -398,6 +398,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "必要釣りレベル：{{level}}",
     "item.fish-spawn-rules.not-caught-yet": "まだ釣った事がない（釣れるのは一度だけです）",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "場所：{{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "場所：",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}：{{locations}}",

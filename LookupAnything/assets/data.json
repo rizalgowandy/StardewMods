@@ -349,6 +349,63 @@ You shouldn't change this file unless you know what you're doing.
                     "Seasons": [ "winter" ]
                 }
             ]
+        },
+
+        // Son of Crimsonfish
+        "(O)898": {
+            "MinFishingLevel": 5,
+            "Locations": [
+                {
+                    "LocationId": "Beach",
+                    "Area": "east-pier",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ]
+        },
+
+        // Ms. Angler
+        "(O)899": {
+            "MinFishingLevel": 3,
+            "Locations": [
+                {
+                    "LocationId": "Town",
+                    "Area": "northmost-bridge",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ]
+        },
+
+        // Legend II
+        "(O)900": {
+            "MinFishingLevel": 10,
+            "Locations": [
+                {
+                    "LocationId": "Mountain",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ]
+        },
+
+        // Radioactive Carp
+        "(O)901": {
+            "Locations": [
+                {
+                    "LocationId": "Sewer",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ]
+        },
+
+        // Glacierfish Jr.
+        "(O)902": {
+            "MinFishingLevel": 6,
+            "Locations": [
+                {
+                    "LocationId": "Forest",
+                    "Area": "island-tip",
+                    "Seasons": [ "spring", "summer", "fall", "winter" ]
+                }
+            ]
         }
     },
 

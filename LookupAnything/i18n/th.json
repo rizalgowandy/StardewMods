@@ -399,6 +399,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "เลเวลตกปลาขั้นต่ำ: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "ยังตกไม่ได้ (ตกได้ครั้งเดียว)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "สถานที่: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "สถานที่:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",

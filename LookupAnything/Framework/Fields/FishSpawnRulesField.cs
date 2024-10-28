@@ -54,6 +54,10 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
             if (spawnRules.MinFishingLevel > 0)
                 yield return this.GetCondition(I18n.Item_FishSpawnRules_MinFishingLevel(level: spawnRules.MinFishingLevel), Game1.player.FishingLevel >= spawnRules.MinFishingLevel);
 
+            // extended family quest
+            if (spawnRules.IsLegendaryFamily)
+                yield return this.GetCondition(I18n.Item_FishSpawnRules_ExtendedFamilyQuestActive(), Game1.player.team.SpecialOrderRuleActive("LEGENDARY_FAMILY"));
+
             // weather
             if (spawnRules.Weather == FishSpawnWeather.Sunny)
                 yield return this.GetCondition(I18n.Item_FishSpawnRules_WeatherSunny(), !Game1.isRaining);

@@ -399,6 +399,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "nivel de pescar mínimo: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "aún no ha sido atrapado (solo se puede atrapar una vez)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "ubicaciones: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "ubicaciones:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",

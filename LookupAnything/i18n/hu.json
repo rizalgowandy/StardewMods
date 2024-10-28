@@ -399,6 +399,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "minimum horgász szint: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "nem fogtál még (csak egyszer lehet elkapni)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "helyszínek: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "helyszínek:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",
