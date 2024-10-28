@@ -360,12 +360,6 @@ You shouldn't change this file unless you know what you're doing.
                     "Area": "east-pier",
                     "Seasons": [ "spring", "summer", "fall", "winter" ]
                 }
-            ],
-            "TimesOfDay": [
-                {
-                    "MinTime": "600",
-                    "MaxTime": "2600"
-                }
             ]
         },
 
@@ -378,12 +372,6 @@ You shouldn't change this file unless you know what you're doing.
                     "Area": "northmost-bridge",
                     "Seasons": [ "spring", "summer", "fall", "winter" ]
                 }
-            ],
-            "TimesOfDay": [
-                {
-                    "MinTime": "600",
-                    "MaxTime": "2600"
-                }
             ]
         },
 
@@ -395,12 +383,6 @@ You shouldn't change this file unless you know what you're doing.
                     "LocationId": "Mountain",
                     "Seasons": [ "spring", "summer", "fall", "winter" ]
                 }
-            ],
-            "TimesOfDay": [
-                {
-                    "MinTime": "600",
-                    "MaxTime": "2600"
-                }
             ]
         },
 
@@ -410,12 +392,6 @@ You shouldn't change this file unless you know what you're doing.
                 {
                     "LocationId": "Sewer",
                     "Seasons": [ "spring", "summer", "fall", "winter" ]
-                }
-            ],
-            "TimesOfDay": [
-                {
-                    "MinTime": "600",
-                    "MaxTime": "2600"
                 }
             ]
         },
@@ -428,12 +404,6 @@ You shouldn't change this file unless you know what you're doing.
                     "LocationId": "Forest",
                     "Area": "island-tip",
                     "Seasons": [ "spring", "summer", "fall", "winter" ]
-                }
-            ],
-            "TimesOfDay": [
-                {
-                    "MinTime": "600",
-                    "MaxTime": "2600"
                 }
             ]
         }
