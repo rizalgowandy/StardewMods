@@ -7,6 +7,7 @@
 * Added support for Ultimate Fertilizer's multi-fertilizer feature.
 * Fixed lag if a bee house, Junimo hut, scarecrow, or sprinkler has an extremely large range.
 * Fixed error with unfertilized tiles when Ultimate Fertilizer is installed.
+* Fixed held sprinkler's range not shown correctly in newer game versions.
 * Improved translations. Thanks to Creeperkatze (updated German) and moonggae (updated Korean)!
 
 ## 1.17.2

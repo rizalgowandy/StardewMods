@@ -177,8 +177,8 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Coverage
         {
             // get vanilla tiles
             IEnumerable<Vector2> tiles = sprinkler.GetSprinklerTiles();
-            if (isHeld)
-                tiles = tiles.Select(tile => tile + origin); // when the sprinkler is held, the vanilla coverage is relative to (0, 0)
+            if (isHeld && sprinkler.TileLocation == Vector2.Zero)
+                tiles = tiles.Select(tile => tile + origin);
 
             // add custom tiles
             if (customSprinklerRanges.TryGetValue(sprinkler.QualifiedItemId, out Vector2[]? customTiles))
