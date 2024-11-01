@@ -23,7 +23,7 @@
 * Fixed errors when another mod adds invalid data.
 * Fixed error if an old version of Custom Bush is installed.
 * Fixed format for `DAY_OF_MONTH` queries in lookups (thanks to Mushymato!).
-* Improved translations. Thanks to Creeperkatze (updated German), Epitopus (updated Polish), MakinDay (updated Italian), moonggae (updated Korean), and Mushymato (updated Chinese)!
+* Improved translations. Thanks to Creeperkatze (updated German), CuongNguyen0903 (added Vietnamese), Epitopus (updated Polish), MakinDay (updated Italian), moonggae (updated Korean), and Mushymato (updated Chinese)!
 
 ## 1.45.3
 Released 07 July 2024 for SMAPI 4.0.7 or later.
