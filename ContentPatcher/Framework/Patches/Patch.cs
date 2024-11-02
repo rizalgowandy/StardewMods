@@ -58,8 +58,8 @@ internal abstract class Patch : IPatch
     /// <summary>The cached result for <see cref="GetTokensUsed"/>.</summary>
     protected IInvariantSet? TokensUsedCache;
 
-    /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
-    private InvariantDictionary<IManagedTokenString>? LocalTokens { get; }
+    /// <summary>The local token values to use for this patch, in addition to the pre-existing tokens.</summary>
+    protected InvariantDictionary<IManagedTokenString>? LocalTokens { get; }
 
 
     /*********
@@ -244,7 +244,7 @@ internal abstract class Patch : IPatch
     /// <param name="assetLocale">The locale code in the target asset's name to match. See <see cref="IPatch.TargetAsset"/> for more info.</param>
     /// <param name="priority">The priority for this patch when multiple patches apply.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
-    /// <param name="localTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
+    /// <param name="localTokens">The local token values to use for this patch, in addition to the pre-existing tokens.</param>
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>

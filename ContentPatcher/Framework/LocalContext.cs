@@ -117,7 +117,7 @@ internal class LocalContext : IContext
         }
 
         // update values
-        managed.ValueProvider.SetValue(ready ? value : null);
+        managed.ValueProvider.SetValue(value);
         managed.ValueProvider.SetReady(ready);
     }
 }

@@ -44,6 +44,10 @@ internal class PatchConfig
     /// <summary>The priority for this patch when multiple patches apply.</summary>
     public string? Priority { get; set; }
 
+    /// <summary>The local token values to use for this patch, in addition to the pre-existing tokens.</summary>
+    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
+    public InvariantDictionary<string?>? LocalTokens { get; set; }
+
     /****
     ** Multiple actions
     ****/
@@ -97,13 +101,6 @@ internal class PatchConfig
     [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
     public List<PatchMapTileConfig?> MapTiles { get; } = [];
 
-    /****
-    ** Include
-    *****/
-    /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
-    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
-    public InvariantDictionary<string?> LocalTokens { get; } = new();
-
 
     /*********
     ** Public methods
@@ -125,6 +122,7 @@ internal class PatchConfig
         this.Enabled = other.Enabled;
         this.When = other.When.Clone();
         this.Priority = other.Priority;
+        this.LocalTokens = other.LocalTokens?.Clone();
 
         // multiple actions
         this.TextOperations = other.TextOperations.Select(p => p != null ? new TextOperationConfig(p) : null).ToList();
@@ -146,8 +144,5 @@ internal class PatchConfig
         this.MapProperties = other.MapProperties.Clone();
         this.AddWarps = other.AddWarps.ToList();
         this.MapTiles = other.MapTiles.Select(p => p != null ? new PatchMapTileConfig(p) : null).ToList();
-
-        // Include
-        this.LocalTokens = other.LocalTokens.Clone();
     }
 }

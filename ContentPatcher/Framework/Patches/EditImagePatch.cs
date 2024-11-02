@@ -58,7 +58,7 @@ internal class EditImagePatch : Patch
     /// <param name="toArea">The sprite area to overwrite.</param>
     /// <param name="patchMode">Indicates how the image should be patched.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
-    /// <param name="localTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
+    /// <param name="localTokens">The local token values to use for this patch, in addition to the pre-existing tokens.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>

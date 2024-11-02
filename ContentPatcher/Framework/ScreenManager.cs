@@ -344,7 +344,7 @@ internal class ScreenManager
                 this.PatchLoader.LoadPatches(
                     contentPack: current,
                     rawPatches: content.Changes,
-                    localTokens: null,
+                    inheritLocalTokens: null,
                     rootIndexPath: [current.Index],
                     path: current.LogPath,
                     parentPatch: null
@@ -392,7 +392,7 @@ internal class ScreenManager
         this.PatchLoader.LoadPatches(
             contentPack: contentPack,
             rawPatches: contentPack.Content.Changes,
-            localTokens: null,
+            inheritLocalTokens: null,
             rootIndexPath: [contentPack.Index],
             path: contentPack.LogPath,
             parentPatch: null

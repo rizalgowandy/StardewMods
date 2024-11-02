@@ -32,9 +32,6 @@ internal class IncludePatch : Patch
     /// <summary>Whether the patch already tried loading the <see cref="Patch.FromAsset"/> asset for the current context. This doesn't necessarily means it succeeded (e.g. the file may not have existed).</summary>
     private bool AttemptedDataLoad;
 
-    /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
-    private readonly InvariantDictionary<IManagedTokenString> LocalTokens;
-
 
     /*********
     ** Accessors
@@ -52,14 +49,13 @@ internal class IncludePatch : Patch
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="fromFile">The normalized asset key from which to load entries (if applicable), including tokens.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
-    /// <param name="localTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
-    /// <param name="localTokensForInclude">The local token values to use for the loaded patches, in addition to the pre-existing tokens. This is a filtered version of <paramref name="localTokens"/>.</param>
+    /// <param name="localTokens">The local token values to use for this and loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="patchLoader">Handles loading and unloading patches for content packs.</param>
-    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, InvariantDictionary<IManagedTokenString> localTokensForInclude, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
+    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
         : base(
             indexPath: indexPath,
             path: path,
@@ -80,7 +76,6 @@ internal class IncludePatch : Patch
         this.RawContentPack = contentPack;
         this.Monitor = monitor;
         this.PatchLoader = patchLoader;
-        this.LocalTokens = localTokensForInclude;
     }
 
     /// <inheritdoc />
@@ -158,7 +153,7 @@ internal class IncludePatch : Patch
                 this.PatchesJustLoaded = this.PatchLoader.LoadPatches(
                     contentPack: this.RawContentPack,
                     rawPatches: content.Changes,
-                    localTokens: this.LocalTokens,
+                    inheritLocalTokens: this.LocalTokens,
                     rootIndexPath: this.IndexPath,
                     path: this.GetIncludedLogPath(this.FromAsset),
                     parentPatch: this
