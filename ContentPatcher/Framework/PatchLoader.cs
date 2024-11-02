@@ -68,12 +68,12 @@ internal class PatchLoader
     /// <summary>Load patches for a content pack.</summary>
     /// <param name="contentPack">The content pack for which to load patches.</param>
     /// <param name="rawPatches">The raw patches to load.</param>
-    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
+    /// <param name="localTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="rootIndexPath">The path of indexes from the root <c>content.json</c> to the root which is loading patches; see <see cref="IPatch.IndexPath"/>.</param>
     /// <param name="path">The path to the patches from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
     /// <returns>Returns the patches that were loaded.</returns>
-    public IEnumerable<IPatch> LoadPatches(RawContentPack contentPack, PatchConfig[] rawPatches, InvariantDictionary<IManagedTokenString>? passthroughTokens, int[] rootIndexPath, LogPathBuilder path, Patch? parentPatch)
+    public IEnumerable<IPatch> LoadPatches(RawContentPack contentPack, PatchConfig[] rawPatches, InvariantDictionary<IManagedTokenString>? localTokens, int[] rootIndexPath, LogPathBuilder path, Patch? parentPatch)
     {
         bool verbose = this.Monitor.IsVerbose;
 
@@ -83,10 +83,10 @@ internal class PatchLoader
         foreach (ConditionType type in InternalConstants.FromFileTokens.Concat(InternalConstants.TargetTokens))
             fakePatchContext.SetLocalValue(type.ToString(), InternalConstants.TokenPlaceholder);
 
-        // add passthrough tokens
-        if (passthroughTokens != null)
+        // add local tokens
+        if (localTokens != null)
         {
-            foreach ((string key, IManagedTokenString value) in passthroughTokens)
+            foreach ((string key, IManagedTokenString value) in localTokens)
                 fakePatchContext.SetLocalValue(key, value, value.IsReady);
         }
 
@@ -116,7 +116,7 @@ internal class PatchLoader
             var localPath = path.With(patch.LogName!);
             if (verbose)
                 this.Monitor.Log($"   loading {localPath}...");
-            IPatch? loaded = this.LoadPatch(contentPack, patch, tokenParser, passthroughTokens, rootIndexPath.Concat([index]).ToArray(), localPath, parentPatch, logSkip: reasonPhrase => this.Monitor.Log($"Ignored {localPath}: {reasonPhrase}", LogLevel.Warn));
+            IPatch? loaded = this.LoadPatch(contentPack, patch, tokenParser, localTokens, rootIndexPath.Concat([index]).ToArray(), localPath, parentPatch, logSkip: reasonPhrase => this.Monitor.Log($"Ignored {localPath}: {reasonPhrase}", LogLevel.Warn));
             if (loaded != null)
                 loadedPatches.Add(loaded);
         }
@@ -348,13 +348,13 @@ internal class PatchLoader
     /// <param name="rawContentPack">The content pack being loaded.</param>
     /// <param name="entry">The change to load.</param>
     /// <param name="tokenParser">Handles low-level parsing and validation for tokens.</param>
-    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
+    /// <param name="localTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="indexPath">The path of indexes from the root <c>content.json</c> to this patch; see <see cref="IPatch.IndexPath"/>.</param>
     /// <param name="path">The path to the patch from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
     /// <param name="logSkip">The callback to invoke with the error reason if loading it fails.</param>
     /// <returns>The patch that was loaded, or <c>null</c> if it failed to load.</returns>
-    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, InvariantDictionary<IManagedTokenString>? passthroughTokens, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip)
+    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, InvariantDictionary<IManagedTokenString>? localTokens, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip)
     {
         var pack = rawContentPack.ContentPack;
         PatchType? action = null;
@@ -466,25 +466,25 @@ internal class PatchLoader
                         if (targetAsset != null)
                             return TrackSkip($"can't use the {nameof(PatchConfig.Target)} field with an {PatchType.Include} patch.");
 
-                        // passthrough tokens
-                        string[] passthroughBlacklist = // disallow built-in local tokens
+                        // local tokens
+                        string[] localTokenBlacklist = // disallow built-in local tokens
                         [
                             nameof(ConditionType.Target),
                                 nameof(ConditionType.TargetPathOnly),
                                 nameof(ConditionType.TargetWithoutPath),
                                 nameof(ConditionType.FromFile)
                         ];
-                        InvariantDictionary<IManagedTokenString> passthrough = new();
-                        foreach (var value in entry.PassThroughTokens)
+                        InvariantDictionary<IManagedTokenString> localTokensForInclude = new();
+                        foreach (var value in entry.LocalTokens)
                         {
-                            if (passthroughBlacklist.Contains(value.Key))
-                                return TrackSkip($"can't use {value.Key} as a passthrough token name");
+                            if (localTokenBlacklist.Contains(value.Key))
+                                return TrackSkip($"the {nameof(entry.LocalTokens)} field can't contain a token named '{value.Key}', which is a reserved token name.");
 
-                            if (!tokenParser.TryParseNullableString(value.Value, immutableRequiredModIDs, path.With(nameof(entry.PassThroughTokens), value.Key), out string? error, out IManagedTokenString? parsed))
+                            if (!tokenParser.TryParseNullableString(value.Value, immutableRequiredModIDs, path.With(nameof(entry.LocalTokens), value.Key), out string? error, out IManagedTokenString? parsed))
                                 return TrackSkip(error);
 
                             if (parsed != null)
-                                passthrough.Add(value.Key, parsed);
+                                localTokensForInclude.Add(value.Key, parsed);
                         }
 
                         // save
@@ -494,8 +494,8 @@ internal class PatchLoader
                             conditions: conditions,
                             fromFile: fromAsset,
                             updateRate: updateRate,
-                            passthroughTokens: passthroughTokens,
-                            passthroughTokensForInclude: passthrough,
+                            localTokens: localTokens,
+                            localTokensForInclude: localTokensForInclude,
                             contentPack: rawContentPack,
                             parentPatch: parentPatch,
                             parseAssetName: this.ParseAssetName,
@@ -524,7 +524,7 @@ internal class PatchLoader
                             assetLocale: targetAssetLocale,
                             priority: priority,
                             updateRate: updateRate,
-                            passthroughTokens: passthroughTokens,
+                            localTokens: localTokens,
                             conditions: conditions,
                             localAsset: fromAsset,
                             contentPack: pack,
@@ -591,7 +591,7 @@ internal class PatchLoader
                             textOperations: textOperations,
                             targetField: targetField,
                             updateRate: updateRate,
-                            passthroughTokens: passthroughTokens,
+                            localTokens: localTokens,
                             contentPack: pack,
                             migrator: rawContentPack.Migrator,
                             parentPatch: parentPatch,
@@ -636,7 +636,7 @@ internal class PatchLoader
                             assetLocale: targetAssetLocale,
                             priority: priority,
                             conditions: conditions,
-                            passthroughTokens: passthroughTokens,
+                            localTokens: localTokens,
                             fromAsset: fromAsset,
                             fromArea: fromArea,
                             toArea: toArea,
@@ -782,7 +782,7 @@ internal class PatchLoader
                             addWarps: addWarps,
                             textOperations: textOperations,
                             updateRate: updateRate,
-                            passthroughTokens: passthroughTokens,
+                            localTokens: localTokens,
                             contentPack: pack,
                             migrator: rawContentPack.Migrator,
                             parentPatch: parentPatch,

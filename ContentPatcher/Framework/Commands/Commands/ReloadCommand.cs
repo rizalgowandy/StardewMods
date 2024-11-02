@@ -125,7 +125,7 @@ internal class ReloadCommand : BaseCommand
             patchLoader.LoadPatches(
                 contentPack: pack,
                 rawPatches: pack.Content.Changes,
-                passthroughTokens: null,
+                localTokens: null,
                 rootIndexPath: [pack.Index],
                 path: new LogPathBuilder(pack.Manifest.Name),
                 parentPatch: null

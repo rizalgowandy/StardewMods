@@ -102,7 +102,7 @@ internal class PatchConfig
     *****/
     /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
     [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
-    public InvariantDictionary<string?> PassThroughTokens { get; } = new();
+    public InvariantDictionary<string?> LocalTokens { get; } = new();
 
 
     /*********
@@ -148,6 +148,6 @@ internal class PatchConfig
         this.MapTiles = other.MapTiles.Select(p => p != null ? new PatchMapTileConfig(p) : null).ToList();
 
         // Include
-        this.PassThroughTokens = other.PassThroughTokens.Clone();
+        this.LocalTokens = other.LocalTokens.Clone();
     }
 }
