@@ -83,6 +83,7 @@ internal class EditDataPatch : Patch
     /// <param name="assetName">The normalized asset name to intercept.</param>
     /// <param name="assetLocale">The locale code in the target asset's name to match. See <see cref="IPatch.TargetAsset"/> for more info.</param>
     /// <param name="priority">The priority for this patch when multiple patches apply.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="fromFile">The normalized asset key from which to load entries (if applicable), including tokens.</param>
     /// <param name="records">The data records to edit.</param>
@@ -97,7 +98,7 @@ internal class EditDataPatch : Patch
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="tryParseFields">Parse the data change fields for an <see cref="PatchType.EditData"/> patch.</param>
-    public EditDataPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, InvariantDictionary<IManagedTokenString> passthroughTokens, IEnumerable<Condition> conditions, IManagedTokenString? fromFile, IEnumerable<EditDataPatchRecord>? records, IEnumerable<EditDataPatchField>? fields, IEnumerable<EditDataPatchMoveRecord>? moveRecords, IEnumerable<ITextOperation>? textOperations, IEnumerable<IManagedTokenString>? targetField, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName, TryParseFieldsDelegate tryParseFields)
+    public EditDataPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, InvariantDictionary<IManagedTokenString>? passthroughTokens, IEnumerable<Condition> conditions, IManagedTokenString? fromFile, IEnumerable<EditDataPatchRecord>? records, IEnumerable<EditDataPatchField>? fields, IEnumerable<EditDataPatchMoveRecord>? moveRecords, IEnumerable<ITextOperation>? textOperations, IEnumerable<IManagedTokenString>? targetField, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName, TryParseFieldsDelegate tryParseFields)
         : base(
             indexPath: indexPath,
             path: path,

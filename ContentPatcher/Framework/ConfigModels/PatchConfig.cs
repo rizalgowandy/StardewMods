@@ -100,7 +100,7 @@ internal class PatchConfig
     /****
     ** Include
     *****/
-    /// <summary>Pass through values for includes.</summary>
+    /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
     [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
     public InvariantDictionary<string?> PassThroughTokens { get; } = new();
 

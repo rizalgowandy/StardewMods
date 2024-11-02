@@ -12,7 +12,6 @@ using ContentPatcher.Framework.TextOperations;
 using ContentPatcher.Framework.Tokens;
 using ContentPatcher.Framework.Tokens.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -72,6 +71,7 @@ internal class PatchLoader
     /// <param name="rootIndexPath">The path of indexes from the root <c>content.json</c> to the root which is loading patches; see <see cref="IPatch.IndexPath"/>.</param>
     /// <param name="path">The path to the patches from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <returns>Returns the patches that were loaded.</returns>
     public IEnumerable<IPatch> LoadPatches(RawContentPack contentPack, PatchConfig[] rawPatches, int[] rootIndexPath, LogPathBuilder path, Patch? parentPatch, InvariantDictionary<IManagedTokenString>? passthroughTokens = null)
     {
@@ -82,10 +82,12 @@ internal class PatchLoader
         LocalContext fakePatchContext = new LocalContext(contentPack.Manifest.UniqueID, parentContext: modContext);
         foreach (ConditionType type in InternalConstants.FromFileTokens.Concat(InternalConstants.TargetTokens))
             fakePatchContext.SetLocalValue(type.ToString(), InternalConstants.TokenPlaceholder);
+
+        // add passthrough tokens
         if (passthroughTokens != null)
         {
-            foreach (var entry in passthroughTokens)
-                fakePatchContext.SetLocalValue(entry.Key, entry.Value, entry.Value.IsReady);
+            foreach ((string key, IManagedTokenString value) in passthroughTokens)
+                fakePatchContext.SetLocalValue(key, value, value.IsReady);
         }
 
         // get token parser for fake context
@@ -350,8 +352,9 @@ internal class PatchLoader
     /// <param name="path">The path to the patch from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
     /// <param name="logSkip">The callback to invoke with the error reason if loading it fails.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <returns>The patch that was loaded, or <c>null</c> if it failed to load.</returns>
-    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip, InvariantDictionary<IManagedTokenString> passthroughTokens)
+    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip, InvariantDictionary<IManagedTokenString>? passthroughTokens)
     {
         var pack = rawContentPack.ContentPack;
         PatchType? action = null;
@@ -464,7 +467,7 @@ internal class PatchLoader
                             return TrackSkip($"can't use the {nameof(PatchConfig.Target)} field with an {PatchType.Include} patch.");
 
                         // passthrough tokens
-                        string[] passthroughBlacklist = // Blacklisted since we already provide values for these, but LocalContext would allow overriding them
+                        string[] passthroughBlacklist = // disallow built-in local tokens
                         [
                             nameof(ConditionType.Target),
                                 nameof(ConditionType.TargetPathOnly),
@@ -479,6 +482,7 @@ internal class PatchLoader
 
                             if (!tokenParser.TryParseNullableString(value.Value, immutableRequiredModIDs, path.With(nameof(entry.PassThroughTokens), value.Key), out string? error, out IManagedTokenString? parsed))
                                 return TrackSkip(error);
+
                             if (parsed != null)
                                 passthrough.Add(value.Key, parsed);
                         }

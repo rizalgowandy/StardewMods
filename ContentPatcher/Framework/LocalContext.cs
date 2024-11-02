@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.Tokens;
 using Pathoschild.Stardew.Common.Utilities;
-using StardewValley.TokenizableStrings;
 
 namespace ContentPatcher.Framework;
 

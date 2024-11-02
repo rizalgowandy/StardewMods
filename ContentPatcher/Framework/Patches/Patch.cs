@@ -32,8 +32,8 @@ internal abstract class Patch : IPatch
     /// <summary>Diagnostic info about the instance.</summary>
     protected readonly ContextualState State = new();
 
-    /// <summary>The context which provides tokens specific to this patch like <see cref="ConditionType.Target"/>.</summary>
-    protected readonly LocalContext PrivateContext;
+    /// <summary>The context which provides tokens specific to this patch like <see cref="ConditionType.Target"/> and <see cref="PassThroughTokens"/>.</summary>
+    private readonly LocalContext PrivateContext;
 
     /// <summary>Whether the <see cref="FromAsset"/> file exists.</summary>
     private bool FromAssetExistsImpl;
@@ -58,8 +58,8 @@ internal abstract class Patch : IPatch
     /// <summary>The cached result for <see cref="GetTokensUsed"/>.</summary>
     protected IInvariantSet? TokensUsedCache;
 
-    /// <summary>The passthrough tokens used for this patch.</summary>
-    private InvariantDictionary<IManagedTokenString> PassThroughTokens { get; } = new();
+    /// <summary>The local token values to use for the loaded patches, in addition to the pre-existing tokens.</summary>
+    private InvariantDictionary<IManagedTokenString>? PassThroughTokens { get; }
 
 
     /*********
@@ -153,10 +153,10 @@ internal abstract class Patch : IPatch
         // update passthroughs
         if (this.PassThroughTokens != null)
         {
-            foreach (var entry in this.PassThroughTokens)
+            foreach ((string key, IManagedTokenString value) in this.PassThroughTokens)
             {
-                entry.Value.UpdateContext(context);
-                this.PrivateContext.SetLocalValue(entry.Key, entry.Value, entry.Value.IsReady);
+                value.UpdateContext(context);
+                this.PrivateContext.SetLocalValue(key, value, value.IsReady);
             }
         }
 
@@ -250,6 +250,7 @@ internal abstract class Patch : IPatch
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which this patch was loaded, if any.</param>
     /// <param name="fromAsset">The normalized asset key from which to load the local asset (if applicable), including tokens.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     protected Patch(int[] indexPath, LogPathBuilder path, PatchType type, IManagedTokenString? assetName, IManagedTokenString? assetLocale, int priority, UpdateRate updateRate, IEnumerable<Condition> conditions, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IManagedTokenString? fromAsset = null, InvariantDictionary<IManagedTokenString>? passthroughTokens = null)
     {
         this.IndexPath = indexPath;
@@ -282,11 +283,11 @@ internal abstract class Patch : IPatch
 
         if (passthroughTokens != null)
         {
-            foreach (var entry in passthroughTokens)
+            foreach ((string key, IManagedTokenString value) in passthroughTokens)
             {
-                this.PrivateContext.SetLocalValue(entry.Key, entry.Value, entry.Value.IsReady);
-                this.Contextuals.Add(entry.Value);
-                this.ManuallyUpdatedTokens.Add(entry.Value);
+                this.PrivateContext.SetLocalValue(key, value, value.IsReady);
+                this.Contextuals.Add(value);
+                this.ManuallyUpdatedTokens.Add(value);
             }
         }
     }
