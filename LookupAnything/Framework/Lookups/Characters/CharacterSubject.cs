@@ -463,7 +463,14 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.Characters
                 return true;
 
             // if the portraits fail to load, this will log the warning once instead of failing on every draw loop
-            return npc.Portrait is null;
+            try
+            {
+                return npc.Portrait is null;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         /// <summary>Get how much an NPC likes receiving each item as a gift.</summary>
