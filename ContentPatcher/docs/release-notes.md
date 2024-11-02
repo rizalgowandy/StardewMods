@@ -393,7 +393,7 @@ Released 31 October 2021 for SMAPI 3.12.6 or later. See the [release highlights]
   * [`Merge`](author-guide/tokens.md#Merge) to combine tokens in `When` conditions or perform value fallback.
   * [`PathPart`](author-guide/tokens.md#PathPart) to get part of a file/asset path (e.g. for patches with multiple `Target` or `FromFile` values).
   * [`Roommate`](author-guide/tokens.md#Roommate) to get a player's roommate NPC (similar to `Spouse` for a married NPC).
-* Added support for [translating content pack config options in Generic Mod Config Menu](author-guide/tokens.md#player-config).
+* Added support for [translating content pack config options in Generic Mod Config Menu](author-guide/config.md#config-ui).
 * Improved tokens:
   * Tokens which let you specify a player type now accept player IDs too (like `{{PlayerName: 3864039824286870457}}`).
   * You can now get per-player values for more tokens (specifically `IsMainPlayer`, `IsOutdoors`, `LocationContext`, `LocationName`, `LocationUniqueName`, `PlayerGender`, `PlayerName`, and `Spouse`).

@@ -7,9 +7,7 @@ This document lists the tokens available in Content Patcher packs.
 ## Contents
 * [Introduction](#introduction)
   * [Overview](#overview)
-  * [Placeholders](#placeholders)
-  * [Conditions](#conditions)
-  * [Input arguments](#input-arguments)
+  * [Token types](#token-types)
 * [Global tokens](#global-tokens)
   * [Date and weather](#date-and-weather)
   * [Player](#player)
@@ -20,14 +18,15 @@ This document lists the tokens available in Content Patcher packs.
   * [Metadata](#metadata)
   * [Field references](#field-references)
   * [Specialized](#specialized)
-* [Global input arguments](#global-input-arguments)
-  * [`contains`](#contains)
-  * [`valueAt`](#valueat)
+* [Config tokens](#config-tokens)
+* [Dynamic tokens](#dynamic-tokens)
+* [Local tokens](#local-tokens)
+* [Input arguments](#input-arguments)
+  * [Overview](#overview-1)
+  * [Global input arguments](#global-input-arguments)
   * [Custom input value separator](#custom-input-value-separator)
-* [Player config](#player-config)
 * [Randomization](#randomization)
 * [Advanced](#advanced)
-  * [Dynamic tokens](#dynamic-tokens)
   * [Query expressions](#query-expressions)
   * [Mod-provided tokens](#mod-provided-tokens)
   * [Aliases](#aliases)
@@ -36,21 +35,12 @@ This document lists the tokens available in Content Patcher packs.
 
 ## Introduction
 ### Overview
-A **token** is a named container which has predefined values.
+A **token** is just a named set of values. For example, the `season` token would contain the value
+`summer` during the in-game summer.
 
-For example, `season` (the token) may contain `spring`, `summer`, `fall`, or `winter` (the value).
-Here's a dialogue which includes the current season name:
-```js
-"Entries": {
-   "fri": "It's a beautiful {{season}} day!" // It's a beautiful Spring day!
-}
-```
+There are two main ways to use tokens:
 
-Tokens can be used as _placeholders_ in text (like the above example) or as patch _conditions_. You
-can use [player config](#player-config), [global token values](#global-tokens), and
-[dynamic token values](#dynamic-tokens) as tokens.
-
-### Placeholders
+#### Placeholders
 You can use tokens in text by putting two curly brackets around the token name, which will be
 replaced with the actual value automatically.
 
@@ -71,7 +61,7 @@ For example, this gives the farmhouse a different appearance in each season:
 Tokens which return a single value (like `{{season}}`) are most useful in placeholders, but
 multi-value tokens will work too (they'll show a comma-delimited list).
 
-### Conditions
+#### Conditions
 You can make a patch conditional by adding a `When` field, which can list any number of conditions.
 Each condition has...
 * A key containing a [token](#introduction) without the outer curly braces, like
@@ -97,25 +87,23 @@ For example, this changes the house texture only in spring or summer in the firs
 Each condition is true if _any_ of its values match, and the patch is applied if _all_ of its
 conditions match.
 
-### Input arguments
-An **input argument** or **input** is a value you give to the token within the `{{...}}` braces.
-Input can be _positional_ (an unnamed list of values) or _named_. Argument values are
-comma-separated, and named arguments are pipe-separated.
+### Token types
+There are several types of tokens, but they're all used exactly the same way.
 
-For example, `{{Random: a, b, c |key=some, value |example }}` has five arguments: three positional
-values `a`, `b`, `c`; a named `key` argument with values `some` and `value`; and a named `example`
-argument with an empty value.
+You don't need to learn all of these. They each serve a different purpose, and most content packs
+will only use one or two types at most.
 
-Some tokens recognise input arguments to change their output, which are documented in the sections
-below. For example, the `Uppercase` token makes its input uppercase:
-```js
-"Entries": {
-   "fri": "It's a beautiful {{uppercase: {{season}}}} day!" // It's a beautiful SPRING day!
-}
-```
-
-There are also [**global input arguments**](#global-input-arguments) which are handled by Content
-Patcher, so they work with any token.
+The token types are (in order of most to least commonly used):
+* [Global tokens](#global-tokens) contain common values like the season, weather, friendships, etc.
+  These are provided by Content Patcher itself.
+* [Config tokens](#config-tokens) contain mod options you define, which the player can choose from.
+* [Dynamic tokens](#dynamic-tokens) contain arbitrary values you define. These let you reuse values
+  without redefining them each time, or build complex values from simpler ones.
+* _(Advanced)_ [Local tokens](#local-tokens) are just like dynamic tokens, but limited to one patch
+  (or all the patches loaded through an `Include` patch) instead of the whole content pack. These
+  are mainly used to avoid repetition for a set of values.
+* _(Advanced)_ [Mod-provided tokens](#mod-provided-tokens) are provided by other mods installed by
+  the player.
 
 ## Global tokens
 Global token values are defined by Content Patcher, so you can use them without doing anything else.
@@ -1345,15 +1333,156 @@ convention is strongly recommended to avoid conflicts. For example:
 </tr>
 </table>
 
-## Global input arguments
-Global [input arguments](#input-arguments) are handled by Content Patcher itself, so they work with
+### Config tokens
+You can let players configure your mod using a `config.json` file. If the player has [Generic Mod
+Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) installed, they'll also be able to
+configure the mod through an in-game options menu.
+
+For example, you can use config values as tokens and conditions:
+
+```js
+{
+    "Format": "2.4.0",
+    "ConfigSchema": {
+        "EnableJohn": {
+            "AllowValues": "true, false",
+            "Default": true
+        }
+    },
+    "Changes": [
+        {
+            "Action": "Include",
+            "FromFile": "assets/john.json",
+            "When": {
+                "EnableJohn": true
+            }
+        }
+    ]
+}
+```
+
+See the [player config documentation](config.md) for more info.
+
+### Dynamic tokens
+Dynamic tokens are defined in a `DynamicTokens` section of your `content.json` (see example below).
+Each block in this section defines the value for a token using these fields:
+
+field   | purpose
+------- | -------
+`Name`  | The name of the token to use for [tokens & condition](#introduction).
+`Value` | The value(s) to set. This can be a comma-delimited value to give it multiple values. This field supports [tokens](#introduction), including dynamic tokens defined before this entry.
+`When`  | _(optional)_ Only set the value if the given [conditions](#introduction) match. If not specified, always matches.
+
+Some usage notes:
+* You can list any number of dynamic token blocks.
+* If you list multiple blocks for the same token name, the last one whose conditions match will be
+  used.
+* You can use tokens in the `Value` and `When` fields. That includes dynamic tokens if they're
+  defined earlier in the list (in which case the last applicable value _defined before this block_
+  will be used). Using a token in the value implicitly adds a `When` condition (so the block is
+  skipped if the token is unavailable, like `{{season}}` when a save isn't loaded).
+* Dynamic tokens can't have the same name as an existing global token or player config field.
+
+For example, this `content.json` defines a custom `{{style}}` token and uses it to load different
+crop sprites depending on the weather:
+
+```js
+{
+   "Format": "2.4.0",
+   "DynamicTokens": [
+      {
+         "Name": "Style",
+         "Value": "dry"
+      },
+      {
+         "Name": "Style",
+         "Value": "wet",
+         "When": {
+            "Weather": "rain, storm"
+         }
+      }
+   ],
+   "Changes": [
+      {
+         "Action": "Load",
+         "Target": "TileSheets/crops",
+         "FromFile": "assets/crop-{{style}}.png"
+      }
+   ]
+}
+```
+
+### Local tokens
+Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in any
+of its other fields. The token names must be a plain string, but the values can contain tokens.
+
+For example:
+```json
+{
+   "Action": "EditImage",
+   "Target": "Buildings/houses",
+   "FromFile": "assets/{{HouseStyle}}.png",
+   "LocalTokens": {
+      "HouseStyle": "{{Season}}_{{IsOutdoors}}"
+   }
+}
+```
+
+When set on an `Include` patch, local tokens are inherited by all patches loaded through it. This
+can be used to implement template behavior, where a set of patches is applied for each set of values.
+
+For example:
+```json
+{
+   "Action": "Include",
+   "FromFile": "assets/add-hat.json",
+   "LocalTokens": {
+      "Id": "PufferHat",
+      "DisplayName": "Puffer Hat",
+      "Description": "A hat that puffs up when you're threatened.",
+      "Price": 500
+   }
+},
+{
+   "Action": "Include",
+   "FromFile": "assets/add-hat.json",
+   "LocalTokens": {
+      "Id": "ClownHat",
+      "DisplayName": "Clown Hat",
+      "Description": "A hat that jingles as you move.",
+      "Price": 250
+   }
+}
+```
+
+## Input arguments
+### Overview
+An **input argument** is a value you give to the token within the `{{...}}` braces. Input can be
+_positional_ (an unnamed list of values) or _named_. Argument values are comma-separated, and named
+arguments are pipe-separated.
+
+For example, `{{Random: a, b, c |key=some, value |example }}` has five arguments: three positional
+values `a`, `b`, `c`; a named `key` argument with values `some` and `value`; and a named `example`
+argument with an empty value.
+
+Some tokens recognise input arguments to change their output, which are documented in their own
+sections. For example, the `Uppercase` token makes its input uppercase:
+```js
+"Entries": {
+   "fri": "It's a beautiful {{uppercase: {{season}}}} day!" // It's a beautiful SPRING day!
+}
+```
+
+### Global input arguments
+Global input arguments are handled by Content Patcher itself, so they work with
 all tokens (including mod-provided tokens). If you use multiple input arguments, they're applied
 sequentially in left-to-right order.
 
-### `contains`
-The `contains` argument lets you search a token's values. It returns `true` or `false` depending on
-whether the token contains any of the given values. This is mainly useful for logic in
-[conditions](#conditions):
+#### `contains`
+`contains` lets you search a token's values. It works with any token, regardless of its source.
+
+It returns `true` or `false` depending on whether the token contains any of the given values. This
+is mainly useful for logic in [conditions](#conditions):
 
 ```js
 // player has blacksmith OR gemologist
@@ -1396,7 +1525,7 @@ You can specify multiple values, in which case it returns whether _any_ of them 
 }
 ```
 
-### `valueAt`
+#### `valueAt`
 The `valueAt` argument gets one value from a token at the given position (starting at zero for the
 first value). If the index is outside the list, this returns an empty list.
 
@@ -1475,36 +1604,6 @@ For example, this can allow commas in random dialogue:
 **Note:** you should avoid the `{}|=:` characters in separators, even if they're technically valid.
 The behavior when separators conflict with token syntax depends on implementation details that may
 change from one Content Patcher version to the next.
-
-### Player config
-You can let players configure your mod using a `config.json` file. If the player has [Generic Mod
-Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) installed, they'll also be able to
-configure the mod through an in-game options menu.
-
-For example, you can use config values as tokens and conditions:
-
-```js
-{
-    "Format": "2.4.0",
-    "ConfigSchema": {
-        "EnableJohn": {
-            "AllowValues": "true, false",
-            "Default": true
-        }
-    },
-    "Changes": [
-        {
-            "Action": "Include",
-            "FromFile": "assets/john.json",
-            "When": {
-                "EnableJohn": true
-            }
-        }
-    ]
-}
-```
-
-See the [player config documentation](config.md) for more info.
 
 ## Randomization
 ### Overview
@@ -1678,55 +1777,6 @@ choose the same value (since same index = different value):
 </dl>
 
 ## Advanced
-### Dynamic tokens
-Dynamic tokens are defined in a `DynamicTokens` section of your `content.json` (see example below).
-Each block in this section defines the value for a token using these fields:
-
-field   | purpose
-------- | -------
-`Name`  | The name of the token to use for [tokens & condition](#introduction).
-`Value` | The value(s) to set. This can be a comma-delimited value to give it multiple values. This field supports [tokens](#introduction), including dynamic tokens defined before this entry.
-`When`  | _(optional)_ Only set the value if the given [conditions](#introduction) match. If not specified, always matches.
-
-Some usage notes:
-* You can list any number of dynamic token blocks.
-* If you list multiple blocks for the same token name, the last one whose conditions match will be
-  used.
-* You can use tokens in the `Value` and `When` fields. That includes dynamic tokens if they're
-  defined earlier in the list (in which case the last applicable value _defined before this block_
-  will be used). Using a token in the value implicitly adds a `When` condition (so the block is
-  skipped if the token is unavailable, like `{{season}}` when a save isn't loaded).
-* Dynamic tokens can't have the same name as an existing global token or player config field.
-
-For example, this `content.json` defines a custom `{{style}}` token and uses it to load different
-crop sprites depending on the weather:
-
-```js
-{
-   "Format": "2.4.0",
-   "DynamicTokens": [
-      {
-         "Name": "Style",
-         "Value": "dry"
-      },
-      {
-         "Name": "Style",
-         "Value": "wet",
-         "When": {
-            "Weather": "rain, storm"
-         }
-      }
-   ],
-   "Changes": [
-      {
-         "Action": "Load",
-         "Target": "TileSheets/crops",
-         "FromFile": "assets/crop-{{style}}.png"
-      }
-   ]
-}
-```
-
 ## Query expressions
 A _query expression_ is an arbitrary set of arithmetic and logical expressions which can be
 evaluated into a number, `true`/`false` value, or text.

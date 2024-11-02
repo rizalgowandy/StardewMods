@@ -53,6 +53,7 @@ field     | purpose
 `When`    | _(optional)_ Only apply the patch if the given [conditions](../author-guide.md#conditions) match.
 `LogName` | _(optional)_ A name for this patch to show in log messages. This is useful for understanding errors; if not specified, it'll default to a name like `entry #14 (EditImage Animals/Dinosaurs)`.
 `Update`  | _(optional)_ How often the patch fields should be updated for token changes. See [update rate](../author-guide.md#update-rate) for more info.
+`LocalTokens` | _(Optional)_ A set of [local tokens](../author-guide.md#local-tokens) which can be used within this patch's field. These are inherited by all the patches loaded through the `Include` patch.
 
 </dd>
 </dl>
