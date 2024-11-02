@@ -244,14 +244,14 @@ internal abstract class Patch : IPatch
     /// <param name="assetLocale">The locale code in the target asset's name to match. See <see cref="IPatch.TargetAsset"/> for more info.</param>
     /// <param name="priority">The priority for this patch when multiple patches apply.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
-    /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which this patch was loaded, if any.</param>
+    /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="fromAsset">The normalized asset key from which to load the local asset (if applicable), including tokens.</param>
-    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
-    protected Patch(int[] indexPath, LogPathBuilder path, PatchType type, IManagedTokenString? assetName, IManagedTokenString? assetLocale, int priority, UpdateRate updateRate, IEnumerable<Condition> conditions, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IManagedTokenString? fromAsset = null, InvariantDictionary<IManagedTokenString>? passthroughTokens = null)
+    protected Patch(int[] indexPath, LogPathBuilder path, PatchType type, IManagedTokenString? assetName, IManagedTokenString? assetLocale, int priority, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? passthroughTokens, IEnumerable<Condition> conditions, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IManagedTokenString? fromAsset = null)
     {
         this.IndexPath = indexPath;
         this.Path = path;

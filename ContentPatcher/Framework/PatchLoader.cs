@@ -68,12 +68,12 @@ internal class PatchLoader
     /// <summary>Load patches for a content pack.</summary>
     /// <param name="contentPack">The content pack for which to load patches.</param>
     /// <param name="rawPatches">The raw patches to load.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="rootIndexPath">The path of indexes from the root <c>content.json</c> to the root which is loading patches; see <see cref="IPatch.IndexPath"/>.</param>
     /// <param name="path">The path to the patches from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
-    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <returns>Returns the patches that were loaded.</returns>
-    public IEnumerable<IPatch> LoadPatches(RawContentPack contentPack, PatchConfig[] rawPatches, int[] rootIndexPath, LogPathBuilder path, Patch? parentPatch, InvariantDictionary<IManagedTokenString>? passthroughTokens = null)
+    public IEnumerable<IPatch> LoadPatches(RawContentPack contentPack, PatchConfig[] rawPatches, InvariantDictionary<IManagedTokenString>? passthroughTokens, int[] rootIndexPath, LogPathBuilder path, Patch? parentPatch)
     {
         bool verbose = this.Monitor.IsVerbose;
 
@@ -116,7 +116,7 @@ internal class PatchLoader
             var localPath = path.With(patch.LogName!);
             if (verbose)
                 this.Monitor.Log($"   loading {localPath}...");
-            IPatch? loaded = this.LoadPatch(contentPack, patch, tokenParser, rootIndexPath.Concat([index]).ToArray(), localPath, parentPatch, logSkip: reasonPhrase => this.Monitor.Log($"Ignored {localPath}: {reasonPhrase}", LogLevel.Warn), passthroughTokens);
+            IPatch? loaded = this.LoadPatch(contentPack, patch, tokenParser, passthroughTokens, rootIndexPath.Concat([index]).ToArray(), localPath, parentPatch, logSkip: reasonPhrase => this.Monitor.Log($"Ignored {localPath}: {reasonPhrase}", LogLevel.Warn));
             if (loaded != null)
                 loadedPatches.Add(loaded);
         }
@@ -348,13 +348,13 @@ internal class PatchLoader
     /// <param name="rawContentPack">The content pack being loaded.</param>
     /// <param name="entry">The change to load.</param>
     /// <param name="tokenParser">Handles low-level parsing and validation for tokens.</param>
+    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="indexPath">The path of indexes from the root <c>content.json</c> to this patch; see <see cref="IPatch.IndexPath"/>.</param>
     /// <param name="path">The path to the patch from the root content file.</param>
     /// <param name="parentPatch">The parent <see cref="PatchType.Include"/> patch for which the patches are being loaded, if any.</param>
     /// <param name="logSkip">The callback to invoke with the error reason if loading it fails.</param>
-    /// <param name="passthroughTokens">The local token values to use for the loaded patches, in addition to the pre-existing tokens.</param>
     /// <returns>The patch that was loaded, or <c>null</c> if it failed to load.</returns>
-    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip, InvariantDictionary<IManagedTokenString>? passthroughTokens)
+    private IPatch? LoadPatch(RawContentPack rawContentPack, PatchConfig entry, TokenParser tokenParser, InvariantDictionary<IManagedTokenString>? passthroughTokens, int[] indexPath, LogPathBuilder path, Patch? parentPatch, Action<string> logSkip)
     {
         var pack = rawContentPack.ContentPack;
         PatchType? action = null;
@@ -636,6 +636,7 @@ internal class PatchLoader
                             assetLocale: targetAssetLocale,
                             priority: priority,
                             conditions: conditions,
+                            passthroughTokens: passthroughTokens,
                             fromAsset: fromAsset,
                             fromArea: fromArea,
                             toArea: toArea,

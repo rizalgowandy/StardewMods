@@ -68,13 +68,13 @@ internal class IncludePatch : Patch
             assetLocale: null,
             priority: (int)AssetEditPriority.Default,
             updateRate: updateRate,
-            conditions: conditions,
-            fromAsset: fromFile,
             passthroughTokens: passthroughTokens,
-            parentPatch: parentPatch,
+            conditions: conditions,
             contentPack: contentPack.ContentPack,
             migrator: contentPack.Migrator,
-            parseAssetName: parseAssetName
+            parentPatch: parentPatch,
+            parseAssetName: parseAssetName,
+            fromAsset: fromFile
         )
     {
         this.RawContentPack = contentPack;
@@ -158,10 +158,10 @@ internal class IncludePatch : Patch
                 this.PatchesJustLoaded = this.PatchLoader.LoadPatches(
                     contentPack: this.RawContentPack,
                     rawPatches: content.Changes,
+                    passthroughTokens: this.PassthroughTokens,
                     rootIndexPath: this.IndexPath,
                     path: this.GetIncludedLogPath(this.FromAsset),
-                    parentPatch: this,
-                    passthroughTokens: this.PassthroughTokens
+                    parentPatch: this
                 );
                 this.IsApplied = true;
             }
