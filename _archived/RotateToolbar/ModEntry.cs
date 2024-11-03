@@ -24,8 +24,7 @@ namespace Pathoschild.Stardew.RotateToolbar
         /*********
         ** Public methods
         *********/
-        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        /// <inheritdoc />
         public override void Entry(IModHelper helper)
         {
             // read config
@@ -42,9 +41,7 @@ namespace Pathoschild.Stardew.RotateToolbar
         /****
         ** Event handlers
         ****/
-        /// <summary>Raised after the player presses any buttons on the keyboard, controller, or mouse.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
         private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
             if (!Context.IsWorldReady)

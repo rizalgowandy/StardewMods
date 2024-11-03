@@ -3,37 +3,36 @@ using Pathoschild.Stardew.FastAnimations.Framework;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace Pathoschild.Stardew.FastAnimations.Handlers
+namespace Pathoschild.Stardew.FastAnimations.Handlers;
+
+/// <summary>Handles the horse flute animation.</summary>
+/// <remarks>See game logic in <see cref="StardewValley.Object.performUseAction"/> (search for <c>(O)911</c>).</remarks>
+internal sealed class HorseFluteHandler : BaseAnimationHandler
 {
-    /// <summary>Handles the horse flute animation.</summary>
-    /// <remarks>See game logic in <see cref="StardewValley.Object.performUseAction"/> (search for <c>(O)911</c>).</remarks>
-    internal sealed class HorseFluteHandler : BaseAnimationHandler
+    /*********
+    ** Public methods
+    *********/
+    /// <inheritdoc />
+    public HorseFluteHandler(float multiplier)
+        : base(multiplier) { }
+
+    /// <inheritdoc />
+    public override bool TryApply(int playerAnimationId)
     {
-        /*********
-        ** Public methods
-        *********/
-        /// <inheritdoc />
-        public HorseFluteHandler(float multiplier)
-            : base(multiplier) { }
-
-        /// <inheritdoc />
-        public override bool TryApply(int playerAnimationId)
+        if (Context.IsWorldReady && Game1.player.Sprite.CurrentAnimation is [{ frame: 98 }, ..])
         {
-            if (Context.IsWorldReady && Game1.player.Sprite.CurrentAnimation is [{ frame: 98 }, ..])
-            {
-                // speed up animation
-                this.SpeedUpPlayer();
+            // speed up animation
+            this.SpeedUpPlayer();
 
-                // reduce freeze time & horse summon time
-                int reduceTimersBy = (int)(BaseAnimationHandler.MillisecondsPerFrame * this.Multiplier);
-                Game1.player.freezePause = Math.Max(0, Game1.player.freezePause - reduceTimersBy);
-                foreach (DelayedAction action in Game1.delayedActions)
-                    action.timeUntilAction = Math.Max(0, action.timeUntilAction - reduceTimersBy);
+            // reduce freeze time & horse summon time
+            int reduceTimersBy = (int)(BaseAnimationHandler.MillisecondsPerFrame * this.Multiplier);
+            Game1.player.freezePause = Math.Max(0, Game1.player.freezePause - reduceTimersBy);
+            foreach (DelayedAction action in Game1.delayedActions)
+                action.timeUntilAction = Math.Max(0, action.timeUntilAction - reduceTimersBy);
 
-                return true;
-            }
-
-            return false;
+            return true;
         }
+
+        return false;
     }
 }

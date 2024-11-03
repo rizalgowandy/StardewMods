@@ -1,6 +1,13 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 2.5.8
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
+* Updated for Stardew Valley 1.6.9.
+* Fixed ocean area choosing estuary fish instead of ocean fish.
+* Improved translations. Thanks to DonCami (updated Spanish) and moonggae (updated Korean)!
+
 ## 2.5.7
 Released 29 June 2024 for SMAPI 4.0.7 or later.
 

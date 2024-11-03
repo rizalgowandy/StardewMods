@@ -4,43 +4,42 @@ using ContentPatcher.Framework.ConfigModels;
 using ContentPatcher.Framework.Constants;
 using StardewModdingAPI;
 
-namespace ContentPatcher.Framework.Migrations
+namespace ContentPatcher.Framework.Migrations;
+
+/// <summary>Migrates patches to format version 1.28.</summary>
+[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Named for clarity.")]
+internal class Migration_1_28 : BaseMigration
 {
-    /// <summary>Migrates patches to format version 1.28.</summary>
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Named for clarity.")]
-    internal class Migration_1_28 : BaseMigration
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    public Migration_1_28()
+        : base(new SemanticVersion(1, 28, 0)) { }
+
+    /// <inheritdoc />
+    public override bool TryMigrate(ref PatchConfig[] patches, [NotNullWhen(false)] out string? error)
     {
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        public Migration_1_28()
-            : base(new SemanticVersion(1, 28, 0)) { }
+        if (!base.TryMigrate(ref patches, out error))
+            return false;
 
-        /// <inheritdoc />
-        public override bool TryMigrate(ref PatchConfig[] patches, [NotNullWhen(false)] out string? error)
+        // 1.28 adds the RemoveDelimited text operation
+        foreach (PatchConfig patch in patches)
         {
-            if (!base.TryMigrate(ref patches, out error))
-                return false;
-
-            // 1.28 adds the RemoveDelimited text operation
-            foreach (PatchConfig patch in patches)
+            if (this.HasAction(patch, PatchType.EditData))
             {
-                if (this.HasAction(patch, PatchType.EditData))
+                foreach (TextOperationConfig? operation in patch.TextOperations)
                 {
-                    foreach (TextOperationConfig? operation in patch.TextOperations)
+                    TextOperationType? operationType = this.GetEnum<TextOperationType>(operation?.Operation);
+                    if (operationType is TextOperationType.RemoveDelimited)
                     {
-                        TextOperationType? operationType = this.GetEnum<TextOperationType>(operation?.Operation);
-                        if (operationType is TextOperationType.RemoveDelimited)
-                        {
-                            error = this.GetNounPhraseError($"using {nameof(patch.TextOperations)} of type {operationType.Value}");
-                            return false;
-                        }
+                        error = this.GetNounPhraseError($"using {nameof(patch.TextOperations)} of type {operationType.Value}");
+                        return false;
                     }
                 }
             }
-
-            return true;
         }
+
+        return true;
     }
 }

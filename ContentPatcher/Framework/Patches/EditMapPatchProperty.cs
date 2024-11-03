@@ -1,42 +1,42 @@
 using ContentPatcher.Framework.Tokens;
 using Pathoschild.Stardew.Common.Utilities;
 
-namespace ContentPatcher.Framework.Patches
+namespace ContentPatcher.Framework.Patches;
+
+/// <summary>A map property to change when editing a map.</summary>
+internal class EditMapPatchProperty : IContextual
 {
-    /// <summary>A map property to change when editing a map.</summary>
-    internal class EditMapPatchProperty : IContextual
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The underlying contextual values.</summary>
+    private readonly AggregateContextual Contextuals;
+
+
+    /*********
+    ** Accessors
+    *********/
+    /// <summary>The map property name.</summary>
+    public ITokenString Key { get; }
+
+    /// <summary>The map property value.</summary>
+    public ITokenString? Value { get; }
+
+    /// <inheritdoc />
+    public bool IsMutable => this.Contextuals.IsMutable;
+
+    /// <inheritdoc />
+    public bool IsReady => this.Contextuals.IsReady;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="key">The map property name.</param>
+    /// <param name="value">The map property value.</param>
+    public EditMapPatchProperty(IManagedTokenString key, IManagedTokenString? value)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The underlying contextual values.</summary>
-        private readonly AggregateContextual Contextuals;
-
-
-        /*********
-        ** Accessors
-        *********/
-        /// <summary>The map property name.</summary>
-        public ITokenString Key { get; }
-
-        /// <summary>The map property value.</summary>
-        public ITokenString? Value { get; }
-
-        /// <inheritdoc />
-        public bool IsMutable => this.Contextuals.IsMutable;
-
-        /// <inheritdoc />
-        public bool IsReady => this.Contextuals.IsReady;
-
-
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="key">The map property name.</param>
-        /// <param name="value">The map property value.</param>
-        public EditMapPatchProperty(IManagedTokenString key, IManagedTokenString? value)
-        {
             this.Key = key;
             this.Value = value;
 
@@ -45,22 +45,21 @@ namespace ContentPatcher.Framework.Patches
                 .Add(value);
         }
 
-        /// <inheritdoc />
-        public bool UpdateContext(IContext context)
-        {
+    /// <inheritdoc />
+    public bool UpdateContext(IContext context)
+    {
             return this.Contextuals.UpdateContext(context);
         }
 
-        /// <inheritdoc />
-        public IInvariantSet GetTokensUsed()
-        {
+    /// <inheritdoc />
+    public IInvariantSet GetTokensUsed()
+    {
             return this.Contextuals.GetTokensUsed();
         }
 
-        /// <inheritdoc />
-        public IContextualState GetDiagnosticState()
-        {
+    /// <inheritdoc />
+    public IContextualState GetDiagnosticState()
+    {
             return this.Contextuals.GetDiagnosticState();
         }
-    }
 }

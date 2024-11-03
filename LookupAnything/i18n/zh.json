@@ -4,7 +4,7 @@
     *********/
     // language info
     "generic.list-separator": "、", // text between listed values (like ", " in "A, B, C")
-    "generic.line-wrap-on": "、",   // characters after which we can line-wrap text if needed, even if there's no space
+    "generic.line-wrap-on": "、", // characters after which we can line-wrap text if needed, even if there's no space
 
     // date names
     "generic.now": "现在",
@@ -51,7 +51,7 @@
     "quality.iridium": "铱星",
 
     // item names shown in recipes
-    "item.wild-seeds": "Wild Seeds (Any)", // TODO
+    "item.wild-seeds": "野生种子 (任意)",
 
     // NPC friendship
     "friendship-status.friendly": "友好的",
@@ -138,9 +138,9 @@
     *********/
     "condition-or-context-tag.negate": "非{{value}}",
 
-    "condition.day-of-month": "on specific days ({{days}})", // TODO
-    "condition.day-of-month.even": "even days", // TODO
-    "condition.day-of-month.odd": "odd days", // TODO
+    "condition.day-of-month": "每季指定日期 ({{days}})",
+    "condition.day-of-month.even": "偶数日",
+    "condition.day-of-month.odd": "奇数日",
 
     "condition.item-type.input": "输入物品",
     "condition.item-type.target": "产物",
@@ -189,6 +189,7 @@
     // labels
     "building.animals": "动物",
     "building.construction": "施工",
+    "building.construction-costs": "建筑材料",
     "building.feed-trough": "喂食槽",
     "building.horse": "马",
     "building.horse-location": "马位置",
@@ -336,6 +337,7 @@
     "item.undiscovered-gift-taste-appended": ", 和 {{count}} 位没揭露的村民",
     "item.needed-for.community-center": "社区中心（{{bundles}}）",
     "item.needed-for.full-shipment": "全部货物成就（出货一个）",
+    "item.needed-for.monoculture": "单一栽培成就（再出货{{count}}个）",
     "item.needed-for.polyculture": "混合栽培成就（再出货{{count}}个）",
     "item.needed-for.full-collection": "全套收集成就（向博物馆捐赠一个）",
     "item.needed-for.gourmet-chef": "美食大厨成就（烹饪{{recipes}}）",
@@ -397,6 +399,7 @@
 
     "item.fish-spawn-rules.min-fishing-level": "最低钓鱼等级：{{level}}",
     "item.fish-spawn-rules.not-caught-yet": "尚未被抓住（只能被抓住一次）",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "地点：{{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "地点：",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",
@@ -725,6 +728,8 @@
     "config.tile-lookups.desc": "是否将地图图块变为可查询对象",
     "config.data-mining-fields.name": "显示数据挖掘字段",
     "config.data-mining-fields.desc": "是否显示对数据挖掘者有用的原始数据(作为查询结果底部的单独字段)。这是一个高级功能，不适合大多数玩家。",
+    "config.show-invalid-recipes.name": "显示无效配方",
+    "config.show-invalid-recipes.desc": "是否显示含有错误物品的配方。",
     "config.target-redirection.name": "目标重定向",
     "config.target-redirection.desc": "游戏在某些情况下会生成一个暂时的替身来指代某个目标。比如，矿井中的阿比盖尔实际上只是一个暂时的npc，导致查询时并不会显示阿比盖尔的信息。开启该选项后，才能显示阿比盖尔的真正信息。",
     "config.scroll-amount.name": "滚动值",

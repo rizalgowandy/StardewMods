@@ -4,87 +4,86 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 
-namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
+namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers;
+
+/// <summary>A storage container for a <see cref="StorageFurniture"/> instance (e.g. a dresser).</summary>
+internal class StorageFurnitureContainer : IContainer
 {
-    /// <summary>A storage container for a <see cref="StorageFurniture"/> instance (e.g. a dresser).</summary>
-    internal class StorageFurnitureContainer : IContainer
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The in-game storage furniture.</summary>
+    internal readonly StorageFurniture Furniture;
+
+    /// <summary>The categories accepted by a dresser.</summary>
+    private static HashSet<int> DresserCategories = null!; // set when the class is first constructed
+
+
+    /*********
+    ** Accessors
+    *********/
+    /// <inheritdoc />
+    public IList<Item?> Inventory => this.Furniture.heldItems;
+
+    /// <inheritdoc />
+    public ContainerData Data { get; }
+
+    /// <inheritdoc />
+    public bool CanConfigureAutomate { get; } = false; // Automate doesn't support storage containers
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="furniture">The in-game storage furniture.</param>
+    [SuppressMessage("ReSharper", "ConstantNullCoalescingCondition", Justification = $"{nameof(StorageFurnitureContainer.DresserCategories)} is only non-null after the first instance is constructed.")]
+    public StorageFurnitureContainer(StorageFurniture furniture)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The in-game storage furniture.</summary>
-        internal readonly StorageFurniture Furniture;
+        this.Furniture = furniture;
+        this.Data = new ContainerData(furniture.modData);
 
-        /// <summary>The categories accepted by a dresser.</summary>
-        private static HashSet<int> DresserCategories = null!; // set when the class is first constructed
+        StorageFurnitureContainer.DresserCategories ??= [.. new ShopMenu("Dresser", new List<ISalable>()).categoriesToSellHere];
+    }
 
+    /// <inheritdoc />
+    public bool CanAcceptItem(Item item)
+    {
+        return StorageFurnitureContainer.DresserCategories.Contains(item.Category);
+    }
 
-        /*********
-        ** Accessors
-        *********/
-        /// <inheritdoc />
-        public IList<Item?> Inventory => this.Furniture.heldItems;
+    /// <inheritdoc />
+    public bool IsSameAs(IContainer? container)
+    {
+        return
+            container is not null
+            && this.IsSameAs(container.Inventory);
+    }
 
-        /// <inheritdoc />
-        public ContainerData Data { get; }
+    /// <inheritdoc />
+    public bool IsSameAs(IList<Item?>? inventory)
+    {
+        return
+            inventory is not null
+            && object.ReferenceEquals(this.Inventory, inventory);
+    }
 
-        /// <inheritdoc />
-        public bool CanConfigureAutomate { get; } = false; // Automate doesn't support storage containers
+    /// <inheritdoc />
+    public IClickableMenu OpenMenu()
+    {
+        string shopId = this.Furniture.GetShopMenuContext();
 
+        this.Furniture.ShowShopMenu();
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="furniture">The in-game storage furniture.</param>
-        [SuppressMessage("ReSharper", "ConstantNullCoalescingCondition", Justification = $"{nameof(StorageFurnitureContainer.DresserCategories)} is only non-null after the first instance is constructed.")]
-        public StorageFurnitureContainer(StorageFurniture furniture)
-        {
-            this.Furniture = furniture;
-            this.Data = new ContainerData(furniture.modData);
+        if (Game1.activeClickableMenu is ShopMenu shopMenu)
+            shopMenu.source = this.Furniture;
 
-            StorageFurnitureContainer.DresserCategories ??= [..new ShopMenu("Dresser", new List<ISalable>()).categoriesToSellHere];
-        }
+        return Game1.activeClickableMenu;
+    }
 
-        /// <inheritdoc />
-        public bool CanAcceptItem(Item item)
-        {
-            return StorageFurnitureContainer.DresserCategories.Contains(item.Category);
-        }
-
-        /// <inheritdoc />
-        public bool IsSameAs(IContainer? container)
-        {
-            return
-                container is not null
-                && this.IsSameAs(container.Inventory);
-        }
-
-        /// <inheritdoc />
-        public bool IsSameAs(IList<Item?>? inventory)
-        {
-            return
-                inventory is not null
-                && object.ReferenceEquals(this.Inventory, inventory);
-        }
-
-        /// <inheritdoc />
-        public IClickableMenu OpenMenu()
-        {
-            string shopId = this.Furniture.GetShopMenuContext();
-
-            this.Furniture.ShowShopMenu();
-
-            if (Game1.activeClickableMenu is ShopMenu shopMenu)
-                shopMenu.source = this.Furniture;
-
-            return Game1.activeClickableMenu;
-        }
-
-        /// <inheritdoc />
-        public void SaveData()
-        {
-            this.Data.ToModData(this.Furniture.modData);
-        }
+    /// <inheritdoc />
+    public void SaveData()
+    {
+        this.Data.ToModData(this.Furniture.modData);
     }
 }

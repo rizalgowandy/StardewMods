@@ -5,92 +5,87 @@ using Pathoschild.Stardew.Common.DataParsers;
 using Pathoschild.Stardew.DataLayers.Framework;
 using StardewValley;
 
-namespace Pathoschild.Stardew.DataLayers.Layers.Crops
+namespace Pathoschild.Stardew.DataLayers.Layers.Crops;
+
+/// <summary>A data layer which shows whether crops are ready to be harvested.</summary>
+internal class CropHarvestLayer : BaseLayer
 {
-    /// <summary>A data layer which shows whether crops are ready to be harvested.</summary>
-    internal class CropHarvestLayer : BaseLayer
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The legend entry for crops which are ready.</summary>
+    private readonly LegendEntry Ready;
+
+    /// <summary>The legend entry for crops which are not ready.</summary>
+    private readonly LegendEntry NotReady;
+
+    /// <summary>The legend entry for crops which won't be ready to harvest before the season change (or are dead).</summary>
+    private readonly LegendEntry NotEnoughTimeOrDead;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="config">The data layer settings.</param>
+    /// <param name="colors">The colors to render.</param>
+    public CropHarvestLayer(LayerConfig config, ColorScheme colors)
+        : base(I18n.CropHarvest_Name(), config)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The legend entry for crops which are ready.</summary>
-        private readonly LegendEntry Ready;
+        const string layerId = "CropsReadyToHarvest";
 
-        /// <summary>The legend entry for crops which are not ready.</summary>
-        private readonly LegendEntry NotReady;
+        this.Legend = [
+            this.Ready = new LegendEntry(I18n.Keys.CropHarvest_Ready, colors.Get(layerId, "Ready", Color.Green)),
+            this.NotReady = new LegendEntry(I18n.Keys.CropHarvest_NotReady, colors.Get(layerId, "NotReady", Color.Black)),
+            this.NotEnoughTimeOrDead = new LegendEntry(I18n.Keys.CropHarvest_NotEnoughTimeOrDead, colors.Get(layerId, "NotEnoughTimeOrDead", Color.Red))
+        ];
+    }
 
-        /// <summary>The legend entry for crops which won't be ready to harvest before the season change (or are dead).</summary>
-        private readonly LegendEntry NotEnoughTimeOrDead;
+    /// <inheritdoc />
+    public override TileGroup[] Update(ref readonly GameLocation location, ref readonly Rectangle visibleArea, ref readonly IReadOnlySet<Vector2> visibleTiles, ref readonly Vector2 cursorTile)
+    {
+        var tiles = this.GetTiles(location, visibleTiles).ToLookup(p => p.Type.Id);
+
+        return [
+            new TileGroup(tiles[this.Ready.Id], outerBorderColor: this.Ready.Color),
+            new TileGroup(tiles[this.NotReady.Id]),
+            new TileGroup(tiles[this.NotEnoughTimeOrDead.Id], outerBorderColor: this.NotEnoughTimeOrDead.Color)
+        ];
+    }
 
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="config">The data layer settings.</param>
-        /// <param name="colors">The colors to render.</param>
-        public CropHarvestLayer(LayerConfig config, ColorScheme colors)
-            : base(I18n.CropHarvest_Name(), config)
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>Get all tiles.</summary>
+    /// <param name="location">The current location.</param>
+    /// <param name="visibleTiles">The tiles currently visible on the screen.</param>
+    private IEnumerable<TileData> GetTiles(GameLocation location, IReadOnlySet<Vector2> visibleTiles)
+    {
+        foreach (Vector2 tile in visibleTiles)
         {
-            const string layerId = "CropsReadyToHarvest";
+            // get crop
+            Crop? crop = this.GetDirt(location, tile)?.crop;
+            if (crop == null)
+                continue;
 
-            this.Legend = [
-                this.Ready = new LegendEntry(I18n.Keys.CropHarvest_Ready, colors.Get(layerId, "Ready", Color.Green)),
-                this.NotReady = new LegendEntry(I18n.Keys.CropHarvest_NotReady, colors.Get(layerId, "NotReady", Color.Black)),
-                this.NotEnoughTimeOrDead = new LegendEntry(I18n.Keys.CropHarvest_NotEnoughTimeOrDead, colors.Get(layerId, "NotEnoughTimeOrDead", Color.Red))
-            ];
-        }
-
-        /// <summary>Get the updated data layer tiles.</summary>
-        /// <param name="location">The current location.</param>
-        /// <param name="visibleArea">The tile area currently visible on the screen.</param>
-        /// <param name="visibleTiles">The tile positions currently visible on the screen.</param>
-        /// <param name="cursorTile">The tile position under the cursor.</param>
-        public override TileGroup[] Update(GameLocation location, in Rectangle visibleArea, in Vector2[] visibleTiles, in Vector2 cursorTile)
-        {
-            TileData[] tiles = this.GetTiles(location, visibleTiles).ToArray();
-
-            return [
-                new TileGroup(tiles.Where(p => p.Type.Id == this.Ready.Id), outerBorderColor: this.Ready.Color),
-                new TileGroup(tiles.Where(p => p.Type.Id == this.NotReady.Id)),
-                new TileGroup(tiles.Where(p => p.Type.Id == this.NotEnoughTimeOrDead.Id), outerBorderColor: this.NotEnoughTimeOrDead.Color)
-            ];
-        }
-
-
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Get all tiles.</summary>
-        /// <param name="location">The current location.</param>
-        /// <param name="visibleTiles">The tiles currently visible on the screen.</param>
-        private IEnumerable<TileData> GetTiles(GameLocation location, Vector2[] visibleTiles)
-        {
-            foreach (Vector2 tile in visibleTiles)
+            // special case: crop is dead
+            if (crop.dead.Value)
             {
-                // get crop
-                Crop? crop = this.GetDirt(location, tile)?.crop;
-                if (crop == null)
-                    continue;
+                yield return new TileData(tile, this.NotEnoughTimeOrDead);
+                continue;
+            }
 
-                // special case: crop is dead
-                if (crop.dead.Value)
-                {
+            // yield tile
+            CropDataParser data = new CropDataParser(crop, isPlanted: true);
+            if (data.CropData != null)
+            {
+                if (data.CanHarvestNow)
+                    yield return new TileData(tile, this.Ready);
+                else if (!location.SeedsIgnoreSeasonsHere() && !data.Seasons.Contains(data.GetNextHarvest().Season))
                     yield return new TileData(tile, this.NotEnoughTimeOrDead);
-                    continue;
-                }
-
-                // yield tile
-                CropDataParser data = new CropDataParser(crop, isPlanted: true);
-                if (data.CropData != null)
-                {
-                    if (data.CanHarvestNow)
-                        yield return new TileData(tile, this.Ready);
-                    else if (!location.SeedsIgnoreSeasonsHere() && !data.Seasons.Contains(data.GetNextHarvest().Season))
-                        yield return new TileData(tile, this.NotEnoughTimeOrDead);
-                    else
-                        yield return new TileData(tile, this.NotReady);
-                }
+                else
+                    yield return new TileData(tile, this.NotReady);
             }
         }
     }

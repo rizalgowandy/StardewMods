@@ -1,6 +1,17 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.25.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
+* Updated for Stardew Valley 1.6.9.
+* Added config options for the 'toggle UI' key behavior:
+   - whether it reopens the last chest you selected;
+   - a category name to open by default (if set).
+* The default category for chests now uses the location's display name (if available), instead of its internal name.
+* Improved dropdown positioning to reduce overlap with the big chest UI.
+* Improved translations. Thanks to celr00 (updated Spanish), Creeperkatze (updated German), ForgottenZ (updated Chinese), MakinDay (updated Italian), and moonggae (updated Korean)!
+
 ## 1.24.1
 Released 01 July 2024 for SMAPI 4.0.7 or later.
 

@@ -21,8 +21,7 @@ namespace Pathoschild.Stardew.TheLongNight
         /*********
         ** Public methods
         *********/
-        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides simplified APIs for writing mods.</param>
+        /// <inheritdoc />
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
@@ -56,9 +55,7 @@ namespace Pathoschild.Stardew.TheLongNight
         /*********
         ** Private methods
         *********/
-        /// <summary>The method invoked after the game updates (roughly 60 times per second).</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <inheritdoc cref="IGameLoopEvents.UpdateTicked" />
         /// <remarks>
         /// All times are shown in the game's internal format, which is essentially military time with support for
         /// times past midnight (e.g. 2400 is midnight, 2600 is 2am).

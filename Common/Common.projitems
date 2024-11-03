@@ -21,6 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomBush\ICustomBushDrop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\MultiFertilizer\MultiFertilizerIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\SpaceCoreIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SuppressReasons.cs" />
@@ -71,6 +73,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\InvariantDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\InvariantSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ObjectReferenceComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\SetExtensions.cs" />
   </ItemGroup>
 </Project>

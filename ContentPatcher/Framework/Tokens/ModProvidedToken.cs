@@ -4,216 +4,215 @@ using ContentPatcher.Framework.Tokens.ValueProviders;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 
-namespace ContentPatcher.Framework.Tokens
+namespace ContentPatcher.Framework.Tokens;
+
+/// <summary>A token provided by a mod.</summary>
+/// <remarks>To avoid breaking high-level token functionality (e.g. 'contains' handling), this must always call the base method.</remarks>
+internal class ModProvidedToken : Token
 {
-    /// <summary>A token provided by a mod.</summary>
-    /// <remarks>To avoid breaking high-level token functionality (e.g. 'contains' handling), this must always call the base method.</remarks>
-    internal class ModProvidedToken : Token
+    /*********
+    ** Fields
+    *********/
+    /// <summary>Encapsulates monitoring and logging.</summary>
+    private readonly IMonitor Monitor;
+
+
+    /*********
+    ** Accessors
+    *********/
+    /// <summary>The mod which registered the token.</summary>
+    public IManifest Mod { get; }
+
+    /// <summary>The mod prefix.</summary>
+    public string NamePrefix { get; }
+
+    /// <summary>The token name without the mod prefix.</summary>
+    public string NameWithoutPrefix { get; }
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="nameWithoutPrefix">The token name without the mod prefix.</param>
+    /// <param name="mod">The mod which registered the token.</param>
+    /// <param name="provider">The underlying value provider.</param>
+    /// <param name="monitor">Encapsulates monitoring and logging.</param>
+    public ModProvidedToken(string nameWithoutPrefix, IManifest mod, IValueProvider provider, IMonitor monitor)
+        : base($"{mod.UniqueID}{InternalConstants.ModTokenSeparator}{nameWithoutPrefix}", provider)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>Encapsulates monitoring and logging.</summary>
-        private readonly IMonitor Monitor;
+        this.NamePrefix = $"{mod.UniqueID}{InternalConstants.ModTokenSeparator}";
+        this.NameWithoutPrefix = nameWithoutPrefix;
+        this.Mod = mod;
+        this.Monitor = monitor;
+    }
 
-
-        /*********
-        ** Accessors
-        *********/
-        /// <summary>The mod which registered the token.</summary>
-        public IManifest Mod { get; }
-
-        /// <summary>The mod prefix.</summary>
-        public string NamePrefix { get; }
-
-        /// <summary>The token name without the mod prefix.</summary>
-        public string NameWithoutPrefix { get; }
-
-
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="nameWithoutPrefix">The token name without the mod prefix.</param>
-        /// <param name="mod">The mod which registered the token.</param>
-        /// <param name="provider">The underlying value provider.</param>
-        /// <param name="monitor">Encapsulates monitoring and logging.</param>
-        public ModProvidedToken(string nameWithoutPrefix, IManifest mod, IValueProvider provider, IMonitor monitor)
-            : base($"{mod.UniqueID}{InternalConstants.ModTokenSeparator}{nameWithoutPrefix}", provider)
+    /// <inheritdoc />
+    public override bool UpdateContext(IContext context)
+    {
+        try
         {
-            this.NamePrefix = $"{mod.UniqueID}{InternalConstants.ModTokenSeparator}";
-            this.NameWithoutPrefix = nameWithoutPrefix;
-            this.Mod = mod;
-            this.Monitor = monitor;
+            return base.UpdateContext(context);
         }
-
-        /// <inheritdoc />
-        public override bool UpdateContext(IContext context)
+        catch (Exception ex)
         {
-            try
-            {
-                return base.UpdateContext(context);
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return false;
-            }
+            this.Log(ex);
+            return false;
         }
+    }
 
-        /// <inheritdoc />
-        public override IInvariantSet GetTokensUsed()
+    /// <inheritdoc />
+    public override IInvariantSet GetTokensUsed()
+    {
+        try
         {
-            try
-            {
-                return base.GetTokensUsed();
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return InvariantSets.Empty;
-            }
+            return base.GetTokensUsed();
         }
-
-        /// <inheritdoc />
-        public override IContextualState GetDiagnosticState()
+        catch (Exception ex)
         {
-            try
-            {
-                return base.GetDiagnosticState();
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return new ContextualState();
-            }
+            this.Log(ex);
+            return InvariantSets.Empty;
         }
+    }
 
-        /// <inheritdoc />
-        public override bool CanHaveMultipleValues(IInputArguments input)
+    /// <inheritdoc />
+    public override IContextualState GetDiagnosticState()
+    {
+        try
         {
-            try
-            {
-                return base.CanHaveMultipleValues(input);
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return false;
-            }
+            return base.GetDiagnosticState();
         }
-
-        /// <inheritdoc />
-        public override bool TryValidateInput(IInputArguments input, [NotNullWhen(false)] out string? error)
+        catch (Exception ex)
         {
-            try
-            {
-                return base.TryValidateInput(input, out error);
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                error = null;
-                return true;
-            }
+            this.Log(ex);
+            return new ContextualState();
         }
+    }
 
-        /// <inheritdoc />
-        public override bool TryValidateValues(IInputArguments input, IInvariantSet values, IContext context, [NotNullWhen(false)] out string? error)
+    /// <inheritdoc />
+    public override bool CanHaveMultipleValues(IInputArguments input)
+    {
+        try
         {
-            try
-            {
-                return base.TryValidateValues(input, values, context, out error);
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                error = null;
-                return true;
-            }
+            return base.CanHaveMultipleValues(input);
         }
-
-        /// <inheritdoc />
-        public override IInvariantSet? GetAllowedInputArguments()
+        catch (Exception ex)
         {
-            try
-            {
-                return base.GetAllowedInputArguments();
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return null;
-            }
+            this.Log(ex);
+            return false;
         }
+    }
 
-        /// <inheritdoc />
-        public override bool HasBoundedValues(IInputArguments input, [NotNullWhen(true)] out IInvariantSet? allowedValues)
+    /// <inheritdoc />
+    public override bool TryValidateInput(IInputArguments input, [NotNullWhen(false)] out string? error)
+    {
+        try
         {
-            try
-            {
-                return base.HasBoundedValues(input, out allowedValues);
-            }
-            catch (InvalidOperationException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                allowedValues = null;
-                return false;
-            }
+            return base.TryValidateInput(input, out error);
         }
-
-        /// <inheritdoc />
-        public override bool HasBoundedRangeValues(IInputArguments input, out int min, out int max)
+        catch (Exception ex)
         {
-            try
-            {
-                return base.HasBoundedRangeValues(input, out min, out max);
-            }
-            catch (InvalidOperationException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                min = 0;
-                max = 0;
-                return false;
-            }
+            this.Log(ex);
+            error = null;
+            return true;
         }
+    }
 
-        /// <inheritdoc />
-        public override IInvariantSet GetValues(IInputArguments input)
+    /// <inheritdoc />
+    public override bool TryValidateValues(IInputArguments input, IInvariantSet values, IContext context, [NotNullWhen(false)] out string? error)
+    {
+        try
         {
-            try
-            {
-                return base.GetValues(input);
-            }
-            catch (InvalidOperationException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex);
-                return InvariantSets.Empty;
-            }
+            return base.TryValidateValues(input, values, context, out error);
         }
-
-
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Log an exception thrown by the underlying mod.</summary>
-        /// <param name="ex">The error message.</param>
-        private void Log(Exception ex)
+        catch (Exception ex)
         {
-            this.Monitor.LogOnce($"The mod '{this.Mod.Name}' added custom token '{this.Name}', which failed and may not work correctly. See the log for details.", LogLevel.Warn);
-            this.Monitor.Log($"Custom token '{this.Name}' failed:\n{ex}");
+            this.Log(ex);
+            error = null;
+            return true;
         }
+    }
+
+    /// <inheritdoc />
+    public override IInvariantSet? GetAllowedInputArguments()
+    {
+        try
+        {
+            return base.GetAllowedInputArguments();
+        }
+        catch (Exception ex)
+        {
+            this.Log(ex);
+            return null;
+        }
+    }
+
+    /// <inheritdoc />
+    public override bool HasBoundedValues(IInputArguments input, [NotNullWhen(true)] out IInvariantSet? allowedValues)
+    {
+        try
+        {
+            return base.HasBoundedValues(input, out allowedValues);
+        }
+        catch (InvalidOperationException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            this.Log(ex);
+            allowedValues = null;
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public override bool HasBoundedRangeValues(IInputArguments input, out int min, out int max)
+    {
+        try
+        {
+            return base.HasBoundedRangeValues(input, out min, out max);
+        }
+        catch (InvalidOperationException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            this.Log(ex);
+            min = 0;
+            max = 0;
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public override IInvariantSet GetValues(IInputArguments input)
+    {
+        try
+        {
+            return base.GetValues(input);
+        }
+        catch (InvalidOperationException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            this.Log(ex);
+            return InvariantSets.Empty;
+        }
+    }
+
+
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>Log an exception thrown by the underlying mod.</summary>
+    /// <param name="ex">The error message.</param>
+    private void Log(Exception ex)
+    {
+        this.Monitor.LogOnce($"The mod '{this.Mod.Name}' added custom token '{this.Name}', which failed and may not work correctly. See the log for details.", LogLevel.Warn);
+        this.Monitor.Log($"Custom token '{this.Name}' failed:\n{ex}");
     }
 }

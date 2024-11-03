@@ -4,7 +4,7 @@
     *********/
     // language info
     "generic.list-separator": ", ", // text between listed values (like ", " in "A, B, C")
-    "generic.line-wrap-on": "",     // characters after which we can line-wrap text if needed, even if there's no space
+    "generic.line-wrap-on": "", // characters after which we can line-wrap text if needed, even if there's no space
 
     // date names
     "generic.now": "şimdi",
@@ -189,6 +189,7 @@
     // labels
     "building.animals": "Hayvanlar",
     "building.construction": "İnşaat",
+    "building.construction-costs": "Construction costs", // TODO
     "building.feed-trough": "Yemlik",
     "building.horse": "At",
     "building.horse-location": "At konumu",
@@ -336,6 +337,7 @@
     "item.undiscovered-gift-taste-appended": ", ve {{count}} gizli köylüler",
     "item.needed-for.community-center": "halkevi ({{bundles}})",
     "item.needed-for.full-shipment": "tam sevkiyat başarısı (herşeyden bir tane gönder)",
+    "item.needed-for.monoculture": "monoculture achievement (ship {{count}} more)", // TODO
     "item.needed-for.polyculture": "polikültür başarısı (her ekinden {{count}}'den fazla gönder)",
     "item.needed-for.full-collection": "tam koleksiyon başarısı (müze koleksiyonunu tamamla)",
     "item.needed-for.gourmet-chef": "gurme şef başarısı (pişir {{recipes}})",
@@ -396,6 +398,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "minimum balıkçılık seviyesi: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "henüz yakalanmamış (sadece bir defa yakalanabilir)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "bölgeler: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "bölgeler:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",
@@ -724,6 +727,8 @@
     "config.tile-lookups.desc": "Harita karolarının arama hedefleri olarak dahil edilip edilmeyeceği.",
     "config.data-mining-fields.name": "Veri madenciliği alanlarını göster",
     "config.data-mining-fields.desc": "Veri madencileri için yararlı olan ham verilerin gösterilip gösterilmeyeceği (arama sonuçlarının altında ayrı alanlar olarak). Bu, çoğu oyuncu için tasarlanmayan gelişmiş bir özelliktir.",
+    "config.show-invalid-recipes.name": "Show invalid recipes", // TODO
+    "config.show-invalid-recipes.desc": "Whether to show recipes which require or produce broken items.", // TODO
     "config.target-redirection.name": "Hedef yönlendirme",
     "config.target-redirection.desc": "Bazı durumlarda oyun, bir başkasını temsil etmek için geçici bir varlık yaratır. Örneğin, madendeki Abigail aslında 'AbigailMine' adında geçici bir NPC'dir, bu yüzden ona orada bakmak Abigail'in gerçek bilgilerini göstermez. Bu seçenek etkinleştirildiğinde, Lookup Anything, bunun yerine orijinal Abigail'i arayacaktır.",
     "config.scroll-amount.name": "Kaydırma miktarı",

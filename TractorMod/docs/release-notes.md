@@ -1,6 +1,16 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 4.20.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
+* Updated for Stardew Valley 1.6.9.
+* The scythe can now harvest green rain bushes.
+* Invalid or duplicate tractors are now removed on day start.
+* Duplicate garage IDs are now reassigned on day start.
+* Fixed being able to place unplaceable items using the 'custom attachments' option.
+* Improved translations. Thanks to Creeperkatze (updated German) and moonggae (updated Korean)!
+
 ## 4.19.2
 Released 29 June 2024 for SMAPI 4.0.7 or later.
 

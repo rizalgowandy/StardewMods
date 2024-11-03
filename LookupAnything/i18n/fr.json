@@ -4,7 +4,7 @@
     *********/
     // language info
     "generic.list-separator": ", ", // text between listed values (like ", " in "A, B, C")
-    "generic.line-wrap-on": "",     // characters after which we can line-wrap text if needed, even if there's no space
+    "generic.line-wrap-on": "", // characters after which we can line-wrap text if needed, even if there's no space
 
     // date names
     "generic.now": "maintenant",
@@ -192,6 +192,7 @@
     // labels
     "building.animals": "Animaux",
     "building.construction": "Construction",
+    "building.construction-costs": "Construction costs", // TODO
     "building.feed-trough": "Mangeoire",
     "building.horse": "Cheval",
     "building.horse-location": "Position du cheval",
@@ -339,6 +340,7 @@
     "item.undiscovered-gift-taste-appended": ", et {{count}} goût(s) de villageois non découvert(s)",
     "item.needed-for.community-center": "centre communautaire ({{bundles}})",
     "item.needed-for.full-shipment": "succès de livraison complète (1 à livrer)",
+    "item.needed-for.monoculture": "monoculture achievement (ship {{count}} more)", // TODO
     "item.needed-for.polyculture": "succès polyculture ({{count}} encore à livrer)",
     "item.needed-for.full-collection": "succès collection complète (1 à donner au musée)",
     "item.needed-for.gourmet-chef": "succès chef gourmet (cuisiner {{recipes}})",
@@ -399,6 +401,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "niveau minimum de pêche : {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "pas encore attrapé (ne peux être attrapé qu'une fois)",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "emplacements : {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "emplacements :",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}} : {{locations}}",
@@ -729,6 +732,8 @@
     "config.tile-lookups.desc": "Si l'on veut inclure les cases de la carte comme cibles de recherche.",
     "config.data-mining-fields.name": "Afficher les données data-minées",
     "config.data-mining-fields.desc": "Afficher ou non les données brutes utiles aux chercheurs de données (sous forme de champs séparés au bas des résultats de la recherche). Il s'agit d'une fonctionnalité avancée qui n'est pas destinée à la plupart des joueurs.",
+    "config.show-invalid-recipes.name": "Show invalid recipes", // TODO
+    "config.show-invalid-recipes.desc": "Whether to show recipes which require or produce broken items.", // TODO
     "config.target-redirection.name": "Redirection de la cible",
     "config.target-redirection.desc": "Dans certains cas, le jeu crée une entité temporaire pour en représenter une autre. Par exemple, Abigail dans les mines est en fait un PNJ temporaire avec le nom 'AbigailMine', donc la rechercher là-bas ne montrera pas les vraies informations d'Abigail. Si cette option est activée, Lookup Anything recherchera la vraie Abigail à la place.",
     "config.scroll-amount.name": "Quantité de défilement",

@@ -1,6 +1,17 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.18.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
+* Updated for Stardew Valley 1.6.9.
+* On the _Accessible_ layer, warps that are hidden just off-screen are now visible along the edge.
+* Added support for Ultimate Fertilizer's multi-fertilizer feature.
+* Fixed lag if a bee house, Junimo hut, scarecrow, or sprinkler has an extremely large range.
+* Fixed error with unfertilized tiles when Ultimate Fertilizer is installed.
+* Fixed held sprinkler's range not shown correctly in newer game versions.
+* Improved translations. Thanks to Creeperkatze (updated German) and moonggae (updated Korean)!
+
 ## 1.17.2
 Released 29 June 2024 for SMAPI 4.0.7 or later.
 

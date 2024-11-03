@@ -4,7 +4,7 @@
     *********/
     // language info
     "generic.list-separator": "、", // text between listed values (like ", " in "A, B, C")
-    "generic.line-wrap-on": "、",   // characters after which we can line-wrap text if needed, even if there's no space
+    "generic.line-wrap-on": "、", // characters after which we can line-wrap text if needed, even if there's no space
 
     // date names
     "generic.now": "今",
@@ -189,6 +189,7 @@
     // labels
     "building.animals": "動物",
     "building.construction": "建設",
+    "building.construction-costs": "Construction costs", // TODO
     "building.feed-trough": "給餌台",
     "building.horse": "馬",
     "building.horse-location": "馬の場所",
@@ -336,6 +337,7 @@
     "item.undiscovered-gift-taste-appended": ", 他{{count}}人に贈っていない",
     "item.needed-for.community-center": "コミュニティーセンター({{bundles}}）",
     "item.needed-for.full-shipment": "実績：満タン出荷箱（一つ出荷）",
+    "item.needed-for.monoculture": "monoculture achievement (ship {{count}} more)", // TODO
     "item.needed-for.polyculture": "実績：混作農業（{{count}}個出荷）",
     "item.needed-for.full-collection": "実績：コンプリートコレクション（博物館に一つ寄付）",
     "item.needed-for.gourmet-chef": "実績：グルメマスター（{{recipes}}を調理する）",
@@ -396,6 +398,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "必要釣りレベル：{{level}}",
     "item.fish-spawn-rules.not-caught-yet": "まだ釣った事がない（釣れるのは一度だけです）",
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
     "item.fish-spawn-rules.locations": "場所：{{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "場所：",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}：{{locations}}",
@@ -724,6 +727,8 @@
     "config.tile-lookups.desc": "マップタイルを検索対象に含める。",
     "config.data-mining-fields.name": "データマイニングのフィールドを表示",
     "config.data-mining-fields.desc": "データマイニングに役立つライブデータを表示するかどうか（確認結果の下部に別フィールドとして表示される）。これは上級者向けの機能であり、一般的なプレーヤーを対象としたものではありません。",
+    "config.show-invalid-recipes.name": "Show invalid recipes", // TODO
+    "config.show-invalid-recipes.desc": "Whether to show recipes which require or produce broken items.", // TODO
     "config.target-redirection.name": "ターゲットのリダイレクト",
     "config.target-redirection.desc": "場合によっては、ゲームは別のエンティティを表すために一時的なエンティティを生成する。例えば、鉱山にいるアビゲイルは実際には「AbigailMine」という名前の仮のNPCなので、そこで彼女を調べてもアビゲイルの情報は表示されません。このオプションを有効にすると、Lookup Anythingが代わりにオリジナルのアビゲイルを調べます。",
     "config.scroll-amount.name": "スクロール量",

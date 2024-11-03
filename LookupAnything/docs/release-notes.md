@@ -1,6 +1,32 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.46.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
+* Updated for Stardew Valley 1.6.9.
+* Added buildings to search UI.
+* Added custom skills from SpaceCore to farmer lookups (thanks to Pet-Slime!).
+* Added monoculture achievement to item 'needed for' field (thanks to Mushymato!).
+* Building recipes in item lookups now show the build gold price.
+* Building lookups now show their build cost/materials.
+* Invalid recipes are now hidden by default (thanks to Mushymato!).
+* Tweaked machine recipes' ingredient order for readability (thanks to zombifier!).
+* Times are now shown in the current language's default format.
+* Fixed support for custom machine rules using `ITEM_ID` and `ITEM_CONTEXT_TAG` game state queries.
+* Fixed support for custom polyculture crops in 'needed for' field (thanks to Mushymato!).
+* Fixed hidden items being counted when deciding whether to collapse a field (thanks to b3nk3lly!).
+* Fixed fish spawn fields...
+  - not shown for non-fish catches like River Jelly;
+  - not shown for extended family fish (thanksto b3nk3lly!);
+  - not showing some locations' display names (thanks to b3nk3lly!);
+  - sometimes shown for the wrong item (thanks to Mushymato!);
+  - always showing one-time fish as not caught (thanks to Mushymato!).
+* Fixed errors when another mod adds invalid data or breaks NPC portraits.
+* Fixed error if an old version of Custom Bush is installed.
+* Fixed format for `DAY_OF_MONTH` queries in lookups (thanks to Mushymato!).
+* Improved translations. Thanks to Creeperkatze (updated German), CuongNguyen0903 (added Vietnamese), Epitopus (updated Polish), MakinDay (updated Italian), moonggae (updated Korean), and Mushymato (updated Chinese)!
+
 ## 1.45.3
 Released 07 July 2024 for SMAPI 4.0.7 or later.
 
