@@ -9,117 +9,116 @@ using xTile.Layers;
 using xTile.ObjectModel;
 using xTile.Tiles;
 
-namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.Tiles
+namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.Tiles;
+
+/// <summary>Describes a map tile.</summary>
+internal class TileSubject : BaseSubject
 {
-    /// <summary>Describes a map tile.</summary>
-    internal class TileSubject : BaseSubject
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The game location.</summary>
+    protected readonly GameLocation Location;
+
+    /// <summary>The tile position.</summary>
+    protected readonly Vector2 Position;
+
+    /// <summary>Whether to show raw tile info like tilesheets and tile indexes.</summary>
+    protected readonly bool ShowRawTileInfo;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
+    /// <param name="location">The game location.</param>
+    /// <param name="position">The tile position.</param>
+    /// <param name="showRawTileInfo">Whether to show raw tile info like tilesheets and tile indexes.</param>
+    public TileSubject(GameHelper gameHelper, GameLocation location, Vector2 position, bool showRawTileInfo)
+        : base(gameHelper, $"({position.X}, {position.Y})", I18n.Tile_Description(), I18n.Type_MapTile())
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The game location.</summary>
-        protected readonly GameLocation Location;
+        this.Location = location;
+        this.Position = position;
+        this.ShowRawTileInfo = showRawTileInfo;
+    }
 
-        /// <summary>The tile position.</summary>
-        protected readonly Vector2 Position;
-
-        /// <summary>Whether to show raw tile info like tilesheets and tile indexes.</summary>
-        protected readonly bool ShowRawTileInfo;
-
-
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
-        /// <param name="location">The game location.</param>
-        /// <param name="position">The tile position.</param>
-        /// <param name="showRawTileInfo">Whether to show raw tile info like tilesheets and tile indexes.</param>
-        public TileSubject(GameHelper gameHelper, GameLocation location, Vector2 position, bool showRawTileInfo)
-            : base(gameHelper, $"({position.X}, {position.Y})", I18n.Tile_Description(), I18n.Type_MapTile())
+    /// <inheritdoc />
+    public override IEnumerable<ICustomField> GetData()
+    {
+        if (this.ShowRawTileInfo)
         {
-            this.Location = location;
-            this.Position = position;
-            this.ShowRawTileInfo = showRawTileInfo;
-        }
+            // yield map data
+            yield return new GenericField(I18n.Tile_MapName(), this.Location.Name);
 
-        /// <inheritdoc />
-        public override IEnumerable<ICustomField> GetData()
-        {
-            if (this.ShowRawTileInfo)
-            {
-                // yield map data
-                yield return new GenericField(I18n.Tile_MapName(), this.Location.Name);
-
-                // get tile on each layer
-                Tile[] tiles = this.GetTiles(this.Location, this.Position).ToArray();
-                if (!tiles.Any())
-                {
-                    yield return new GenericField(I18n.Tile_Tile(), I18n.Tile_Tile_NoneHere());
-                    yield break;
-                }
-
-                // fetch tile data
-                foreach (Tile tile in tiles)
-                {
-                    string layerName = tile.Layer.Id;
-                    yield return new GenericField(I18n.Tile_TileIndex(layerName: layerName), this.Stringify(tile.TileIndex));
-                    yield return new GenericField(I18n.Tile_Tilesheet(layerName: layerName), tile.TileSheet.ImageSource.Replace("\\", ": ").Replace("/", ": "));
-                    yield return new GenericField(I18n.Tile_BlendMode(layerName: layerName), this.Stringify(tile.BlendMode));
-                    foreach (KeyValuePair<string, PropertyValue> property in tile.TileIndexProperties)
-                        yield return new GenericField(I18n.Tile_IndexProperty(layerName: layerName, propertyName: property.Key), property.Value);
-                    foreach (KeyValuePair<string, PropertyValue> property in tile.Properties)
-                        yield return new GenericField(I18n.Tile_TileProperty(layerName: layerName, propertyName: property.Key), property.Value);
-                }
-            }
-        }
-
-        /// <inheritdoc />
-        public override IEnumerable<IDebugField> GetDebugFields()
-        {
-            string mapTileLabel = I18n.Type_MapTile();
-            string locationLabel = I18n.Tile_GameLocation();
-
-            // tiles
+            // get tile on each layer
             Tile[] tiles = this.GetTiles(this.Location, this.Position).ToArray();
+            if (!tiles.Any())
+            {
+                yield return new GenericField(I18n.Tile_Tile(), I18n.Tile_Tile_NoneHere());
+                yield break;
+            }
+
+            // fetch tile data
             foreach (Tile tile in tiles)
             {
-                foreach (IDebugField field in this.GetDebugFieldsFrom(tile))
-                    yield return new GenericDebugField($"{tile.Layer.Id}::{field.Label}", field.Value, field.HasValue) { OverrideCategory = mapTileLabel };
+                string layerName = tile.Layer.Id;
+                yield return new GenericField(I18n.Tile_TileIndex(layerName: layerName), this.Stringify(tile.TileIndex));
+                yield return new GenericField(I18n.Tile_Tilesheet(layerName: layerName), tile.TileSheet.ImageSource.Replace("\\", ": ").Replace("/", ": "));
+                yield return new GenericField(I18n.Tile_BlendMode(layerName: layerName), this.Stringify(tile.BlendMode));
+                foreach (KeyValuePair<string, PropertyValue> property in tile.TileIndexProperties)
+                    yield return new GenericField(I18n.Tile_IndexProperty(layerName: layerName, propertyName: property.Key), property.Value);
+                foreach (KeyValuePair<string, PropertyValue> property in tile.Properties)
+                    yield return new GenericField(I18n.Tile_TileProperty(layerName: layerName, propertyName: property.Key), property.Value);
             }
+        }
+    }
 
-            // location
-            foreach (IDebugField field in this.GetDebugFieldsFrom(this.Location))
-                yield return new GenericDebugField(field.Label, field.Value, field.HasValue, field.IsPinned) { OverrideCategory = locationLabel };
+    /// <inheritdoc />
+    public override IEnumerable<IDebugField> GetDebugFields()
+    {
+        string mapTileLabel = I18n.Type_MapTile();
+        string locationLabel = I18n.Tile_GameLocation();
+
+        // tiles
+        Tile[] tiles = this.GetTiles(this.Location, this.Position).ToArray();
+        foreach (Tile tile in tiles)
+        {
+            foreach (IDebugField field in this.GetDebugFieldsFrom(tile))
+                yield return new GenericDebugField($"{tile.Layer.Id}::{field.Label}", field.Value, field.HasValue) { OverrideCategory = mapTileLabel };
         }
 
-        /// <inheritdoc />
-        public override bool DrawPortrait(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
+        // location
+        foreach (IDebugField field in this.GetDebugFieldsFrom(this.Location))
+            yield return new GenericDebugField(field.Label, field.Value, field.HasValue, field.IsPinned) { OverrideCategory = locationLabel };
+    }
+
+    /// <inheritdoc />
+    public override bool DrawPortrait(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
+    {
+        return false;
+    }
+
+
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>Get the tiles at the specified tile position.</summary>
+    /// <param name="location">The game location.</param>
+    /// <param name="position">The tile position.</param>
+    private IEnumerable<Tile> GetTiles(GameLocation location, Vector2 position)
+    {
+        if (position.X < 0 || position.Y < 0)
+            yield break;
+
+        foreach (Layer layer in location.map.Layers)
         {
-            return false;
-        }
+            if (position.X > layer.LayerWidth || position.Y > layer.LayerHeight)
+                continue;
 
-
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Get the tiles at the specified tile position.</summary>
-        /// <param name="location">The game location.</param>
-        /// <param name="position">The tile position.</param>
-        private IEnumerable<Tile> GetTiles(GameLocation location, Vector2 position)
-        {
-            if (position.X < 0 || position.Y < 0)
-                yield break;
-
-            foreach (Layer layer in location.map.Layers)
-            {
-                if (position.X > layer.LayerWidth || position.Y > layer.LayerHeight)
-                    continue;
-
-                Tile tile = layer.Tiles[(int)position.X, (int)position.Y];
-                if (tile != null)
-                    yield return tile;
-            }
+            Tile tile = layer.Tiles[(int)position.X, (int)position.Y];
+            if (tile != null)
+                yield return tile;
         }
     }
 }

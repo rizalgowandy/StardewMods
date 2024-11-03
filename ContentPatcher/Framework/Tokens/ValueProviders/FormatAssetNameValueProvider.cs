@@ -3,48 +3,47 @@ using System.Linq;
 using ContentPatcher.Framework.Conditions;
 using StardewModdingAPI.Utilities;
 
-namespace ContentPatcher.Framework.Tokens.ValueProviders
+namespace ContentPatcher.Framework.Tokens.ValueProviders;
+
+/// <summary>A value provider which normalizes an asset name into the form expected by the game.</summary>
+internal class FormatAssetNameValueProvider : BaseValueProvider
 {
-    /// <summary>A value provider which normalizes an asset name into the form expected by the game.</summary>
-    internal class FormatAssetNameValueProvider : BaseValueProvider
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    public FormatAssetNameValueProvider()
+        : base(ConditionType.FormatAssetName, mayReturnMultipleValuesForRoot: false, isDeterministicForInput: true)
     {
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        public FormatAssetNameValueProvider()
-            : base(ConditionType.FormatAssetName, mayReturnMultipleValuesForRoot: false, isDeterministicForInput: true)
+        this.EnableInputArguments(required: true, mayReturnMultipleValues: false, maxPositionalArgs: null);
+        this.ValidNamedArguments = InvariantSets.FromValue("separator");
+    }
+
+    /// <inheritdoc />
+    public override bool UpdateContext(IContext context)
+    {
+        bool changed = !this.IsReady;
+        this.MarkReady(true);
+        return changed;
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetValues(IInputArguments input)
+    {
+        this.AssertInput(input);
+
+        string? path = input.GetPositionalSegment();
+
+        if (!string.IsNullOrWhiteSpace(path))
         {
-            this.EnableInputArguments(required: true, mayReturnMultipleValues: false, maxPositionalArgs: null);
-            this.ValidNamedArguments = InvariantSets.FromValue("separator");
+            path = PathUtilities.NormalizeAssetName(path);
+
+            if (input.NamedArgs.TryGetValue("separator", out IInputArgumentValue? separator))
+                path = path.Replace(PathUtilities.PreferredAssetSeparator.ToString(), separator.Parsed.FirstOrDefault());
+
+            return InvariantSets.FromValue(path);
         }
 
-        /// <inheritdoc />
-        public override bool UpdateContext(IContext context)
-        {
-            bool changed = !this.IsReady;
-            this.MarkReady(true);
-            return changed;
-        }
-
-        /// <inheritdoc />
-        public override IEnumerable<string> GetValues(IInputArguments input)
-        {
-            this.AssertInput(input);
-
-            string? path = input.GetPositionalSegment();
-
-            if (!string.IsNullOrWhiteSpace(path))
-            {
-                path = PathUtilities.NormalizeAssetName(path);
-
-                if (input.NamedArgs.TryGetValue("separator", out IInputArgumentValue? separator))
-                    path = path.Replace(PathUtilities.PreferredAssetSeparator.ToString(), separator.Parsed.FirstOrDefault());
-
-                return InvariantSets.FromValue(path);
-            }
-
-            return InvariantSets.Empty;
-        }
+        return InvariantSets.Empty;
     }
 }

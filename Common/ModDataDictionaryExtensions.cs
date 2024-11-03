@@ -2,62 +2,61 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using StardewValley.Mods;
 
-namespace Pathoschild.Stardew.Common
+namespace Pathoschild.Stardew.Common;
+
+/// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary"/> fields.</summary>
+internal static class ModDataDictionaryExtensions
 {
-    /// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary"/> fields.</summary>
-    internal static class ModDataDictionaryExtensions
+    /*********
+    ** Public fields
+    *********/
+    /// <summary>Read a field from the mod data dictionary.</summary>
+    /// <typeparam name="T">The field type.</typeparam>
+    /// <param name="data">The mod data dictionary to read.</param>
+    /// <param name="key">The dictionary key to read.</param>
+    /// <param name="parse">Convert the raw string value into the expected type.</param>
+    /// <param name="defaultValue">The default value to return if the data field isn't set.</param>
+    [return: NotNullIfNotNull("defaultValue")]
+    public static T? ReadField<T>(this ModDataDictionary data, string key, Func<string, T> parse, T? defaultValue = default)
     {
-        /*********
-        ** Public fields
-        *********/
-        /// <summary>Read a field from the mod data dictionary.</summary>
-        /// <typeparam name="T">The field type.</typeparam>
-        /// <param name="data">The mod data dictionary to read.</param>
-        /// <param name="key">The dictionary key to read.</param>
-        /// <param name="parse">Convert the raw string value into the expected type.</param>
-        /// <param name="defaultValue">The default value to return if the data field isn't set.</param>
-        [return: NotNullIfNotNull("defaultValue")]
-        public static T? ReadField<T>(this ModDataDictionary data, string key, Func<string, T> parse, T? defaultValue = default)
+        if (data.TryGetValue(key, out string rawValue))
         {
-            if (data.TryGetValue(key, out string rawValue))
+            try
             {
-                try
-                {
-                    return parse(rawValue);
-                }
-                catch
-                {
-                    // if the format is invalid, fallback to the default value
-                }
+                return parse(rawValue);
             }
-
-            return defaultValue;
+            catch
+            {
+                // if the format is invalid, fallback to the default value
+            }
         }
 
-        /// <summary>Read a field from the mod data dictionary.</summary>
-        /// <param name="data">The mod data dictionary to read.</param>
-        /// <param name="key">The dictionary key to read.</param>
-        /// <param name="defaultValue">The default value to return if the data field isn't set.</param>
-        [return: NotNullIfNotNull("defaultValue")]
-        public static string? ReadField(this ModDataDictionary data, string key, string? defaultValue = null)
-        {
-            return data.TryGetValue(key, out string rawValue)
-                ? rawValue
-                : defaultValue;
-        }
+        return defaultValue;
+    }
 
-        /// <summary>Write a field to a mod data dictionary, or remove it if null.</summary>
-        /// <param name="data">The mod data dictionary to update.</param>
-        /// <param name="key">The dictionary key to write.</param>
-        /// <param name="value">The value to write, or <c>null</c> to remove it.</param>
-        public static ModDataDictionary WriteField(this ModDataDictionary data, string key, string? value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                data.Remove(key);
-            else
-                data[key] = value;
+    /// <summary>Read a field from the mod data dictionary.</summary>
+    /// <param name="data">The mod data dictionary to read.</param>
+    /// <param name="key">The dictionary key to read.</param>
+    /// <param name="defaultValue">The default value to return if the data field isn't set.</param>
+    [return: NotNullIfNotNull("defaultValue")]
+    public static string? ReadField(this ModDataDictionary data, string key, string? defaultValue = null)
+    {
+        return data.TryGetValue(key, out string rawValue)
+            ? rawValue
+            : defaultValue;
+    }
 
-            return data;
-        }
+    /// <summary>Write a field to a mod data dictionary, or remove it if null.</summary>
+    /// <param name="data">The mod data dictionary to update.</param>
+    /// <param name="key">The dictionary key to write.</param>
+    /// <param name="value">The value to write, or <c>null</c> to remove it.</param>
+    public static ModDataDictionary WriteField(this ModDataDictionary data, string key, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            data.Remove(key);
+        else
+            data[key] = value;
+
+        return data;
     }
 }

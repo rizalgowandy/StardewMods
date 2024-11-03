@@ -4,55 +4,54 @@ using Pathoschild.Stardew.Automate.Framework.Storage;
 using StardewValley;
 using StardewValley.Objects;
 
-namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
+namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects;
+
+/// <summary>A mini-shipping bin that accepts input.</summary>
+/// <remarks>See also <see cref="ShippingBinMachine"/>.</remarks>
+internal class MiniShippingBinMachine : BaseMachine
 {
-    /// <summary>A mini-shipping bin that accepts input.</summary>
-    /// <remarks>See also <see cref="ShippingBinMachine"/>.</remarks>
-    internal class MiniShippingBinMachine : BaseMachine
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The mini-shipping bin.</summary>
+    private readonly IContainer MiniBin;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="miniBin">The mini-shipping bin.</param>
+    /// <param name="location">The location which contains the machine.</param>
+    public MiniShippingBinMachine(Chest miniBin, GameLocation location)
+        : base(location, BaseMachine.GetTileAreaFor(miniBin.TileLocation))
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The mini-shipping bin.</summary>
-        private readonly IContainer MiniBin;
+        this.MiniBin = new ChestContainer(miniBin, location, miniBin.TileLocation, migrateLegacyOptions: false);
+    }
 
+    /// <inheritdoc />
+    public override MachineState GetState()
+    {
+        return MachineState.Empty; // always accepts items
+    }
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="miniBin">The mini-shipping bin.</param>
-        /// <param name="location">The location which contains the machine.</param>
-        public MiniShippingBinMachine(Chest miniBin, GameLocation location)
-            : base(location, BaseMachine.GetTileAreaFor(miniBin.TileLocation))
+    /// <inheritdoc />
+    public override ITrackedStack? GetOutput()
+    {
+        return null; // no output
+    }
+
+    /// <inheritdoc />
+    public override bool SetInput(IStorage input)
+    {
+        foreach (ITrackedStack tracker in input.GetItems().Where(p => p.Sample.canBeShipped()))
         {
-            this.MiniBin = new ChestContainer(miniBin, location, miniBin.TileLocation, migrateLegacyOptions: false);
+            int prevStack = tracker.Count;
+            this.MiniBin.Store(tracker);
+            if (prevStack > tracker.Count)
+                return true;
         }
 
-        /// <inheritdoc />
-        public override MachineState GetState()
-        {
-            return MachineState.Empty; // always accepts items
-        }
-
-        /// <inheritdoc />
-        public override ITrackedStack? GetOutput()
-        {
-            return null; // no output
-        }
-
-        /// <inheritdoc />
-        public override bool SetInput(IStorage input)
-        {
-            foreach (ITrackedStack tracker in input.GetItems().Where(p => p.Sample.canBeShipped()))
-            {
-                int prevStack = tracker.Count;
-                this.MiniBin.Store(tracker);
-                if (prevStack > tracker.Count)
-                    return true;
-            }
-
-            return false;
-        }
+        return false;
     }
 }

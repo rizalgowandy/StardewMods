@@ -1,63 +1,62 @@
 using System;
 
-namespace Pathoschild.Stardew.Common.Utilities
+namespace Pathoschild.Stardew.Common.Utilities;
+
+/// <summary>Maintains a cached value which is updated automatically when the cache key changes.</summary>
+/// <typeparam name="TValue">The cached value type.</typeparam>
+internal class Cached<TValue>
 {
-    /// <summary>Maintains a cached value which is updated automatically when the cache key changes.</summary>
-    /// <typeparam name="TValue">The cached value type.</typeparam>
-    internal class Cached<TValue>
+    /*********
+    ** Fields
+    *********/
+    /// <summary>Get the current cache key.</summary>
+    private readonly Func<string> GetCacheKey;
+
+    /// <summary>Fetch the latest value for the cache, given the previous value (if any).</summary>
+    private readonly Func<TValue?, TValue> FetchNew;
+
+    /// <summary>The last cache key which was cached.</summary>
+    private string? LastCacheKey;
+
+    /// <summary>The cached value.</summary>
+    private TValue? LastValue;
+
+
+    /*********
+    ** Accessors
+    *********/
+    /// <summary>Get the cached value, creating it if needed.</summary>
+    public TValue Value
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>Get the current cache key.</summary>
-        private readonly Func<string> GetCacheKey;
-
-        /// <summary>Fetch the latest value for the cache, given the previous value (if any).</summary>
-        private readonly Func<TValue?, TValue> FetchNew;
-
-        /// <summary>The last cache key which was cached.</summary>
-        private string? LastCacheKey;
-
-        /// <summary>The cached value.</summary>
-        private TValue? LastValue;
-
-
-        /*********
-        ** Accessors
-        *********/
-        /// <summary>Get the cached value, creating it if needed.</summary>
-        public TValue Value
+        get
         {
-            get
+            string cacheKey = this.GetCacheKey();
+            if (cacheKey != this.LastCacheKey)
             {
-                string cacheKey = this.GetCacheKey();
-                if (cacheKey != this.LastCacheKey)
-                {
-                    this.LastCacheKey = cacheKey;
-                    this.LastValue = this.FetchNew(this.LastValue);
-                }
-
-                return this.LastValue!;
+                this.LastCacheKey = cacheKey;
+                this.LastValue = this.FetchNew(this.LastValue);
             }
+
+            return this.LastValue!;
         }
+    }
 
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="getCacheKey">Get the current cache key.</param>
-        /// <param name="fetchNew">Fetch the latest value for the cache.</param>
-        public Cached(Func<string> getCacheKey, Func<TValue> fetchNew)
-            : this(getCacheKey, _ => fetchNew()) { }
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="getCacheKey">Get the current cache key.</param>
+    /// <param name="fetchNew">Fetch the latest value for the cache.</param>
+    public Cached(Func<string> getCacheKey, Func<TValue> fetchNew)
+        : this(getCacheKey, _ => fetchNew()) { }
 
-        /// <summary>Construct an instance.</summary>
-        /// <param name="getCacheKey">Get the current cache key.</param>
-        /// <param name="fetchNew">Fetch the latest value for the cache, given the previous value (if any).</param>
-        public Cached(Func<string> getCacheKey, Func<TValue?, TValue> fetchNew)
-        {
-            this.GetCacheKey = getCacheKey;
-            this.FetchNew = fetchNew;
-        }
+    /// <summary>Construct an instance.</summary>
+    /// <param name="getCacheKey">Get the current cache key.</param>
+    /// <param name="fetchNew">Fetch the latest value for the cache, given the previous value (if any).</param>
+    public Cached(Func<string> getCacheKey, Func<TValue?, TValue> fetchNew)
+    {
+        this.GetCacheKey = getCacheKey;
+        this.FetchNew = fetchNew;
     }
 }

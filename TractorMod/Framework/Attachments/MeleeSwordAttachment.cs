@@ -7,60 +7,59 @@ using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using SObject = StardewValley.Object;
 
-namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
+namespace Pathoschild.Stardew.TractorMod.Framework.Attachments;
+
+/// <summary>An attachment for melee sword weapons.</summary>
+internal class MeleeSwordAttachment : BaseAttachment
 {
-    /// <summary>An attachment for melee sword weapons.</summary>
-    internal class MeleeSwordAttachment : BaseAttachment
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The attachment settings.</summary>
+    private readonly MeleeSwordConfig Config;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="config">The attachment settings.</param>
+    /// <param name="modRegistry">Fetches metadata about loaded mods.</param>
+    public MeleeSwordAttachment(MeleeSwordConfig config, IModRegistry modRegistry)
+        : base(modRegistry)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The attachment settings.</summary>
-        private readonly MeleeSwordConfig Config;
+        this.Config = config;
+    }
 
+    /// <inheritdoc />
+    public override bool IsEnabled(Farmer player, Tool? tool, Item? item, GameLocation location)
+    {
+        return
+            tool is MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon
+            && !weapon.isScythe();
+    }
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="config">The attachment settings.</param>
-        /// <param name="modRegistry">Fetches metadata about loaded mods.</param>
-        public MeleeSwordAttachment(MeleeSwordConfig config, IModRegistry modRegistry)
-            : base(modRegistry)
-        {
-            this.Config = config;
-        }
+    /// <inheritdoc />
+    public override bool Apply(Vector2 tile, SObject? tileObj, TerrainFeature? tileFeature, Farmer player, Tool? tool, Item? item, GameLocation location)
+    {
+        tool = tool.AssertNotNull();
 
-        /// <inheritdoc />
-        public override bool IsEnabled(Farmer player, Tool? tool, Item? item, GameLocation location)
-        {
-            return
-                tool is MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon
-                && !weapon.isScythe();
-        }
+        // clear dead crops
+        if (this.Config.ClearDeadCrops && this.TryClearDeadCrop(location, tile, tileFeature, player))
+            return true;
 
-        /// <inheritdoc />
-        public override bool Apply(Vector2 tile, SObject? tileObj, TerrainFeature? tileFeature, Farmer player, Tool? tool, Item? item, GameLocation location)
-        {
-            tool = tool.AssertNotNull();
+        // break mine containers
+        if (this.Config.BreakMineContainers && this.TryBreakContainer(tile, tileObj, player, tool))
+            return true;
 
-            // clear dead crops
-            if (this.Config.ClearDeadCrops && this.TryClearDeadCrop(location, tile, tileFeature, player))
-                return true;
+        // harvest grass
+        if (this.Config.HarvestGrass && this.TryHarvestGrass(tileFeature as Grass, location, tile, player, tool))
+            return true;
 
-            // break mine containers
-            if (this.Config.BreakMineContainers && this.TryBreakContainer(tile, tileObj, player, tool))
-                return true;
-
-            // harvest grass
-            if (this.Config.HarvestGrass && this.TryHarvestGrass(tileFeature as Grass, location, tile, player, tool))
-                return true;
-
-            // attack monsters
-            if (this.Config.AttackMonsters && this.UseWeaponOnTile((MeleeWeapon)tool, tile, player, location))
-                return false;
-
+        // attack monsters
+        if (this.Config.AttackMonsters && this.UseWeaponOnTile((MeleeWeapon)tool, tile, player, location))
             return false;
-        }
+
+        return false;
     }
 }

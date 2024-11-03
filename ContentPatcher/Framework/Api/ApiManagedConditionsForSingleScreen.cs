@@ -5,110 +5,109 @@ using ContentPatcher.Framework.Commands;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.Tokens;
 
-namespace ContentPatcher.Framework.Api
+namespace ContentPatcher.Framework.Api;
+
+/// <summary>A set of parsed conditions linked to the Content Patcher context for an API consumer. This implementation assumes it's always run on the same screen.</summary>
+internal class ApiManagedConditionsForSingleScreen : IManagedConditions
 {
-    /// <summary>A set of parsed conditions linked to the Content Patcher context for an API consumer. This implementation assumes it's always run on the same screen.</summary>
-    internal class ApiManagedConditionsForSingleScreen : IManagedConditions
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The underlying conditions.</summary>
+    private readonly Condition[] Conditions;
+
+    /// <summary>The context with which to update conditions.</summary>
+    private readonly IContext Context;
+
+    /// <summary>A contextual manager for the underlying conditions.</summary>
+    private readonly AggregateContextual Contextuals;
+
+    /// <summary>The context update tick when the conditions were last updated.</summary>
+    private int LastUpdateTick = -1;
+
+
+    /*********
+    ** Accessors
+    *********/
+    /// <inheritdoc />
+    [MemberNotNullWhen(false, nameof(ApiManagedConditionsForSingleScreen.ValidationError))]
+    public bool IsValid { get; }
+
+    /// <inheritdoc />
+    public string? ValidationError { get; }
+
+    /// <inheritdoc />
+    public bool IsReady => this.Contextuals.IsReady;
+
+    /// <inheritdoc />
+    public bool IsMatch { get; private set; }
+
+    /// <inheritdoc />
+    public bool IsMutable => this.Contextuals.IsMutable;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="conditions">The underlying conditions.</param>
+    /// <param name="context">The context with which to update conditions.</param>
+    /// <param name="isValid">Whether the conditions were parsed successfully (regardless of whether they're in scope currently).</param>
+    /// <param name="validationError">If <paramref name="isValid"/> is false, an error phrase indicating why the conditions failed to parse.</param>
+    public ApiManagedConditionsForSingleScreen(Condition[] conditions, IContext context, bool isValid = true, string? validationError = null)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The underlying conditions.</summary>
-        private readonly Condition[] Conditions;
+        this.Conditions = conditions;
+        this.Context = context;
+        this.IsValid = isValid;
+        this.ValidationError = validationError;
 
-        /// <summary>The context with which to update conditions.</summary>
-        private readonly IContext Context;
+        this.Contextuals = new AggregateContextual().Add(conditions);
+    }
 
-        /// <summary>A contextual manager for the underlying conditions.</summary>
-        private readonly AggregateContextual Contextuals;
+    /// <inheritdoc />
+    public IEnumerable<int> UpdateContext()
+    {
+        // skip unneeded updates
+        if (!this.ShouldUpdate())
+            return [];
+        this.LastUpdateTick = this.Context.UpdateTick;
 
-        /// <summary>The context update tick when the conditions were last updated.</summary>
-        private int LastUpdateTick = -1;
-
-
-        /*********
-        ** Accessors
-        *********/
-        /// <inheritdoc />
-        [MemberNotNullWhen(false, nameof(ApiManagedConditionsForSingleScreen.ValidationError))]
-        public bool IsValid { get; }
-
-        /// <inheritdoc />
-        public string? ValidationError { get; }
-
-        /// <inheritdoc />
-        public bool IsReady => this.Contextuals.IsReady;
-
-        /// <inheritdoc />
-        public bool IsMatch { get; private set; }
-
-        /// <inheritdoc />
-        public bool IsMutable => this.Contextuals.IsMutable;
-
-
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="conditions">The underlying conditions.</param>
-        /// <param name="context">The context with which to update conditions.</param>
-        /// <param name="isValid">Whether the conditions were parsed successfully (regardless of whether they're in scope currently).</param>
-        /// <param name="validationError">If <paramref name="isValid"/> is false, an error phrase indicating why the conditions failed to parse.</param>
-        public ApiManagedConditionsForSingleScreen(Condition[] conditions, IContext context, bool isValid = true, string? validationError = null)
+        // update context
+        bool wasMatch = this.IsMatch;
+        if (this.IsValid)
         {
-            this.Conditions = conditions;
-            this.Context = context;
-            this.IsValid = isValid;
-            this.ValidationError = validationError;
-
-            this.Contextuals = new AggregateContextual().Add(conditions);
+            this.Contextuals.UpdateContext(this.Context);
+            this.IsMatch = this.IsReady && this.Conditions.All(p => p.IsMatch);
         }
 
-        /// <inheritdoc />
-        public IEnumerable<int> UpdateContext()
-        {
-            // skip unneeded updates
-            if (!this.ShouldUpdate())
-                return [];
-            this.LastUpdateTick = this.Context.UpdateTick;
+        // return screen ID if it changed
+        return this.IsMatch != wasMatch
+            ? new[] { StardewModdingAPI.Context.ScreenId }
+            : [];
+    }
 
-            // update context
-            bool wasMatch = this.IsMatch;
-            if (this.IsValid)
-            {
-                this.Contextuals.UpdateContext(this.Context);
-                this.IsMatch = this.IsReady && this.Conditions.All(p => p.IsMatch);
-            }
+    /// <inheritdoc />
+    public string? GetReasonNotMatched()
+    {
+        if (this.IsMatch)
+            return null;
 
-            // return screen ID if it changed
-            return this.IsMatch != wasMatch
-                ? new[] { StardewModdingAPI.Context.ScreenId }
-                : [];
-        }
-
-        /// <inheritdoc />
-        public string? GetReasonNotMatched()
-        {
-            if (this.IsMatch)
-                return null;
-
-            PatchBaseInfo patchInfo = new(this.Conditions, this.IsMatch, this.Contextuals.GetDiagnosticState());
-            return patchInfo.GetReasonNotLoaded();
-        }
+        PatchBaseInfo patchInfo = new(this.Conditions, this.IsMatch, this.Contextuals.GetDiagnosticState());
+        return patchInfo.GetReasonNotLoaded();
+    }
 
 
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Get whether the conditions need to be updated for the current context.</summary>
-        private bool ShouldUpdate()
-        {
-            // update once if immutable
-            if (!this.IsMutable)
-                return !this.Contextuals.WasEverUpdated;
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>Get whether the conditions need to be updated for the current context.</summary>
+    private bool ShouldUpdate()
+    {
+        // update once if immutable
+        if (!this.IsMutable)
+            return !this.Contextuals.WasEverUpdated;
 
-            // else update if context changed
-            return this.LastUpdateTick < this.Context.UpdateTick;
-        }
+        // else update if context changed
+        return this.LastUpdateTick < this.Context.UpdateTick;
     }
 }

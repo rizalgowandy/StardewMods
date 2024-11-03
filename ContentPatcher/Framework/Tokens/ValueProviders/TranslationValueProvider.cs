@@ -4,87 +4,86 @@ using ContentPatcher.Framework.Conditions;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace ContentPatcher.Framework.Tokens.ValueProviders
+namespace ContentPatcher.Framework.Tokens.ValueProviders;
+
+/// <summary>A value provider which checks whether a file exists in the content pack's folder.</summary>
+internal class TranslationValueProvider : BaseValueProvider
 {
-    /// <summary>A value provider which checks whether a file exists in the content pack's folder.</summary>
-    internal class TranslationValueProvider : BaseValueProvider
+    /*********
+    ** Fields
+    *********/
+    /// <summary>Gets translations from the content pack's translation folder.</summary>
+    private readonly ITranslationHelper TranslationHelper;
+
+    /// <summary>The game locale as of the last context update.</summary>
+    private LocalizedContentManager.LanguageCode LastLocale;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="translationHelper">Gets translations from the content pack's translation folder.</param>
+    public TranslationValueProvider(ITranslationHelper translationHelper)
+        : base(ConditionType.I18n, mayReturnMultipleValuesForRoot: false)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>Gets translations from the content pack's translation folder.</summary>
-        private readonly ITranslationHelper TranslationHelper;
+        this.TranslationHelper = translationHelper;
+        this.LastLocale = translationHelper.LocaleEnum;
 
-        /// <summary>The game locale as of the last context update.</summary>
-        private LocalizedContentManager.LanguageCode LastLocale;
+        this.EnableInputArguments(required: true, mayReturnMultipleValues: false, maxPositionalArgs: 1);
+        this.AllowAnyNamedArguments = true;
+        this.MarkReady(true);
+    }
 
+    /// <inheritdoc />
+    public override bool UpdateContext(IContext context)
+    {
+        if (this.TranslationHelper.LocaleEnum == this.LastLocale)
+            return false;
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="translationHelper">Gets translations from the content pack's translation folder.</param>
-        public TranslationValueProvider(ITranslationHelper translationHelper)
-            : base(ConditionType.I18n, mayReturnMultipleValuesForRoot: false)
+        this.LastLocale = this.TranslationHelper.LocaleEnum;
+        return true;
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetValues(IInputArguments input)
+    {
+        this.AssertInput(input);
+
+        // get translation
+        string? key = input.GetFirstPositionalArg();
+        if (string.IsNullOrWhiteSpace(key))
+            return InvariantSets.Empty;
+        Translation translation = this.TranslationHelper.Get(key);
+
+        // add tokens
+        if (input.HasNamedArgs)
         {
-            this.TranslationHelper = translationHelper;
-            this.LastLocale = translationHelper.LocaleEnum;
-
-            this.EnableInputArguments(required: true, mayReturnMultipleValues: false, maxPositionalArgs: 1);
-            this.AllowAnyNamedArguments = true;
-            this.MarkReady(true);
+            translation = translation.Tokens(input
+                .NamedArgs
+                .ToDictionary(p => p.Key, p => this.Stringify(p.Value))
+            );
         }
 
-        /// <inheritdoc />
-        public override bool UpdateContext(IContext context)
+        // add default value
+        if (input.NamedArgs.TryGetValue("default", out IInputArgumentValue? defaultValue))
         {
-            if (this.TranslationHelper.LocaleEnum == this.LastLocale)
-                return false;
-
-            this.LastLocale = this.TranslationHelper.LocaleEnum;
-            return true;
+            translation = translation
+                .Default(this.Stringify(defaultValue))
+                .UsePlaceholder(false); // allow setting a blank default
         }
 
-        /// <inheritdoc />
-        public override IEnumerable<string> GetValues(IInputArguments input)
-        {
-            this.AssertInput(input);
-
-            // get translation
-            string? key = input.GetFirstPositionalArg();
-            if (string.IsNullOrWhiteSpace(key))
-                return InvariantSets.Empty;
-            Translation translation = this.TranslationHelper.Get(key);
-
-            // add tokens
-            if (input.HasNamedArgs)
-            {
-                translation = translation.Tokens(input
-                    .NamedArgs
-                    .ToDictionary(p => p.Key, p => this.Stringify(p.Value))
-                );
-            }
-
-            // add default value
-            if (input.NamedArgs.TryGetValue("default", out IInputArgumentValue? defaultValue))
-            {
-                translation = translation
-                    .Default(this.Stringify(defaultValue))
-                    .UsePlaceholder(false); // allow setting a blank default
-            }
-
-            return InvariantSets.FromValue(translation);
-        }
+        return InvariantSets.FromValue(translation);
+    }
 
 
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Get the string representation for an input argument.</summary>
-        /// <param name="input">The input argument.</param>
-        private string Stringify(IInputArgumentValue input)
-        {
-            return string.Join(", ", input.Parsed);
-        }
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>Get the string representation for an input argument.</summary>
+    /// <param name="input">The input argument.</param>
+    private string Stringify(IInputArgumentValue input)
+    {
+        return string.Join(", ", input.Parsed);
     }
 }

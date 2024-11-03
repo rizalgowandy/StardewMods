@@ -1,15 +1,14 @@
-namespace ContentPatcher.Framework.Lexing.LexTokens
+namespace ContentPatcher.Framework.Lexing.LexTokens;
+
+/// <summary>A lexical token type.</summary>
+public enum LexTokenType
 {
-    /// <summary>A lexical token type.</summary>
-    public enum LexTokenType
-    {
-        /// <summary>A literal string.</summary>
-        Literal,
+    /// <summary>A literal string.</summary>
+    Literal,
 
-        /// <summary>A Content Patcher token.</summary>
-        Token,
+    /// <summary>A Content Patcher token.</summary>
+    Token,
 
-        /// <summary>The input arguments to a Content Patcher token.</summary>
-        TokenInput
-    }
+    /// <summary>The input arguments to a Content Patcher token.</summary>
+    TokenInput
 }

@@ -1,60 +1,59 @@
 using System;
 using Pathoschild.Stardew.Common.Utilities;
 
-namespace ContentPatcher.Framework.Tokens.Json
+namespace ContentPatcher.Framework.Tokens.Json;
+
+/// <summary>Tracks a instance whose value is set by a tokenizable <see cref="TokenString"/>.</summary>
+internal class TokenizableProxy : IContextual
 {
-    /// <summary>Tracks a instance whose value is set by a tokenizable <see cref="TokenString"/>.</summary>
-    internal class TokenizableProxy : IContextual
+    /*********
+    ** Accessors
+    *********/
+    /// <summary>The token string which provides the field value.</summary>
+    public IManagedTokenString TokenString { get; }
+
+    /// <summary>Set the instance value.</summary>
+    public Action<string> SetValue { get; }
+
+    /// <inheritdoc />
+    public bool IsMutable => this.TokenString.IsMutable;
+
+    /// <inheritdoc />
+    public bool IsReady => this.TokenString.IsReady;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="tokenString">The token string which provides the field value.</param>
+    /// <param name="setValue">Set the instance value.</param>
+    public TokenizableProxy(IManagedTokenString tokenString, Action<string> setValue)
     {
-        /*********
-        ** Accessors
-        *********/
-        /// <summary>The token string which provides the field value.</summary>
-        public IManagedTokenString TokenString { get; }
+        this.TokenString = tokenString;
+        this.SetValue = setValue;
+    }
 
-        /// <summary>Set the instance value.</summary>
-        public Action<string> SetValue { get; }
+    /// <inheritdoc />
+    public bool UpdateContext(IContext context)
+    {
+        bool changed = this.TokenString.UpdateContext(context);
 
-        /// <inheritdoc />
-        public bool IsMutable => this.TokenString.IsMutable;
+        if (this.IsReady)
+            this.SetValue(this.TokenString.Value!);
 
-        /// <inheritdoc />
-        public bool IsReady => this.TokenString.IsReady;
+        return changed;
+    }
 
+    /// <inheritdoc />
+    public IInvariantSet GetTokensUsed()
+    {
+        return this.TokenString.GetTokensUsed();
+    }
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="tokenString">The token string which provides the field value.</param>
-        /// <param name="setValue">Set the instance value.</param>
-        public TokenizableProxy(IManagedTokenString tokenString, Action<string> setValue)
-        {
-            this.TokenString = tokenString;
-            this.SetValue = setValue;
-        }
-
-        /// <inheritdoc />
-        public bool UpdateContext(IContext context)
-        {
-            bool changed = this.TokenString.UpdateContext(context);
-
-            if (this.IsReady)
-                this.SetValue(this.TokenString.Value!);
-
-            return changed;
-        }
-
-        /// <inheritdoc />
-        public IInvariantSet GetTokensUsed()
-        {
-            return this.TokenString.GetTokensUsed();
-        }
-
-        /// <inheritdoc />
-        public IContextualState GetDiagnosticState()
-        {
-            return this.TokenString.GetDiagnosticState();
-        }
+    /// <inheritdoc />
+    public IContextualState GetDiagnosticState()
+    {
+        return this.TokenString.GetDiagnosticState();
     }
 }

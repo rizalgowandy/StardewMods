@@ -2,33 +2,32 @@ using System.Diagnostics.CodeAnalysis;
 using ContentPatcher.Framework.Lexing.LexTokens;
 using StardewModdingAPI;
 
-namespace ContentPatcher.Framework.Migrations
+namespace ContentPatcher.Framework.Migrations;
+
+/// <summary>Migrates patches to format version 1.9.</summary>
+[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Named for clarity.")]
+internal class Migration_1_9 : BaseMigration
 {
-    /// <summary>Migrates patches to format version 1.9.</summary>
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Named for clarity.")]
-    internal class Migration_1_9 : BaseMigration
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    public Migration_1_9()
+        : base(new SemanticVersion(1, 9, 0)) { }
+
+    /// <inheritdoc />
+    public override bool TryMigrate(ref ILexToken lexToken, [NotNullWhen(false)] out string? error)
     {
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        public Migration_1_9()
-            : base(new SemanticVersion(1, 9, 0)) { }
+        if (!base.TryMigrate(ref lexToken, out error))
+            return false;
 
-        /// <inheritdoc />
-        public override bool TryMigrate(ref ILexToken lexToken, [NotNullWhen(false)] out string? error)
+        // 1.9 adds mod tokens
+        if (lexToken is LexTokenToken token && token.Name.Contains(InternalConstants.ModTokenSeparator))
         {
-            if (!base.TryMigrate(ref lexToken, out error))
-                return false;
-
-            // 1.9 adds mod tokens
-            if (lexToken is LexTokenToken token && token.Name.Contains(InternalConstants.ModTokenSeparator))
-            {
-                error = this.GetNounPhraseError($"using custom mod-provided tokens like '{lexToken}'");
-                return false;
-            }
-
-            return true;
+            error = this.GetNounPhraseError($"using custom mod-provided tokens like '{lexToken}'");
+            return false;
         }
+
+        return true;
     }
 }

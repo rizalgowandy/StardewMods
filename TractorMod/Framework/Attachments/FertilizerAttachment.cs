@@ -5,76 +5,75 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using SObject = StardewValley.Object;
 
-namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
+namespace Pathoschild.Stardew.TractorMod.Framework.Attachments;
+
+/// <summary>An attachment for fertilizer or speed-gro.</summary>
+internal class FertilizerAttachment : BaseAttachment
 {
-    /// <summary>An attachment for fertilizer or speed-gro.</summary>
-    internal class FertilizerAttachment : BaseAttachment
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The attachment settings.</summary>
+    private readonly GenericAttachmentConfig Config;
+
+    /// <summary>Simplifies access to private code.</summary>
+    private readonly IReflectionHelper Reflection;
+
+
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="config">The attachment settings.</param>
+    /// <param name="modRegistry">Fetches metadata about loaded mods.</param>
+    /// <param name="reflection">Simplifies access to private code.</param>
+    public FertilizerAttachment(GenericAttachmentConfig config, IModRegistry modRegistry, IReflectionHelper reflection)
+        : base(modRegistry)
     {
-        /*********
-        ** Fields
-        *********/
-        /// <summary>The attachment settings.</summary>
-        private readonly GenericAttachmentConfig Config;
+        this.Config = config;
+        this.Reflection = reflection;
+    }
 
-        /// <summary>Simplifies access to private code.</summary>
-        private readonly IReflectionHelper Reflection;
+    /// <inheritdoc />
+    public override bool IsEnabled(Farmer player, Tool? tool, Item? item, GameLocation location)
+    {
+        return
+            this.Config.Enable
+            && item is { Category: SObject.fertilizerCategory, Stack: > 0 };
+    }
 
+    /// <inheritdoc />
+    public override bool Apply(Vector2 tile, SObject? tileObj, TerrainFeature? tileFeature, Farmer player, Tool? tool, Item? item, GameLocation location)
+    {
+        if (item == null || item.Stack <= 0)
+            return false;
 
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Construct an instance.</summary>
-        /// <param name="config">The attachment settings.</param>
-        /// <param name="modRegistry">Fetches metadata about loaded mods.</param>
-        /// <param name="reflection">Simplifies access to private code.</param>
-        public FertilizerAttachment(GenericAttachmentConfig config, IModRegistry modRegistry, IReflectionHelper reflection)
-            : base(modRegistry)
+        switch (item.QualifiedItemId)
         {
-            this.Config = config;
-            this.Reflection = reflection;
-        }
-
-        /// <inheritdoc />
-        public override bool IsEnabled(Farmer player, Tool? tool, Item? item, GameLocation location)
-        {
-            return
-                this.Config.Enable
-                && item is { Category: SObject.fertilizerCategory, Stack: > 0 };
-        }
-
-        /// <inheritdoc />
-        public override bool Apply(Vector2 tile, SObject? tileObj, TerrainFeature? tileFeature, Farmer player, Tool? tool, Item? item, GameLocation location)
-        {
-            if (item == null || item.Stack <= 0)
+            // tree fertilizer
+            case "(O)805":
+                if (tileFeature is Tree tree && !tree.fertilized.Value && tree.growthStage.Value < Tree.treeStage && tree.fertilize())
+                {
+                    this.ConsumeItem(player, item);
+                    return true;
+                }
                 return false;
 
-            switch (item.QualifiedItemId)
-            {
-                // tree fertilizer
-                case "(O)805":
-                    if (tileFeature is Tree tree && !tree.fertilized.Value && tree.growthStage.Value < Tree.treeStage && tree.fertilize())
-                    {
-                        this.ConsumeItem(player, item);
-                        return true;
-                    }
+            // crop fertilizer
+            default:
+                // get unfertilized dirt
+                if (!this.TryGetHoeDirt(tileFeature, tileObj, out HoeDirt? dirt, out bool dirtCoveredByObj, out _) || !dirt.CanApplyFertilizer(item.QualifiedItemId))
                     return false;
 
-                // crop fertilizer
-                default:
-                    // get unfertilized dirt
-                    if (!this.TryGetHoeDirt(tileFeature, tileObj, out HoeDirt? dirt, out bool dirtCoveredByObj, out _) || !dirt.CanApplyFertilizer(item.QualifiedItemId))
-                        return false;
+                // ignore if there's a giant crop, meteorite, etc covering the tile
+                if (dirtCoveredByObj || this.HasResourceClumpCoveringTile(location, tile, this.Reflection))
+                    return false;
 
-                    // ignore if there's a giant crop, meteorite, etc covering the tile
-                    if (dirtCoveredByObj || this.HasResourceClumpCoveringTile(location, tile, this.Reflection))
-                        return false;
-
-                    // apply fertilizer
-                    bool fertilized = dirt.plant(item.ItemId, player, isFertilizer: true);
-                    if (fertilized)
-                        this.ConsumeItem(player, item);
-                    return fertilized;
-            }
+                // apply fertilizer
+                bool fertilized = dirt.plant(item.ItemId, player, isFertilizer: true);
+                if (fertilized)
+                    this.ConsumeItem(player, item);
+                return fertilized;
         }
     }
 }
