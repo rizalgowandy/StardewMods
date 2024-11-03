@@ -39,7 +39,9 @@ internal class ModEntry : Mod
 
     /// <summary>The recognized format versions and their migrations.</summary>
     private readonly Func<ContentConfig?, IMigration[]> GetFormatVersions = content => [
-        new Migration_1_0(),
+        new EmptyMigration(1, 0),
+        new EmptyMigration(1, 1),
+        new EmptyMigration(1, 2),
         new Migration_1_3(),
         new Migration_1_4(),
         new Migration_1_5(),
@@ -49,6 +51,7 @@ internal class ModEntry : Mod
         new Migration_1_9(),
         new Migration_1_10(),
         new Migration_1_11(),
+        new EmptyMigration(1, 12),
         new Migration_1_13(),
         new Migration_1_14(),
         new Migration_1_15_Prevalidation(),
@@ -64,14 +67,14 @@ internal class ModEntry : Mod
         new Migration_1_24(),
         new Migration_1_25(),
         new Migration_1_26(),
-        new Migration_1_27(),
+        new EmptyMigration(1, 27),
         new Migration_1_28(),
-        new Migration_1_29(),
-        new Migration_1_30(),
+        new EmptyMigration(1, 29),
+        new EmptyMigration(1, 30),
         new Migration_2_0(),
         new Migration_2_1(),
         new Migration_2_2(),
-        new Migration_2_3()
+        new EmptyMigration(2, 3)
     ];
 
     /// <summary>The special validation logic to apply to assets affected by patches.</summary>
