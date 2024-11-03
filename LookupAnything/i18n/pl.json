@@ -398,7 +398,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "min. poziom wędkarstwa: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "jeszcze nie złowiono (można złapać tylko raz na grę)",
-    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
+    "item.fish-spawn-rules.extended-family-quest-active": "aktywne zadanie \"Wielopokoleniowa rodzina\"",
     "item.fish-spawn-rules.locations": "lokacje: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "lokacje:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",
@@ -718,7 +718,7 @@
 
     "config.collapse-fields.building-recipes.name": "Podgląd budynku: przepisy",
     "config.collapse-fields.item-recipes.name": "Podgląd przedmiotu: przepisy",
-    "config.collapse-fields.npc-gift-tastes.name": "Podgląd NPC: upodobana prezentowe",
+    "config.collapse-fields.npc-gift-tastes.name": "Podgląd NPC: upodobania prezentowe",
     "config.collapse-fields.any.desc": "Jeśli pole zawiera wiele wyników, menu wyszukiwania zastąpi listę klikalnym linkiem 'pokaż X wyników', aby ją rozwinąć.",
 
     // advanced options
