@@ -43,7 +43,7 @@ internal class CrabPotMachine : GenericObjectMachine<CrabPot>
     {
         MachineState state = this.GetGenericState();
 
-        if (state == MachineState.Empty && (this.Machine.bait.Value != null || !this.PlayerNeedsBait(this.GetOwner())))
+        if (state == MachineState.Empty && !this.Machine.NeedsBait(null))
             state = MachineState.Processing;
 
         return state;
@@ -134,12 +134,5 @@ internal class CrabPotMachine : GenericObjectMachine<CrabPot>
         pot.lidFlapTimer = 60f;
         pot.shake = Vector2.Zero;
         pot.shakeTimer = 0f;
-    }
-
-    /// <summary>Get whether the current player needs to bait crab pots.</summary>
-    /// <param name="owner">The player who owns the machine.</param>
-    private bool PlayerNeedsBait(Farmer owner)
-    {
-        return !owner.professions.Contains(Farmer.mariner); // no bait needed if luremaster
     }
 }
