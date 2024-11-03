@@ -74,7 +74,8 @@ internal class ModEntry : Mod
         new Migration_2_0(),
         new Migration_2_1(),
         new Migration_2_2(),
-        new EmptyMigration(2, 3)
+        new EmptyMigration(2, 3),
+        new Migration_2_4()
     ];
 
     /// <summary>The special validation logic to apply to assets affected by patches.</summary>

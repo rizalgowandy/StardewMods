@@ -9,10 +9,12 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
+## 2.4.0
+Released 04 November 2024 for SMAPI 4.1.0 or later. See the [release highlights](https://www.patreon.com/posts/115260984).
+
 * Updated for Stardew Valley 1.6.9.
 * Added `ReplaceDelimited` [text operation](author-guide/text-operations.md) (thanks to dmorsecode!).
-* The [`patch reload` command](troubleshooting.md#reload) can now reload patches from a specific `Include` patch (thanks to spacechase0!).
+* The [`patch reload` command](author-guide/troubleshooting.md#reload) can now reload patches from a specific `Include` patch (thanks to spacechase0!).
 * Fixed `EditMap` patches with multiple `Target` or `FromFile` values not applying `SetProperties`.
 
 ## 2.3.0

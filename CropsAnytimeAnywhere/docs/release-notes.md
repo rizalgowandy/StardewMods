@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.6.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
 * Updated for Stardew Valley 1.6.9.
 * Added config option to draw fruit trees' seasonal sprites, even if 'grow crops out of season' is enabled.
 * Improved translations. Thanks to celr00 (added Spanish), Creeperkatze (added German), MakinDay (updated Italian), and moonggae (added Korean)!

@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.46.0
+Released 04 November 2024 for SMAPI 4.1.0 or later.
+
 * Updated for Stardew Valley 1.6.9.
 * Added buildings to search UI.
 * Added custom skills from SpaceCore to farmer lookups (thanks to Pet-Slime!).
@@ -11,11 +13,11 @@
 * Invalid recipes are now hidden by default (thanks to Mushymato!).
 * Tweaked machine recipes' ingredient order for readability (thanks to zombifier!).
 * Times are now shown in the current language's default format.
-* Fixed fishing spawn rules not shown for non-fish catches like River Jelly.
 * Fixed support for custom machine rules using `ITEM_ID` and `ITEM_CONTEXT_TAG` game state queries.
 * Fixed support for custom polyculture crops in 'needed for' field (thanks to Mushymato!).
 * Fixed hidden items being counted when deciding whether to collapse a field (thanks to b3nk3lly!).
 * Fixed fish spawn fields...
+  - not shown for non-fish catches like River Jelly;
   - not shown for extended family fish (thanksto b3nk3lly!);
   - not showing some locations' display names (thanks to b3nk3lly!);
   - sometimes shown for the wrong item (thanks to Mushymato!);

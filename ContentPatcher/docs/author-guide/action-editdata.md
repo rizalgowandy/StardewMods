@@ -284,7 +284,7 @@ example, this [adds a new item](https://stardewvalleywiki.com/Modding:Items) wit
 
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -313,7 +313,7 @@ For example, this edits the description field for an item:
 
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -332,7 +332,7 @@ You can also delete an entry by setting its value to `null`. For example, this d
 recreate it with different conditions:
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -380,7 +380,7 @@ example, this snippet from `Data\LocationContexts` shows one `Music` entry whose
 To edit that music entry in a content pack, you'd use the ID as the key. For example:
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -407,7 +407,7 @@ The order is often important for list assets (e.g. the game will use the first e
 `MoveEntries` field. For example, this moves the `Abigail` entry using each possible operation:
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -472,7 +472,7 @@ applies to this data:
 Then we can add, replace, or remove entries within that list as if it was a data asset:
 ```js
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
@@ -529,7 +529,7 @@ So we just need to 'drill down' that hierarchy to edit the field we want:
 
 ```json
 {
-    "Format": "2.3.0",
+    "Format": "2.4.0",
     "Changes": [
         {
             "Action": "EditData",
