@@ -194,8 +194,9 @@ internal class DataLayerOverlay : BaseOverlay
                 this.VisibleTiles.Clear();
                 this.VisibleTiles.AddRange(visibleArea.GetTiles());
 
+                IReadOnlySet<Vector2> visibleTiles = this.VisibleTiles;
                 this.TileGroups.Clear();
-                this.TileGroups.AddRange(this.CurrentLayer.Update(location, visibleArea, this.VisibleTiles, cursorTile));
+                this.TileGroups.AddRange(this.CurrentLayer.Update(ref location, ref visibleArea, ref visibleTiles, ref cursorTile));
 
                 this.LastVisibleArea = visibleArea;
                 this.UpdateCountdown = this.CurrentLayer.UpdateTickRate;
