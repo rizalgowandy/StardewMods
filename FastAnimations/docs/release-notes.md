@@ -1,6 +1,11 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.13.5
+Released 04 November 2024 for SMAPI 4.1.2 or later.
+
+* Fixed the previous update being broken on Linux/macOS.
+
 ## 1.13.4
 Released 04 November 2024 for SMAPI 4.1.0 or later.
 

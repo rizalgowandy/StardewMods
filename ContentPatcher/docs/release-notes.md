@@ -9,6 +9,11 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## 2.4.1
+Released 04 November 2024 for SMAPI 4.1.2 or later.
+
+* Fixed the previous update being broken on Linux/macOS.
+
 ## 2.4.0
 Released 04 November 2024 for SMAPI 4.1.0 or later. See the [release highlights](https://www.patreon.com/posts/115260984).
 
