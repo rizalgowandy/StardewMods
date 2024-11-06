@@ -152,6 +152,13 @@ internal class CustomLocationManager
         }
     }
 
+    /// <summary>Handle the mod being initialized for a screen. The content packs are fully loaded at this point and the initial context was set.</summary>
+    public void OnScreenInitialized()
+    {
+        if (this.CustomLocations.Count > 0)
+            this.ContentHelper.InvalidateCache("Data/Locations");
+    }
+
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
     /// <returns>Returns whether the asset was loaded for a custom location.</returns>
     public bool OnAssetRequested(AssetRequestedEventArgs e)

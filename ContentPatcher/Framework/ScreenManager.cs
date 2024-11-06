@@ -92,6 +92,7 @@ internal class ScreenManager
 
         // set initial context once patches + dynamic tokens + custom tokens are loaded
         this.UpdateContext(ContextUpdateType.All);
+        this.CustomLocationManager.OnScreenInitialized();
     }
 
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
