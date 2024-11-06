@@ -9,7 +9,9 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
+## 2.4.2
+Released 05 November 2024 for SMAPI 4.1.4 or later.
+
 * Fixed `CustomLocations` locations not working in Stardew Valley 1.6.9+.
 
 ## 2.4.1
