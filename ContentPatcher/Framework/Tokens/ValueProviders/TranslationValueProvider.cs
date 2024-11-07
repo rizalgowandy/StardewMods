@@ -18,6 +18,9 @@ internal class TranslationValueProvider : BaseValueProvider
     /// <summary>The game locale as of the last context update.</summary>
     private LocalizedContentManager.LanguageCode LastLocale;
 
+    /// <summary>The player gender for which the translation was last fetched.</summary>
+    private Gender LastGender;
+
 
     /*********
     ** Public methods
@@ -38,10 +41,14 @@ internal class TranslationValueProvider : BaseValueProvider
     /// <inheritdoc />
     public override bool UpdateContext(IContext context)
     {
-        if (this.TranslationHelper.LocaleEnum == this.LastLocale)
+        LocalizedContentManager.LanguageCode curLocale = this.TranslationHelper.LocaleEnum;
+        Gender curGender = Game1.player?.Gender ?? default;
+
+        if (curLocale == this.LastLocale && curGender == this.LastGender)
             return false;
 
-        this.LastLocale = this.TranslationHelper.LocaleEnum;
+        this.LastLocale = curLocale;
+        this.LastGender = curGender;
         return true;
     }
 
