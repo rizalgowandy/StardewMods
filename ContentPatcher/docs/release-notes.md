@@ -9,7 +9,9 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
+## 2.4.3
+Released 07 November 2024 for SMAPI 4.1.5 or later.
+
 * Fixed `i18n` tokens containing gender-switch blocks not updating when the gender changes.
 
 ## 2.4.2
