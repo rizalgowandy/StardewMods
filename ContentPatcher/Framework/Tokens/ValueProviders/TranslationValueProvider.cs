@@ -18,9 +18,6 @@ internal class TranslationValueProvider : BaseValueProvider
     /// <summary>The game locale as of the last context update.</summary>
     private LocalizedContentManager.LanguageCode LastLocale;
 
-    /// <summary>The player gender for which the translation was last fetched.</summary>
-    private Gender LastGender;
-
 
     /*********
     ** Public methods
@@ -42,13 +39,11 @@ internal class TranslationValueProvider : BaseValueProvider
     public override bool UpdateContext(IContext context)
     {
         LocalizedContentManager.LanguageCode curLocale = this.TranslationHelper.LocaleEnum;
-        Gender curGender = Game1.player?.Gender ?? default;
 
-        if (curLocale == this.LastLocale && curGender == this.LastGender)
+        if (curLocale == this.LastLocale)
             return false;
 
         this.LastLocale = curLocale;
-        this.LastGender = curGender;
         return true;
     }
 
@@ -57,20 +52,20 @@ internal class TranslationValueProvider : BaseValueProvider
     {
         this.AssertInput(input);
 
-        // get translation
+        // get key
         string? key = input.GetFirstPositionalArg();
         if (string.IsNullOrWhiteSpace(key))
             return InvariantSets.Empty;
-        Translation translation = this.TranslationHelper.Get(key);
 
-        // add tokens
-        if (input.HasNamedArgs)
-        {
-            translation = translation.Tokens(input
-                .NamedArgs
-                .ToDictionary(p => p.Key, p => this.Stringify(p.Value))
-            );
-        }
+        // get tokens
+        object? tokens = input.HasNamedArgs
+            ? input.NamedArgs.ToDictionary(p => p.Key, p => this.Stringify(p.Value))
+            : null;
+
+        // get translation
+        Translation translation = this.TranslationHelper
+            .Get(key, tokens)
+            .ApplyGenderSwitchBlocks(false); // preprocessing gender switch blocks doesn't work with patch update rates (e.g. NPCs won't update their dialogue once the save is loaded)
 
         // add default value
         if (input.NamedArgs.TryGetValue("default", out IInputArgumentValue? defaultValue))
