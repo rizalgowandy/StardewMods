@@ -9,7 +9,9 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
+## 2.4.4
+Released 08 November 2024 for SMAPI 4.1.5 or later.
+
 * In SMAPI 4.1._x_, [gender-switch blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch) are preprocessed automatically by default. That no longer applies to the `{{i18n}}` token.  
   _That didn't work with [patch update rates](author-guide.md#update-rate), and gender-switch blocks still work fine for translations passed to the game since they'll be parsed by the game._
 * Fixed `{{i18n}}` making text lowercase if the entire text matches a special case like `true` or `false`.
