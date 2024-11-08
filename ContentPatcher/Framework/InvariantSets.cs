@@ -119,6 +119,15 @@ internal static class InvariantSets
             ?? new InvariantSet(value);
     }
 
+    /// <summary>Get an immutable set containing only the given value, including the specific capitalization.</summary>
+    /// <param name="value">The set value.</param>
+    public static IInvariantSet FromCaseSensitiveValue(string value)
+    {
+        return
+            InvariantSets.FromPredefinedValueOnlyCaseSensitive(value)
+            ?? new InvariantSet(value);
+    }
+
 
     /*********
     ** Private methods
@@ -148,6 +157,34 @@ internal static class InvariantSets
             "summer" or "Summer" => InvariantSets.Summer,
             "fall" or "Fall" => InvariantSets.Fall,
             "winter" or "Winter" => InvariantSets.Winter,
+
+            // custom
+            _ => null
+        };
+    }
+
+    /// <summary>Get an immutable set containing the given value, if it matches any predefined value case-sensitively.</summary>
+    /// <param name="value">The value for which to get a set.</param>
+    private static IInvariantSet? FromPredefinedValueOnlyCaseSensitive(string value)
+    {
+        return value switch
+        {
+            // boolean
+            "true" => InvariantSets.True,
+            "false" => InvariantSets.False,
+
+            // blank string
+            "" => InvariantSets.BlankString,
+
+            // common digits
+            "0" => InvariantSets.Zero,
+            "1" => InvariantSets.One,
+
+            // season
+            "spring" => InvariantSets.Spring,
+            "summer" => InvariantSets.Summer,
+            "fall" => InvariantSets.Fall,
+            "winter" => InvariantSets.Winter,
 
             // custom
             _ => null

@@ -75,7 +75,7 @@ internal class TranslationValueProvider : BaseValueProvider
                 .UsePlaceholder(false); // allow setting a blank default
         }
 
-        return InvariantSets.FromValue(translation);
+        return InvariantSets.FromCaseSensitiveValue(translation);
     }
 
 
