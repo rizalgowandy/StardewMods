@@ -112,6 +112,10 @@ You can inject the translated text directly into your patches using the `i18n`
 }
 ```
 
+## Limitations
+* [Gender-switch blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch) only work in cases where you
+  pass the text to the game (e.g. via dialogue), since the game will parse them.
+
 ## FAQs
 ### Can I use Content Patcher tokens in `i18n` files?
 Yes. The translations are handled by SMAPI though, so they don't support built-in tokens directly.
