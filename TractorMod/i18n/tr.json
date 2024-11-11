@@ -64,14 +64,21 @@
     /****
     ** Audio
     ****/
-    "config.tractor-sounds.name": "Ses efektleri",
+    "config.tractor-sounds.name": "Motor Sesleri",
     "config.tractor-sounds.tooltip": "Traktörü sürerken hangi ses efektlerinin çalınacağı. Kaydı yeniden yükleyene kadar değişiklikler tam olarak etkili olmayabilir. Varsayılan {{defaultValue}}.",
     "config.tractor-sounds.value.None": "ses yok",
     "config.tractor-sounds.value.Horse": "at sesleri",
     "config.tractor-sounds.value.Tractor": "traktör sesleri",
 
-    "config.tractor-volume.name": "Ses Efekti Ses Seviyesi",
+    "config.tractor-volume.name": "Motor Sesi Ses Seviyesi",
     "config.tractor-volume.tooltip": "Ses efektlerinin ses seviyesi. Varsayılan: {{defaultValue}}%.",
+
+    // TODO
+    "config.tool-use-sounds-limit.name": "Tool Use Sounds",
+    "config.tool-use-sounds-limit.tooltip": "When applying a tool to many tiles around the tractor, which tool sounds should be played. The default option is '{{defaultOption}}'. Note that '{{unlimitedOption}}' may cause errors with larger ranges.",
+    "config.tool-use-sounds-limit.value.Default": "default",
+    "config.tool-use-sounds-limit.value.OncePerTick": "first tile applied",
+    "config.tool-use-sounds-limit.value.Unlimited": "play every sound (not recommended)",
 
 
     /****

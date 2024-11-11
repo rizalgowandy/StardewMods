@@ -64,14 +64,21 @@
     /****
     ** Audio
     ****/
-    "config.tractor-sounds.name": "Effetti Sonori",
+    "config.tractor-sounds.name": "Suoni del motore",
     "config.tractor-sounds.tooltip": "Quali effetti sonori riprodurre durante la guida del trattore. Le modifiche potrebbero non avere effetto fino a quando non si ricarica il salvataggio. Predefinito {{defaultValue}}.",
     "config.tractor-sounds.value.None": "nessun rumore",
     "config.tractor-sounds.value.Horse": "rumore di cavalli",
     "config.tractor-sounds.value.Tractor": "rumore di trattore",
 
-    "config.tractor-volume.name": "Volume effetti sonori",
+    "config.tractor-volume.name": "Volume suoni del motore",
     "config.tractor-volume.tooltip": "Intensità del volume degli effetti sonori del trattore. Predefinito {{defaultValue}}%.",
+
+    // TODO
+    "config.tool-use-sounds-limit.name": "Tool Use Sounds",
+    "config.tool-use-sounds-limit.tooltip": "When applying a tool to many tiles around the tractor, which tool sounds should be played. The default option is '{{defaultOption}}'. Note that '{{unlimitedOption}}' may cause errors with larger ranges.",
+    "config.tool-use-sounds-limit.value.Default": "default",
+    "config.tool-use-sounds-limit.value.OncePerTick": "first tile applied",
+    "config.tool-use-sounds-limit.value.Unlimited": "play every sound (not recommended)",
 
 
     /****

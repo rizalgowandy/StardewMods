@@ -22,6 +22,9 @@ internal class ModConfig
     /// <summary>Which sound effects to play while riding the tractor.</summary>
     public TractorSoundType SoundEffects { get; set; } = TractorSoundType.Tractor;
 
+    /// <summary>The limit to set on tool sounds.</summary>
+    public ToolUseSoundLimit ToolUseSoundLimit { get; set; } = ToolUseSoundLimit.Default;
+
     /// <summary>The volume level for the tractor sound effects, as a value between 0 (silent) and 100 (full volume). Only applicable if <see cref="SoundEffects"/> is set to <see cref="TractorSoundType.Tractor"/>.</summary>
     public int SoundEffectsVolume { get; set; } = 75;
 

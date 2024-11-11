@@ -64,14 +64,21 @@
     /****
     ** Audio
     ****/
-    "config.tractor-sounds.name": "効果音",
+    "config.tractor-sounds.name": "エンジン音",
     "config.tractor-sounds.tooltip": "トラクター乗車中に再生する効果音。セーブをリロードするまで変更が完全に反映されない場合があります。標準は{{defaultValue}}。",
     "config.tractor-sounds.value.None": "効果音なし",
     "config.tractor-sounds.value.Horse": "馬",
     "config.tractor-sounds.value.Tractor": "トラクター",
 
-    "config.tractor-volume.name": "効果音の音量",
+    "config.tractor-volume.name": "エンジン音の音量",
     "config.tractor-volume.tooltip": "トラクターの効果音の音量レベル。標準は{{defaultValue}}%。",
+
+    // TODO
+    "config.tool-use-sounds-limit.name": "Tool Use Sounds",
+    "config.tool-use-sounds-limit.tooltip": "When applying a tool to many tiles around the tractor, which tool sounds should be played. The default option is '{{defaultOption}}'. Note that '{{unlimitedOption}}' may cause errors with larger ranges.",
+    "config.tool-use-sounds-limit.value.Default": "default",
+    "config.tool-use-sounds-limit.value.OncePerTick": "first tile applied",
+    "config.tool-use-sounds-limit.value.Unlimited": "play every sound (not recommended)",
 
 
     /****
