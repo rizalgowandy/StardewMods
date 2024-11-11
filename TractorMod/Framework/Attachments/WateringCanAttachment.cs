@@ -77,7 +77,8 @@ internal class WateringCanAttachment : BaseAttachment
     {
         if (this.UseToolOnTile(this.WateringCan, tile, player, location))
         {
-            location.localSound("wateringCan"); // normally played in Tool.endUsing
+            if (player.CurrentTool?.PlayUseSounds is true)
+                location.localSound("wateringCan"); // normally played in Tool.endUsing
             return true;
         }
 

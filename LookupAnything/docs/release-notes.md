@@ -1,6 +1,11 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.46.2
+Released 10 November 2024 for SMAPI 4.1.2 or later.
+
+* Fixed '_item spawn fields ... produced a null or empty item ID_' warnings when looking up machines.
+
 ## 1.46.1
 Released 04 November 2024 for SMAPI 4.1.2 or later.
 

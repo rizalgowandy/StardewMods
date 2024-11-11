@@ -325,6 +325,12 @@ internal sealed class TractorManager
         GameLocation location = Game1.currentLocation;
         Tool? tool = player.CurrentTool;
         Item? item = player.CurrentItem;
+        bool? wasToolSoundEnabled = tool?.PlayUseSounds;
+
+        // get tool use sound limit
+        ToolUseSoundLimit toolUseLimit = this.Config.ToolUseSoundLimit;
+        if (toolUseLimit is ToolUseSoundLimit.Default)
+            toolUseLimit = ToolUseSoundLimit.OncePerTick;
 
         // get active attachments
         IAttachment[] attachments = this.GetApplicableAttachmentsAfterCooldown(player, tool, item, location).ToArray();
@@ -338,28 +344,40 @@ internal sealed class TractorManager
         Vector2[] grid = this.GetTileGrid(origin, this.Config.Distance).ToArray();
 
         // apply tools
-        this.TemporarilyFakeInteraction(() =>
+        try
         {
-            foreach (Vector2 tile in grid)
+            this.TemporarilyFakeInteraction(() =>
             {
-                // face tile to avoid game skipping interaction
-                this.GetRadialAdjacentTile(origin, tile, out Vector2 adjacentTile, out int facingDirection);
-                player.Position = adjacentTile * Game1.tileSize;
-                player.FacingDirection = facingDirection;
-
-                // apply attachment effects
-                location.objects.TryGetValue(tile, out SObject? tileObj);
-                location.terrainFeatures.TryGetValue(tile, out TerrainFeature? tileFeature);
-                foreach (IAttachment attachment in attachments)
+                foreach (Vector2 tile in grid)
                 {
-                    if (attachment.Apply(tile, tileObj, tileFeature, Game1.player, tool, item, Game1.currentLocation))
+                    // face tile to avoid game skipping interaction
+                    this.GetRadialAdjacentTile(origin, tile, out Vector2 adjacentTile, out int facingDirection);
+                    player.Position = adjacentTile * Game1.tileSize;
+                    player.FacingDirection = facingDirection;
+
+                    // apply attachment effects
+                    location.objects.TryGetValue(tile, out SObject? tileObj);
+                    location.terrainFeatures.TryGetValue(tile, out TerrainFeature? tileFeature);
+                    foreach (IAttachment attachment in attachments)
                     {
-                        this.ResetCooldown(attachment);
-                        break;
+                        if (attachment.Apply(tile, tileObj, tileFeature, Game1.player, tool, item, Game1.currentLocation))
+                        {
+                            this.ResetCooldown(attachment);
+
+                            if (toolUseLimit is ToolUseSoundLimit.OncePerTick && tool != null)
+                                tool.PlayUseSounds = false;
+                            break;
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        finally
+        {
+            // reset tool sounds
+            if (wasToolSoundEnabled.HasValue && tool != null)
+                tool.PlayUseSounds = wasToolSoundEnabled.Value;
+        }
     }
 
     /// <summary>Get the attachments which are ready and can be applied to the given tile, after applying cooldown.</summary>
@@ -367,7 +385,7 @@ internal sealed class TractorManager
     /// <param name="tool">The tool selected by the player (if any).</param>
     /// <param name="item">The item selected by the player (if any).</param>
     /// <param name="location">The current location.</param>
-    private IEnumerable<IAttachment> GetApplicableAttachmentsAfterCooldown(Farmer player, Tool tool, Item item, GameLocation location)
+    private IEnumerable<IAttachment> GetApplicableAttachmentsAfterCooldown(Farmer player, Tool? tool, Item? item, GameLocation location)
     {
         foreach (IAttachment attachment in this.Attachments)
         {

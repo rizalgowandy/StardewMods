@@ -101,14 +101,6 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />
     private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
-        // validate game version
-        string? versionError = this.ValidateGameVersion();
-        if (versionError != null)
-        {
-            this.Monitor.Log(versionError, LogLevel.Error);
-            CommonHelper.ShowErrorMessage(versionError);
-        }
-
         // show multiplayer limitations warning
         if (!Context.IsMainPlayer)
             this.Monitor.Log("Multiplayer limitations: you can only access chests in synced locations since you're not the main player. This is due to limitations in the game's sync logic.", LogLevel.Info);
@@ -306,15 +298,6 @@ internal class ModEntry : Mod
         long hostId = Game1.MasterPlayer.UniqueMultiplayerID;
         var message = new AutomateUpdateChestMessage { LocationName = chest.Location.NameOrUniqueName, Tile = chest.Tile };
         this.Helper.Multiplayer.SendMessage(message, nameof(AutomateUpdateChestMessage), modIDs: ["Pathoschild.Automate"], playerIDs: [hostId]);
-    }
-
-    /// <summary>Validate that the game versions match the minimum requirements, and return an appropriate error message if not.</summary>
-    private string? ValidateGameVersion()
-    {
-        if (Constant.MinimumApiVersion.IsNewerThan(Constants.ApiVersion))
-            return $"The Chests Anywhere mod requires a newer version of SMAPI. Please update SMAPI from {Constants.ApiVersion} to {Constant.MinimumApiVersion}.";
-
-        return null;
     }
 
     /// <summary>Log an error and warn the user.</summary>

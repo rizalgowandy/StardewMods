@@ -517,12 +517,21 @@ internal class DataParser
                         }
 
                         // add produced item
-                        ItemQueryContext itemQueryContext = new();
-                        IList<ItemQueryResult> itemQueryResults = ItemQueryResolver.TryResolve(
-                            outputItem,
-                            itemQueryContext,
-                            formatItemId: id => id?.Replace("DROP_IN_ID", "0").Replace("DROP_IN_PRESERVE", "0").Replace("NEARBY_FLOWER_ID", "0")
-                        );
+                        IList<ItemQueryResult> itemQueryResults;
+                        if (outputItem.ItemId != null || outputItem.RandomItemId != null)
+                        {
+                            ItemQueryContext itemQueryContext = new();
+                            itemQueryResults = ItemQueryResolver.TryResolve(
+                                outputItem,
+                                itemQueryContext,
+                                formatItemId: id => id?.Replace("DROP_IN_ID", "0").Replace("DROP_IN_PRESERVE", "0").Replace("NEARBY_FLOWER_ID", "0")
+                            );
+                        }
+                        else
+                        {
+                            itemQueryResults = [];
+                            someRulesTooComplex = true;
+                        }
 
                         // add to list
                         recipes.AddRange(
