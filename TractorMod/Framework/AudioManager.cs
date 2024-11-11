@@ -54,9 +54,10 @@ internal class AudioManager : IDisposable
     }
 
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
-    public void OnAssetRequested(AssetRequestedEventArgs e)
+    /// <returns>Returns whether the audio changes were registered.</returns>
+    public bool OnAssetRequested(AssetRequestedEventArgs e)
     {
-        if (e.NameWithoutLocale.IsEquivalentTo("Data/AudioChanges"))
+        if (this.IsActive() && e.NameWithoutLocale.IsEquivalentTo("Data/AudioChanges"))
         {
             e.Edit(editor =>
             {
@@ -67,7 +68,10 @@ internal class AudioManager : IDisposable
                 this.AddCueData(data, this.IdleSoundId, "idle.ogg", loop: true);
                 this.AddCueData(data, this.StopSoundId, "stop.ogg", loop: false);
             });
+            return true;
         }
+
+        return false;
     }
 
     /// <summary>Set the engine sounds that should play.</summary>

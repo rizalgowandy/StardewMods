@@ -2,11 +2,16 @@
 
 # Release notes
 ## Upcoming release
-* When applying a tool to many tiles, the tractor now only plays the first sound effect by default. This avoids sound instance limit errors in Stardew Valley 1.6.9+. You can change this in the options.
+* When applying a tool to many tiles, the tractor now only plays the first sound effect by default.
+* The engine sounds are no longer registered with the game if engine sounds are disabled.
 
-**Note:** you may still get `InstancePlayLimitException` errors. This is due to a game bug that
-will be fixed in an upcoming Stardew Valley patch. The bug affects mods which add custom sounds,
-not only Tractor Mod.
+**Note:**
+- You may still get `InstancePlayLimitException` errors. That's a bug in Stardew Valley 1.6.9+
+  which occurs when any mod registers custom sounds, even if those sounds aren't played. That will
+  be fixed in an upcoming Stardew Valley patch.
+
+  If you're affected, you can temporarily change the _Engine Sounds_ option to "none" or "horse
+  sounds" in the mod settings to avoid the errors.
 
 ## 4.20.1
 Released 04 November 2024 for SMAPI 4.1.2 or later.

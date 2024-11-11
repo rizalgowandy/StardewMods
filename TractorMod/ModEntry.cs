@@ -71,6 +71,10 @@ internal class ModEntry : Mod
     /// <summary>Whether the mod is enabled for the current farmhand.</summary>
     private bool IsEnabled = true;
 
+    /// <summary>When the <c>Data/AudioChanges</c> asset was last edited, whether Tractor Mod added its custom audio.</summary>
+    /// <remarks>Due to how that asset works, audio changes are applicable for the remainder of the session even if we later remove the entries from the asset.</remarks>
+    private bool AppliedAudioChanges;
+
 
     /*********
     ** Public methods
@@ -270,7 +274,7 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
     private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
-        this.AudioManager.OnAssetRequested(e);
+        this.AppliedAudioChanges |= this.AudioManager.OnAssetRequested(e);
         this.TextureManager.OnAssetRequested(e);
 
         if (e.NameWithoutLocale.IsEquivalentTo("Data/Buildings"))
@@ -475,11 +479,23 @@ internal class ModEntry : Mod
     /// <summary>Reapply the mod configuration.</summary>
     private void UpdateConfig()
     {
+        // update building data
         this.Helper.GameContent.InvalidateCache("Data/Buildings");
 
+        // apply audio changes
+        if (this.Config.SoundEffects == TractorSoundType.Tractor)
+        {
+            if (!this.AppliedAudioChanges)
+                this.Helper.GameContent.InvalidateCache("Data/AudioChanges");
+        }
+        else
+            this.AppliedAudioChanges = false;
+
+        // update current tractors
         foreach (var pair in this.TractorManagerImpl.GetActiveValues())
             this.UpdateConfigFor(pair.Value);
 
+        // set engine volume
         this.AudioManager.UpdateVolume();
     }
 
