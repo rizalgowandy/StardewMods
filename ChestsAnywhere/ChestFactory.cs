@@ -431,6 +431,7 @@ internal class ChestFactory
     /// <param name="location">The in-game location.</param>
     private string GetCategory(GameLocation location)
     {
+        // cabin with owner
         if (location is Cabin cabin)
         {
             return !string.IsNullOrWhiteSpace(cabin.owner?.Name)
@@ -438,7 +439,11 @@ internal class ChestFactory
                 : I18n.DefaultCategory_UnownedCabin();
         }
 
-        return location.GetDisplayName() ?? location.Name;
+        // else location name
+        string name = location.GetDisplayName() ?? location.Name;
+        if (name.Length > Constant.MaxDefaultCategoryLength)
+            name = name[..(Constant.MaxDefaultCategoryLength - 3)] + "...";
+        return name;
     }
 
     /// <summary>Get whether it's safe to show a color picker for the given chest.</summary>

@@ -23,4 +23,7 @@ internal static class Constant
 
     /// <summary>The inventory slot size for the current zoom level.</summary>
     public static int SlotSize => Game1.tileSize;
+
+    /// <summary>The maximum location name length for a default chest category before it's truncated.</summary>
+    public const int MaxDefaultCategoryLength = 30;
 }
