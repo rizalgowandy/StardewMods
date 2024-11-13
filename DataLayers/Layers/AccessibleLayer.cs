@@ -119,6 +119,26 @@ internal class AccessibleLayer : BaseLayer
             : tile;
     }
 
+    /// <summary>
+    /// GameLocation.isTilePassable only checks tilesheet properties, does not check TileData.
+    /// </summary>
+    /// <param name="tileLocation"></param>
+    /// <returns></returns>
+    public static bool IsTileDataPassable(GameLocation location, Vector2 tileLocation)
+    {
+        Tile back = location.map.RequireLayer("Back").Tiles[(int)tileLocation.X, (int)tileLocation.Y];
+        if (back != null && back.Properties.ContainsKey("Passable"))
+        {
+            return false;
+        }
+        Tile building = location.map.RequireLayer("Buildings").Tiles[(int)tileLocation.X, (int)tileLocation.Y];
+        if (building != null && !building.Properties.ContainsKey("Shadow") && !building.Properties.ContainsKey("Passable"))
+        {
+            return false;
+        }
+        return true;
+    }
+
     /// <summary>Get the updated data layer tiles.</summary>
     /// <param name="location">The current location.</param>
     /// <param name="visibleTiles">The tiles currently visible on the screen.</param>
@@ -145,7 +165,7 @@ internal class AccessibleLayer : BaseLayer
             LegendEntry type;
             if (this.IsWarp(location, tile, tilePixels, buildingDoors))
                 type = this.Warp;
-            else if (location.isTilePassable(tile))
+            else if (location.isTilePassable(tile) && IsTileDataPassable(location, tile))
                 type = location.IsTileBlockedBy(tile, ignorePassables: CollisionMask.All) ? this.Occupied : this.Clear;
             else
                 type = this.Impassable;
