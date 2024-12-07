@@ -3,6 +3,7 @@
 # Release notes
 ## Upcoming release
 * Fixed error looking up items if another mod added broken fish data.
+* Improved translations. Thanks to creeperkatze (updated German), mehmetgorkemarslan (updated Turkish), and moonggae (updated Korean)!
 
 ## 1.46.2
 Released 10 November 2024 for SMAPI 4.1.2 or later.

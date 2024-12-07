@@ -116,7 +116,7 @@
     ** 'Experimental' section
     ****/
     "config.experimental": "Deneysel Seçenekler",
-    "config.experimental-warning": "Bu seçenekler daha tam olarak stabil değil. Oyunda donma ve kasma gibi sıkıntılara sebep olabilirler. Bu ayarların herhangi birinin açılması 'ÖNERİLMEZ'",
+    "config.experimental-warning": "Bu seçenekler daha tam olarak stabil değil. Oyunda donma ve kasma gibi sıkıntılara sebep olabilirler. Bu ayarların herhangi birinin açılması 'ÖNERİLMEZ'.",
 
     "config.event.name": "Arasahneler",
     "config.event.tooltip": "Arasahnelerin hızını belirler. Varsayılan: {{defaultValue}}x, Önerilen: {{suggestedValue}}x."

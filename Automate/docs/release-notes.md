@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## Upcoming release
+* Fixed compatibility with custom tapper rules in `Data/Machines` (thanks to zombifier!).
+
 ## 2.3.1
 Released 04 November 2024 for SMAPI 4.1.2 or later.
 

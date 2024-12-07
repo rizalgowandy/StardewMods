@@ -1,4 +1,4 @@
-{
+﻿{
     /**********
     ** Chest UI
     **********/
@@ -59,7 +59,7 @@
     "config.enable-shipping-bin.name": "Nakliye kutusunu etkinleştir",
     "config.enable-shipping-bin.desc": "Nakliye kutusuna erişimin etkinleştirilip etkinleştirilmeyeceği.",
 
-    "config.enable-sprinkler-attachments.name": "Fıskiye eklentilerini etkinleştir", 
+    "config.enable-sprinkler-attachments.name": "Fıskiye eklentilerini etkinleştir",
     "config.enable-sprinkler-attachments.desc": "Gübreleyici gibi fıskiye eklentilerinin gösterilip gösterilmeyeceği.",
 
     "config.add-organize-player-items.name": "Oyuncu öğelerini düzenle düğmesi ekle",
@@ -86,7 +86,7 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Sandık arayüzünü açacak tuş.",
+    "config.title.open-menu-hotkey": "Sandık arayüzünü açacak tuş",
 
     "config.toggle-ui-key.name": "Arayüzü aç/kapat",
     "config.toggle-ui-key.desc": "Sandık kullanıcı arayüzünü gösteren veya gizleyen tuşlar.",
