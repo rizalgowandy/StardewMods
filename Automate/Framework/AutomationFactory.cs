@@ -76,13 +76,6 @@ internal class AutomationFactory : IAutomationFactory
             }
         }
 
-        // tapper
-        if (obj.IsTapper())
-        {
-            if (location.terrainFeatures.TryGetValue(tile, out TerrainFeature terrainFeature) && terrainFeature is Tree tree)
-                return new TapperMachine(obj, location, tile, tree);
-        }
-
         // machine by item ID
         switch (obj.QualifiedItemId)
         {
