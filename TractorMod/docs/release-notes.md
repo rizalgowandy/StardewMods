@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* The tractor's texture override is now visible to other mods via the new `tractor.Sprite.overrideTextureName` field.
 * Improved translations. Thanks to creeperkatze (updated German), MakinDay (updated Italian), mehmetgorkemarslan (updated Turkish), and moonggae (updated Korean)!
 
 ## 4.20.2
