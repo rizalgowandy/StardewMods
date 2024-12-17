@@ -9,6 +9,9 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## Upcoming release
+* Fixed `patch_summary` error if a patch has a null target.
+
 ## 2.4.4
 Released 08 November 2024 for SMAPI 4.1.5 or later.
 
