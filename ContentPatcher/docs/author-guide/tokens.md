@@ -1839,7 +1839,7 @@ The supported operators are listed below.
 * Group sub-expressions using `()` to avoid an ambiguous order of operations:
 
   ```js
-  "{{Query}}: ({{Time}} >= 0600 AND {{Time}} <= 1200) OR {{Time}} > 2400": true
+  "Query: ({{Time}} >= 0600 AND {{Time}} <= 1200) OR {{Time}} > 2400": true
   ```
 
 * Check whether a value is `IN` or `NOT IN` a list:
