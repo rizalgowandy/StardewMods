@@ -10,6 +10,7 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 -->
 ## Upcoming release
+* Fixed warnings for mods using `Hearts` or `Relationship` conditions with an NPC who's in the data but not added to the world yet.
 * Fixed `patch_summary` error if a patch has a null target.
 
 ## 2.4.4
