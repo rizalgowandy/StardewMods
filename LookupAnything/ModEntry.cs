@@ -80,10 +80,8 @@ internal class ModEntry : Mod
         this.Metadata = this.LoadMetadata();
         this.IsDataValid = this.Metadata?.LooksValid() == true;
         if (!this.IsDataValid)
-        {
             this.Monitor.Log($"The {this.DatabaseFileName} file seems to be missing or corrupt. Lookups will be disabled.", LogLevel.Error);
-            this.IsDataValid = false;
-        }
+
 
         // validate translations
         if (!helper.Translation.GetTranslations().Any())
