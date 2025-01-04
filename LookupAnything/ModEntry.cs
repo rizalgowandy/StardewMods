@@ -206,13 +206,6 @@ internal class ModEntry : Mod
         if (!this.IsDataValid)
             return;
 
-        // disable lookups if metadata is invalid
-        if (!this.IsDataValid)
-        {
-            this.GameHelper.ShowErrorMessage($"The mod doesn't seem to be installed correctly: its {this.DatabaseFileName} file is missing or corrupt.");
-            return;
-        }
-
         // show menu
         StringBuilder logMessage = new("Received a lookup request...");
         this.Monitor.InterceptErrors("looking that up", () =>
