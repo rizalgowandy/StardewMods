@@ -1431,27 +1431,53 @@ For example:
 When set on an `Include` patch, local tokens are inherited by all patches loaded through it. This
 can be used to implement template behavior, where a set of patches is applied for each set of values.
 
-For example:
+For example, you can do this in `content.json`:
 ```json
 {
    "Action": "Include",
    "FromFile": "assets/add-hat.json",
    "LocalTokens": {
-      "Id": "PufferHat",
+      "IdSuffix": "PufferHat",
       "DisplayName": "Puffer Hat",
       "Description": "A hat that puffs up when you're threatened.",
       "Price": 500
    }
-},
+}
+```
+
+And then add an `assets/add-hat.json` file like this:
+```json
 {
-   "Action": "Include",
-   "FromFile": "assets/add-hat.json",
-   "LocalTokens": {
-      "Id": "ClownHat",
-      "DisplayName": "Clown Hat",
-      "Description": "A hat that jingles as you move.",
-      "Price": 250
-   }
+   /*
+   This file is loaded once per hat, with these tokens:
+      {{IdSuffix}}: the unique portion of the item ID, like "DeerAntlers".
+      {{DisplayName}}: the translated display name for the hat item.
+      {{Description}}: the translated description for the hat item.
+      {{Price}}: the sell price for the hat item.
+   */
+   "Changes": [
+      // add hat data
+      {
+         "Action": "EditData",
+         "Target": "Data/hats",
+         "Entries": {
+            "{{ModId}}_{{IdSuffix}}": "{{ModId}}_{{IdSuffix}}/{{Description}}/true/true//{{DisplayName}}/4/{{TextureNameInData}}"
+         }
+      },
+
+      // add to shop
+      {
+         "Action": "EditData",
+         "Target": "Data/Shops",
+         "TargetField": [ "HatMouse", "Items" ],
+         "Entries": {
+            "{{ModId}}_{{IdSuffix}}": {
+               "ItemId": "{{ModId}}_{{IdSuffix}}",
+               "Price": "{{Price}}"
+            }
+         }
+      }
+   ]
 }
 ```
 
