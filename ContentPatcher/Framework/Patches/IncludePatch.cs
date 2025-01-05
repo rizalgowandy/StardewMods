@@ -6,6 +6,7 @@ using System.Reflection;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.ConfigModels;
 using ContentPatcher.Framework.Tokens;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
@@ -48,12 +49,13 @@ internal class IncludePatch : Patch
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="fromFile">The normalized asset key from which to load entries (if applicable), including tokens.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
+    /// <param name="localTokens">The local token values to use for this and loaded patches, in addition to the pre-existing tokens.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="patchLoader">Handles loading and unloading patches for content packs.</param>
-    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
+    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
         : base(
             indexPath: indexPath,
             path: path,
@@ -62,12 +64,13 @@ internal class IncludePatch : Patch
             assetLocale: null,
             priority: (int)AssetEditPriority.Default,
             updateRate: updateRate,
+            localTokens: localTokens,
             conditions: conditions,
-            fromAsset: fromFile,
-            parentPatch: parentPatch,
             contentPack: contentPack.ContentPack,
             migrator: contentPack.Migrator,
-            parseAssetName: parseAssetName
+            parentPatch: parentPatch,
+            parseAssetName: parseAssetName,
+            fromAsset: fromFile
         )
     {
         this.RawContentPack = contentPack;
@@ -150,6 +153,7 @@ internal class IncludePatch : Patch
                 this.PatchesJustLoaded = this.PatchLoader.LoadPatches(
                     contentPack: this.RawContentPack,
                     rawPatches: content.Changes,
+                    inheritLocalTokens: this.LocalTokens,
                     rootIndexPath: this.IndexPath,
                     path: this.GetIncludedLogPath(this.FromAsset),
                     parentPatch: this
