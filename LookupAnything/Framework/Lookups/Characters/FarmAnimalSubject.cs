@@ -6,6 +6,7 @@ using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.LookupAnything.Framework.Constants;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
@@ -52,6 +53,13 @@ internal class FarmAnimalSubject : BaseSubject
         {
             daysUntilGrown = animal.GetAnimalData().DaysToMature - animal.age.Value;
             dayOfMaturity = SDate.Now().AddDays(daysUntilGrown);
+        }
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(animal.type.Value);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
         }
 
         // yield fields

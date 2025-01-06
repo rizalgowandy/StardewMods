@@ -153,11 +153,11 @@ internal class ItemSubject : BaseSubject
             }
         }
 
-        // show source mod
+        // added by mod
         {
-            IModInfo? fromMod = this.GameHelper.TryGetModFromItemId(item.ItemId);
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(item.ItemId);
             if (fromMod != null)
-                yield return new GenericField(I18n.Item_CustomItem(), I18n.Item_CustomItem_Summary(modName: fromMod.Manifest.Name));
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
         }
 
         // don't show data for dead crop

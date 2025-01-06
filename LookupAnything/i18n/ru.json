@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Разведены",
     "friendship-status.kicked-out": "Выгнан",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -310,7 +315,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Пользовательский предмет",
     "item.contents": "Содержит",
     "item.loves-this": "Любят",
     "item.likes-this": "Нравится",
@@ -329,7 +333,6 @@
     "item.produces-dye": "Производит краситель",
 
     // values
-    "item.custom-item.summary": "добавлен модом {{modName}}",
     "item.contents.placed": "содержит {{name}}",
     "item.contents.ready": "{{name}} готов",
     "item.contents.partial": "{{name}} через {{time}}",

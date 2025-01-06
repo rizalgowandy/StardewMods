@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added 'added by mod' field for buildings, farm animals, fruit and non-fruit trees, movie concessions, and NPCs. This works with any mods which follow the [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs) format.
 * Fixed error looking up items if another mod added broken fish data.
 * Improved translations. Thanks to creeperkatze (updated German), mehmetgorkemarslan (updated Turkish), and moonggae (updated Korean)!
 

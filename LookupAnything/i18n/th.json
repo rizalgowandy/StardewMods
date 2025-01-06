@@ -61,6 +61,11 @@
     "friendship-status.divorced": "หย่าร้าง",
     "friendship-status.kicked-out": "ถูกขับไส",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -311,7 +316,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Custom item", // TODO
     "item.contents": "รายละเอียด",
     "item.loves-this": "ชอบสิ่งนี้มากๆ",
     "item.likes-this": "ชอบสิ่งนี้",
@@ -330,7 +334,6 @@
     "item.produces-dye": "ทำสีย้อมได้",
 
     // values
-    "item.custom-item.summary": "added by {{modName}}", // TODO
     "item.contents.placed": "{{name}} วางแล้ว",
     "item.contents.ready": "{{name}} พร้อมแล้ว",
     "item.contents.partial": "{{name}} ใน {{time}}",

@@ -61,6 +61,11 @@
     "friendship-status.divorced": "이혼함",
     "friendship-status.kicked-out": "내쫓음",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -310,7 +315,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "커스텀 아이템",
     "item.contents": "내용물",
     "item.loves-this": "사랑함",
     "item.likes-this": "좋아함",
@@ -329,7 +333,6 @@
     "item.produces-dye": "생산 염료",
 
     // values
-    "item.custom-item.summary": "{{modName}} 추가됨",
     "item.contents.placed": "{{name}} 들어감",
     "item.contents.ready": "{{name}} 준비됨",
     "item.contents.partial": "{{name}} 준비되기까지 {{time}} 남음.",

@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Divorciados",
     "friendship-status.kicked-out": "Enxotado",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -311,7 +316,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Item personalizado",
     "item.contents": "Conteúdo",
     "item.loves-this": "Ama isso",
     "item.likes-this": "Gosta disso",
@@ -330,7 +334,6 @@
     "item.produces-dye": "Produz corante",
 
     // values
-    "item.custom-item.summary": "Adicionado por {{modName}}",
     "item.contents.placed": "{{name}} colocado",
     "item.contents.ready": "{{name}} pronto",
     "item.contents.partial": "{{name}} em {{time}}",

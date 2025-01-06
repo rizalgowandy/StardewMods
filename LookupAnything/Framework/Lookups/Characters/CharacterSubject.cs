@@ -9,6 +9,7 @@ using Pathoschild.Stardew.LookupAnything.Framework.Data;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
 using Pathoschild.Stardew.LookupAnything.Framework.Models;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
@@ -123,7 +124,16 @@ internal class CharacterSubject : BaseSubject
     public override IEnumerable<ICustomField> GetData()
     {
         NPC npc = this.Target;
-        return this.TargetType switch
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(npc.Name);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
+        }
+
+        // specific fields
+        var fields = this.TargetType switch
         {
             SubjectType.Monster => this.GetDataForMonster((Monster)npc),
             SubjectType.Pet => this.GetDataForPet((Pet)npc),
@@ -136,6 +146,8 @@ internal class CharacterSubject : BaseSubject
             },
             _ => []
         };
+        foreach (ICustomField field in fields)
+            yield return field;
     }
 
     /// <inheritdoc />

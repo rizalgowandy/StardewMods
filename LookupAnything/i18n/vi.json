@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Ly hôn",
     "friendship-status.kicked-out": "Bị đuổi ra ngoài",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -310,7 +315,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Mục tùy chỉnh",
     "item.contents": "Nội dung",
     "item.loves-this": "Yêu cái này",
     "item.likes-this": "Thích cái này",
@@ -329,7 +333,6 @@
     "item.produces-dye": "Sản xuất thuốc nhuộm",
 
     // values
-    "item.custom-item.summary": "được thêm bởi {{modName}}",
     "item.contents.placed": "{{name}} địa điểm",
     "item.contents.ready": "{{name}} sẵn sàng",
     "item.contents.partial": "{{name}} vào {{time}}",

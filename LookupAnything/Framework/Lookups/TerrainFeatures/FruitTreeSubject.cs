@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.LookupAnything.Framework.Constants;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.GameData.FruitTrees;
@@ -50,6 +51,13 @@ internal class FruitTreeSubject : BaseSubject
         bool isMature = tree.daysUntilMature.Value <= 0;
         bool isDead = tree.stump.Value;
         bool isStruckByLightning = tree.struckByLightningCountdown.Value > 0;
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(tree.treeId.Value);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
+        }
 
         // show next fruit
         if (isMature && !isDead)

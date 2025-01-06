@@ -61,6 +61,11 @@
     "friendship-status.divorced": "已离婚",
     "friendship-status.kicked-out": "关系解除",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -310,7 +315,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "自定义物品",
     "item.contents": "内容",
     "item.loves-this": "最爱",
     "item.likes-this": "喜欢",
@@ -329,7 +333,6 @@
     "item.produces-dye": "产生染料",
 
     // values
-    "item.custom-item.summary": "由 {{modName}} 添加",
     "item.contents.placed": "已放置{{name}}",
     "item.contents.ready": "目前{{name}}",
     "item.contents.partial": "{{name}}在{{time}}后完成",
