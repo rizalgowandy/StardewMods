@@ -10,7 +10,7 @@ using StardewValley.Objects;
 
 namespace Pathoschild.Stardew.Automate.Framework.Machines;
 
-/// <summary>A building that accepts input and provides output based on the rules in <see cref="DataLoader.Buildings"/>.</summary>
+/// <summary>A building that accepts input and provides output based on the rules in <see cref="Game1.buildingData"/>.</summary>
 internal class DataBasedBuildingMachine : BaseMachineForBuilding<Building>
 {
     /*********

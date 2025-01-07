@@ -168,7 +168,7 @@ internal class DataParser
         // parse location and condition data
         var locations = new List<FishSpawnLocationData>();
         bool isLegendaryFamily = false;
-        foreach ((string locationId, LocationData? data) in DataLoader.Locations(Game1.content))
+        foreach ((string locationId, LocationData? data) in Game1.locationData)
         {
             if (metadata.IgnoreFishingLocations.Contains(locationId))
                 continue; // ignore event data

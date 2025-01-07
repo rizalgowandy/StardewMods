@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Minor performance optimizations.
 * Fixed compatibility with custom tapper rules in `Data/Machines` (thanks to zombifier!).
 
 ## 2.3.1
