@@ -21,6 +21,8 @@ using StardewValley.GameData.Locations;
 using StardewValley.GameData.Machines;
 using StardewValley.Internal;
 using StardewValley.ItemTypeDefinitions;
+using StardewValley.Menus;
+using StardewValley.Monsters;
 using StardewValley.TokenizableStrings;
 using SFarmer = StardewValley.Farmer;
 using SObject = StardewValley.Object;
@@ -55,26 +57,24 @@ internal class DataParser
             {
                 // parse key
                 string[] keyParts = key.Split('/');
-                string area = keyParts[0];
-                int id = int.Parse(keyParts[1]);
+                string area = ArgUtility.Get(keyParts, 0);
+                int id = ArgUtility.GetInt(keyParts, 1);
 
                 // parse bundle info
                 string[] valueParts = value.Split('/');
-                string name = valueParts[0];
-                string reward = valueParts[1];
-                string displayName = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en
-                    ? name // field isn't present in English
-                    : valueParts.Last(); // number of fields varies, but display name is always last
+                string name = ArgUtility.Get(valueParts, Bundle.NameIndex);
+                string reward = ArgUtility.Get(valueParts, Bundle.RewardIndex);
+                string displayName = ArgUtility.Get(valueParts, Bundle.DisplayNameIndex);
 
                 // parse ingredients
                 List<BundleIngredientModel> ingredients = [];
-                string[] ingredientData = valueParts[2].Split(' ');
+                string[] ingredientData = ArgUtility.SplitBySpace(ArgUtility.Get(valueParts, 2));
                 for (int i = 0; i < ingredientData.Length; i += 3)
                 {
                     int index = i / 3;
-                    string itemID = ingredientData[i];
-                    int stack = int.Parse(ingredientData[i + 1]);
-                    ItemQuality quality = (ItemQuality)int.Parse(ingredientData[i + 2]);
+                    string itemID = ArgUtility.Get(ingredientData, i);
+                    int stack = ArgUtility.GetInt(ingredientData, i + 1);
+                    ItemQuality quality = ArgUtility.GetEnum<ItemQuality>(ingredientData, i + 2);
                     ingredients.Add(new BundleIngredientModel(index, itemID, stack, quality));
                 }
 
@@ -115,18 +115,14 @@ internal class DataParser
                 .Select(entry =>
                 {
                     // parse ID
-                    string[]? parts = entry?.Split(' ');
-                    if (parts is null || parts.Length is < 1 or > 3)
+                    string[] parts = ArgUtility.SplitBySpace(entry);
+                    if (parts.Length is < 1 or > 3)
                         return null;
 
                     // parse counts
-                    int minCount = 1;
-                    int maxCount = 1;
-                    string id = parts[0];
-                    if (parts.Length >= 2)
-                        int.TryParse(parts[1], out minCount);
-                    if (parts.Length >= 3)
-                        int.TryParse(parts[1], out maxCount);
+                    string id = ArgUtility.Get(parts, 0);
+                    int minCount = ArgUtility.GetInt(parts, 1, 1);
+                    int maxCount = ArgUtility.GetInt(parts, 2, 1);
 
                     // normalize counts
                     minCount = Math.Max(1, minCount);
@@ -243,19 +239,19 @@ internal class DataParser
                     string[] fishFields = rawData.Split('/');
 
                     // times of day
-                    string[] timeFields = ArgUtility.Get(fishFields, 5)?.Split(' ') ?? Array.Empty<string>();
+                    string[] timeFields = ArgUtility.SplitBySpace(ArgUtility.Get(fishFields, 5));
                     for (int i = 0, last = timeFields.Length + 1; i + 1 < last; i += 2)
                     {
-                        if (int.TryParse(timeFields[i], out int minTime) && int.TryParse(timeFields[i + 1], out int maxTime))
+                        if (ArgUtility.TryGetInt(timeFields, i, out int minTime, out _) && ArgUtility.TryGetInt(timeFields, i + 1, out int maxTime, out _))
                             timesOfDay.Add(new FishSpawnTimeOfDayData(minTime, maxTime));
                     }
 
                     // weather
-                    if (!Enum.TryParse(ArgUtility.Get(fishFields, 7), true, out weather))
+                    if (!ArgUtility.TryGetEnum(fishFields, 7, out weather, out _))
                         weather = FishSpawnWeather.Both;
 
                     // min fishing level
-                    if (!int.TryParse(ArgUtility.Get(fishFields, 12), out minFishingLevel))
+                    if (!ArgUtility.TryGetInt(fishFields, 12, out minFishingLevel, out _))
                         minFishingLevel = 0;
                 }
             }
@@ -341,56 +337,53 @@ internal class DataParser
 
             // monster fields
             string[] fields = rawData.Split('/');
-            int health = int.Parse(fields[0]);
-            int damageToFarmer = int.Parse(fields[1]);
-            //int minCoins = int.Parse(fields[2]);
-            //int maxCoins = int.Parse(fields[3]) + 1;
-            bool isGlider = bool.Parse(fields[4]);
-            int durationOfRandomMovements = int.Parse(fields[5]);
-            int resilience = int.Parse(fields[7]);
-            double jitteriness = double.Parse(fields[8]);
-            int moveTowardsPlayerThreshold = int.Parse(fields[9]);
-            int speed = int.Parse(fields[10]);
-            double missChance = double.Parse(fields[11]);
-            bool isMineMonster = bool.Parse(fields[12]);
+            int health = ArgUtility.GetInt(fields, Monster.index_health);
+            int damageToFarmer = ArgUtility.GetInt(fields, Monster.index_damageToFarmer);
+            bool isGlider = ArgUtility.GetBool(fields, Monster.index_isGlider);
+            int resilience = ArgUtility.GetInt(fields, Monster.index_resilience);
+            double jitteriness = ArgUtility.GetFloat(fields, Monster.index_jitteriness);
+            int moveTowardsPlayerThreshold = ArgUtility.GetInt(fields, Monster.index_distanceThresholdToMoveTowardsPlayer);
+            int speed = ArgUtility.GetInt(fields, Monster.index_speed);
+            double missChance = ArgUtility.GetFloat(fields, Monster.index_missChance);
+            bool isMineMonster = ArgUtility.GetBool(fields, Monster.index_isMineMonster);
 
             // drops
             var drops = new List<ItemDropData>();
-            string[] dropFields = fields[6].Split(' ');
+            string[] dropFields = ArgUtility.SplitBySpace(ArgUtility.Get(fields, Monster.index_drops));
             for (int i = 0; i < dropFields.Length; i += 2)
             {
                 // get drop info
-                string itemID = dropFields[i];
-                float chance = float.Parse(dropFields[i + 1]);
+                string itemId = ArgUtility.Get(dropFields, i);
+                float chance = ArgUtility.GetFloat(dropFields, i + 1);
                 int maxDrops = 1;
 
                 // if itemID is negative, game randomly drops 1-3
-                if (int.TryParse(itemID, out int id) && id < 0)
+                if (int.TryParse(itemId, out int id) && id < 0)
                 {
-                    itemID = (-id).ToString();
+                    itemId = (-id).ToString();
                     maxDrops = 3;
                 }
 
                 // some item IDs have special meaning
-                if (itemID == Debris.copperDebris.ToString())
-                    itemID = SObject.copper.ToString();
-                else if (itemID == Debris.ironDebris.ToString())
-                    itemID = SObject.iron.ToString();
-                else if (itemID == Debris.coalDebris.ToString())
-                    itemID = SObject.coal.ToString();
-                else if (itemID == Debris.goldDebris.ToString())
-                    itemID = SObject.gold.ToString();
-                else if (itemID == Debris.coinsDebris.ToString())
+                if (itemId == Debris.copperDebris.ToString())
+                    itemId = SObject.copper.ToString();
+                else if (itemId == Debris.ironDebris.ToString())
+                    itemId = SObject.iron.ToString();
+                else if (itemId == Debris.coalDebris.ToString())
+                    itemId = SObject.coal.ToString();
+                else if (itemId == Debris.goldDebris.ToString())
+                    itemId = SObject.gold.ToString();
+                else if (itemId == Debris.coinsDebris.ToString())
                     continue; // no drop
-                else if (itemID == Debris.iridiumDebris.ToString())
-                    itemID = SObject.iridium.ToString();
-                else if (itemID == Debris.woodDebris.ToString())
-                    itemID = SObject.wood.ToString();
-                else if (itemID == Debris.stoneDebris.ToString())
-                    itemID = SObject.stone.ToString();
+                else if (itemId == Debris.iridiumDebris.ToString())
+                    itemId = SObject.iridium.ToString();
+                else if (itemId == Debris.woodDebris.ToString())
+                    itemId = SObject.wood.ToString();
+                else if (itemId == Debris.stoneDebris.ToString())
+                    itemId = SObject.stone.ToString();
 
                 // add drop
-                drops.Add(new ItemDropData(itemID, 1, maxDrops, chance));
+                drops.Add(new ItemDropData(itemId, 1, maxDrops, chance));
             }
             if (isMineMonster && Game1.player.timesReachedMineBottom >= 1)
             {
@@ -404,7 +397,6 @@ internal class DataParser
                 Health: health,
                 DamageToFarmer: damageToFarmer,
                 IsGlider: isGlider,
-                DurationOfRandomMovements: durationOfRandomMovements,
                 Resilience: resilience,
                 Jitteriness: jitteriness,
                 MoveTowardsPlayerThreshold: moveTowardsPlayerThreshold,
