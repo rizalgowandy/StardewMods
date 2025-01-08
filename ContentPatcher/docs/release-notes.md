@@ -11,6 +11,7 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 -->
 ## Upcoming release
 * Added [local tokens feature](author-guide/tokens.md#local-tokens) (thanks to collaboration with spacechase0!).
+* When a list entry can't be moved via `MoveEntries` because the given ID doesn't exist, Content Patcher now logs a `TRACE` message instead of `WARN`.
 * Fixed warnings for mods using `Hearts` or `Relationship` conditions with an NPC who's in the data but not added to the world yet.
 * Fixed `patch_summary` error if a patch has a null target.
 

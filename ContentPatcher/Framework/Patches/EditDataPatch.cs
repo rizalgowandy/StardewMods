@@ -516,15 +516,18 @@ internal class EditDataPatch : Patch
             if (result != MoveResult.Success)
             {
                 string logMessage;
+                bool isWarning = true;
 
                 switch (result)
                 {
                     case MoveResult.TargetNotFound:
                         logMessage = $"Can't move {errorLabel}: no entry with ID '{key}' exists.";
+                        isWarning = false;
                         break;
 
                     case MoveResult.AnchorNotFound:
                         logMessage = $"Can't move {errorLabel}: no entry with ID '{anchorKey}' exists.";
+                        isWarning = false;
                         break;
 
                     case MoveResult.AnchorIsMain:
@@ -537,7 +540,7 @@ internal class EditDataPatch : Patch
                 }
 
                 onWarning?.Invoke(logMessage, this.Monitor);
-                this.Monitor.LogOnce(logMessage, LogLevel.Warn);
+                this.Monitor.LogOnce(logMessage, isWarning ? LogLevel.Warn : LogLevel.Trace);
             }
         }
     }
