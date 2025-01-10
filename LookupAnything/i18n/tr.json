@@ -62,8 +62,7 @@
     "friendship-status.kicked-out": "Terk edilmiş",
 
     // custom content (shows which mod added an item, NPC, etc)
-    // TODO
-    "added-by-mod": "Added by mod",
+    "added-by-mod": "Mod tarafından eklendi",
     "added-by-mod.summary": "{{modName}}",
 
 
@@ -251,7 +250,7 @@
     ** Bush lookups
     *********/
     // labels
-    "bush.name.berry": "Yemiş Çalısı",
+    "bush.name.berry": "Böğürtlen Çalısı",
     "bush.name.plain": "Ova Çalısı",
     "bush.name.tea": "Çay Çalısı",
     "bush.description.berry": "Ahududu ve böğürtlen yetiştiren bir çalı.",
