@@ -3,6 +3,7 @@
 # Release notes
 ## Upcoming release
 * Added 'added by mod' field for buildings, farm animals, fruit and non-fruit trees, movie concessions, and NPCs. This works with any mods which follow the [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs) format.
+* Added schedule in NPC lookup (thanks to b3nk3lly!).
 * Added support for looking up placed flooring/path tiles.
 * Fixed error looking up items if another mod added broken data.
 * Fixed support for bundles having English display names in Stardew Valley 1.6+.
