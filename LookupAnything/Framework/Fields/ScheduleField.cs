@@ -8,27 +8,46 @@ using StardewValley.Pathfinding;
 namespace Pathoschild.Stardew.LookupAnything.Framework.Fields;
 
 /// <summary>A metadata field which shows an NPC's schedule.</summary>
-/// <param name="schedule">The NPC's loaded schedule.</param>
-/// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
-internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, GameHelper gameHelper) : GenericField(I18n.Npc_Schedule(), GetText(schedule, gameHelper))
+internal class ScheduleField : GenericField
 {
+    /*********
+    ** Public methods
+    *********/
+    /// <summary>Construct an instance.</summary>
+    /// <param name="npc">The NPC whose schedule to display.</param>
+    /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
+    public ScheduleField(NPC npc, GameHelper gameHelper)
+        : base(I18n.Npc_Schedule(), ScheduleField.GetText(npc, gameHelper)) { }
+
+
     /*********
     ** Private methods
     *********/
     /// <summary>Get the text to display.</summary>
-    /// <param name="rawSchedule">An NPC's loaded schedule.</param>
+    /// <param name="npc">The NPC whose schedule to display.</param>
     /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
-    private static IEnumerable<IFormattedText> GetText(Dictionary<int, SchedulePathDescription> rawSchedule, GameHelper gameHelper)
+    private static IEnumerable<IFormattedText> GetText(NPC npc, GameHelper gameHelper)
     {
-        ScheduleEntry[] schedule = ScheduleField.FormatSchedule(rawSchedule).ToArray();
+        ScheduleEntry[] schedule = ScheduleField.FormatSchedule(npc.Schedule).ToArray();
 
+        // current location
+        {
+            string locationName = npc.currentLocation is not null
+                ? gameHelper.GetLocationDisplayName(npc.currentLocation.Name, npc.currentLocation.GetData())
+                : "???";
+
+            yield return new FormattedText(I18n.Npc_Schedule_CurrentPosition(locationName: locationName, x: npc.TilePoint.X, y: npc.TilePoint.Y));
+            yield return new FormattedText(Environment.NewLine + Environment.NewLine);
+        }
+
+        // schedule entries
         if (schedule.Length > 0)
         {
             for (int i = 0; i < schedule.Length; i++)
             {
                 (int time, SchedulePathDescription entry) = schedule[i];
 
-                string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
+                string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName)?.GetData());
                 bool isStarted = Game1.timeOfDay >= time;
                 bool isFinished = i < schedule.Length - 1 && Game1.timeOfDay >= schedule[i + 1].Time;
 

@@ -403,7 +403,7 @@ internal class CharacterSubject : BaseSubject
 
             // schedule
             if (npc is { Schedule: not null, ignoreScheduleToday: false, followSchedule: true })
-                yield return new ScheduleField(npc.Schedule, this.GameHelper);
+                yield return new ScheduleField(npc, this.GameHelper);
         }
     }
 

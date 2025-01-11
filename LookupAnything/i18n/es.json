@@ -506,6 +506,7 @@
     "npc.friendship.need-points": "siguiente en {{count}} puntos",
     "npc.undiscovered-gift-taste": "{{count}} items sin revelar",
     "npc.unowned-gift-taste": "{{count}} objetos no obtenidos",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
     "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 

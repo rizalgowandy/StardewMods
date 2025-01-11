@@ -508,6 +508,7 @@
     "npc.friendship.need-points": "Következő szint {{count}} pont múlva",
     "npc.undiscovered-gift-taste": "{{count}} fel nem fedezett dolog",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
     "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 

@@ -505,6 +505,7 @@
     "npc.friendship.need-points": "tim tiếp theo cần {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} vật phẩm chưa khám phá",
     "npc.unowned-gift-taste": "{{count}} vật phẩm chưa biết",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
     "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 
