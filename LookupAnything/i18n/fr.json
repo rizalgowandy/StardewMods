@@ -508,6 +508,7 @@
     "npc.friendship.need-points": "manque {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} goût(s) non révelé(s)",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 
     /*********

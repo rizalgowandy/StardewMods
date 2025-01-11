@@ -16,28 +16,33 @@ internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, 
     ** Private methods
     *********/
     /// <summary>Get the text to display.</summary>
-    /// <param name="schedule">An NPC's loaded schedule.</param>
+    /// <param name="rawSchedule">An NPC's loaded schedule.</param>
     /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
-    private static IEnumerable<IFormattedText> GetText(Dictionary<int, SchedulePathDescription> schedule, GameHelper gameHelper)
+    private static IEnumerable<IFormattedText> GetText(Dictionary<int, SchedulePathDescription> rawSchedule, GameHelper gameHelper)
     {
-        List<ScheduleEntry> formattedSchedule = FormatSchedule(schedule).ToList();
+        ScheduleEntry[] schedule = ScheduleField.FormatSchedule(rawSchedule).ToArray();
 
-        for (int i = 0; i < formattedSchedule.Count; i++)
+        if (schedule.Length > 0)
         {
-            (int time, SchedulePathDescription entry) = formattedSchedule[i];
+            for (int i = 0; i < schedule.Length; i++)
+            {
+                (int time, SchedulePathDescription entry) = schedule[i];
 
-            string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
-            bool isStarted = Game1.timeOfDay >= time;
-            bool isFinished = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].Time;
+                string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
+                bool isStarted = Game1.timeOfDay >= time;
+                bool isFinished = i < schedule.Length - 1 && Game1.timeOfDay >= schedule[i + 1].Time;
 
-            Color textColor = isStarted
-                ? (isFinished ? Color.Gray : Color.Green)
-                : Color.Black;
+                Color textColor = isStarted
+                    ? (isFinished ? Color.Gray : Color.Green)
+                    : Color.Black;
 
-            if (i > 0)
-                yield return new FormattedText(Environment.NewLine);
-            yield return new FormattedText($"{Game1.getTimeOfDayString(time)} - {locationName}", textColor);
+                if (i > 0)
+                    yield return new FormattedText(Environment.NewLine);
+                yield return new FormattedText($"{Game1.getTimeOfDayString(time)} - {locationName}", textColor);
+            }
         }
+        else
+            yield return new FormattedText(I18n.Npc_Schedule_NoEntries());
     }
 
     /// <summary>Returns a collection of schedule entries sorted by time. Consecutive entries with the same target location are omitted.</summary>

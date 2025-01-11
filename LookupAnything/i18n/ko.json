@@ -505,6 +505,7 @@
     "npc.friendship.need-points": "호감도 UP까지 {{count}}점",
     "npc.undiscovered-gift-taste": "공개되지 않은 품목 {{count}}개",
     "npc.unowned-gift-taste": "소유하지 않은 품목 {{count}}개",
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 
     /*********

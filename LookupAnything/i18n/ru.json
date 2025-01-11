@@ -505,6 +505,7 @@
     "npc.friendship.need-points": "след. через {{count}}",
     "npc.undiscovered-gift-taste": "{{count}} нераскрытых предметов",
     "npc.unowned-gift-taste": "{{count}} бесхозных предметов",
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
 
 
     /*********
