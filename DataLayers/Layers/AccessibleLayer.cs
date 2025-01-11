@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
@@ -145,7 +146,7 @@ internal class AccessibleLayer : BaseLayer
             LegendEntry type;
             if (this.IsWarp(location, tile, tilePixels, buildingDoors))
                 type = this.Warp;
-            else if (location.isTilePassable(tile))
+            else if (this.IsTilePassable(location, tile))
                 type = location.IsTileBlockedBy(tile, ignorePassables: CollisionMask.All) ? this.Occupied : this.Clear;
             else
                 type = this.Impassable;
@@ -153,6 +154,26 @@ internal class AccessibleLayer : BaseLayer
             // yield
             yield return new TileData(tile, type);
         }
+    }
+
+    /// <summary>Get whether players can walk on a map tile.</summary>
+    /// <param name="location">The location to check.</param>
+    /// <param name="tile">The tile position.</param>
+    /// <remarks>This is derived from <see cref="GameLocation.isTilePassable(Vector2)" />, but also checks tile properties in addition to tile index properties to match the actual game behavior.</remarks>
+    private bool IsTilePassable(GameLocation location, Vector2 tile)
+    {
+        // passable if Buildings layer has 'Passable' property
+        Tile? buildingTile = location.map.RequireLayer("Buildings").Tiles[(int)tile.X, (int)tile.Y];
+        if (buildingTile?.Properties.ContainsKey("Passable") is true)
+            return true;
+
+        // non-passable if Back layer has 'Passable' property
+        Tile? backTile = location.map.RequireLayer("Back").Tiles[(int)tile.X, (int)tile.Y];
+        if (backTile?.Properties.ContainsKey("Passable") is true)
+            return false;
+
+        // else check tile indexes
+        return location.isTilePassable(tile);
     }
 
     /// <summary>Get whether there's a warp on the given tile.</summary>
