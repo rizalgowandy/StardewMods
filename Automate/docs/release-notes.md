@@ -4,6 +4,7 @@
 ## Upcoming release
 * Minor performance optimizations.
 * Fixed compatibility with custom tapper rules in `Data/Machines` (thanks to zombifier!).
+* Fixed handling of machines with a zero-size output. Automate now discards the broken output, which matches what happens when you try to empty the machine manually.
 
 ## 2.3.1
 Released 04 November 2024 for SMAPI 4.1.2 or later.

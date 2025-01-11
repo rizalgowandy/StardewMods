@@ -172,7 +172,7 @@ internal class MachineGroup : IMachineGroup
                     continue;
 
                 // try to push output
-                if (storage.TryPush(output))
+                if (this.TryPushOutput(machine, storage, output))
                 {
                     if (machine.GetState() is MachineState.Empty)
                         inputReady.Add(machine);
@@ -232,6 +232,30 @@ internal class MachineGroup : IMachineGroup
         return containers
             .Where(container => seenInventories.Add(container.InventoryReferenceId))
             .ToArray();
+    }
+
+    /// <summary>Add the given item stack to the output pipe if there's space.</summary>
+    /// <param name="machine">The machine which produced the output.</param>
+    /// <param name="storage">The output storage receiving the output.</param>
+    /// <param name="output">The item stack to push.</param>
+    /// <returns>Returns whether at least some of the item stack was received.</returns>
+    private bool TryPushOutput(IMachine machine, IStorage storage, ITrackedStack output)
+    {
+        int stackSize = output.Count;
+
+        // valid input
+        if (storage.TryPush(output))
+            return true;
+
+        // special case: machine produced a zero-size stack
+        if (stackSize < 1)
+        {
+            this.Monitor.Log($"Machine '{machine.MachineTypeID}' at {machine.Location.Name} (tile: {machine.TileArea.X}, {machine.TileArea.Y}) produced an item with {(stackSize == 0 ? "no stack size" : $"stack size {stackSize}")}, so the output will be discarded. This is generally due to another mod breaking machine logic, and isn't related to Automate.", LogLevel.Warn);
+            output.Take(1); // trigger on-empty callback
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>Handle a machine which threw an exception during processing.</summary>

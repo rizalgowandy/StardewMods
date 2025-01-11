@@ -55,7 +55,8 @@ public interface IStorage
     /****
     ** TryPush
     ****/
-    /// <summary>Add the given item stack to the pipes if there's space.</summary>
+    /// <summary>Add the given item stack to the output pipe if there's space.</summary>
     /// <param name="item">The item stack to push.</param>
+    /// <returns>Returns whether at least some of the item stack was received.</returns>
     bool TryPush(ITrackedStack? item);
 }
