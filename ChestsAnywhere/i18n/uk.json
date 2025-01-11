@@ -59,8 +59,8 @@
     "config.enable-shipping-bin.name": "Увімкнути ящик для продажу",
     "config.enable-shipping-bin.desc": "Увімкнення доступу до ящика для продажу.",
 
-    "config.enable-sprinkler-attachments.name": "Увікнути з'єднання з зрошувачем", 
-    "config.enable-sprinkler-attachments.desc": "Чи увікнути доступ з'єднання з зрошувачем, як і з збагачувачами.", 
+    "config.enable-sprinkler-attachments.name": "Увікнути з'єднання з зрошувачем",
+    "config.enable-sprinkler-attachments.desc": "Чи увікнути доступ з'єднання з зрошувачем, як і з збагачувачами.",
 
     "config.add-organize-player-items.name": "Додати кнопку сортування предметів гравця.",
     "config.add-organize-player-items.desc": "Додавання кнопки «Сортувати» в інтерфейсах скриньки для інвентарю гравця.",
@@ -68,7 +68,7 @@
     /****
     ** remote access
     ****/
-    "config.title.remote-access": "Віддалений доступ", 
+    "config.title.remote-access": "Віддалений доступ",
 
     "config.range.name": "Діапазон дії",
     "config.range.desc": "Діапазон, на якому скрині доступні через меню.",
@@ -86,17 +86,17 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Гаряча клавіша для відкриття інтерфейсу скрині", 
+    "config.title.open-menu-hotkey": "Гаряча клавіша для відкриття інтерфейсу скрині",
 
     "config.toggle-ui-key.name": "Увімкнути інтерфейс скрині",
     "config.toggle-ui-key.desc": "Клавіші, які показують або приховують інтерфейс скрині.",
 
-    "config.reopen-last-chest.name": "Відкривати остянню скриню", 
+    "config.reopen-last-chest.name": "Відкривати остянню скриню",
     "config.reopen-last-chest.desc": "Чи відкривати останню скриню, яку ви вибрали самостійно під час поточної ігрової сесії, коли ви натиснаєте кнопку 'Увімкненути інтерфейс скрині'?",
-     
-    "config.default-category.name": "Категорія за замовчуванням", 
+
+    "config.default-category.name": "Категорія за замовчуванням",
     "config.default-category.desc": "Коли ви натиснаєте кнопку 'Увімкненути інтерфейс скрині', за замовчуванням показувати скрині з цієї категорії (якщо встановленно). Це застосовується після 'Відкривати остянню скриню'.",
-     
+
     /****
     ** controls when chest UI is open
     ****/
