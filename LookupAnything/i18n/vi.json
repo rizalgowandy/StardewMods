@@ -113,6 +113,10 @@
     "location.forest.island-tip": "{{locationName}} (sông gần ngọn phía nam của hòn đảo lớn)",
     "location.forest.lake": "{{locationName}} (ao)",
     "location.forest.river": "{{locationName}} (sông)",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Tàu Ngầm Chợ Đêm",
     "location.town.northmost-bridge": "{{locationName}} (cây cầu phía bắc)",
     "location.undergroundMine": "Mỏ",
@@ -491,6 +495,7 @@
     "npc.neutral-gifts": "Quà bình thường",
     "npc.dislikes-gifts": "Không thích quà",
     "npc.hates-gifts": "Ghét quà",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Hai người đã kết hôn! <", // < turns into a heart
@@ -500,6 +505,7 @@
     "npc.friendship.need-points": "tim tiếp theo cần {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} vật phẩm chưa khám phá",
     "npc.unowned-gift-taste": "{{count}} vật phẩm chưa biết",
+    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********
