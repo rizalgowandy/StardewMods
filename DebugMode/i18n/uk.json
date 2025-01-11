@@ -8,6 +8,7 @@
     "label.menu": "Меню",
     "label.submenu": "Підменю",
     "label.minigame": "Міні-гра",
+    "label.dialogue": "dialogue", // TODO
     "label.festival-name": "Фестиваль",
     "label.event-id": "ID події",
     "label.event-script": "Сценарій події",

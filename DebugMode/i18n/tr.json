@@ -8,6 +8,7 @@
     "label.menu": "menü",
     "label.submenu": "alt menü",
     "label.minigame": "mini oyun",
+    "label.dialogue": "dialogue", // TODO
     "label.festival-name": "festival",
     "label.event-id": "olay ID",
     "label.event-script": "olay senaryosu",

@@ -8,6 +8,7 @@
     "label.menu": "Menü",
     "label.submenu": "Almenü",
     "label.minigame": "Minijáték",
+    "label.dialogue": "dialogue", // TODO
     "label.festival-name": "Fesztivál",
     "label.event-id": "Esemény azonosító",
     "label.event-script": "Esemény szkript",

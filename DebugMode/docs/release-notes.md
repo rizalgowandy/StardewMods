@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## Upcoming release
+* Added dialogue key when a dialogue box is open.
+
 ## 1.13.17
 Released 04 November 2024 for SMAPI 4.1.2 or later.
 

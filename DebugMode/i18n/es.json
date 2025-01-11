@@ -8,6 +8,7 @@
     "label.menu": "menú",
     "label.submenu": "submenú",
     "label.minigame": "minijuego",
+    "label.dialogue": "dialogue", // TODO
     "label.festival-name": "festival",
     "label.event-id": "ID de evento",
     "label.event-script": "guión del evento",
