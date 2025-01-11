@@ -51,7 +51,7 @@
     /****
     ** general options
     ****/
-    "config.title.general-options": "Основні налаштування",
+    "config.title.general-options": "Загальні налаштування",
 
     "config.show-hover-tooltips.name": "Показати підказки при наведенні курсора",
     "config.show-hover-tooltips.desc": "Показувати назву скрині у підказці, коли ви вказуєте на скриню.",
