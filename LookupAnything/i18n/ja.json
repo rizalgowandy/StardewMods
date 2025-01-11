@@ -118,6 +118,10 @@
     "location.forest.island-tip": "森の川（南の小島の南端）",
     "location.forest.lake": "森の池",
     "location.forest.river": "森の川",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "夜の市 潜水艦",
     "location.town.northmost-bridge": "ペリカンタウン（北端の橋）",
     "location.undergroundMine": "鉱山",
@@ -494,6 +498,7 @@
     "npc.neutral-gifts": "普通の贈り物",
     "npc.dislikes-gifts": "嫌いな贈り物",
     "npc.hates-gifts": "大嫌いな贈り物",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "あなたと結婚しました！", // < turns into a heart
@@ -503,6 +508,9 @@
     "npc.friendship.need-points": "次のハートまで{{count}}ポイント必要",
     "npc.undiscovered-gift-taste": "{{count}}個の贈った事のないアイテム",
     "npc.unowned-gift-taste": "{{count}}個のアイテムは未所有",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

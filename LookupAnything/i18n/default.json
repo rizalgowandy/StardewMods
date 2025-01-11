@@ -117,6 +117,10 @@
     "location.forest.island-tip": "{{locationName}} (river near south tip of large island)",
     "location.forest.lake": "{{locationName}} (pond)",
     "location.forest.river": "{{locationName}} (river)",
+    "location.HarveyRoom": "Harvey's Room",
+    "location.LeoTreeHouse": "Treehouse",
+    "location.SandyHouse": "Oasis",
+    "location.SebastianRoom": "Sebastian's Room",
     "location.submarine": "Night Market Submarine",
     "location.town.northmost-bridge": "{{locationName}} (northmost bridge)",
     "location.undergroundMine": "Mines",
@@ -493,6 +497,7 @@
     "npc.neutral-gifts": "Neutral gifts",
     "npc.dislikes-gifts": "Dislikes gifts",
     "npc.hates-gifts": "Hates gifts",
+    "npc.schedule": "Today's schedule",
 
     // values
     "npc.can-romance.married": "You're married! <", // < turns into a heart
@@ -502,6 +507,9 @@
     "npc.friendship.need-points": "next in {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} unrevealed items",
     "npc.unowned-gift-taste": "{{count}} unowned items",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).",
+    "npc.schedule.no-entries": "No schedule loaded.",
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).",
 
 
     /*********

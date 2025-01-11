@@ -120,6 +120,10 @@
     "location.forest.island-tip": "rivière de la forêt (pointe sud de la grande île)",
     "location.forest.lake": "étang de la forêt",
     "location.forest.river": "rivère de la forêt",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "sous-marin du marché de nuit",
     "location.town.northmost-bridge": "ville (pont le plus au nord)",
     "location.undergroundMine": "mines",
@@ -497,6 +501,7 @@
     "npc.neutral-gifts": "Cadeaux neutres",
     "npc.dislikes-gifts": "Cadeaux non appréciés",
     "npc.hates-gifts": "Cadeaux détestés",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Vous êtes mariés ! <", // < turns into a heart
@@ -506,6 +511,9 @@
     "npc.friendship.need-points": "manque {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} goût(s) non révelé(s)",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

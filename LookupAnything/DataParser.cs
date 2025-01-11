@@ -326,6 +326,30 @@ internal class DataParser
         return this.GetLocationDisplayName(fishSpawnData.LocationId, locationData, fishSpawnData.Area);
     }
 
+    /// <summary>Get the translated display name for a location.</summary>
+    /// <param name="id">The location's internal name.</param>
+    /// <param name="data">The location data, if available.</param>
+    public string GetLocationDisplayName(string id, LocationData? data)
+    {
+        // from predefined translations
+        {
+            string name = I18n.GetByKey($"location.{id}").UsePlaceholder(false);
+            if (!string.IsNullOrWhiteSpace(name))
+                return name;
+        }
+
+        // from location data
+        if (data != null)
+        {
+            string name = TokenParser.ParseText(data.DisplayName);
+            if (!string.IsNullOrWhiteSpace(name))
+                return name;
+        }
+
+        // else default to ID
+        return id;
+    }
+
     /// <summary>Parse monster data.</summary>
     /// <remarks>Reverse engineered from <see cref="StardewValley.Monsters.Monster.parseMonsterInfo"/>, <see cref="GameLocation.monsterDrop"/>, and the <see cref="Debris"/> constructor.</remarks>
     public IEnumerable<MonsterData> GetMonsters()
@@ -689,30 +713,6 @@ internal class DataParser
                 : I18n.Location_UnknownFishArea(locationName: locationName, id: fishAreaId);
         }
         return displayName;
-    }
-
-    /// <summary>Get the translated display name for a location.</summary>
-    /// <param name="id">The location's internal name.</param>
-    /// <param name="data">The location data, if available.</param>
-    private string GetLocationDisplayName(string id, LocationData? data)
-    {
-        // from predefined translations
-        {
-            string name = I18n.GetByKey($"location.{id}").UsePlaceholder(false);
-            if (!string.IsNullOrWhiteSpace(name))
-                return name;
-        }
-
-        // from location data
-        if (data != null)
-        {
-            string name = TokenParser.ParseText(data.DisplayName);
-            if (!string.IsNullOrWhiteSpace(name))
-                return name;
-        }
-
-        // else default to ID
-        return id;
     }
 
     /// <summary>Normalize raw ingredient ID and context tags from a machine recipe into the most specific item ID and context tags possible.</summary>

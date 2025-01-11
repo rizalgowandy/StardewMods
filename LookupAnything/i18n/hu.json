@@ -118,6 +118,10 @@
     "location.forest.island-tip": "erdei folyó (nagy sziget déli csücske)",
     "location.forest.lake": "erdei tó",
     "location.forest.river": "erdei folyó",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Éjszakai Piac tengeralattjáró",
     "location.town.northmost-bridge": "város (legészakibb híd)",
     "location.undergroundMine": "bányák",
@@ -497,6 +501,7 @@
     "npc.neutral-gifts": "Semleges ajándékok",
     "npc.dislikes-gifts": "Ajándékok, melyeket nem szeret",
     "npc.hates-gifts": "Ajándékok, melyeket utál",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Házastársak vagytok! <", // < turns into a heart
@@ -506,6 +511,9 @@
     "npc.friendship.need-points": "Következő szint {{count}} pont múlva",
     "npc.undiscovered-gift-taste": "{{count}} fel nem fedezett dolog",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********
