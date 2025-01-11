@@ -505,7 +505,6 @@
     "npc.friendship.need-points": "następne za {{count}} pkt",
     "npc.undiscovered-gift-taste": "{{count}} nieodkrytych przedmiotów",
     "npc.unowned-gift-taste": "{{count}} nieposiadanych przedmiotów",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

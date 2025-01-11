@@ -505,7 +505,6 @@
     "npc.friendship.need-points": "{{count}} puana gelişir",
     "npc.undiscovered-gift-taste": "{{count}} gizli nesneler",
     "npc.unowned-gift-taste": "{{count}} sahipsiz öğe",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

@@ -506,7 +506,6 @@
     "npc.friendship.need-points": "Наступн. за {{count}}",
     "npc.undiscovered-gift-taste": "{{count}} незвіданих предметів",
     "npc.unowned-gift-taste": "{{count}} предметів, якими ви ніколи не володіли",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

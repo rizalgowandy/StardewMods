@@ -113,7 +113,7 @@
     "location.forest.island-tip": "{{locationName}} (river near south tip of large island)",
     "location.forest.lake": "{{locationName}} (pond)",
     "location.forest.river": "{{locationName}} (river)",
-    "location.HarveyRoom":  "Harvey's Room",
+    "location.HarveyRoom": "Harvey's Room",
     "location.LeoTreeHouse": "Treehouse",
     "location.SandyHouse": "Oasis",
     "location.SebastianRoom": "Sebastian's Room",
@@ -505,7 +505,6 @@
     "npc.friendship.need-points": "next in {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} unrevealed items",
     "npc.unowned-gift-taste": "{{count}} unowned items",
-    "npc.schedule.all-day": "All day",
 
 
     /*********

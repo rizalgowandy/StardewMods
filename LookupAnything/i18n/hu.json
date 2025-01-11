@@ -508,7 +508,6 @@
     "npc.friendship.need-points": "Következő szint {{count}} pont múlva",
     "npc.undiscovered-gift-taste": "{{count}} fel nem fedezett dolog",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

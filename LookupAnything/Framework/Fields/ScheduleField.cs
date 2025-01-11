@@ -26,9 +26,7 @@ internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, 
         {
             (int time, SchedulePathDescription entry) = formattedSchedule[i];
 
-            string timeString = formattedSchedule.Count == 1 ? I18n.Npc_Schedule_AllDay() : Game1.getTimeOfDayString(time);
             string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
-
             bool isStarted = Game1.timeOfDay >= time;
             bool isFinished = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].Time;
 
@@ -38,7 +36,7 @@ internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, 
 
             if (i > 0)
                 yield return new FormattedText(Environment.NewLine);
-            yield return new FormattedText($"{timeString} - {locationName}", textColor);
+            yield return new FormattedText($"{Game1.getTimeOfDayString(time)} - {locationName}", textColor);
         }
     }
 

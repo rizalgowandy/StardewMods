@@ -506,7 +506,6 @@
     "npc.friendship.need-points": "siguiente en {{count}} puntos",
     "npc.undiscovered-gift-taste": "{{count}} items sin revelar",
     "npc.unowned-gift-taste": "{{count}} objetos no obtenidos",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

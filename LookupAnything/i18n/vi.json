@@ -505,7 +505,6 @@
     "npc.friendship.need-points": "tim tiếp theo cần {{count}} pts",
     "npc.undiscovered-gift-taste": "{{count}} vật phẩm chưa khám phá",
     "npc.unowned-gift-taste": "{{count}} vật phẩm chưa biết",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

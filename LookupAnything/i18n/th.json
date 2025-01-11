@@ -508,7 +508,6 @@
     "npc.friendship.need-points": "เลื่อนขั้นใน {{count}} แต้ม",
     "npc.undiscovered-gift-taste": "{{count}} ชิ้นที่ยังไม่เปิดเผย",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

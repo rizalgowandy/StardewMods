@@ -506,7 +506,6 @@
     "npc.friendship.need-points": "下一等级需要{{count}}点好感度",
     "npc.undiscovered-gift-taste": "{{count}} 个未揭露的物品",
     "npc.unowned-gift-taste": "{{count}} 个未拥有的物品",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********

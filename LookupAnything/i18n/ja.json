@@ -505,7 +505,6 @@
     "npc.friendship.need-points": "次のハートまで{{count}}ポイント必要",
     "npc.undiscovered-gift-taste": "{{count}}個の贈った事のないアイテム",
     "npc.unowned-gift-taste": "{{count}}個のアイテムは未所有",
-    "npc.schedule.all-day": "All day", // TODO
 
 
     /*********
