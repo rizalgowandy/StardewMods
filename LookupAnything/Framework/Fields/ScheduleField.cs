@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Pathfinding;
 
@@ -12,19 +12,9 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields;
 /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
 internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, GameHelper gameHelper) : GenericField(I18n.Npc_Schedule(), GetText(schedule, gameHelper))
 {
-    /// <inheritdoc />
-    public override Vector2? DrawValue(SpriteBatch spriteBatch, SpriteFont font, Vector2 position, float wrapWidth)
-    {
-        float topOffset = 0;
-
-        foreach (IFormattedText text in this.Value)
-        {
-            topOffset += spriteBatch.DrawTextBlock(font, [text], new Vector2(position.X, position.Y + topOffset), wrapWidth).Y;
-        }
-
-        return new Vector2(wrapWidth, topOffset);
-    }
-
+    /*********
+    ** Private methods
+    *********/
     /// <summary>Get the text to display.</summary>
     /// <param name="schedule">An NPC's loaded schedule.</param>
     /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
@@ -37,18 +27,18 @@ internal class ScheduleField(Dictionary<int, SchedulePathDescription> schedule, 
             (int time, SchedulePathDescription entry) = formattedSchedule[i];
 
             string timeString = formattedSchedule.Count == 1 ? I18n.Npc_Schedule_AllDay() : Game1.getTimeOfDayString(time);
-            string locationDisplayName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
+            string locationName = gameHelper.GetLocationDisplayName(entry.targetLocationName, Game1.getLocationFromName(entry.targetLocationName).GetData());
 
-            bool didCurrentEventStart = Game1.timeOfDay >= time;
-            bool didNextEventStart = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].Time;
-            Color textColor;
+            bool isStarted = Game1.timeOfDay >= time;
+            bool isFinished = i < formattedSchedule.Count - 1 && Game1.timeOfDay >= formattedSchedule[i + 1].Time;
 
-            if (didCurrentEventStart)
-                textColor = didNextEventStart ? Color.Gray : Color.Green;
-            else
-                textColor = Color.Black;
+            Color textColor = isStarted
+                ? (isFinished ? Color.Gray : Color.Green)
+                : Color.Black;
 
-            yield return new FormattedText($"{timeString} - {locationDisplayName}", textColor);
+            if (i > 0)
+                yield return new FormattedText(Environment.NewLine);
+            yield return new FormattedText($"{timeString} - {locationName}", textColor);
         }
     }
 
