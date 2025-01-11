@@ -507,6 +507,7 @@
     "npc.unowned-gift-taste": "{{count}} unowned items",
     "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).",
     "npc.schedule.no-entries": "No schedule loaded.",
+    "npc.schedule.entry": "{{time}}: {{locationName}} ({{x}}, {{y}}).",
 
 
     /*********

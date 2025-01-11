@@ -507,6 +507,7 @@
     "npc.unowned-gift-taste": "{{count}} бесхозных предметов",
     "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
     "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

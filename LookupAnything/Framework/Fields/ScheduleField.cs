@@ -57,7 +57,7 @@ internal class ScheduleField : GenericField
 
                 if (i > 0)
                     yield return new FormattedText(Environment.NewLine);
-                yield return new FormattedText($"{Game1.getTimeOfDayString(time)} - {locationName}", textColor);
+                yield return new FormattedText(I18n.Npc_Schedule_Entry(time: Game1.getTimeOfDayString(time), locationName: locationName, x: entry.targetTile.X, y: entry.targetTile.Y), textColor);
             }
         }
         else
