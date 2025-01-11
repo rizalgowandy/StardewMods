@@ -7,6 +7,7 @@ using Pathoschild.Stardew.Common.Items;
 using Pathoschild.Stardew.LookupAnything.Framework.Data;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.GameData.FloorsAndPaths;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -72,6 +73,27 @@ internal class ItemLookupProvider : BaseLookupProvider
         {
             if (feature is HoeDirt { crop: not null } dirt && this.GameHelper.CouldSpriteOccludeTile(tile, lookupTile))
                 yield return new CropTarget(this.GameHelper, dirt, tile, () => this.BuildSubject(dirt.crop, ObjectContext.World, dirt));
+        }
+
+        // flooring
+        foreach ((Vector2 entityTile, TerrainFeature? feature) in location.terrainFeatures.Pairs)
+        {
+            if (!this.GameHelper.CouldSpriteOccludeTile(entityTile, lookupTile))
+                continue;
+
+            switch (feature)
+            {
+                case Flooring flooring:
+                    {
+                        FloorPathData? data = flooring.GetData();
+                        if (data is not null)
+                        {
+                            Item item = ItemRegistry.Create(data.ItemId);
+                            yield return new FlooringTarget(this.GameHelper, flooring, entityTile, () => this.BuildSubject(item, ObjectContext.World, location));
+                        }
+                    }
+                    break;
+            }
         }
     }
 

@@ -33,11 +33,8 @@ internal class TerrainFeatureLookupProvider : BaseLookupProvider
     public override IEnumerable<ITarget> GetTargets(GameLocation location, Vector2 lookupTile)
     {
         // terrain features
-        foreach (KeyValuePair<Vector2, TerrainFeature> pair in location.terrainFeatures.Pairs)
+        foreach ((Vector2 entityTile, TerrainFeature? feature) in location.terrainFeatures.Pairs)
         {
-            Vector2 entityTile = pair.Key;
-            TerrainFeature feature = pair.Value;
-
             if (!this.GameHelper.CouldSpriteOccludeTile(entityTile, lookupTile))
                 continue;
 

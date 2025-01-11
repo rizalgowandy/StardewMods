@@ -12,7 +12,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.Items;
 internal class ObjectTarget : GenericTarget<SObject>
 {
     /*********
-    ** Public methods
+    ** Fields
     *********/
     /// <summary>The item sprite.</summary>
     private readonly SpriteInfo? CustomSprite;
