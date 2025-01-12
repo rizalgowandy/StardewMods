@@ -9,14 +9,16 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
+## 2.5.0
+Released 11 January 2025 for SMAPI 4.1.10 or later. See [release highlights](https://www.patreon.com/posts/119812841).
+
 * Added [local tokens feature](author-guide/tokens.md#local-tokens) (thanks to collaboration with spacechase0!).
 * When a list entry can't be moved via `MoveEntries` because the given ID doesn't exist, Content Patcher now logs a `TRACE` message instead of `WARN`.
 * Fixed warnings for mods using `Hearts` or `Relationship` conditions with an NPC who's in the data but not added to the world yet.
 * Fixed `patch_summary` error if a patch has a null target.
 
 ## 2.4.4
-Released 08 November 2024 for SMAPI 4.1.5 or later.
+Released 08 November 2024 for SMAPI 4.1.6 or later.
 
 * In SMAPI 4.1._x_, [gender-switch blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch) are preprocessed automatically by default. That no longer applies to the `{{i18n}}` token.  
   _That didn't work with [patch update rates](author-guide.md#update-rate), and gender-switch blocks still work fine for translations passed to the game since they'll be parsed by the game._

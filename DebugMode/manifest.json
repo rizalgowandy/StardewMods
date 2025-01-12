@@ -1,8 +1,8 @@
 ﻿{
     "Name": "Debug Mode",
     "Author": "Pathoschild",
-    "Version": "1.13.17",
-    "MinimumApiVersion": "4.1.2",
+    "Version": "1.14.0",
+    "MinimumApiVersion": "4.1.10",
     "Description": "Enables an overlay which provides debug information and unlocks the game's debug hotkeys.",
     "UniqueID": "Pathoschild.DebugMode",
     "EntryDll": "DebugMode.dll",

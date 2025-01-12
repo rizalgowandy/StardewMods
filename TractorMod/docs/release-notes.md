@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 4.21.0
+Released 11 January 2025 for SMAPI 4.1.10 or later.
+
 * The tractor's texture override is now visible to other mods via the new `tractor.Sprite.overrideTextureName` field.
 * Improved translations. Thanks to creeperkatze (updated German), MakinDay (updated Italian), mehmetgorkemarslan (updated Turkish), and moonggae (updated Korean)!
 
