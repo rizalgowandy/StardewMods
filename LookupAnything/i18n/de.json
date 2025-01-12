@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Geschieden",
     "friendship-status.kicked-out": "Rausgeschmissen",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -113,6 +118,10 @@
     "location.forest.island-tip": "Waldfluss (Südspitze der großen Insel)",
     "location.forest.lake": "Waldteich",
     "location.forest.river": "Waldfluss",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Nachtmarkt Tiefsee-U-Boot",
     "location.town.northmost-bridge": "Stadt (Nord-östliche Brücke)",
     "location.undergroundMine": "Mine",
@@ -310,7 +319,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Benutzerdefinierter Gegenstand",
     "item.contents": "Inhalt",
     "item.loves-this": "Liebt das",
     "item.likes-this": "Mag das",
@@ -329,7 +337,6 @@
     "item.produces-dye": "Erzeugt Farbe",
 
     // values
-    "item.custom-item.summary": "von {{modName}} hinzugefügt",
     "item.contents.placed": "{{name}} platziert",
     "item.contents.ready": "{{name}} bereit",
     "item.contents.partial": "{{name}} in {{time}}",
@@ -398,7 +405,7 @@
     // values
     "item.fish-spawn-rules.min-fishing-level": "Mindest-Angelstufe: {{level}}",
     "item.fish-spawn-rules.not-caught-yet": "Noch nicht gefangen (kann nur einmal gefangen werden)",
-    "item.fish-spawn-rules.extended-family-quest-active": "\"Extended Family\" quest active", // TODO
+    "item.fish-spawn-rules.extended-family-quest-active": "\"Erweiterte Familie\"-Quest aktiv",
     "item.fish-spawn-rules.locations": "Standorte: {{locations}}",
     "item.fish-spawn-rules.locations-by-season.label": "Standorte:",
     "item.fish-spawn-rules.locations-by-season.season-locations": "{{season}}: {{locations}}",
@@ -491,6 +498,7 @@
     "npc.neutral-gifts": "Neutrale Geschenke",
     "npc.dislikes-gifts": "Nicht gemochte Geschenke",
     "npc.hates-gifts": "Gehasste Geschenke",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Du bist verheiratet! <", // < turns into a heart
@@ -500,6 +508,9 @@
     "npc.friendship.need-points": "nächstes in {{count}} Punkten",
     "npc.undiscovered-gift-taste": "{{count}} unaufgedeckte Gegenstände",
     "npc.unowned-gift-taste": "{{count}} nicht bessesene Gegenstände",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

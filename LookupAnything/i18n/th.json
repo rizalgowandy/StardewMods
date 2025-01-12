@@ -61,6 +61,11 @@
     "friendship-status.divorced": "หย่าร้าง",
     "friendship-status.kicked-out": "ถูกขับไส",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -113,6 +118,10 @@
     "location.forest.island-tip": "แม่น้ำในป่า (ปลายทางใต้สุดของเกาะใหญ่กลางแม่น้ำ)",
     "location.forest.lake": "ทะลสาบในป่า",
     "location.forest.river": "แม่น้ำในป่า",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "เรือดำน้ำในงานตลาดกลางคืน",
     "location.town.northmost-bridge": "เมือง (สะพานที่อยู่ทิศเหนือสุดของเมือง)",
     "location.undergroundMine": "เหมือง",
@@ -311,7 +320,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Custom item", // TODO
     "item.contents": "รายละเอียด",
     "item.loves-this": "ชอบสิ่งนี้มากๆ",
     "item.likes-this": "ชอบสิ่งนี้",
@@ -330,7 +338,6 @@
     "item.produces-dye": "ทำสีย้อมได้",
 
     // values
-    "item.custom-item.summary": "added by {{modName}}", // TODO
     "item.contents.placed": "{{name}} วางแล้ว",
     "item.contents.ready": "{{name}} พร้อมแล้ว",
     "item.contents.partial": "{{name}} ใน {{time}}",
@@ -494,6 +501,7 @@
     "npc.neutral-gifts": "ของขวัญที่เฉยๆ",
     "npc.dislikes-gifts": "ของขวัญที่ไม่ชอบ",
     "npc.hates-gifts": "ของขวัญที่เกลียด",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "คุณแต่งงานกันแล้ว! <3", // < turns into a heart
@@ -503,6 +511,9 @@
     "npc.friendship.need-points": "เลื่อนขั้นใน {{count}} แต้ม",
     "npc.undiscovered-gift-taste": "{{count}} ชิ้นที่ยังไม่เปิดเผย",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

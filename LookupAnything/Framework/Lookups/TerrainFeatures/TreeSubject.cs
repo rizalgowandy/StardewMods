@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.GameData.WildTrees;
 using StardewValley.TerrainFeatures;
@@ -52,6 +53,13 @@ internal class TreeSubject : BaseSubject
         WildTreeData data = tree.GetData();
         GameLocation location = tree.Location;
         bool isFertilized = tree.fertilized.Value;
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(tree.treeType.Value);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
+        }
 
         // get growth stage
         WildTreeGrowthStage stage = (WildTreeGrowthStage)Math.Min(tree.growthStage.Value, (int)WildTreeGrowthStage.Tree);

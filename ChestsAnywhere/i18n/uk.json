@@ -5,8 +5,8 @@
     // default chest names
     "default-name.fridge": "Холодильник",
     "default-name.other": "{{name}} #{{number}}",
-    "default-name.shipping-bin.store": "надіслані предмети",
-    "default-name.shipping-bin.take": "прийняті предмети",
+    "default-name.shipping-bin.store": "Надіслані предмети",
+    "default-name.shipping-bin.take": "Прийняті предмети",
 
     // default category names
     "default-category.owned-cabin": "Будиночок гравця {{owner}}",
@@ -21,7 +21,7 @@
     "label.order": "Порядок",
     "label.hide-chest": "Приховати цю скриню",
     "label.hide-chest-hidden": "Приховати цю скриню (вам потрібно знайти скриню, щоб скасувати це!)",
-    "label.automate-options": "Automate",
+    "label.automate-options": "Автоматизувати",
     "label.automate-store": "Класти предмети у цю скриню",
     "label.automate-store-first": "Спочатку класти предмети у цю скриню",
     "label.automate-store-disabled": "Ніколи не класти предмети у цю скриню",
@@ -30,16 +30,16 @@
     "label.automate-take-disabled": "Ніколи не брати предмети з цієї скрині",
 
     // button labels
-    "button.edit-chest": "редагувати скриню",
-    "button.sort-inventory": "сортувати інвентар",
-    "button.save": "зберегти",
-    "button.reset": "скинути",
+    "button.edit-chest": "Редагувати скриню",
+    "button.sort-inventory": "Сортувати інвентар",
+    "button.save": "Зберегти",
+    "button.reset": "Скинути",
 
 
     /**********
     ** Errors
     **********/
-    "errors.disabled-from-here": "не можете отримати доступ до скринь звідси.",
+    "errors.disabled-from-here": "Не можете отримати доступ до скринь звідси.",
     "errors.no-chests": "У вас немає скринь.",
     "errors.no-chests-in-location": "У вас немає скринь у цій локації.",
     "errors.no-chests-in-range": "У вас немає скринь у радіусі дії.",
@@ -51,7 +51,7 @@
     /****
     ** general options
     ****/
-    "config.title.general-options": "Основні налаштування",
+    "config.title.general-options": "Загальні налаштування",
 
     "config.show-hover-tooltips.name": "Показати підказки при наведенні курсора",
     "config.show-hover-tooltips.desc": "Показувати назву скрині у підказці, коли ви вказуєте на скриню.",
@@ -59,8 +59,8 @@
     "config.enable-shipping-bin.name": "Увімкнути ящик для продажу",
     "config.enable-shipping-bin.desc": "Увімкнення доступу до ящика для продажу.",
 
-    "config.enable-sprinkler-attachments.name": "Enable sprinkler attachments", // TODO
-    "config.enable-sprinkler-attachments.desc": "Whether to enable access to sprinkler attachments like enrichers.", // TODO
+    "config.enable-sprinkler-attachments.name": "Увікнути з'єднання з зрошувачем",
+    "config.enable-sprinkler-attachments.desc": "Чи увікнути доступ з'єднання з зрошувачем, як і з збагачувачами.",
 
     "config.add-organize-player-items.name": "Додати кнопку сортування предметів гравця.",
     "config.add-organize-player-items.desc": "Додавання кнопки «Сортувати» в інтерфейсах скриньки для інвентарю гравця.",
@@ -68,7 +68,7 @@
     /****
     ** remote access
     ****/
-    "config.title.remote-access": "Remote access", // TODO
+    "config.title.remote-access": "Віддалений доступ",
 
     "config.range.name": "Діапазон дії",
     "config.range.desc": "Діапазон, на якому скрині доступні через меню.",
@@ -86,16 +86,16 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Hotkey to open chest UI", // TODO
+    "config.title.open-menu-hotkey": "Гаряча клавіша для відкриття інтерфейсу скрині",
 
-    "config.toggle-ui-key.name": "Увімкнути інтерфейс користувача",
+    "config.toggle-ui-key.name": "Увімкнути інтерфейс скрині",
     "config.toggle-ui-key.desc": "Клавіші, які показують або приховують інтерфейс скрині.",
 
-    "config.reopen-last-chest.name": "Reopen last chest", // TODO
-    "config.reopen-last-chest.desc": "When you press the 'toggle UI' button, whether to reopen the last chest you selected yourself during the current game session.", // TODO
+    "config.reopen-last-chest.name": "Відкривати остянню скриню",
+    "config.reopen-last-chest.desc": "Чи відкривати останню скриню, яку ви вибрали самостійно під час поточної ігрової сесії, коли ви натиснаєте кнопку 'Увімкненути інтерфейс скрині'?",
 
-    "config.default-category.name": "Default category", // TODO
-    "config.default-category.desc": "When you press the 'toggle UI' button, show the chests in this category by default (if set). This applies after 'reopen last chest'.", // TODO
+    "config.default-category.name": "Категорія за замовчуванням",
+    "config.default-category.desc": "Коли ви натиснаєте кнопку 'Увімкненути інтерфейс скрині', за замовчуванням показувати скрині з цієї категорії (якщо встановленно). Це застосовується після 'Відкривати остянню скриню'.",
 
     /****
     ** controls when chest UI is open

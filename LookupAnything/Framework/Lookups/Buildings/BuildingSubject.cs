@@ -8,6 +8,7 @@ using Pathoschild.Stardew.LookupAnything.Framework.Data;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
 using Pathoschild.Stardew.LookupAnything.Framework.Models;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
@@ -78,6 +79,13 @@ internal class BuildingSubject : BaseSubject
         var data = building.GetData();
         bool built = !building.isUnderConstruction();
         int? upgradeLevel = this.GetUpgradeLevel(building);
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(building.buildingType.Value);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
+        }
 
         // construction / upgrade
         if (!built || building.daysUntilUpgrade.Value > 0)

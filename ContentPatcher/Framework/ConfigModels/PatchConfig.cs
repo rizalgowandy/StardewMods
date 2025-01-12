@@ -44,6 +44,10 @@ internal class PatchConfig
     /// <summary>The priority for this patch when multiple patches apply.</summary>
     public string? Priority { get; set; }
 
+    /// <summary>The local token values to use for this patch, in addition to the pre-existing tokens.</summary>
+    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Auto)]
+    public InvariantDictionary<string?>? LocalTokens { get; set; }
+
     /****
     ** Multiple actions
     ****/
@@ -118,6 +122,7 @@ internal class PatchConfig
         this.Enabled = other.Enabled;
         this.When = other.When.Clone();
         this.Priority = other.Priority;
+        this.LocalTokens = other.LocalTokens?.Clone();
 
         // multiple actions
         this.TextOperations = other.TextOperations.Select(p => p != null ? new TextOperationConfig(p) : null).ToList();

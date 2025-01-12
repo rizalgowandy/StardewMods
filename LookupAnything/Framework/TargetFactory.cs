@@ -96,7 +96,7 @@ internal class TargetFactory : ISubjectRegistry
             let isAtTile = target.Tile == tile
             where (isAtTile || spriteArea.Intersects(tileArea))
             orderby
-                target.Type != SubjectType.Tile ? 0 : 1, // Tiles are always under anything else.
+                target.Precedence,
                 spriteArea.Y descending,                 // A higher Y value is closer to the foreground, and will occlude any sprites behind it.
                 spriteArea.X ascending                   // If two sprites at the same Y coordinate overlap, assume the left sprite occludes the right.
 

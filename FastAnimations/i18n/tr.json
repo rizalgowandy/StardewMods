@@ -115,8 +115,8 @@
     /****
     ** 'Experimental' section
     ****/
-    "config.experimental": "Experimental options", // TODO
-    "config.experimental-warning": "These options aren't fully stable yet, and may cause issues like freezes and crashes. Enabling any of these isn't recommended.", // TODO
+    "config.experimental": "Deneysel Seçenekler",
+    "config.experimental-warning": "Bu seçenekler daha tam olarak stabil değil. Oyunda donma ve kasma gibi sıkıntılara sebep olabilirler. Bu ayarların herhangi birinin açılması 'ÖNERİLMEZ'.",
 
     "config.event.name": "Arasahneler",
     "config.event.tooltip": "Arasahnelerin hızını belirler. Varsayılan: {{defaultValue}}x, Önerilen: {{suggestedValue}}x."

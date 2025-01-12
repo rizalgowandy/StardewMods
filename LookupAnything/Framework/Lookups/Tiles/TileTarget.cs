@@ -14,7 +14,10 @@ internal class TileTarget : GenericTarget<Vector2>
     /// <param name="position">The tile position.</param>
     /// <param name="getSubject">Get the target subject.</param>
     public TileTarget(GameHelper gameHelper, Vector2 position, Func<ISubject> getSubject)
-        : base(gameHelper, SubjectType.Tile, position, position, getSubject) { }
+        : base(gameHelper, SubjectType.Tile, position, position, getSubject)
+    {
+        this.Precedence = GenericTarget<Vector2>.PrecedenceForTile;
+    }
 
     /// <inheritdoc />
     public override Rectangle GetSpritesheetArea()

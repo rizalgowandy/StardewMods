@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.LookupAnything.Framework.DebugFields;
 using Pathoschild.Stardew.LookupAnything.Framework.Fields;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 
@@ -36,6 +37,13 @@ internal class MovieSnackSubject : BaseSubject
     public override IEnumerable<ICustomField> GetData()
     {
         MovieConcession item = this.Target;
+
+        // added by mod
+        {
+            IModInfo? fromMod = this.GameHelper.TryGetModFromStringId(item.Id);
+            if (fromMod != null)
+                yield return new GenericField(I18n.AddedByMod(), I18n.AddedByMod_Summary(modName: fromMod.Manifest.Name));
+        }
 
         // date's taste
         NPC? date = Game1.player.team.movieInvitations.FirstOrDefault(p => p.farmer == Game1.player)?.invitedNPC;

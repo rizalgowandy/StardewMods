@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.Migrations;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
@@ -21,12 +22,13 @@ internal class LoadPatch : Patch
     /// <param name="localAsset">The asset key to load from the content pack instead.</param>
     /// <param name="priority">The priority for this patch when multiple patches apply.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
+    /// <param name="localTokens">The local token values to use for this patch, in addition to the pre-existing tokens.</param>
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
-    public LoadPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, IManagedTokenString localAsset, AssetLoadPriority priority, UpdateRate updateRate, IEnumerable<Condition> conditions, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, Func<string, IAssetName> parseAssetName)
+    public LoadPatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, IManagedTokenString localAsset, AssetLoadPriority priority, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, IEnumerable<Condition> conditions, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, Func<string, IAssetName> parseAssetName)
         : base(
             indexPath: indexPath,
             path: path,
@@ -35,6 +37,7 @@ internal class LoadPatch : Patch
             assetLocale: assetLocale,
             priority: (int)priority,
             updateRate: updateRate,
+            localTokens: localTokens,
             conditions: conditions,
             contentPack: contentPack,
             migrator: migrator,

@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Rozwiedziono",
     "friendship-status.kicked-out": "Porzucono",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -113,6 +118,10 @@
     "location.forest.island-tip": "leśna rzeka (południowy kraniec dużej wyspy)",
     "location.forest.lake": "leśny staw",
     "location.forest.river": "leśna rzeka",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "łódź podwodna Nocnego Rynku",
     "location.town.northmost-bridge": "miasto (kładka na północy)",
     "location.undergroundMine": "kopalnia",
@@ -310,7 +319,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Niestandardowy przedmiot",
     "item.contents": "Zawartość",
     "item.loves-this": "Kocha to",
     "item.likes-this": "Lubi to",
@@ -329,7 +337,6 @@
     "item.produces-dye": "Tworzy barwnik",
 
     // values
-    "item.custom-item.summary": "dodane przez {{modName}}",
     "item.contents.placed": "{{name}} umieszczono",
     "item.contents.ready": "{{name}} ukończono",
     "item.contents.partial": "{{name}} za {{time}}",
@@ -491,6 +498,7 @@
     "npc.neutral-gifts": "Neutralne prezenty",
     "npc.dislikes-gifts": "Nielubiane prezenty",
     "npc.hates-gifts": "Znienawidzone prezenty",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Jesteście małżeństwem! <", // < turns into a heart
@@ -500,6 +508,9 @@
     "npc.friendship.need-points": "następne za {{count}} pkt",
     "npc.undiscovered-gift-taste": "{{count}} nieodkrytych przedmiotów",
     "npc.unowned-gift-taste": "{{count}} nieposiadanych przedmiotów",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

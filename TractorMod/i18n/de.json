@@ -73,12 +73,11 @@
     "config.tractor-volume.name": "Motorgeräuschlautstärke",
     "config.tractor-volume.tooltip": "Die Lautstärke für die Traktor-Soundeffekte. Standard {{defaultValue}}%.",
 
-    // TODO
-    "config.tool-use-sounds-limit.name": "Tool Use Sounds",
-    "config.tool-use-sounds-limit.tooltip": "When applying a tool to many tiles around the tractor, which tool sounds should be played. The default option is '{{defaultOption}}'. Note that '{{unlimitedOption}}' may cause errors with larger ranges.",
-    "config.tool-use-sounds-limit.value.Default": "default",
-    "config.tool-use-sounds-limit.value.OncePerTick": "first tile applied",
-    "config.tool-use-sounds-limit.value.Unlimited": "play every sound (not recommended)",
+    "config.tool-use-sounds-limit.name": "Geräusche der Werkzeugnutzung",
+    "config.tool-use-sounds-limit.tooltip": "Welche Werkzeuggeräusche beim Anwenden eines Werkzeugs auf viele Kacheln rund um den Traktor abgespielt werden sollen. Die Standardoption ist '{{defaultOption}}'. Beachte, dass '{{unlimitedOption}}' bei größeren Bereichen zu Fehlern führen kann.",
+    "config.tool-use-sounds-limit.value.Default": "Standard",
+    "config.tool-use-sounds-limit.value.OncePerTick": "Erste Kachel bearbeitet",
+    "config.tool-use-sounds-limit.value.Unlimited": "Jeden Sound abspielen (nicht empfohlen)",
 
 
     /****

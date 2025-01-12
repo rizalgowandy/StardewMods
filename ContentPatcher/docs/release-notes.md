@@ -9,8 +9,16 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## 2.5.0
+Released 11 January 2025 for SMAPI 4.1.10 or later. See [release highlights](https://www.patreon.com/posts/119812841).
+
+* Added [local tokens feature](author-guide/tokens.md#local-tokens) (thanks to collaboration with spacechase0!).
+* When a list entry can't be moved via `MoveEntries` because the given ID doesn't exist, Content Patcher now logs a `TRACE` message instead of `WARN`.
+* Fixed warnings for mods using `Hearts` or `Relationship` conditions with an NPC who's in the data but not added to the world yet.
+* Fixed `patch_summary` error if a patch has a null target.
+
 ## 2.4.4
-Released 08 November 2024 for SMAPI 4.1.5 or later.
+Released 08 November 2024 for SMAPI 4.1.6 or later.
 
 * In SMAPI 4.1._x_, [gender-switch blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch) are preprocessed automatically by default. That no longer applies to the `{{i18n}}` token.  
   _That didn't work with [patch update rates](author-guide.md#update-rate), and gender-switch blocks still work fine for translations passed to the game since they'll be parsed by the game._
@@ -389,7 +397,7 @@ Released 31 October 2021 for SMAPI 3.12.6 or later. See the [release highlights]
   * [`Merge`](author-guide/tokens.md#Merge) to combine tokens in `When` conditions or perform value fallback.
   * [`PathPart`](author-guide/tokens.md#PathPart) to get part of a file/asset path (e.g. for patches with multiple `Target` or `FromFile` values).
   * [`Roommate`](author-guide/tokens.md#Roommate) to get a player's roommate NPC (similar to `Spouse` for a married NPC).
-* Added support for [translating content pack config options in Generic Mod Config Menu](author-guide/tokens.md#player-config).
+* Added support for [translating content pack config options in Generic Mod Config Menu](author-guide/config.md#config-ui).
 * Improved tokens:
   * Tokens which let you specify a player type now accept player IDs too (like `{{PlayerName: 3864039824286870457}}`).
   * You can now get per-player values for more tokens (specifically `IsMainPlayer`, `IsOutdoors`, `LocationContext`, `LocationName`, `LocationUniqueName`, `PlayerGender`, `PlayerName`, and `Spouse`).

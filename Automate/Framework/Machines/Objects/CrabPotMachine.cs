@@ -111,8 +111,8 @@ internal class CrabPotMachine : GenericObjectMachine<CrabPot>
             try
             {
                 string[] fields = fishRow.Split('/');
-                int lowerSize = fields.Length > 5 ? Convert.ToInt32(fields[5]) : 1;
-                int upperSize = fields.Length > 5 ? Convert.ToInt32(fields[6]) : 10;
+                int lowerSize = ArgUtility.GetInt(fields, 5, 1);
+                int upperSize = ArgUtility.GetInt(fields, 6, 10);
                 size = Game1.random.Next(lowerSize, upperSize + 1);
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Characters;
 using StardewValley.GameData;
+using StardewValley.GameData.Characters;
 using StardewValley.Locations;
 using StardewValley.Network;
 
@@ -468,10 +469,9 @@ internal class TokenSaveReader
     {
         return this.GetCached("Friendships", () =>
         {
-            Dictionary<string, NetRef<Friendship>> met = this.GetCurrentPlayer()
-                                                             ?.friendshipData
-                                                             ?.FieldDict
-                                                         ?? new();
+            Dictionary<string, NetRef<Friendship>> met =
+                this.GetCurrentPlayer()?.friendshipData?.FieldDict
+                ?? new();
 
             return
                 (
@@ -479,9 +479,9 @@ internal class TokenSaveReader
                     select new KeyValuePair<string, Friendship?>(pair.Key, pair.Value.Value)
                 )
                 .Concat(
-                    from npc in this.GetSocialVillagers()
-                    where !met.ContainsKey(npc.Name)
-                    select new KeyValuePair<string, Friendship?>(npc.Name, null)
+                    from name in this.GetSocialVillagerNames()
+                    where !met.ContainsKey(name)
+                    select new KeyValuePair<string, Friendship?>(name, null)
                 );
         });
     }
@@ -729,17 +729,36 @@ internal class TokenSaveReader
         });
     }
 
-    /// <summary>Get all social NPCs.</summary>
-    private IEnumerable<NPC> GetSocialVillagers()
+    /// <summary>Get the names of all social NPCs.</summary>
+    private ISet<string> GetSocialVillagerNames()
     {
-        return this.GetCached("SocialVillagers", () =>
-            this
-                .GetAllCharacters()
-                .Where(npc =>
-                        npc.CanSocialize
-                        || (npc.Name == "Krobus" && this.GetCurrentPlayer()?.friendshipData.ContainsKey(npc.Name) != true) // Krobus is marked non-social before he's met
-                )
-        );
+        return this.GetCached("SocialVillagerNames", () =>
+        {
+            HashSet<string> set = new(StringComparer.OrdinalIgnoreCase);
+
+            // from data
+            if (Game1.characterData != null)
+            {
+                foreach ((string name, CharacterData? data) in Game1.characterData)
+                {
+                    if (data is null || !GameStateQuery.CheckConditions(data.CanSocialize))
+                        continue;
+
+                    set.Add(name);
+                }
+            }
+
+            // from world
+            foreach (NPC npc in this.GetAllCharacters())
+            {
+                if (set.Contains(npc.Name) || !npc.CanSocialize)
+                    continue;
+
+                set.Add(npc.Name);
+            }
+
+            return set;
+        });
     }
 
     /// <summary>Get all characters in reachable locations.</summary>

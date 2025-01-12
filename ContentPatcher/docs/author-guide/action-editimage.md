@@ -28,14 +28,15 @@ field     | purpose
 <dt>Optional fields:</dt>
 <dd>
 
-field     | purpose
---------- | -------
-`FromArea` | <p>The part of the source image to copy. Defaults to the whole source image.</p><p>This is specified as an object with the X and Y pixel coordinates of the top-left corner, and the pixel width and height of the area. Its fields may contain tokens.</p>
-`ToArea`   | <p>The part of the target image to replace. Defaults to the same size as `FromArea`, positioned at the top-left corner of the spritesheet.</p><p>This is specified as an object with the X and Y pixel coordinates of the top-left corner, and the pixel width and height of the area. Its fields may contain tokens.</p><p>If you specify an area past the bottom or right edges of the image, the image will be resized automatically to fit.</p>
-`PatchMode`| <p>How to apply `FromArea` to `ToArea`. Defaults to `Replace`.</p> Possible values: <ul><li><code>Replace</code>: replace every pixel in the target area with your source image. If the source image has transparent pixels, the target image will become transparent there.</li><li><code>Overlay</code>: draw your source image over the target area. If the source image has transparent or semi-transparent pixels, the target image will 'show through' those pixels. Opaque pixels will replace the target pixels.</li></ul>For example, let's say your source image is a pufferchick with a transparent background, and the target image is a solid green square. Here's how they'll be combined with different `PatchMode` values:<br />![](../screenshots/patch-mode-examples.png)
-`When`    | _(optional)_ Only apply the patch if the given [conditions](../author-guide.md#conditions) match.
-`LogName` | _(optional)_ A name for this patch to show in log messages. This can be useful for understanding errors. If omitted, it defaults to a name like `EditImage Animals/Dinosaur`.
-`Update`  | _(optional)_ How often the patch fields should be updated for token changes. See [update rate](../author-guide.md#update-rate) for more info.
+field       | purpose
+----------- | -------
+`FromArea`  | <p>The part of the source image to copy. Defaults to the whole source image.</p><p>This is specified as an object with the X and Y pixel coordinates of the top-left corner, and the pixel width and height of the area. Its fields may contain tokens.</p>
+`ToArea`    | <p>The part of the target image to replace. Defaults to the same size as `FromArea`, positioned at the top-left corner of the spritesheet.</p><p>This is specified as an object with the X and Y pixel coordinates of the top-left corner, and the pixel width and height of the area. Its fields may contain tokens.</p><p>If you specify an area past the bottom or right edges of the image, the image will be resized automatically to fit.</p>
+`PatchMode` | <p>How to apply `FromArea` to `ToArea`. Defaults to `Replace`.</p> Possible values: <ul><li><code>Replace</code>: replace every pixel in the target area with your source image. If the source image has transparent pixels, the target image will become transparent there.</li><li><code>Overlay</code>: draw your source image over the target area. If the source image has transparent or semi-transparent pixels, the target image will 'show through' those pixels. Opaque pixels will replace the target pixels.</li></ul>For example, let's say your source image is a pufferchick with a transparent background, and the target image is a solid green square. Here's how they'll be combined with different `PatchMode` values:<br />![](../screenshots/patch-mode-examples.png)
+`When`      | _(optional)_ Only apply the patch if the given [conditions](../author-guide.md#conditions) match.
+`LogName`   | _(optional)_ A name for this patch to show in log messages. This can be useful for understanding errors. If omitted, it defaults to a name like `EditImage Animals/Dinosaur`.
+`Update`    | _(optional)_ How often the patch fields should be updated for token changes. See [update rate](../author-guide.md#update-rate) for more info.
+`LocalTokens` | _(Optional)_ A set of [local tokens](../author-guide.md#local-tokens) which can be used within this patch's field.
 
 </dd>
 <dt>Advanced fields:</dt>
@@ -91,7 +92,7 @@ If omitted, it's applied to all localized and unlocalized variants of the asset.
 This changes the in-game sprite for one item:
 ```js
 {
-   "Format": "2.4.0",
+   "Format": "2.5.0",
    "Changes": [
       {
          "Action": "EditImage",

@@ -61,6 +61,11 @@
     "friendship-status.divorced": "已离婚",
     "friendship-status.kicked-out": "关系解除",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -113,6 +118,10 @@
     "location.forest.island-tip": "煤矿森林（河流小岛南端）",
     "location.forest.lake": "煤矿森林（湖泊）",
     "location.forest.river": "煤矿森林（河流）",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "夜市潜艇",
     "location.town.northmost-bridge": "鹈鹕镇（北部桥区）",
     "location.undergroundMine": "矿井",
@@ -310,7 +319,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "自定义物品",
     "item.contents": "内容",
     "item.loves-this": "最爱",
     "item.likes-this": "喜欢",
@@ -329,7 +337,6 @@
     "item.produces-dye": "产生染料",
 
     // values
-    "item.custom-item.summary": "由 {{modName}} 添加",
     "item.contents.placed": "已放置{{name}}",
     "item.contents.ready": "目前{{name}}",
     "item.contents.partial": "{{name}}在{{time}}后完成",
@@ -492,6 +499,7 @@
     "npc.neutral-gifts": "无感",
     "npc.dislikes-gifts": "不喜欢",
     "npc.hates-gifts": "讨厌",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "你们已结婚! ♡", // < turns into a heart
@@ -501,6 +509,9 @@
     "npc.friendship.need-points": "下一等级需要{{count}}点好感度",
     "npc.undiscovered-gift-taste": "{{count}} 个未揭露的物品",
     "npc.unowned-gift-taste": "{{count}} 个未拥有的物品",
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

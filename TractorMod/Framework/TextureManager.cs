@@ -21,8 +21,14 @@ internal class TextureManager : IDisposable
     /// <summary>The absolute path to the Tractor Mod folder.</summary>
     private readonly string DirectoryPath;
 
-    /// <summary>The base path for assets loaded through the game's content pipeline so other mods can edit them.</summary>
-    private readonly string PublicAssetBasePath;
+    /// <summary>The asset name for the tractor spritesheet in the game's content pipeline.</summary>
+    private readonly string TractorAssetName;
+
+    /// <summary>The asset name for the garage spritesheet in the game's content pipeline.</summary>
+    private readonly string GarageAssetName;
+
+    /// <summary>The asset name for the buff icon spritesheet in the game's content pipeline.</summary>
+    private readonly string BuffIconAssetName;
 
     /// <summary>The content helper from which to load assets.</summary>
     private readonly IModContentHelper ContentHelper;
@@ -43,9 +49,6 @@ internal class TextureManager : IDisposable
     /// <summary>The garage texture to apply.</summary>
     public Texture2D? GarageTexture { get; private set; }
 
-    /// <summary>The tractor texture to apply.</summary>
-    public Texture2D? TractorTexture { get; private set; }
-
 
     /*********
     ** Public methods
@@ -58,9 +61,12 @@ internal class TextureManager : IDisposable
     public TextureManager(string directoryPath, string publicAssetBasePath, IModContentHelper contentHelper, IMonitor monitor)
     {
         this.DirectoryPath = directoryPath;
-        this.PublicAssetBasePath = publicAssetBasePath;
         this.ContentHelper = contentHelper;
         this.Monitor = monitor;
+
+        this.TractorAssetName = $"{publicAssetBasePath}/Tractor";
+        this.GarageAssetName = $"{publicAssetBasePath}/Garage";
+        this.BuffIconAssetName = $"{publicAssetBasePath}/BuffIcon";
 
         this.AssetMap = this.BuildAssetMap(directoryPath);
     }
@@ -68,20 +74,14 @@ internal class TextureManager : IDisposable
     /// <summary>Update the textures if needed.</summary>
     public void UpdateTextures()
     {
-        // tractor
-        if (this.TryLoadFromContent("tractor", out Texture2D? texture, out string? error))
-            this.TractorTexture = texture;
-        else
-            this.Monitor.Log(error, LogLevel.Error);
-
         // garage
-        if (this.TryLoadFromContent("garage", out texture, out error))
+        if (this.TryLoadFromContent(this.GarageAssetName, out Texture2D? texture, out string? error))
             this.GarageTexture = texture;
         else
             this.Monitor.Log(error, LogLevel.Error);
 
         // buff icon
-        if (this.TryLoadFromContent("buffIcon", out texture, out error))
+        if (this.TryLoadFromContent(this.BuffIconAssetName, out texture, out error))
             this.BuffIconTexture = texture;
         else
             this.Monitor.Log(error, LogLevel.Error);
@@ -92,8 +92,8 @@ internal class TextureManager : IDisposable
     /// <param name="isTractor">Get whether a horse is a tractor.</param>
     public void ApplyTextures(Horse? horse, Func<Horse?, bool> isTractor)
     {
-        if (this.TractorTexture != null && isTractor(horse))
-            horse!.Sprite.spriteTexture = this.TractorTexture;
+        if (isTractor(horse))
+            horse!.Sprite.LoadTexture(this.TractorAssetName, syncTextureName: false);
     }
 
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
@@ -105,7 +105,7 @@ internal class TextureManager : IDisposable
             e.LoadFrom(() => this.GarageTexture, AssetLoadPriority.Low);
 
         // load tractor, garage, or buff texture
-        if (e.NameWithoutLocale.IsEquivalentTo($"{this.PublicAssetBasePath}/Tractor") || e.NameWithoutLocale.IsEquivalentTo($"{this.PublicAssetBasePath}/Garage") || e.NameWithoutLocale.IsEquivalentTo($"{this.PublicAssetBasePath}/BuffIcon"))
+        if (e.NameWithoutLocale.IsEquivalentTo(this.TractorAssetName) || e.NameWithoutLocale.IsEquivalentTo(this.GarageAssetName) || e.NameWithoutLocale.IsEquivalentTo(this.BuffIconAssetName))
         {
             string key = PathUtilities.GetSegments(e.NameWithoutLocale.Name).Last();
             e.LoadFrom(
@@ -121,7 +121,6 @@ internal class TextureManager : IDisposable
     public void Dispose()
     {
         this.GarageTexture?.Dispose();
-        this.TractorTexture?.Dispose();
     }
 
 
@@ -129,14 +128,14 @@ internal class TextureManager : IDisposable
     ** Private methods
     *********/
     /// <summary>Try to load the asset for a texture from the game's content folder so other mods can apply edits.</summary>
-    /// <param name="spritesheet">The spritesheet name without the path or extension (like 'Tractor' or 'Garage').</param>
+    /// <param name="assetName">The asset name to load.</param>
     /// <param name="texture">The loaded texture, if found.</param>
     /// <param name="error">A human-readable error to show to the user if texture wasn't found.</param>
-    private bool TryLoadFromContent(string spritesheet, [NotNullWhen(true)] out Texture2D? texture, [NotNullWhen(false)] out string? error)
+    private bool TryLoadFromContent(string assetName, [NotNullWhen(true)] out Texture2D? texture, [NotNullWhen(false)] out string? error)
     {
         try
         {
-            texture = Game1.content.Load<Texture2D>($"{this.PublicAssetBasePath}/{spritesheet}");
+            texture = Game1.content.Load<Texture2D>(assetName);
             error = null;
         }
         catch (Exception ex)

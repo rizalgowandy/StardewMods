@@ -15,21 +15,30 @@ internal abstract class GenericTarget<TValue> : ITarget
     /// <summary>Provides utility methods for interacting with the game code.</summary>
     protected GameHelper GameHelper { get; }
 
+    /// <summary>The <see cref="Precedence"/> value for a tile target, which should be checked after anything except tiles.</summary>
+    protected const int PrecedenceForFlooring = 999;
+
+    /// <summary>The <see cref="Precedence"/> value for a tile target, which should always be checked last.</summary>
+    protected const int PrecedenceForTile = 1000;
+
 
     /*********
     ** Accessors
     *********/
-    /// <summary>The subject type.</summary>
+    /// <inheritdoc />
     public SubjectType Type { get; protected set; }
 
-    /// <summary>The object's tile position in the current location (if applicable).</summary>
+    /// <inheritdoc />
     public Vector2 Tile { get; protected set; }
 
     /// <summary>The underlying in-game object.</summary>
     public TValue Value { get; }
 
-    /// <summary>Get the subject info about the target.</summary>
+    /// <inheritdoc />
     public Func<ISubject> GetSubject { get; protected set; }
+
+    /// <inheritdoc />
+    public int Precedence { get; protected set; }
 
 
     /*********

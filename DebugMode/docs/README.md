@@ -28,8 +28,10 @@ When enabled, the mod shows an overlay with debug info including...
   ![screenshot](screenshots/event.png)
 * festival name:  
   ![screenshot](screenshots/festival.png)
-* and minigame name:  
+* minigame name:  
   ![screenshot](screenshots/minigame.png)
+* and dialogue keys:  
+  ![screenshot](screenshots/dialogue.png)
 
 ### Game debug mode
 If you enable `AllowGameDebug` in the [configuration](#configuration) (disabled by default), the

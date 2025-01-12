@@ -6,6 +6,7 @@ using ContentPatcher.Framework.Migrations;
 using ContentPatcher.Framework.Tokens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Internal;
@@ -57,12 +58,13 @@ internal class EditImagePatch : Patch
     /// <param name="toArea">The sprite area to overwrite.</param>
     /// <param name="patchMode">Indicates how the image should be patched.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
+    /// <param name="localTokens">The local token values to use for this patch, in addition to the pre-existing tokens.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="migrator">The aggregate migration which applies for this patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
-    public EditImagePatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, IEnumerable<Condition> conditions, IManagedTokenString fromAsset, TokenRectangle? fromArea, TokenRectangle? toArea, PatchImageMode patchMode, UpdateRate updateRate, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName)
+    public EditImagePatch(int[] indexPath, LogPathBuilder path, IManagedTokenString assetName, IManagedTokenString? assetLocale, AssetEditPriority priority, IEnumerable<Condition> conditions, IManagedTokenString fromAsset, TokenRectangle? fromArea, TokenRectangle? toArea, PatchImageMode patchMode, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, IContentPack contentPack, IRuntimeMigration migrator, IPatch? parentPatch, IMonitor monitor, Func<string, IAssetName> parseAssetName)
         : base(
             indexPath: indexPath,
             path: path,
@@ -71,12 +73,13 @@ internal class EditImagePatch : Patch
             assetLocale: assetLocale,
             priority: (int)priority,
             updateRate: updateRate,
+            localTokens: localTokens,
             conditions: conditions,
-            parseAssetName: parseAssetName,
-            fromAsset: fromAsset,
             contentPack: contentPack,
             migrator: migrator,
-            parentPatch: parentPatch
+            parentPatch: parentPatch,
+            parseAssetName: parseAssetName,
+            fromAsset: fromAsset
         )
     {
         this.FromArea = fromArea;

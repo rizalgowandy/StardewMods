@@ -28,6 +28,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Crafting;
 using StardewValley.GameData.Crops;
 using StardewValley.GameData.FishPonds;
+using StardewValley.GameData.Locations;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -375,6 +376,14 @@ internal class GameHelper
         return this.DataParser.GetLocationDisplayName(fishSpawnData);
     }
 
+    /// <summary>Get the translated display name for a location.</summary>
+    /// <param name="id">The location's internal name.</param>
+    /// <param name="data">The location data.</param>
+    public string GetLocationDisplayName(string id, LocationData? data)
+    {
+        return this.DataParser.GetLocationDisplayName(id, data);
+    }
+
     /// <summary>Parse monster data.</summary>
     public IEnumerable<MonsterData> GetMonsterData()
     {
@@ -506,16 +515,19 @@ internal class GameHelper
         return true;
     }
 
-    /// <summary>Get the mod which added an item, if it follows the <a href="https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID">unique string item ID convention</a>.</summary>
-    /// <param name="itemId">The unqualified item ID to parse.</param>
-    public IModInfo? TryGetModFromItemId(string itemId)
+    /// <summary>Get the mod which added content, if it follows the <a href="https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID">unique string item ID convention</a>.</summary>
+    /// <param name="id">The content's unique ID to parse. For an item, this must be the unqualified item ID.</param>
+    public IModInfo? TryGetModFromStringId(string? id)
     {
-        // The unique string ID convention is `{mod id}_{item id}`, but both the mod ID and item ID can contain
+        if (id is null)
+            return null;
+
+        // The unique string ID convention is `{mod id}_{content id}`, but both the mod ID and content ID can contain
         // underscores. So here we split by `_` and check every possible prefix before the final underscore to see
         // if it's a valid mod ID. We take the longest match since some mods use suffixes for grouped mods, like
         // `mainMod` and `mainMod_cp`.
 
-        string[] parts = itemId.Split('_');
+        string[] parts = id.Split('_');
         if (parts.Length == 1)
             return null;
 

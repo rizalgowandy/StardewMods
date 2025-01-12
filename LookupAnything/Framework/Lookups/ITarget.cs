@@ -18,6 +18,9 @@ internal interface ITarget
     /// <summary>Get the subject info about the target.</summary>
     Func<ISubject?> GetSubject { get; }
 
+    /// <summary>A precedence by which to sort matches, where lower values are checked first.</summary>
+    int Precedence { get; }
+
 
     /*********
     ** Public methods

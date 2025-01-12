@@ -235,39 +235,45 @@ internal class ModEntry : Mod
     private IEnumerable<string> GetDebugInfo()
     {
         // location
-        if (Game1.currentLocation != null)
+        if (Game1.currentLocation is { } location)
         {
             Vector2 tile = Game1.currentCursorTile;
 
             yield return $"{I18n.Label_Tile()}: {tile.X}, {tile.Y}";
-            yield return $"{I18n.Label_Map()}:  {Game1.currentLocation.Name}";
+            yield return $"{I18n.Label_Map()}:  {location.Name}";
         }
 
         // menu
-        if (Game1.activeClickableMenu != null)
+        if (Game1.activeClickableMenu is { } menu)
         {
-            Type menuType = Game1.activeClickableMenu.GetType();
-            Type? submenuType = this.GetSubmenu(Game1.activeClickableMenu)?.GetType();
+            Type menuType = menu.GetType();
+            Type? submenuType = this.GetSubmenu(menu)?.GetType();
             string? vanillaNamespace = typeof(TitleMenu).Namespace;
 
             yield return $"{I18n.Label_Menu()}: {(menuType.Namespace == vanillaNamespace ? menuType.Name : menuType.FullName)}";
             if (submenuType != null)
                 yield return $"{I18n.Label_Submenu()}: {(submenuType.Namespace == vanillaNamespace ? submenuType.Name : submenuType.FullName)}";
+
+            if (menu is DialogueBox dialogue)
+            {
+                string? dialogueKey = dialogue.characterDialogue?.TranslationKey;
+                if (!string.IsNullOrWhiteSpace(dialogueKey))
+                    yield return $"{I18n.Label_Dialogue()}: {dialogueKey}";
+            }
         }
 
         // minigame
-        if (Game1.currentMinigame != null)
+        if (Game1.currentMinigame is { } minigame)
         {
-            Type minigameType = Game1.currentMinigame.GetType();
+            Type minigameType = minigame.GetType();
             string? vanillaNamespace = typeof(AbigailGame).Namespace;
 
             yield return $"{I18n.Label_Minigame()}: {(minigameType.Namespace == vanillaNamespace ? minigameType.Name : minigameType.FullName)}";
         }
 
         // event
-        if (Game1.CurrentEvent != null)
+        if (Game1.CurrentEvent is { } curEvent)
         {
-            Event curEvent = Game1.CurrentEvent;
             double progress = curEvent.CurrentCommand / (double)curEvent.eventCommands.Length;
 
             if (curEvent.isFestival)
@@ -280,8 +286,8 @@ internal class ModEntry : Mod
         }
 
         // music
-        if (Game1.currentSong is { Name: not null, IsPlaying: true })
-            yield return $"{I18n.Label_Song()}: {Game1.currentSong.Name}";
+        if (Game1.currentSong is { Name: not null, IsPlaying: true } song)
+            yield return $"{I18n.Label_Song()}: {song.Name}";
     }
 
     /// <summary>Get the submenu for the current menu, if any.</summary>

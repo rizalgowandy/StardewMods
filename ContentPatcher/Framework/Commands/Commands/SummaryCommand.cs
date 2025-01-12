@@ -389,7 +389,7 @@ internal class SummaryCommand : BaseCommand
 
                         // get raw name if different
                         // (ignore differences in whitespace, capitalization, and path separators)
-                        string? rawValue = !PathUtilities.NormalizeAssetName(patch.PathWithoutContentPackPrefix.ToString().Replace(" ", "")).ContainsIgnoreCase(rawIdentifyingPath?.Replace(" ", ""))
+                        string? rawValue = rawIdentifyingPath != null && !PathUtilities.NormalizeAssetName(patch.PathWithoutContentPackPrefix.ToString().Replace(" ", "")).ContainsIgnoreCase(rawIdentifyingPath.Replace(" ", ""))
                             ? $"{patch.ParsedType?.ToString() ?? patch.RawType} {rawIdentifyingPath}"
                             : null;
 

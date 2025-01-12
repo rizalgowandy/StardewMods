@@ -302,7 +302,7 @@ internal class GenericModConfigMenuIntegrationForAutomate
         }
 
         // Data/Buildings
-        foreach ((string buildingType, BuildingData buildingData) in DataLoader.Buildings(Game1.content))
+        foreach ((string buildingType, BuildingData buildingData) in Game1.buildingData)
         {
             if (buildingData?.ItemConversions?.Count is not > 0)
                 continue;

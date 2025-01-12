@@ -1,6 +1,14 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 2.3.2
+Released 11 January 2025 for SMAPI 4.1.10 or later.
+
+* Minor performance optimizations.
+* Fixed compatibility with custom tapper rules in `Data/Machines` (thanks to zombifier!).
+* Fixed handling of machines with a zero-size output. Automate now discards the broken output, which matches what happens when you try to empty the machine manually.
+* Fixed crab pot error if a mod adds invalid data to `Data/Fish`.
+
 ## 2.3.1
 Released 04 November 2024 for SMAPI 4.1.2 or later.
 

@@ -40,6 +40,7 @@ field     | purpose
 `When`    | _(optional)_ Only apply the patch if the given [conditions](../author-guide.md#conditions) match.
 `LogName` | _(optional)_ A name for this patch to show in log messages. This can be useful for understanding errors. If omitted, it defaults to a name like `Load Data/Achievements`.
 `Update`  | _(optional)_ How often the patch fields should be updated for token changes. See [update rate](../author-guide.md#update-rate) for more info.
+`LocalTokens` | _(Optional)_ A set of [local tokens](../author-guide.md#local-tokens) which can be used within this patch's field.
 
 </dd>
 <dt>Advanced fields:</dt>
@@ -95,7 +96,7 @@ If omitted, it's applied to all localized and unlocalized variants of the asset.
 This replaces Abigail's portraits with your own image (see [NPC modding](https://stardewvalleywiki.com/Modding:NPC_data)):
 ```js
 {
-    "Format": "2.4.0",
+    "Format": "2.5.0",
     "Changes": [
         {
             "Action": "Load",
@@ -110,7 +111,7 @@ You can list any number of load patches, as long as each asset is only loaded by
 
 ```js
 {
-    "Format": "2.4.0",
+    "Format": "2.5.0",
     "Changes": [
         {
             "Action": "Load",
@@ -131,7 +132,7 @@ files at once:
 
 ```js
 {
-    "Format": "2.4.0",
+    "Format": "2.5.0",
     "Changes": [
         {
             "Action": "Load",
@@ -145,7 +146,7 @@ files at once:
 You can use `Priority` to have an optional load (e.g. if it'll still work when another mod loads it first):
 ```js
 {
-    "Format": "2.4.0",
+    "Format": "2.5.0",
     "Changes": [
         {
             "Action": "Load",

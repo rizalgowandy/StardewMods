@@ -61,6 +61,11 @@
     "friendship-status.divorced": "Elvált",
     "friendship-status.kicked-out": "Kirúgott",
 
+    // custom content (shows which mod added an item, NPC, etc)
+    // TODO
+    "added-by-mod": "Added by mod",
+    "added-by-mod.summary": "{{modName}}",
+
 
     /*********
     ** Data translations
@@ -113,6 +118,10 @@
     "location.forest.island-tip": "erdei folyó (nagy sziget déli csücske)",
     "location.forest.lake": "erdei tó",
     "location.forest.river": "erdei folyó",
+    "location.HarveyRoom": "Harvey's Room", // TODO
+    "location.LeoTreeHouse": "Treehouse", // TODO
+    "location.SandyHouse": "Oasis", // TODO
+    "location.SebastianRoom": "Sebastian's Room", // TODO
     "location.submarine": "Éjszakai Piac tengeralattjáró",
     "location.town.northmost-bridge": "város (legészakibb híd)",
     "location.undergroundMine": "bányák",
@@ -311,7 +320,6 @@
     ** Item > generic lookups
     *********/
     // labels
-    "item.custom-item": "Custom item", // TODO
     "item.contents": "Tartalom",
     "item.loves-this": "Imádja",
     "item.likes-this": "Szereti",
@@ -330,7 +338,6 @@
     "item.produces-dye": "Festéket termel",
 
     // values
-    "item.custom-item.summary": "added by {{modName}}", // TODO
     "item.contents.placed": "{{name}} lehelyezett",
     "item.contents.ready": "{{name}} elkészült",
     "item.contents.partial": "{{name}} elkészül {{time}} múlva",
@@ -494,6 +501,7 @@
     "npc.neutral-gifts": "Semleges ajándékok",
     "npc.dislikes-gifts": "Ajándékok, melyeket nem szeret",
     "npc.hates-gifts": "Ajándékok, melyeket utál",
+    "npc.schedule": "Today's schedule", // TODO
 
     // values
     "npc.can-romance.married": "Házastársak vagytok! <", // < turns into a heart
@@ -503,6 +511,9 @@
     "npc.friendship.need-points": "Következő szint {{count}} pont múlva",
     "npc.undiscovered-gift-taste": "{{count}} fel nem fedezett dolog",
     "npc.unowned-gift-taste": "{{count}} unowned items", // TODO
+    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.no-entries": "No schedule loaded.", // TODO
+    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
 
 
     /*********

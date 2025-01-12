@@ -1,6 +1,17 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.47.0
+Released 11 January 2025 for SMAPI 4.1.10 or later.
+
+* Added 'added by mod' field for buildings, farm animals, fruit and non-fruit trees, movie concessions, and NPCs. This works with any mods which follow the [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs) format.
+* Added schedule in NPC lookup (thanks to b3nk3lly!).
+* Added support for looking up placed flooring/path tiles.
+* Fixed error looking up items if another mod added broken data.
+* Fixed support for bundles having English display names in Stardew Valley 1.6+.
+* Minor performance optimizations.
+* Improved translations. Thanks to creeperkatze (updated German), mehmetgorkemarslan (updated Turkish), and moonggae (updated Korean)!
+
 ## 1.46.2
 Released 10 November 2024 for SMAPI 4.1.2 or later.
 
