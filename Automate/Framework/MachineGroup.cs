@@ -250,7 +250,7 @@ internal class MachineGroup : IMachineGroup
         // special case: machine produced a zero-size stack
         if (stackSize < 1)
         {
-            this.Monitor.Log($"Machine '{machine.MachineTypeID}' at {machine.Location.Name} (tile: {machine.TileArea.X}, {machine.TileArea.Y}) produced an item with {(stackSize == 0 ? "no stack size" : $"stack size {stackSize}")}, so the output will be discarded. This is generally due to another mod breaking machine logic, and isn't related to Automate.", LogLevel.Warn);
+            this.Monitor.Log($"Machine '{machine.MachineTypeID}' at {machine.Location.Name} (tile: {machine.TileArea.X}, {machine.TileArea.Y}) produced an item with ID '{output.Sample.QualifiedItemId}' and {(stackSize == 0 ? "no stack size" : $"stack size {stackSize}")}, so the output will be discarded. This is generally due to another mod breaking machine logic, and isn't related to Automate.", LogLevel.Warn);
             output.Take(1); // trigger on-empty callback
             return true;
         }
