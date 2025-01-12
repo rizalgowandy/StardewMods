@@ -226,7 +226,7 @@ field         | purpose
 `When`        | _(optional)_ Only apply the patch if the given [conditions](../author-guide.md#conditions) match.
 `LogName`     | _(optional)_ A name for this patch to show in log messages. This can be useful for understanding errors. If omitted, it defaults to a name like `EditData Data/Achievements`.
 `Update`      | _(optional)_ How often the patch fields should be updated for token changes. See [update rate](../author-guide.md#update-rate) for more info.
-`LocalTokens` | _(Optional)_ A set of [local tokens](../author-guide.md#local-tokens) which can be used within this patch's field.
+`LocalTokens` | _(Optional)_ A set of [local tokens](../author-guide/tokens.md#local-tokens) which can be used within this patch's field.
 
 </dd>
 <dt>Advanced fields:</dt>
