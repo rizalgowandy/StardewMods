@@ -119,9 +119,6 @@ internal abstract class Patch : IPatch
     /// <inheritdoc />
     public bool IsApplied { get; set; }
 
-    /// <inheritdoc />
-    public int LastChangedTick { get; protected set; }
-
 
     /*********
     ** Public methods
