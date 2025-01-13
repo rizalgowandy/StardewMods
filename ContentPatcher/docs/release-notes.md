@@ -9,13 +9,15 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
-## Upcoming release
-* Improved the new local tokens feature:
-  * Non-inherited local tokens can no longer be used in the `FromFile` or `Target` fields, but can now use patch tokens like `{{FromFile}}`.
-  * Fixed patches not updated correctly when a local token uses another token whose value changed.
-  * Fixed unable to use local tokens in some patch fields.
+## 2.5.1
+Released 13 January 2025 for SMAPI 4.1.10 or later.
+
+* Improved the new [local tokens feature](author-guide/tokens.md#local-tokens):
+  * Local tokens can now use field tokens like `{{FromFile}}`, but can no longer be used in the `FromFile` and `Target` fields (except when inherited).
+  * Fixed local tokens not working in some patch fields.
   * Fixed error loading patches with non-ready local tokens.
-* Fixed dynamic tokens not applied immediately on load if their value is already ready.
+  * Fixed patches not updated correctly when a local token uses another token whose value changed.
+* Fixed dynamic tokens not applied immediately on load if their initial value is ready.
 
 ## 2.5.0
 Released 11 January 2025 for SMAPI 4.1.10 or later. See [release highlights](https://www.patreon.com/posts/119812841).
