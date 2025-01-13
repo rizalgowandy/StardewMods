@@ -1416,9 +1416,12 @@ crop sprites depending on the weather:
 Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in its
 other fields. The token names must be a plain string, but the values can contain tokens.
 
-**Note:** local tokens defined directly on a patch can't be used in the `FromFile` and `Target`
-fields (since they can use `{{FromFile}}` and `{{Target}}`). However, local tokens inherited from
-a parent `Include` patch can be used in those fields too.
+**These have two important restrictions:**
+* Local tokens defined directly on a patch can't be used in the `FromFile` and `Target` fields
+  (since they can use `{{FromFile}}` and `{{Target}}`). However, local tokens inherited from a
+  parent `Include` patch can be used in those fields too.
+* Local tokens are always considered dynamic text, so they can't be used in data model fields that
+  _only_ allow booleans or numbers. This will be improved in upcoming iterations of the feature.
 
 For example:
 ```json
