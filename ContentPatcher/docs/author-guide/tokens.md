@@ -1147,7 +1147,7 @@ For custom languages added via `Data/AdditionalLanguages`, the token will contai
 
 The current content pack's unique ID (from the `UniqueID` field in its `manifest.json`).
 
-This is typically used to build [unique string IDs](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs).
+This is typically used to build [unique string IDs](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID).
 For example:
 ```json
 "Id": "{{ModId}}_ExampleItem"
@@ -1303,7 +1303,7 @@ For example, you can use this to provide the textures for a custom farm type:
 Note that other content packs can't target an internal asset key (which is why it's internal). If
 you need to let other content packs edit it, you can use [`Action: Load`](action-load.md) to create
 a new asset for it, then use that asset name instead. When doing this, using the [unique string
-ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs)
+ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID)
 convention is strongly recommended to avoid conflicts. For example:
 ```js
 {
