@@ -9,6 +9,9 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## Upcoming release
+* Fixed dynamic tokens not applied immediately on load if their value is already ready.
+
 ## 2.5.0
 Released 11 January 2025 for SMAPI 4.1.10 or later. See [release highlights](https://www.patreon.com/posts/119812841).
 
