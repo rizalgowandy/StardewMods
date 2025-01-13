@@ -72,7 +72,9 @@ internal class ManualValueProvider : BaseValueProvider
     /// <param name="values">The values to set.</param>
     public void SetValue(ITokenString? values)
     {
-        this.Values = values.SplitValuesUnique();
+        this.Values = values?.IsReady is true
+            ? values.SplitValuesUnique()
+            : InvariantSet.Empty;
     }
 
     /// <summary>Set the current values.</summary>

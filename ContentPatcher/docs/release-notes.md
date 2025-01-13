@@ -10,6 +10,7 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 -->
 ## Upcoming release
+* Fixed error loading patches with non-ready local tokens.
 * Fixed dynamic tokens not applied immediately on load if their value is already ready.
 
 ## 2.5.0
