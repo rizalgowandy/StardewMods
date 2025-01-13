@@ -448,28 +448,22 @@ internal class PatchLoader
 
             // parse local tokens
             InvariantDictionary<IManagedTokenString>? localTokens = null;
-            if (inheritLocalTokens?.Count > 0 || entry.LocalTokens?.Count > 0)
+            if (entry.LocalTokens?.Count > 0)
             {
-                // add inherited tokens
                 localTokens = new();
-                localTokens.TryAddMany(inheritLocalTokens);
 
-                // load local tokens
-                if (entry.LocalTokens != null)
+                foreach ((string rawKey, string? value) in entry.LocalTokens)
                 {
-                    foreach ((string rawKey, string? value) in entry.LocalTokens)
-                    {
-                        string name = rawKey.Trim();
+                    string name = rawKey.Trim();
 
-                        if (this.ReservedLocalTokenNames.Contains(name))
-                            return TrackSkip($"the {nameof(entry.LocalTokens)} field can't contain a token named '{name}', which is a reserved token name.");
+                    if (this.ReservedLocalTokenNames.Contains(name))
+                        return TrackSkip($"the {nameof(entry.LocalTokens)} field can't contain a token named '{name}', which is a reserved token name.");
 
-                        if (!tokenParser.TryParseNullableString(value, immutableRequiredModIDs, path.With(nameof(entry.LocalTokens), name), out string? error, out IManagedTokenString? parsed))
-                            return TrackSkip(error);
+                    if (!tokenParser.TryParseNullableString(value, immutableRequiredModIDs, path.With(nameof(entry.LocalTokens), name), out string? error, out IManagedTokenString? parsed))
+                        return TrackSkip(error);
 
-                        if (parsed != null)
-                            localTokens.Add(name, parsed);
-                    }
+                    if (parsed != null)
+                        localTokens.Add(name, parsed);
                 }
             }
 
@@ -529,6 +523,7 @@ internal class PatchLoader
                             conditions: conditions,
                             fromFile: fromAsset,
                             updateRate: updateRate,
+                            inheritedLocalTokens: inheritLocalTokens,
                             localTokens: localTokens,
                             contentPack: rawContentPack,
                             parentPatch: parentPatch,
@@ -558,6 +553,7 @@ internal class PatchLoader
                             assetLocale: targetAssetLocale,
                             priority: priority,
                             updateRate: updateRate,
+                            inheritedLocalTokens: inheritLocalTokens,
                             localTokens: localTokens,
                             conditions: conditions,
                             localAsset: fromAsset,
@@ -625,6 +621,7 @@ internal class PatchLoader
                             textOperations: textOperations,
                             targetField: targetField,
                             updateRate: updateRate,
+                            inheritedLocalTokens: inheritLocalTokens,
                             localTokens: localTokens,
                             contentPack: pack,
                             migrator: rawContentPack.Migrator,
@@ -670,6 +667,7 @@ internal class PatchLoader
                             assetLocale: targetAssetLocale,
                             priority: priority,
                             conditions: conditions,
+                            inheritedLocalTokens: inheritLocalTokens,
                             localTokens: localTokens,
                             fromAsset: fromAsset,
                             fromArea: fromArea,
@@ -816,6 +814,7 @@ internal class PatchLoader
                             addWarps: addWarps,
                             textOperations: textOperations,
                             updateRate: updateRate,
+                            inheritedLocalTokens: inheritLocalTokens,
                             localTokens: localTokens,
                             contentPack: pack,
                             migrator: rawContentPack.Migrator,

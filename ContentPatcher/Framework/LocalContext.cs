@@ -14,7 +14,7 @@ internal class LocalContext : IContext
     /// <summary>The mod namespace in which the token is accessible.</summary>
     private readonly string Scope;
 
-    /// <summary>The parent context that provides non-patch-specific tokens.</summary>
+    /// <summary>The parent context that provides fallback tokens.</summary>
     private IContext? LastParentContext;
 
     /// <summary>The local token values.</summary>
@@ -33,7 +33,7 @@ internal class LocalContext : IContext
     *********/
     /// <summary>Construct an instance.</summary>
     /// <param name="scope">The mod namespace in which the token is accessible.</param>
-    /// <param name="parentContext">The initial parent context that provides non-patch-specific tokens, if any.</param>
+    /// <param name="parentContext">The initial parent context that provides fallback tokens, if any.</param>
     public LocalContext(string scope, IContext? parentContext = null)
     {
         this.Scope = scope;
@@ -44,13 +44,20 @@ internal class LocalContext : IContext
     ** IContext
     ****/
     /// <summary>Update the patch context.</summary>
-    /// <param name="parentContext">The parent context that provides non-patch-specific tokens.</param>
+    /// <param name="parentContext">The parent context that provides fallback tokens.</param>
     public void Update(IContext parentContext)
     {
-        this.LastParentContext = parentContext;
+        this.UpdateParentContextLinkOnly(parentContext);
 
         foreach (ManagedManualToken managed in this.LocalTokens.Values)
             managed.ValueProvider.SetReady(false);
+    }
+
+    /// <summary>Set the parent context which is used as the fallback for tokens not found in this context.</summary>
+    /// <param name="parentContext">The parent context that provides fallback tokens.</param>
+    public void UpdateParentContextLinkOnly(IContext parentContext)
+    {
+        this.LastParentContext = parentContext;
     }
 
     /// <inheritdoc />
