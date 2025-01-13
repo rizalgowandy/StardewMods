@@ -77,11 +77,11 @@
     "config.range.currentLocation": "当前位置内的箱子",
     "config.range.none": "无（无法远程访问箱子）",
 
-    "config.disable-mines.name": "禁用在矿井和骷髅洞穴",
-    "config.disable-mines.desc": "是否在矿井或骷髅洞穴中远程禁用箱子。",
+    "config.disable-mines.name": "在矿井和骷髅洞穴禁用",
+    "config.disable-mines.desc": "是否在矿井或骷髅洞穴中远程禁用远程访问箱子的功能。",
 
-    "config.disable-custom-names.name": "禁用在位置名称",
-    "config.disable-custom-names.desc": "用于禁用远程访问箱子的位置的内部名称（如调试模式Mod所示）。 你可以用逗号列出多个。",
+    "config.disable-custom-names.name": "在某个位置名称时禁用",
+    "config.disable-custom-names.desc": "用于在某个位置名称时禁用远程访问箱子的功能。关于名称请使用位置的内部名称（如调试模式Mod所示）。 你可以用逗号列出多个。",
 
     /****
     ** open menu hotkey
