@@ -1413,17 +1413,27 @@ crop sprites depending on the weather:
 ```
 
 ### Local tokens
-Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in any
-of its other fields. The token names must be a plain string, but the values can contain tokens.
+Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in its
+other fields. The token names must be a plain string, but the values can contain tokens.
+
+**Note:** local tokens defined directly on a patch can't be used in the `FromFile` and `Target`
+fields (since they can use `{{FromFile}}` and `{{Target}}`). However, local tokens inherited from
+a parent `Include` patch can be used in those fields too.
 
 For example:
 ```json
 {
-   "Action": "EditImage",
-   "Target": "Buildings/houses",
-   "FromFile": "assets/{{HouseStyle}}.png",
+   "Action": "EditData",
+   "Target": "Data/Buildings",
+   "Entries": {
+      "{{BuildingId}}": {
+          "Name": "Deluxe Stable",
+          "Texture": "Buildings/{{BuildingId}}",
+          ...
+      }
+   },
    "LocalTokens": {
-      "HouseStyle": "{{Season}}_{{IsOutdoors}}"
+      "BuildingId": "{{ModId}}_DeluxeStable"
    }
 }
 ```
