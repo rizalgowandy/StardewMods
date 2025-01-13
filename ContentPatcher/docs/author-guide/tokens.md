@@ -1147,7 +1147,7 @@ For custom languages added via `Data/AdditionalLanguages`, the token will contai
 
 The current content pack's unique ID (from the `UniqueID` field in its `manifest.json`).
 
-This is typically used to build [unique string IDs](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs).
+This is typically used to build [unique string IDs](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID).
 For example:
 ```json
 "Id": "{{ModId}}_ExampleItem"
@@ -1303,7 +1303,7 @@ For example, you can use this to provide the textures for a custom farm type:
 Note that other content packs can't target an internal asset key (which is why it's internal). If
 you need to let other content packs edit it, you can use [`Action: Load`](action-load.md) to create
 a new asset for it, then use that asset name instead. When doing this, using the [unique string
-ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs)
+ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID)
 convention is strongly recommended to avoid conflicts. For example:
 ```js
 {
@@ -1413,17 +1413,30 @@ crop sprites depending on the weather:
 ```
 
 ### Local tokens
-Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in any
-of its other fields. The token names must be a plain string, but the values can contain tokens.
+Local tokens are defined for a specific patch via its `LocalTokens` field, and can be used in its
+other fields. The token names must be a plain string, but the values can contain tokens.
+
+**These have two important restrictions:**
+* Local tokens defined directly on a patch can't be used in the `FromFile` and `Target` fields
+  (since they can use `{{FromFile}}` and `{{Target}}`). However, local tokens inherited from a
+  parent `Include` patch can be used in those fields too.
+* Local tokens are always considered dynamic text, so they can't be used in data model fields that
+  _only_ allow booleans or numbers. This will be improved in upcoming iterations of the feature.
 
 For example:
 ```json
 {
-   "Action": "EditImage",
-   "Target": "Buildings/houses",
-   "FromFile": "assets/{{HouseStyle}}.png",
+   "Action": "EditData",
+   "Target": "Data/Buildings",
+   "Entries": {
+      "{{BuildingId}}": {
+          "Name": "Deluxe Stable",
+          "Texture": "Buildings/{{BuildingId}}",
+          ...
+      }
+   },
    "LocalTokens": {
-      "HouseStyle": "{{Season}}_{{IsOutdoors}}"
+      "BuildingId": "{{ModId}}_DeluxeStable"
    }
 }
 ```

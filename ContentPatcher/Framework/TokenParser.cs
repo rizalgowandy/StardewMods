@@ -120,8 +120,9 @@ internal class TokenParser
     /// <param name="path">The path to the value from the root content file.</param>
     /// <param name="error">An error phrase indicating why parsing failed (if applicable).</param>
     /// <param name="parsed">The parsed value.</param>
+    /// <param name="preValidate">Validate a token used in the string after it's been parsed, but before the normal validation is applied. This can return an error string to fail validation, or <c>null</c> to continue with the default validation.</param>
     /// <inheritdoc cref="TryParseNullableString" path="/remarks" />
-    public bool TryParseString(string? rawValue, IInvariantSet assumeModIds, LogPathBuilder path, [NotNullWhen(false)] out string? error, [NotNullWhen(true)] out IManagedTokenString? parsed)
+    public bool TryParseString(string? rawValue, IInvariantSet assumeModIds, LogPathBuilder path, [NotNullWhen(false)] out string? error, [NotNullWhen(true)] out IManagedTokenString? parsed, Func<LexTokenToken, string?>? preValidate = null)
     {
         if (!string.IsNullOrEmpty(rawValue))
         {
@@ -144,6 +145,10 @@ internal class TokenParser
             // validate tokens
             foreach (LexTokenToken lexToken in parsed.GetTokenPlaceholders(recursive: false))
             {
+                error = preValidate?.Invoke(lexToken);
+                if (error != null)
+                    return false;
+
                 if (!this.TryValidateToken(lexToken, assumeModIds, out error))
                     return false;
             }

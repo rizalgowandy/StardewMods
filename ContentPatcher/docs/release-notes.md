@@ -9,6 +9,16 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## 2.5.1
+Released 13 January 2025 for SMAPI 4.1.10 or later.
+
+* Improved the new [local tokens feature](author-guide/tokens.md#local-tokens):
+  * Local tokens can now use field tokens like `{{FromFile}}`, but can no longer be used in the `FromFile` and `Target` fields (except when inherited).
+  * Fixed local tokens not working in some patch fields.
+  * Fixed error loading patches with non-ready local tokens.
+  * Fixed patches not updated correctly when a local token uses another token whose value changed.
+* Fixed dynamic tokens not applied immediately on load if their initial value is ready.
+
 ## 2.5.0
 Released 11 January 2025 for SMAPI 4.1.10 or later. See [release highlights](https://www.patreon.com/posts/119812841).
 
@@ -130,7 +140,7 @@ Released 19 March 2024 for SMAPI 4.0.0 or later. See the [release highlights](ht
 * Added [`ModId`](author-guide/tokens.md#ModId) token to get the unique ID of the current content pack.
 * Added runtime migrations for content assets which changed in Stardew Valley 1.6. (Thanks to SinZ for the help creating some of the main migrations!)
 * Added trigger action to change content IDs automatically (see [new docs](author-guide/trigger-actions.md)). 
-* Deprecated `CustomLocations`. This is now a shortcut for editing the new [`Data/Locations` asset](https://stardewvalleywiki.com/Modding:Location_data), and now allows the [new location name format](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs).
+* Deprecated `CustomLocations`. This is now a shortcut for editing the new [`Data/Locations` asset](https://stardewvalleywiki.com/Modding:Location_data), and now allows the [new location name format](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID).
 * Removed `GroupEditsByMod` config option. Edits are now grouped automatically based on mod and priority.
 * Fixed off-by-one position with `MoveEntries` when the target entry is already before the anchor entry.
 * Fixed some tokens being briefly unavailable during part of the save load process (notably `Hearts` and `Relationship`). This affected some specific cases like editing island resort dialogue.

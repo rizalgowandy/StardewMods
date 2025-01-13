@@ -166,7 +166,7 @@ You can now add it to the game directly like this:
 ]
 ```
 
-The game uses a standard [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs)
+The game uses a standard [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID)
 format for the location name. In the example above, we use the new name format (`{{ModId}}_AbigailCloset`) and add the
 old name (`Custom_ExampleMod_AbigailCloset`) to the `FormerLocationNames` field so the location will be migrated
 automatically for current players.

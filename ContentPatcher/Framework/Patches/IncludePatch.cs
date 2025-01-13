@@ -49,13 +49,14 @@ internal class IncludePatch : Patch
     /// <param name="conditions">The conditions which determine whether this patch should be applied.</param>
     /// <param name="fromFile">The normalized asset key from which to load entries (if applicable), including tokens.</param>
     /// <param name="updateRate">When the patch should be updated.</param>
-    /// <param name="localTokens">The local token values to use for this and loaded patches, in addition to the pre-existing tokens.</param>
+    /// <param name="inheritedLocalTokens">The local token values inherited from the parent patch if applicable, to use in addition to the pre-existing tokens.</param>
+    /// <param name="localTokens">The local token values defined directly on this patch, to use in addition to the pre-existing tokens.</param>
     /// <param name="contentPack">The content pack which requested the patch.</param>
     /// <param name="parentPatch">The parent patch for which this patch was loaded, if any.</param>
     /// <param name="parseAssetName">Parse an asset name.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
     /// <param name="patchLoader">Handles loading and unloading patches for content packs.</param>
-    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? localTokens, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
+    public IncludePatch(int[] indexPath, LogPathBuilder path, IEnumerable<Condition> conditions, IManagedTokenString fromFile, UpdateRate updateRate, InvariantDictionary<IManagedTokenString>? inheritedLocalTokens, InvariantDictionary<IManagedTokenString>? localTokens, RawContentPack contentPack, IPatch? parentPatch, Func<string, IAssetName> parseAssetName, IMonitor monitor, PatchLoader patchLoader)
         : base(
             indexPath: indexPath,
             path: path,
@@ -64,6 +65,7 @@ internal class IncludePatch : Patch
             assetLocale: null,
             priority: (int)AssetEditPriority.Default,
             updateRate: updateRate,
+            inheritedLocalTokens: inheritedLocalTokens,
             localTokens: localTokens,
             conditions: conditions,
             contentPack: contentPack.ContentPack,

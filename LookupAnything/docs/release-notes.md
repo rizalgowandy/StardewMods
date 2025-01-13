@@ -4,7 +4,7 @@
 ## 1.47.0
 Released 11 January 2025 for SMAPI 4.1.10 or later.
 
-* Added 'added by mod' field for buildings, farm animals, fruit and non-fruit trees, movie concessions, and NPCs. This works with any mods which follow the [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs) format.
+* Added 'added by mod' field for buildings, farm animals, fruit and non-fruit trees, movie concessions, and NPCs. This works with any mods which follow the [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) format.
 * Added schedule in NPC lookup (thanks to b3nk3lly!).
 * Added support for looking up placed flooring/path tiles.
 * Fixed error looking up items if another mod added broken data.
@@ -194,7 +194,7 @@ Released 19 March 2024 for SMAPI 4.0.0 or later.
 
 * Updated for Stardew Valley 1.6.  
   _Thanks to SinZ163 for contributing some of the fixes!_
-* Item lookups now show which mod added the item, if the mod follows the [unique string ID](https://stardewvalleywiki.com/Modding:Modder_Guide/Game_Fundamentals#Unique_string_IDs) format.
+* Item lookups now show which mod added the item, if the mod follows the [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) format.
 * Added more seed info in tree lookups.
 * Added support for looking up NPCs in some custom mod menus (thanks to BinaryLip!).
 * Improved debug field format for player stats and schedules.

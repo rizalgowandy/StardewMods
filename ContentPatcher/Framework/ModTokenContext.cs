@@ -127,6 +127,11 @@ internal class ModTokenContext : IContext
         // save value info
         managed.ValueProvider.AddTokensUsed(tokensUsed);
         managed.ValueProvider.AddAllowedValues(rawValue);
+        if (tokenValue.IsReady)
+        {
+            managed.ValueProvider.SetValue(tokenValue.Value);
+            managed.ValueProvider.SetReady(true);
+        }
         this.DynamicTokenValues.Add(tokenValue);
 
         // track token dependencies
