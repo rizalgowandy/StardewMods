@@ -131,6 +131,36 @@ internal class ModEntry : Mod
                 new Rectangle(330, 357, 7, 13),
                 I18n.Icon_ToggleSearch_Name,
                 I18n.Icon_ToggleSearch_Desc,
+                () =>
+                {
+                    // show menu
+                    StringBuilder logMessage = new("Received a lookup request...");
+                    this.Monitor.InterceptErrors("looking that up", () =>
+                    {
+                        try
+                        {
+                            // world
+                            logMessage.Append(" searching the world...");
+                            Vector2 tile = this.Helper.Input.GetCursorPosition().GrabTile;
+                            ISubject? subject = this.TargetFactory.GetTargetFromTile(Game1.currentLocation, tile)?.GetSubject();
+
+                            if (subject == null)
+                            {
+                                this.Monitor.Log($"{logMessage} no target found.");
+                                return;
+                            }
+
+                            // show lookup UI
+                            this.Monitor.Log(logMessage.ToString());
+                            this.ShowLookupFor(subject);
+                        }
+                        catch
+                        {
+                            this.Monitor.Log($"{logMessage} an error occurred.");
+                            throw;
+                        }
+                    });
+                },
                 this.TryToggleSearch
             );
         }
