@@ -68,7 +68,7 @@
     /****
     ** remote access
     ****/
-    "config.title.remote-access": "远程访问箱子设置", 
+    "config.title.remote-access": "远程访问箱子设置",
 
     "config.range.name": "箱子显示范围",
     "config.range.desc": "箱子可通过菜单访问的范围。",
@@ -86,13 +86,13 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "用于打开箱子UI的热键", 
+    "config.title.open-menu-hotkey": "用于打开箱子UI的热键",
 
     "config.toggle-ui-key.name": "切换UI",
     "config.toggle-ui-key.desc": "显示或隐藏箱子UI的按键",
 
-    "config.reopen-last-chest.name": "自动打开最后开过的箱子", 
-    "config.reopen-last-chest.desc": "当你按下'切换UI'按钮时，是否重新打开当前游戏会话中你自己上次选择的箱子。", 
+    "config.reopen-last-chest.name": "自动打开最后开过的箱子",
+    "config.reopen-last-chest.desc": "当你按下'切换UI'按钮时，是否重新打开当前游戏会话中你自己上次选择的箱子。",
 
     "config.default-category.name": "默认类别",
     "config.default-category.desc": "当你按下'切换界面'按钮时，默认显示此类别中的箱子（如果已设置）。此设置在启用'自动打开最后开过的箱子'之后生效。",
