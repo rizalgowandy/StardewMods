@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "Basılı tutulduğunda, fare kaydırma tekerleği ile kategori açılır listesinin kaydırılmasını sağlayan tuşlar.",
 
     "config.hold-to-scroll-chests.name": "Sandıkları kaydırmak için basılı tutun",
-    "config.hold-to-scroll-chests.desc": "Basılı tutulduğunda, fare kaydırma tekerleği ile sandıkların aşağı doğru kaydırılmasını sağlayan tuşlar."
+    "config.hold-to-scroll-chests.desc": "Basılı tutulduğunda, fare kaydırma tekerleği ile sandıkların aşağı doğru kaydırılmasını sağlayan tuşlar.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

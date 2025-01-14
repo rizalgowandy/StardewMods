@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "このキーを押しながら、マウスのスクロールホイールするとカテゴリのドロップダウンをスクロールできるようになる。",
 
     "config.hold-to-scroll-chests.name": "長押しで箱をスクロール",
-    "config.hold-to-scroll-chests.desc": "このキーを押しながら、マウスのスクロールホイールすると箱のドロップダウンをスクロールできるようになる。"
+    "config.hold-to-scroll-chests.desc": "このキーを押しながら、マウスのスクロールホイールすると箱のドロップダウンをスクロールできるようになる。",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

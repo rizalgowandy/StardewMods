@@ -6,6 +6,7 @@ using Pathoschild.Stardew.ChestsAnywhere.Framework.Containers;
 using Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays;
 using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.Common.Messages;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -93,6 +94,17 @@ internal class ModEntry : Mod
             get: () => this.Config,
             set: config => this.Config = config
         );
+
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                "LooseSprites/Cursors",
+                new Rectangle(127, 412, 10, 11),
+                I18n.Icon_OpenMenu_Name,
+                I18n.Icon_OpenMenu_Desc,
+                this.OpenMenu);
+        }
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

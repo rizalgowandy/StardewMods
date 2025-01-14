@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina delle categorie con la rotella del mouse.",
 
     "config.hold-to-scroll-chests.name": "Tieni premuto per scorrere i bauli",
-    "config.hold-to-scroll-chests.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina dei bauli con la rotella del mouse."
+    "config.hold-to-scroll-chests.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina dei bauli con la rotella del mouse.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

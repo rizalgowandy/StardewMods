@@ -6,5 +6,13 @@
     "config.require-flute.description": "Bir at çağırmak için envanterinizdeki at flüt öğesine ihtiyacınız olup olmadığı. Varsayılan kapalı.",
 
     "config.summon-horse-button.name": "Atı Çağır Düğmesi",
-    "config.summon-horse-button.description": "Flüt çalan ve bir atı çağıran düğme. Varsayılan {{defaultValue}}."
+    "config.summon-horse-button.description": "Flüt çalan ve bir atı çağıran düğme. Varsayılan {{defaultValue}}.",
+
+
+    /*********
+    ** Iconic Framework
+    *********/
+    // TODO
+    "icon.summon-horse.name": "Horse Flute Anywhere",
+    "icon.summon-horse.desc": "Summon Horse"
 }

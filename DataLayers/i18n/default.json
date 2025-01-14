@@ -114,5 +114,12 @@
     "config.layer-updates-per-second.desc": "How often the layer should update when it's being displayed, as a number per second. Setting this to a higher value than the default may cause lag. Default {{defaultValue}}.",
 
     "config.layer-shortcut.name": "Shortcut key",
-    "config.layer-shortcut.desc": "The key binding which selects this layer when the overlay is open."
+    "config.layer-shortcut.desc": "The key binding which selects this layer when the overlay is open.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-data-layers.name": "Data Layers",
+    "icon.toggle-data-layers.desc": "Toggle Data Layers"
 }

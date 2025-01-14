@@ -251,5 +251,13 @@
     "config.slingshot.tooltip": "Si se dispara el tirachinas hacia el cursor. (Esto es masivamente sobrepoderoso y consumirá munición vorazmente debido a la velocidad de la herramienta del tractor).",
 
     "config.custom-tool-names.name": "Nombres de herramientas personalizados",
-    "config.custom-tool-names.tooltip": "Los objetos/herramientas personalizados para habilitar mientras se conduce el tractor. Las herramientas se usarán en cada baldosa circundante, mientras que los objetos se pondrán en el suelo. Si especificas algo que ya está soportado (como el hacha), esto anula todas las limitaciones de su uso. Debes especificar el nombre interno exacto (no el nombre que se muestra), como 'Hacha' o 'Megabomba'. Separe los valores múltiples con comas."
+    "config.custom-tool-names.tooltip": "Los objetos/herramientas personalizados para habilitar mientras se conduce el tractor. Las herramientas se usarán en cada baldosa circundante, mientras que los objetos se pondrán en el suelo. Si especificas algo que ya está soportado (como el hacha), esto anula todas las limitaciones de su uso. Debes especificar el nombre interno exacto (no el nombre que se muestra), como 'Hacha' o 'Megabomba'. Separe los valores múltiples con comas.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Summon Tractor"
 }

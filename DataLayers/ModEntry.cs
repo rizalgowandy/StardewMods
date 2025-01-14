@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.DataLayers.Framework;
 using Pathoschild.Stardew.DataLayers.Framework.Commands;
 using Pathoschild.Stardew.DataLayers.Layers;
@@ -99,6 +100,17 @@ internal class ModEntry : Mod
             set: config => this.Config = config,
             onSaved: this.ReapplyConfig
         );
+
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                this.Helper.ModContent.GetInternalAssetName("assets/icon.png").BaseName,
+                new Rectangle(0, 0, 16, 16),
+                I18n.Icon_ToggleDataLayers_Name,
+                I18n.Icon_ToggleDataLayers_Desc,
+                this.ToggleLayers);
+        }
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

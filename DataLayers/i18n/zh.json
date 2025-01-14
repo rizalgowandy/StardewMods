@@ -114,5 +114,12 @@
     "config.layer-updates-per-second.desc": "数据图层每秒更新的次数。将此值设为高于默认值可能会导致图层信息显示延迟。默认值 {{defaultValue}}.",
 
     "config.layer-shortcut.name": "快捷键",
-    "config.layer-shortcut.desc": "当数据图层显示时，快速切换到该图层的快捷键。"
+    "config.layer-shortcut.desc": "当数据图层显示时，快速切换到该图层的快捷键。",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-data-layers.name": "数据图层",
+    "icon.toggle-data-layers.desc": "切换数据图层"
 }

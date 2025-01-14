@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "Клавіші, які при утриманні дозволяють прокручувати спадний список категорії за допомогою колеса прокрутки миші.",
 
     "config.hold-to-scroll-chests.name": "Утримувати, щоб прокрутити скрині",
-    "config.hold-to-scroll-chests.desc": "Клавіші, які при утриманні дозволяють прокручувати спадний список скринь за допомогою колеса прокрутки миші."
+    "config.hold-to-scroll-chests.desc": "Клавіші, які при утриманні дозволяють прокручувати спадний список скринь за допомогою колеса прокрутки миші.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

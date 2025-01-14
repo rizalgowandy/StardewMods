@@ -245,5 +245,13 @@
     "config.slingshot.tooltip": "Ob die Schleuder in Richtung des Cursors geschossen werden soll. (Dies ist massiv overpowered und wird aufgrund der Geschwindigkeit des Traktorwerkzeugs viel Munition verbrauchen).",
 
     "config.custom-tool-names.name": "Benutzerdefinierte Werkzeugnamen",
-    "config.custom-tool-names.tooltip": "Die benutzerdefinierten Gegenstände/Werkzeuge, die während der Fahrt mit dem Traktor aktiviert werden. Werkzeuge werden auf jeder umliegenden Kachel verwendet, während Gegenstände abgelegt werden. Wenn Sie etwas angeben, das bereits unterstützt wird (z. B. die Axt), hebt dies alle Beschränkungen für seine Verwendung auf. Ihr müsst den genauen internen Namen angeben (nicht den übersetzten Anzeigenamen), z. B. 'Axe' oder 'Mega Bomb'. Trennen Sie mehrere Werte durch Kommas."
+    "config.custom-tool-names.tooltip": "Die benutzerdefinierten Gegenstände/Werkzeuge, die während der Fahrt mit dem Traktor aktiviert werden. Werkzeuge werden auf jeder umliegenden Kachel verwendet, während Gegenstände abgelegt werden. Wenn Sie etwas angeben, das bereits unterstützt wird (z. B. die Axt), hebt dies alle Beschränkungen für seine Verwendung auf. Ihr müsst den genauen internen Namen angeben (nicht den übersetzten Anzeigenamen), z. B. 'Axe' oder 'Mega Bomb'. Trennen Sie mehrere Werte durch Kommas.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Summon Tractor"
 }

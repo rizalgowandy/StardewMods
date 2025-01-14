@@ -251,5 +251,13 @@
     "config.slingshot.tooltip": "A csúzli lövedékének kilövése a kurzor felé. (Ez jelentősen túlterhelt, és a traktor szerszám sebessége miatt mohón fogyasztja a lőszert.)",
 
     "config.custom-tool-names.name": "Egyéni eszköznevek",
-    "config.custom-tool-names.tooltip": "A traktor használata közben engedélyezhető egyéni elemek/eszközök. Az eszközöket minden egyes környező csempén használja, amíg a tárgyakat lerakjuk. Ha megadunk valamit, ami már támogatott mint pl. a fejsze, az felülírja a használatára vonatkozó összes korlátozást. Pontos belső neveket kell megadni (nem a lefordított neveket), mint pl. 'Axe' vagy 'Mega Bomb'. Több érték megadása esetén vesszővel el kell választani a neveket."
+    "config.custom-tool-names.tooltip": "A traktor használata közben engedélyezhető egyéni elemek/eszközök. Az eszközöket minden egyes környező csempén használja, amíg a tárgyakat lerakjuk. Ha megadunk valamit, ami már támogatott mint pl. a fejsze, az felülírja a használatára vonatkozó összes korlátozást. Pontos belső neveket kell megadni (nem a lefordított neveket), mint pl. 'Axe' vagy 'Mega Bomb'. Több érték megadása esetén vesszővel el kell választani a neveket.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Summon Tractor"
 }

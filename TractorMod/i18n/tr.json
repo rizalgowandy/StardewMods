@@ -245,5 +245,13 @@
     "config.slingshot.tooltip": "Sapanın imlece doğru ateşlenip ateşlenmeyeceği. (Bu, çok güçlüdür ve traktör aletinin hızı nedeniyle açgözlü bir şekilde cephane tüketecektir.)",
 
     "config.custom-tool-names.name": "Özel Alet Adları",
-    "config.custom-tool-names.tooltip": "Traktörü sürerken etkinleştirilecek özel öğeler/aletler. Öğeler indirilirken, her bir çevreleyen karoda araçlar kullanılacaktır. Halihazırda desteklenen bir şey belirtirseniz (balta gibi), bu, kullanımındaki tüm sınırlamaları geçersiz kılar. 'Balta' veya 'Büyük Bomba' gibi tam dahili adı (çevrilmiş görünen adı değil) belirtmelisiniz. Birden çok değeri virgülle ayırın."
+    "config.custom-tool-names.tooltip": "Traktörü sürerken etkinleştirilecek özel öğeler/aletler. Öğeler indirilirken, her bir çevreleyen karoda araçlar kullanılacaktır. Halihazırda desteklenen bir şey belirtirseniz (balta gibi), bu, kullanımındaki tüm sınırlamaları geçersiz kılar. 'Balta' veya 'Büyük Bomba' gibi tam dahili adı (çevrilmiş görünen adı değil) belirtmelisiniz. Birden çok değeri virgülle ayırın.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Summon Tractor"
 }

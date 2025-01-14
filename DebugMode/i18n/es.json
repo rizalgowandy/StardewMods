@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Controles",
     "config.toggle-debug-key.name": "Activar la información de depuración",
-    "config.toggle-debug-key.desc": "Las teclas que activan la información de depuración."
+    "config.toggle-debug-key.desc": "Las teclas que activan la información de depuración.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

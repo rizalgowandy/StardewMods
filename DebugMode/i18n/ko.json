@@ -28,5 +28,12 @@
     // controls
     "config.title.controls": "단축키 설정",
     "config.toggle-debug-key.name": "디버그 정보 전환",
-    "config.toggle-debug-key.desc": "디버그 정보를 실행하는 키."
+    "config.toggle-debug-key.desc": "디버그 정보를 실행하는 키.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "디버그 모드 활성화"
 }

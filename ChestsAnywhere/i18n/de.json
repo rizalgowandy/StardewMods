@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "Die Tasten, die es ermöglichen, das Dropdown-Menü der Kategorie mit dem Mausrad zu scrollen, wenn sie gehalten werden.",
 
     "config.hold-to-scroll-chests.name": "Halten, um Truhen zu scrollen",
-    "config.hold-to-scroll-chests.desc": "Die Tasten, die es ermöglichen, das Dropdown-Menü der Truhen mit dem Mausrad zu scrollen, wenn sie gehalten werden."
+    "config.hold-to-scroll-chests.desc": "Die Tasten, die es ermöglichen, das Dropdown-Menü der Truhen mit dem Mausrad zu scrollen, wenn sie gehalten werden.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }
