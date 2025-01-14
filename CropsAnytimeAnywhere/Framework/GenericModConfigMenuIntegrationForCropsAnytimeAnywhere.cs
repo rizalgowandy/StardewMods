@@ -6,14 +6,11 @@ using StardewModdingAPI;
 namespace Pathoschild.Stardew.CropsAnytimeAnywhere.Framework;
 
 /// <summary>Registers the mod configuration with Generic Mod Config Menu.</summary>
-internal class GenericModConfigMenuIntegrationForCropsAnytimeAnywhere
+internal class GenericModConfigMenuIntegrationForCropsAnytimeAnywhere : IGenericModConfigMenuIntegrationFor<ModConfig>
 {
     /*********
     ** Fields
     *********/
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<ModConfig> ConfigMenu;
-
     /// <summary>The default mod settings.</summary>
     private readonly ModConfig DefaultConfig = new();
 
@@ -25,25 +22,20 @@ internal class GenericModConfigMenuIntegrationForCropsAnytimeAnywhere
     ** Public methods
     *********/
     /// <summary>Construct an instance.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    /// <param name="manifest">The mod manifest.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">Reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForCropsAnytimeAnywhere(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    /// <param name="config">The current config model.</param>
+    public GenericModConfigMenuIntegrationForCropsAnytimeAnywhere(ModConfig config)
     {
-        this.ConfigMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
-        this.TooComplex = GenericModConfigMenuIntegrationForCropsAnytimeAnywhere.CheckIfTooComplexToEdit(getConfig());
+        this.TooComplex = config.Locations.Count switch
+        {
+            0 => false, // we can re-add the default section
+            1 => !config.Locations.ContainsKey("*"), // only contains the default section
+            _ => true
+        };
     }
 
-    /// <summary>Register the config menu if available.</summary>
-    public void Register()
+    /// <inheritdoc />
+    public void Register(GenericModConfigMenuIntegration<ModConfig> menu, IMonitor monitor)
     {
-        var menu = this.ConfigMenu;
-        if (!menu.IsLoaded)
-            return;
-
         menu.Register();
 
         if (this.TooComplex)
@@ -101,23 +93,6 @@ internal class GenericModConfigMenuIntegrationForCropsAnytimeAnywhere
     /*********
     ** Private methods
     *********/
-    /// <summary>Get whether settings are too complex to edit through Generic Mod Config Menu.</summary>
-    /// <param name="config">The settings to check.</param>
-    private static bool CheckIfTooComplexToEdit(ModConfig config)
-    {
-        switch (config.Locations.Count)
-        {
-            case 0:
-                return false; // we can re-add the default section
-
-            case 1:
-                return !config.Locations.ContainsKey("*"); // only contains the default section
-
-            default:
-                return true; // can't manage multiple sections through config UI
-        }
-    }
-
     private bool GetOption(ModConfig config, Func<PerLocationConfig, bool> getValue)
     {
         PerLocationConfig section = config.Locations.GetValueOrDefault("*") ?? this.DefaultConfig.Locations["*"];

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Patching;
 using Pathoschild.Stardew.SmallBeachFarm.Framework;
 using Pathoschild.Stardew.SmallBeachFarm.Framework.Config;
@@ -200,19 +201,11 @@ public class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForSmallBeachFarm(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.Helper.WriteConfig(this.Config);
-            },
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForSmallBeachFarm(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
     }
 
     /// <summary>Get whether the given location is the Small Beach Farm.</summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Patching;
 using Pathoschild.Stardew.CropsAnytimeAnywhere.Framework;
 using Pathoschild.Stardew.CropsAnytimeAnywhere.Patches;
@@ -51,19 +52,12 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForCropsAnytimeAnywhere(
-            getConfig: () => this.Config.Config,
-            reset: () => this.Config.UpdateConfig(new ModConfig()),
-            saveAndApply: () =>
-            {
-                this.Helper.WriteConfig(this.Config.Config);
-                this.Config.UpdateConfig(this.Config.Config);
-            },
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForCropsAnytimeAnywhere(this.Config.Config),
+            get: () => this.Config.Config,
+            set: config => this.Config.UpdateConfig(config),
+            onSaved: () => this.Config.UpdateConfig(this.Config.Config)
+        );
     }
 
     /// <summary>Load the fallback tile types.</summary>

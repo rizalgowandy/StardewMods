@@ -5,6 +5,7 @@ using Pathoschild.Stardew.ChestsAnywhere.Framework;
 using Pathoschild.Stardew.ChestsAnywhere.Framework.Containers;
 using Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Messages;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -87,15 +88,11 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForChestsAnywhere(
-            getConfig: () => this.Config,
-            reset: () => this.Config = new ModConfig(),
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForChestsAnywhere(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

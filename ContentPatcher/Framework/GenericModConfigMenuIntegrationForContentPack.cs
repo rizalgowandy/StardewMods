@@ -6,11 +6,12 @@ using ContentPatcher.Framework.ConfigModels;
 using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
+using TConfigMenu = Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu.GenericModConfigMenuIntegration<Pathoschild.Stardew.Common.Utilities.InvariantDictionary<ContentPatcher.Framework.ConfigModels.ConfigField>>;
 
 namespace ContentPatcher.Framework;
 
 /// <summary>Registers the mod configuration for a content pack with Generic Mod Config Menu.</summary>
-internal class GenericModConfigMenuIntegrationForContentPack
+internal class GenericModConfigMenuIntegrationForContentPack : IGenericModConfigMenuIntegrationFor<InvariantDictionary<ConfigField>>
 {
     /*********
     ** Fields
@@ -21,18 +22,8 @@ internal class GenericModConfigMenuIntegrationForContentPack
     /// <summary>The config model.</summary>
     private readonly InvariantDictionary<ConfigField> Config;
 
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<InvariantDictionary<ConfigField>> ConfigMenu;
-
     /// <summary>Parse a comma-delimited set of case-insensitive condition values.</summary>
     private readonly Func<string, IInvariantSet> ParseCommaDelimitedField;
-
-
-    /*********
-    ** Accessors
-    *********/
-    /// <summary>Whether Generic Mod Config Menu is available.</summary>
-    public bool IsLoaded => this.ConfigMenu.IsLoaded;
 
 
     /*********
@@ -40,38 +31,19 @@ internal class GenericModConfigMenuIntegrationForContentPack
     *********/
     /// <summary>Construct an instance.</summary>
     /// <param name="contentPack">The content pack whose config is being managed.</param>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    /// <param name="manifest">The mod manifest.</param>
     /// <param name="parseCommaDelimitedField">The Generic Mod Config Menu integration.</param>
     /// <param name="config">The config model.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForContentPack(IContentPack contentPack, IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<string, IInvariantSet> parseCommaDelimitedField, InvariantDictionary<ConfigField> config, Action saveAndApply)
+    public GenericModConfigMenuIntegrationForContentPack(IContentPack contentPack, Func<string, IInvariantSet> parseCommaDelimitedField, InvariantDictionary<ConfigField> config)
     {
         this.ContentPack = contentPack;
         this.Config = config;
-        this.ConfigMenu = new GenericModConfigMenuIntegration<InvariantDictionary<ConfigField>>(
-            modRegistry: modRegistry,
-            monitor: monitor,
-            consumerManifest: manifest,
-            getConfig: () => config,
-            reset: () =>
-            {
-                this.Reset();
-                saveAndApply();
-            },
-            saveAndApply
-        );
         this.ParseCommaDelimitedField = parseCommaDelimitedField;
     }
 
-    /// <summary>Register the config menu if available.</summary>
-    public void Register()
+    /// <inheritdoc />
+    public void Register(TConfigMenu menu, IMonitor monitor)
     {
-        if (!this.ConfigMenu.IsLoaded || !this.Config.Any())
-            return;
-
-        this.ConfigMenu.Register();
+        menu.Register();
 
         // get fields by section
         InvariantDictionary<InvariantDictionary<ConfigField>> fieldsBySection = new() { [""] = new() };
@@ -92,10 +64,10 @@ internal class GenericModConfigMenuIntegrationForContentPack
                 continue;
 
             if (sectionId != "")
-                this.AddSection(sectionId);
+                this.AddSection(menu, sectionId);
 
             foreach ((string name, ConfigField config) in fields)
-                this.AddField(name, config);
+                this.AddField(menu, name, config);
         }
     }
 
@@ -104,13 +76,11 @@ internal class GenericModConfigMenuIntegrationForContentPack
     ** Private methods
     *********/
     /// <summary>Register a config menu field with Generic Mod Config Menu.</summary>
+    /// <param name="menu">The integration API through which to register the config menu.</param>
     /// <param name="name">The config field name.</param>
     /// <param name="field">The config field instance.</param>
-    private void AddField(string name, ConfigField field)
+    private void AddField(TConfigMenu menu, string name, ConfigField field)
     {
-        if (!this.ConfigMenu.IsLoaded)
-            return;
-
         // get translation logic
         string GetName() => this.TryTranslate($"config.{name}.name", name);
         string GetDescription() => this.TryTranslate($"config.{name}.description", field.Description);
@@ -119,7 +89,7 @@ internal class GenericModConfigMenuIntegrationForContentPack
         // textbox if any values allowed
         if (!field.AllowValues.Any())
         {
-            this.ConfigMenu.AddTextbox(
+            menu.AddTextbox(
                 name: GetName,
                 tooltip: GetDescription,
                 get: _ => string.Join(", ", field.Value),
@@ -140,7 +110,7 @@ internal class GenericModConfigMenuIntegrationForContentPack
         {
             foreach (string value in field.AllowValues)
             {
-                this.ConfigMenu.AddCheckbox(
+                menu.AddCheckbox(
                     name: () => $"{GetName()}: {GetValueText(value)}",
                     tooltip: GetDescription,
                     get: _ => field.Value.Contains(value),
@@ -163,7 +133,7 @@ internal class GenericModConfigMenuIntegrationForContentPack
         // checkbox for single boolean
         else if (!field.AllowBlank && field.IsBoolean())
         {
-            this.ConfigMenu.AddCheckbox(
+            menu.AddCheckbox(
                 name: GetName,
                 tooltip: GetDescription,
                 get: _ => field.Value.Contains(true.ToString()),
@@ -180,7 +150,7 @@ internal class GenericModConfigMenuIntegrationForContentPack
                 defaultValue = min;
 
             // number slider
-            this.ConfigMenu.AddNumberField(
+            menu.AddNumberField(
                 name: GetName,
                 tooltip: GetDescription,
                 get: _ => int.TryParse(field.Value.FirstOrDefault(), out int val) ? val : defaultValue,
@@ -201,7 +171,7 @@ internal class GenericModConfigMenuIntegrationForContentPack
             if (field.AllowBlank)
                 choices.Insert(0, "");
 
-            this.ConfigMenu.AddDropdown(
+            menu.AddDropdown(
                 name: GetName,
                 tooltip: GetDescription,
                 get: _ => field.Value.FirstOrDefault() ?? "",
@@ -215,20 +185,14 @@ internal class GenericModConfigMenuIntegrationForContentPack
     }
 
     /// <summary>Register a config menu section with Generic Mod Config Menu.</summary>
+    /// <param name="menu">The integration API through which to register the config menu.</param>
     /// <param name="name">The config section name.</param>
-    private void AddSection(string name)
+    private void AddSection(TConfigMenu menu, string name)
     {
-        this.ConfigMenu.AddSectionTitle(
+        menu.AddSectionTitle(
             text: () => this.TryTranslate($"config.section.{name}.name", name),
             tooltip: () => this.TryTranslate($"config.section.{name}.description", null)
         );
-    }
-
-    /// <summary>Reset the mod configuration.</summary>
-    private void Reset()
-    {
-        foreach (ConfigField configField in this.Config.Values)
-            configField.SetValue(configField.DefaultValues);
     }
 
     /// <summary>Get a translation if it exists, else get the fallback text.</summary>

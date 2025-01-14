@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.DebugMode.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -90,15 +91,11 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForDebugMode(
-            getConfig: () => this.Config,
-            reset: () => this.Config = new ModConfig(),
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForDebugMode(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
     }
 
     /// <inheritdoc cref="IInputEvents.ButtonsChanged" />

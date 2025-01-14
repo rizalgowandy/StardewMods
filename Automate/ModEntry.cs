@@ -7,6 +7,7 @@ using Pathoschild.Stardew.Automate.Framework;
 using Pathoschild.Stardew.Automate.Framework.Commands;
 using Pathoschild.Stardew.Automate.Framework.Models;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Messages;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -257,19 +258,12 @@ internal class ModEntry : Mod
         // add Generic Mod Config Menu integration
         if (this.RegisterConfigCountdown > 0 && --this.RegisterConfigCountdown == 0)
         {
-            new GenericModConfigMenuIntegrationForAutomate(
-                data: this.Data,
-                getConfig: () => this.Config,
-                reset: () => this.Config = new ModConfig(),
-                saveAndApply: () =>
-                {
-                    this.Helper.WriteConfig(this.Config);
-                    this.ReloadConfig();
-                },
-                modRegistry: this.Helper.ModRegistry,
-                monitor: this.Monitor,
-                manifest: this.ModManifest
-            ).Register();
+            this.AddGenericModConfigMenu(
+                new GenericModConfigMenuIntegrationForAutomate(this.Data),
+                get: () => this.Config,
+                set: config => this.Config = config,
+                onSaved: this.ReloadConfig
+            );
         }
 
         // run automation

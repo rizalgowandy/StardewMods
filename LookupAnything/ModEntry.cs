@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.LookupAnything.Components;
 using Pathoschild.Stardew.LookupAnything.Framework;
 using Pathoschild.Stardew.LookupAnything.Framework.Lookups;
@@ -113,15 +114,11 @@ internal class ModEntry : Mod
         this.TargetFactory = new TargetFactory(this.Helper.Reflection, this.GameHelper, () => this.Config, () => this.Config.EnableTileLookups);
         this.DebugInterface = new PerScreen<DebugInterface>(() => new DebugInterface(this.GameHelper, this.TargetFactory, () => this.Config, this.Monitor));
 
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForLookupAnything(
-            getConfig: () => this.Config,
-            reset: () => this.Config = new ModConfig(),
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForLookupAnything(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayStarted" />

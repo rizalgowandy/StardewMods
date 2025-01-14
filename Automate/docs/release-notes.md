@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## Upcoming release
+* Internal changes to Generic Mod Config Menu integration.
+
 ## 2.3.2
 Released 11 January 2025 for SMAPI 4.1.10 or later.
 

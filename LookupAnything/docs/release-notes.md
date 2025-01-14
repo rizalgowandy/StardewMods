@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Internal changes to Generic Mod Config Menu integration.
 * Improved translations. Thanks to BlackRosePetals (updated Chinese)!
 
 ## 1.47.0

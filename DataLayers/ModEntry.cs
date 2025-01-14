@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.DataLayers.Framework;
 using Pathoschild.Stardew.DataLayers.Framework.Commands;
 using Pathoschild.Stardew.DataLayers.Layers;
@@ -92,24 +93,12 @@ internal class ModEntry : Mod
         // init mod integrations
         this.Mods = new ModIntegrations(this.Monitor, this.Helper.ModRegistry, this.Helper.Reflection);
 
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForDataLayers(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.ReapplyConfig();
-            },
-            saveAndApply: () =>
-            {
-                this.Helper.WriteConfig(this.Config);
-                this.ReapplyConfig();
-            },
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest,
-            colorSchemes: this.ColorSchemes
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForDataLayers(this.ColorSchemes),
+            get: () => this.Config,
+            set: config => this.Config = config,
+            onSaved: this.ReapplyConfig
+        );
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

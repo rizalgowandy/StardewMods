@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Internal changes to Generic Mod Config Menu integration.
 * Improved translations. Thanks to cky008 (updated Chinese)!
 
 ## 1.25.3
