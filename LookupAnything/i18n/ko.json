@@ -762,5 +762,12 @@
     "config.page-down.name": "페이지 아래로",
     "config.page-down.desc": "긴 내용을 전체 페이지만큼 아래로 스크롤하는 키.",
     "config.toggle-debug.name": "디버그 전환",
-    "config.toggle-debug.desc": "디버그 정보 표시를 전환하는 키."
+    "config.toggle-debug.desc": "디버그 정보 표시를 전환하는 키.",
+
+
+    /*********
+    ** Iconic Framework
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "무엇이든 조회 버튼"
 }

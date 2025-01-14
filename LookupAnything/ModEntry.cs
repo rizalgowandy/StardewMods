@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.LookupAnything.Components;
 using Pathoschild.Stardew.LookupAnything.Framework;
 using Pathoschild.Stardew.LookupAnything.Framework.Lookups;
@@ -114,11 +115,24 @@ internal class ModEntry : Mod
         this.TargetFactory = new TargetFactory(this.Helper.Reflection, this.GameHelper, () => this.Config, () => this.Config.EnableTileLookups);
         this.DebugInterface = new PerScreen<DebugInterface>(() => new DebugInterface(this.GameHelper, this.TargetFactory, () => this.Config, this.Monitor));
 
+        // add Generic Mod Config Menu integration
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForLookupAnything(),
             get: () => this.Config,
             set: config => this.Config = config
         );
+
+        // add Iconic Framework integration
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.ModApi.AddToolbarIcon(
+                "LooseSprites/Cursors",
+                new Rectangle(330, 357, 7, 13),
+                I18n.Icon_ToggleSearch_Name,
+                I18n.Icon_ToggleSearch_Desc,
+                this.TryToggleSearch);
+        }
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
