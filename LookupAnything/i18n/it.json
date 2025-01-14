@@ -682,6 +682,14 @@
 
 
     /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search",
+
+
+    /*********
     ** Generic Mod Config Menu UI
     *********/
     // main options

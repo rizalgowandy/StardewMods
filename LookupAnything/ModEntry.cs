@@ -126,12 +126,13 @@ internal class ModEntry : Mod
         IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
         if (iconicFramework.IsLoaded)
         {
-            iconicFramework.ModApi.AddToolbarIcon(
+            iconicFramework.AddToolbarIcon(
                 "LooseSprites/Cursors",
                 new Rectangle(330, 357, 7, 13),
                 I18n.Icon_ToggleSearch_Name,
                 I18n.Icon_ToggleSearch_Desc,
-                this.TryToggleSearch);
+                this.TryToggleSearch
+            );
         }
     }
 
