@@ -682,13 +682,6 @@
 
 
     /*********
-    ** Iconic Framework icon
-    *********/
-    "icon.toggle-search.name": "Lookup Anything",
-    "icon.toggle-search.desc": "Toggle Lookup Anything Search",
-
-
-    /*********
     ** Generic Mod Config Menu UI
     *********/
     // main options
@@ -768,5 +761,12 @@
     "config.page-down.name": "Page down",
     "config.page-down.desc": "The keys which scroll down long content by a full page.",
     "config.toggle-debug.name": "Toggle debug",
-    "config.toggle-debug.desc": "The keys which toggle the display of debug information."
+    "config.toggle-debug.desc": "The keys which toggle the display of debug information.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

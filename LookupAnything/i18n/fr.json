@@ -686,13 +686,6 @@
 
 
     /*********
-    ** Iconic Framework icon
-    *********/
-    "icon.toggle-search.name": "Lookup Anything",
-    "icon.toggle-search.desc": "Activer une recherche (Lookup Anything)",
-
-
-    /*********
     ** Generic Mod Config Menu UI
     *********/
     // main options
@@ -774,5 +767,12 @@
     "config.page-down.name": "Bas de page",
     "config.page-down.desc": "Les touches qui permettent de faire défiler un long contenu d'une page entière vers le bas.",
     "config.toggle-debug.name": "Afficher le débogage",
-    "config.toggle-debug.desc": "Les touches qui permettent d’afficher/cacher des informations de débogage."
+    "config.toggle-debug.desc": "Les touches qui permettent d’afficher/cacher des informations de débogage.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Activer une recherche (Lookup Anything)"
 }

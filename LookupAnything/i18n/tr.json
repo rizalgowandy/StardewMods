@@ -682,14 +682,6 @@
 
 
     /*********
-    ** Iconic Framework icon
-    *********/
-    // TODO
-    "icon.toggle-search.name": "Lookup Anything",
-    "icon.toggle-search.desc": "Toggle Lookup Anything Search",
-
-
-    /*********
     ** Generic Mod Config Menu UI
     *********/
     // main options
@@ -769,5 +761,13 @@
     "config.page-down.name": "Sayfayı aşağı kaydır",
     "config.page-down.desc": "Uzun içeriği tam sayfa aşağı kaydıran tuşlar.",
     "config.toggle-debug.name": "Hata ayıklamayı aç/kapat",
-    "config.toggle-debug.desc": "Hata ayıklama bilgilerinin görüntülenmesini değiştiren tuşlar."
+    "config.toggle-debug.desc": "Hata ayıklama bilgilerinin görüntülenmesini değiştiren tuşlar.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

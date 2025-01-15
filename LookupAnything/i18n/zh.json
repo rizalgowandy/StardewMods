@@ -682,13 +682,6 @@
 
 
     /*********
-    ** Iconic Framework icon
-    *********/
-    "icon.toggle-search.name": "查询一切",
-    "icon.toggle-search.desc": "切换任意查询搜索",
-
-
-    /*********
     ** Generic Mod Config Menu UI (通用模组管理菜单界面)
     *********/
     // main options (主要选项)
@@ -768,5 +761,12 @@
     "config.page-down.name": "向下滚动一页",
     "config.page-down.desc": "自定义长内容向下滚动一页快捷键",
     "config.toggle-debug.name": "调试模式",
-    "config.toggle-debug.desc": "自定义显示或隐藏调试信息快捷键"
+    "config.toggle-debug.desc": "自定义显示或隐藏调试信息快捷键",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "查询一切",
+    "icon.toggle-search.desc": "切换任意查询搜索"
 }

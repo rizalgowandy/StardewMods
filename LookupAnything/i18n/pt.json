@@ -684,14 +684,6 @@
 
 
     /*********
-    ** Iconic Framework icon
-    *********/
-    // TODO
-    "icon.toggle-search.name": "Lookup Anything",
-    "icon.toggle-search.desc": "Toggle Lookup Anything Search",
-
-
-    /*********
     ** Generic Mod Config Menu UI
     *********/
     // main options
@@ -772,5 +764,13 @@
     "config.page-down.name": "Página abaixo",
     "config.page-down.desc": "As teclas que rolam para baixo o conteúdo longo por uma página inteira.",
     "config.toggle-debug.name": "Alternar depuração",
-    "config.toggle-debug.desc": "As teclas que alternam a exibição de informações de depuração."
+    "config.toggle-debug.desc": "As teclas que alternam a exibição de informações de depuração.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }
