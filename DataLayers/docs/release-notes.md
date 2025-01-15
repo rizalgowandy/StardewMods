@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle data layers UI.
 * Internal changes to Generic Mod Config Menu integration.
 
 ## 1.18.2

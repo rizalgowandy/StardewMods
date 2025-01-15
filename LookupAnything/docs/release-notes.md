@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to look up what's in front of the player or open the search UI.
 * Internal changes to Generic Mod Config Menu integration.
 * Improved translations. Thanks to BlackRosePetals (updated Chinese)!
 

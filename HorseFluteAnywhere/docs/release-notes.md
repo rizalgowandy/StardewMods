@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to use horse flute.
 * Internal changes to Generic Mod Config Menu integration.
 
 ## 1.2.3

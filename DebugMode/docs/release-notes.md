@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle debug mode.
 * Internal changes to Generic Mod Config Menu integration.
 
 ## 1.14.0
