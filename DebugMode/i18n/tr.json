@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Kontroller",
     "config.toggle-debug-key.name": "Hata ayıklama bilgilerini aç/kapat",
-    "config.toggle-debug-key.desc": "Hata ayıklama bilgilerini açıp kapatan tuşlar."
+    "config.toggle-debug-key.desc": "Hata ayıklama bilgilerini açıp kapatan tuşlar.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

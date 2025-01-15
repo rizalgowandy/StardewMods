@@ -114,5 +114,13 @@
     "config.layer-updates-per-second.desc": "Wie oft die Ebene aktualisiert werden soll, wenn sie angezeigt wird, als Zahl pro Sekunde. Wird hier ein höherer Wert als der Standardwert eingestellt, kann es zu Verzögerungen kommen. Standardwert {{defaultValue}}.",
 
     "config.layer-shortcut.name": "Schnellzugriff-Taste",
-    "config.layer-shortcut.desc": "The key binding which selects this layer when the overlay is open."
+    "config.layer-shortcut.desc": "The key binding which selects this layer when the overlay is open.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-data-layers.name": "Data Layers",
+    "icon.toggle-data-layers.desc": "Toggle Data Layers"
 }

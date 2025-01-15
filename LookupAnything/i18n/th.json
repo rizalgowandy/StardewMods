@@ -768,5 +768,13 @@
     "config.page-down.name": "Page down",
     "config.page-down.desc": "ปุ่มที่เลื่อนลงมาตามเนื้อหายาวๆเต็มหน้า",
     "config.toggle-debug.name": "สลับดีบัก",
-    "config.toggle-debug.desc": "ปุ่มที่สลับการแสดงข้อมูลดีบัก"
+    "config.toggle-debug.desc": "ปุ่มที่สลับการแสดงข้อมูลดีบัก",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

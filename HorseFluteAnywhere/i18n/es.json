@@ -6,5 +6,13 @@
     "config.require-flute.description": "Si necesitas el objeto flauta de caballo en tu inventario para invocar un caballo. Desactivado por defecto.",
 
     "config.summon-horse-button.name": "Botón para invocar al caballo",
-    "config.summon-horse-button.description": "El botón que hay que pulsar para hacer sonar la flauta e invocar a un caballo. Por defecto {{defaultValue}}."
+    "config.summon-horse-button.description": "El botón que hay que pulsar para hacer sonar la flauta e invocar a un caballo. Por defecto {{defaultValue}}.",
+
+
+    /*********
+    ** Iconic Framework
+    *********/
+    // TODO
+    "icon.summon-horse.name": "Horse Flute Anywhere",
+    "icon.summon-horse.desc": "Summon Horse"
 }

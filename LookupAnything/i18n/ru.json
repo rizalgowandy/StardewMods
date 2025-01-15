@@ -762,5 +762,13 @@
     "config.page-down.name": "Страница вниз",
     "config.page-down.desc": "Клавиши, которые прокручивают длинное содержимое вниз на целую страницу.",
     "config.toggle-debug.name": "Toggle debug", // TODO
-    "config.toggle-debug.desc": "Клавиши, переключающие отображение отладочной информации."
+    "config.toggle-debug.desc": "Клавиши, переключающие отображение отладочной информации.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Елементи керування",
     "config.toggle-debug-key.name": "Увімкнути інформацію про\nналагодження",
-    "config.toggle-debug-key.desc": "Клавіші, які перемикають інформацію про налагодження."
+    "config.toggle-debug-key.desc": "Клавіші, які перемикають інформацію про налагодження.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

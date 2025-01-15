@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "การควบคุม",
     "config.toggle-debug-key.name": "สลับข้อมูลดีบัก",
-    "config.toggle-debug-key.desc": "ปุ่มสลับข้อมูลดีบัก"
+    "config.toggle-debug-key.desc": "ปุ่มสลับข้อมูลดีบัก",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

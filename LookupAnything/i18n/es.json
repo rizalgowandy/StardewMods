@@ -766,5 +766,13 @@
     "config.page-down.name": "Bajar de página",
     "config.page-down.desc": "Las teclas que desplazan hacia abajo el contenido largo por una página completa.",
     "config.toggle-debug.name": "Activar debug",
-    "config.toggle-debug.desc": "Las teclas que activan la visualización de la información de debug."
+    "config.toggle-debug.desc": "Las teclas que activan la visualización de la información de debug.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

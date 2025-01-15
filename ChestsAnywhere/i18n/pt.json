@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "As teclas que, quando mantidas pressionadas, permitem rolar a lista suspensa de categoria com a roda de rolagem do mouse.",
 
     "config.hold-to-scroll-chests.name": "Manter pressionado para rolar baú",
-    "config.hold-to-scroll-chests.desc": "As teclas que, quando pressionadas, permitem rolar o menu de baús usando a roda de rolagem do mouse."
+    "config.hold-to-scroll-chests.desc": "As teclas que, quando pressionadas, permitem rolar o menu de baús usando a roda de rolagem do mouse.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

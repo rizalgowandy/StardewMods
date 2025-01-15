@@ -114,5 +114,13 @@
     "config.layer-updates-per-second.desc": "La frequenza con cui il livello deve essere aggiornato durante la visualizzazione, come numero al secondo. L'impostazione di un valore più alto di quello predefinito può causare lag. Predefinito {{defaultValue}}.",
 
     "config.layer-shortcut.name": "Tasto rapido",
-    "config.layer-shortcut.desc": "Il tasto che seleziona questo livello quando la sovrapposizione è aperta."
+    "config.layer-shortcut.desc": "Il tasto che seleziona questo livello quando la sovrapposizione è aperta.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-data-layers.name": "Data Layers",
+    "icon.toggle-data-layers.desc": "Toggle Data Layers"
 }

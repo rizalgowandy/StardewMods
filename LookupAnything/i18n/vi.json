@@ -762,5 +762,13 @@
     "config.page-down.name": "Cuộn xuống trang",
     "config.page-down.desc": "Các phím để cuộn xuống nội dung dài một trang.",
     "config.toggle-debug.name": "Chuyển đổi chế độ gỡ lỗi",
-    "config.toggle-debug.desc": "Các phím để chuyển đổi hiển thị thông tin gỡ lỗi."
+    "config.toggle-debug.desc": "Các phím để chuyển đổi hiển thị thông tin gỡ lỗi.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

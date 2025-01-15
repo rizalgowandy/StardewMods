@@ -762,5 +762,13 @@
     "config.page-down.name": "Strona w dół",
     "config.page-down.desc": "Skrót klawiszowy, który przesuwa długą treść podglądu o całą stronę w dół.",
     "config.toggle-debug.name": "Przełącz debugowanie",
-    "config.toggle-debug.desc": "Skrót klawiszowy, który włącza i wyłącza wyświetlanie informacji debugowania."
+    "config.toggle-debug.desc": "Skrót klawiszowy, który włącza i wyłącza wyświetlanie informacji debugowania.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

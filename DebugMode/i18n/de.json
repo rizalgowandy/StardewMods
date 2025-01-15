@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Steuerung",
     "config.toggle-debug-key.name": "Debug-Informationen einschalten",
-    "config.toggle-debug-key.desc": "Die Tasten, mit denen die Debug-Informationen ein-/ausgeschaltet werden."
+    "config.toggle-debug-key.desc": "Die Tasten, mit denen die Debug-Informationen ein-/ausgeschaltet werden.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "이 키를 누른 상태에서 마우스 휠을 돌려 카테고리를 선택합니다.",
 
     "config.hold-to-scroll-chests.name": "보관함 스크롤",
-    "config.hold-to-scroll-chests.desc": "이 키를 누른 상태에서 마우스 휠을 돌려 보관함을 선택합니다."
+    "config.hold-to-scroll-chests.desc": "이 키를 누른 상태에서 마우스 휠을 돌려 보관함을 선택합니다.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

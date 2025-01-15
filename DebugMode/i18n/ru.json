@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Управление",
     "config.toggle-debug-key.name": "Включить отладочную информацию",
-    "config.toggle-debug-key.desc": "Клавиши для включения отладочной информации."
+    "config.toggle-debug-key.desc": "Клавиши для включения отладочной информации.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

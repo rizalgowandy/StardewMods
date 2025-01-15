@@ -765,5 +765,13 @@
     "config.page-down.name": "Прокрутка сторінки вниз",
     "config.page-down.desc": "Клавіші, які прокручують довгий вміст на всю сторінку вниз.",
     "config.toggle-debug.name": "Увімкнути налагодження",
-    "config.toggle-debug.desc": "Клавіші, які перемикають відображення інформації налагодження."
+    "config.toggle-debug.desc": "Клавіші, які перемикають відображення інформації налагодження.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

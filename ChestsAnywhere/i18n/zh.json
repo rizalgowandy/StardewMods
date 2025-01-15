@@ -124,5 +124,12 @@
     "config.hold-to-scroll-categories.desc": "按住时，可以用鼠标滚轮滚动分类的下拉菜单",
 
     "config.hold-to-scroll-chests.name": "按住以滚动箱子",
-    "config.hold-to-scroll-chests.desc": "按住时，可以用鼠标滚轮滚动箱子的下拉菜单"
+    "config.hold-to-scroll-chests.desc": "按住时，可以用鼠标滚轮滚动箱子的下拉菜单",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.open-menu.name": "打开宝箱",
+    "icon.open-menu.desc": "任意地点打开宝箱"
 }
