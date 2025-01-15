@@ -92,12 +92,14 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
+        // add config UI
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForDebugMode(),
             get: () => this.Config,
             set: config => this.Config = config
         );
 
+        // add Iconic Framework icon
         IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
         if (iconicFramework.IsLoaded)
         {
@@ -106,7 +108,8 @@ internal class ModEntry : Mod
                 new Rectangle(0, 0, 16, 16),
                 I18n.Icon_ToggleDebugMode_Name,
                 I18n.Icon_ToggleDebugMode_Desc,
-                this.ToggleDebugMenu);
+                this.ToggleDebugMenu
+            );
         }
     }
 

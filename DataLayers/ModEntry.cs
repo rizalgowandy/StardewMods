@@ -94,6 +94,7 @@ internal class ModEntry : Mod
         // init mod integrations
         this.Mods = new ModIntegrations(this.Monitor, this.Helper.ModRegistry, this.Helper.Reflection);
 
+        // add config UI
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForDataLayers(this.ColorSchemes),
             get: () => this.Config,
@@ -101,6 +102,7 @@ internal class ModEntry : Mod
             onSaved: this.ReapplyConfig
         );
 
+        // add Iconic Framework icon
         IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
         if (iconicFramework.IsLoaded)
         {
@@ -109,7 +111,8 @@ internal class ModEntry : Mod
                 new Rectangle(0, 0, 16, 16),
                 I18n.Icon_ToggleDataLayers_Name,
                 I18n.Icon_ToggleDataLayers_Desc,
-                this.ToggleLayers);
+                this.ToggleLayers
+            );
         }
     }
 

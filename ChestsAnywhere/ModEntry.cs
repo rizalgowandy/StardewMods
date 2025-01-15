@@ -89,12 +89,14 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
+        // add config UI
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForChestsAnywhere(),
             get: () => this.Config,
             set: config => this.Config = config
         );
 
+        // add Iconic Framework icon
         IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
         if (iconicFramework.IsLoaded)
         {
@@ -103,7 +105,8 @@ internal class ModEntry : Mod
                 new Rectangle(127, 412, 10, 11),
                 I18n.Icon_OpenMenu_Name,
                 I18n.Icon_OpenMenu_Desc,
-                this.OpenMenu);
+                this.OpenMenu
+            );
         }
     }
 

@@ -115,7 +115,7 @@ internal class ModEntry : Mod
         this.TargetFactory = new TargetFactory(this.Helper.Reflection, this.GameHelper, () => this.Config, () => this.Config.EnableTileLookups);
         this.DebugInterface = new PerScreen<DebugInterface>(() => new DebugInterface(this.GameHelper, this.TargetFactory, () => this.Config, this.Monitor));
 
-        // add Generic Mod Config Menu integration
+        // add config UI
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForLookupAnything(),
             get: () => this.Config,

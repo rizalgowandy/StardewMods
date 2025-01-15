@@ -71,6 +71,7 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
+        // add config UI
         this.AddGenericModConfigMenu(
             new GenericModConfigMenuIntegrationForHorseFluteAnywhere(),
             get: () => this.Config,
@@ -78,6 +79,7 @@ internal class ModEntry : Mod
             onSaved: this.UpdateConfig
         );
 
+        // add Iconic Framework icon
         IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
         if (iconicFramework.IsLoaded)
         {
@@ -86,7 +88,8 @@ internal class ModEntry : Mod
                 new Rectangle(194, 193, 12, 14),
                 I18n.Icon_SummonHorse_Name,
                 I18n.Icon_SummonHorse_Desc,
-                () => this.TryUseHorseFlute());
+                () => this.TryUseHorseFlute()
+            );
         }
     }
 
