@@ -131,37 +131,8 @@ internal class ModEntry : Mod
                 new Rectangle(330, 357, 7, 13),
                 I18n.Icon_ToggleSearch_Name,
                 I18n.Icon_ToggleSearch_Desc,
-                () =>
-                {
-                    // show menu
-                    StringBuilder logMessage = new("Received a lookup request...");
-                    this.Monitor.InterceptErrors("looking that up", () =>
-                    {
-                        try
-                        {
-                            // world
-                            logMessage.Append(" searching the world...");
-                            Vector2 tile = this.Helper.Input.GetCursorPosition().GrabTile;
-                            ISubject? subject = this.TargetFactory.GetTargetFromTile(Game1.currentLocation, tile)?.GetSubject();
-
-                            if (subject == null)
-                            {
-                                this.Monitor.Log($"{logMessage} no target found.");
-                                return;
-                            }
-
-                            // show lookup UI
-                            this.Monitor.Log(logMessage.ToString());
-                            this.ShowLookupFor(subject);
-                        }
-                        catch
-                        {
-                            this.Monitor.Log($"{logMessage} an error occurred.");
-                            throw;
-                        }
-                    });
-                },
-                this.TryToggleSearch
+                onClick: () => this.ShowLookup(ignoreCursor: true),
+                onRightClick: this.TryToggleSearch
             );
         }
     }
@@ -243,7 +214,8 @@ internal class ModEntry : Mod
     }
 
     /// <summary>Show the lookup UI for the current target.</summary>
-    private void ShowLookup()
+    /// <param name="ignoreCursor">Whether to ignore the cursor position and search for a subject in front of the player.</param>
+    private void ShowLookup(bool ignoreCursor = false)
     {
         if (!this.IsDataValid)
             return;
@@ -255,7 +227,7 @@ internal class ModEntry : Mod
             try
             {
                 // get target
-                ISubject? subject = this.GetSubject(logMessage);
+                ISubject? subject = this.GetSubject(logMessage, ignoreCursor);
                 if (subject == null)
                 {
                     this.Monitor.Log($"{logMessage} no target found.");
@@ -375,7 +347,8 @@ internal class ModEntry : Mod
 
     /// <summary>Get the most relevant subject under the player's cursor.</summary>
     /// <param name="logMessage">The log message to which to append search details.</param>
-    private ISubject? GetSubject(StringBuilder logMessage)
+    /// <param name="ignoreCursor">Whether to ignore the cursor position and search for a subject in front of the player.</param>
+    private ISubject? GetSubject(StringBuilder logMessage, bool ignoreCursor = false)
     {
         if (!this.IsDataValid)
             return null;
@@ -385,7 +358,10 @@ internal class ModEntry : Mod
         if (!Game1.uiMode)
             cursorPos = Utility.ModifyCoordinatesForUIScale(cursorPos); // menus use UI coordinates
 
-        bool hasCursor = Constants.TargetPlatform != GamePlatform.Android && Game1.wasMouseVisibleThisFrame; // note: only reliable when a menu isn't open
+        bool hasCursor =
+            !ignoreCursor
+            && Constants.TargetPlatform != GamePlatform.Android
+            && Game1.wasMouseVisibleThisFrame; // note: only reliable when a menu isn't open
 
         // open menu
         if (Game1.activeClickableMenu != null)
