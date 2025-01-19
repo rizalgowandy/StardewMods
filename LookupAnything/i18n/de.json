@@ -310,6 +310,8 @@
     "crop.summary.drops-X-to-Y": "Gibt {{min}} bis {{max}} her. ({{percent}}% Chance auf extra Saat)",
     "crop.summary.harvest-once": "Ernte nach {{daysToFirstHarvest}} Tagen.",
     "crop.summary.harvest-multi": "Ernte nach {{daysToFirstHarvest}} Tagen, danach alle {{daysToNextHarvests}} Tage.",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "Wächst im {{seasons}}.",
     "crop.summary.sells-for": "Lässt sich für {{price}} verkaufen.",
     "crop.harvest.too-late": "Zu spät in der Jahrezeit für eine weitere Ernte (wäre am {{date}}).",

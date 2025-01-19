@@ -309,6 +309,8 @@
     "crop.summary.drops-X-to-Y": "{{min}}'den {{max}} taneye kadar düşer ({{percent}}% ekstra mahsul şansı)",
     "crop.summary.harvest-once": "{{daysToFirstHarvest}} gün sonra hasat edilir",
     "crop.summary.harvest-multi": "{{daysToFirstHarvest}} günün ardından her {{daysToNextHarvests}} günde bir hasat edilir",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "{{seasons}} mevsiminde büyür",
     "crop.summary.sells-for": "{{price}} satılır",
     "crop.harvest.too-late": "sonraki hasat için sezon çok geç (muhtemelen {{date}})",

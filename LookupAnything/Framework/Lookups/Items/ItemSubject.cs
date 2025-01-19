@@ -168,7 +168,7 @@ internal class ItemSubject : BaseSubject
         }
 
         // crop fields
-        foreach (ICustomField field in this.GetCropFields(this.FromDirt, this.FromCrop ?? this.SeedForCrop, isSeed))
+        foreach (ICustomField field in this.GetCropFields(this.FromDirt, this.FromCrop ?? this.SeedForCrop, obj, isSeed))
             yield return field;
 
         // indoor pot crop
@@ -508,8 +508,9 @@ internal class ItemSubject : BaseSubject
     /// <summary>Get the custom fields for a crop.</summary>
     /// <param name="dirt">The dirt the crop is planted in, if applicable.</param>
     /// <param name="crop">The crop to represent.</param>
+    /// <param name="producedItem">The object that will be produced by this crop.</param>
     /// <param name="isSeed">Whether the crop being displayed is for an unplanted seed.</param>
-    private IEnumerable<ICustomField> GetCropFields(HoeDirt? dirt, Crop? crop, bool isSeed)
+    private IEnumerable<ICustomField> GetCropFields(HoeDirt? dirt, Crop? crop, SObject? producedItem, bool isSeed)
     {
         var data = new CropDataParser(crop, isPlanted: !isSeed);
         if (data.CropData is null || crop is null)
@@ -568,6 +569,16 @@ internal class ItemSubject : BaseSubject
             else
                 summary.Add(I18n.Crop_Summary_DropsX(count: 1));
 
+            // harvest XP
+            // based on Crop.harvest
+            if (crop.forageCrop.Value)
+                summary.Add(I18n.Crop_Summary_ForagingXp(amount: 3));
+            else
+            {
+                int price = producedItem?.Price ?? 0;
+                int experience = (int)Math.Round((float)(16 * Math.Log(.018 * price + 1, Math.E)));
+                summary.Add(I18n.Crop_Summary_FarmingXp(amount: experience));
+            }
 
             // crop sale price
             Item drop = data.GetSampleDrop();

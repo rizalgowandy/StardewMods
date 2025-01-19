@@ -309,6 +309,8 @@
     "crop.summary.drops-X-to-Y": "收获{{min}}至{{max}}份（{{percent}}%几率收获额外作物）",
     "crop.summary.harvest-once": "{{daysToFirstHarvest}}天后收获",
     "crop.summary.harvest-multi": "{{daysToFirstHarvest}}天后收获，之后每隔{{daysToNextHarvests}}天收获一次",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "在{{seasons}}生长",
     "crop.summary.sells-for": "以{{price}}出售",
     "crop.harvest.too-late": "下次收获超出本季（下次收获将在{{date}}）",

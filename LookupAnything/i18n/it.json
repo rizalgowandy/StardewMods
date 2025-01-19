@@ -309,6 +309,8 @@
     "crop.summary.drops-X-to-Y": "ne facadere da {{min}} a {{max}} ({{percent}}% di probabilità in più di raccolto extra)",
     "crop.summary.harvest-once": "raccogli dopo {{daysToFirstHarvest}} giorni",
     "crop.summary.harvest-multi": "raccogli dopo {{daysToFirstHarvest}} giorni, e successivamente ogni {{daysToNextHarvests}} giorni",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "cresce in {{seasons}}",
     "crop.summary.sells-for": "vendibile a {{price}}",
     "crop.harvest.too-late": "sei troppo avanti nella stagione attuale per la prossima raccolta (finirebbe il {{date}})",

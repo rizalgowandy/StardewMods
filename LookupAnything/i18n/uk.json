@@ -311,6 +311,8 @@
     "crop.summary.drops-X-to-Y": "Збір з {{min}} до {{max}} ({{percent}}% на додатковий збір)",
     "crop.summary.harvest-once": "Врожай через {{daysToFirstHarvest}} дн.",
     "crop.summary.harvest-multi": "Врожай через {{daysToFirstHarvest}} дн., потім кожні {{daysToNextHarvests}} дн.",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "Сезон росту : {{seasons}}",
     "crop.summary.sells-for": "Продається за {{price}}",
     "crop.harvest.too-late": "Занадто пізно цього сезону для наступного збору (врожай {{date}})",
