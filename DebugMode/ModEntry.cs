@@ -252,7 +252,7 @@ internal class ModEntry : Mod
             Vector2 tile = Game1.currentCursorTile;
 
             yield return $"{I18n.Label_Tile()}: {tile.X}, {tile.Y}";
-            yield return $"{I18n.Label_Map()}:  {location.Name}";
+            yield return $"{I18n.Label_Location()}: {location.Name}";
         }
 
         // menu

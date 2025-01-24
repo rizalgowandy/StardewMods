@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "ไทล์",
-    "label.map": "แผนที่",
+    "label.location": "แผนที่",
     "label.menu": "เมนู",
     "label.submenu": "เมนูย่อย",
     "label.minigame": "มินิเกม",

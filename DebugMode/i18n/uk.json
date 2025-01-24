@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "Клітина",
-    "label.map": "Мапа",
+    "label.location": "Мапа",
     "label.menu": "Меню",
     "label.submenu": "Підменю",
     "label.minigame": "Міні-гра",

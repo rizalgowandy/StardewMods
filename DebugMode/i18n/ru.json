@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "Клетка",
-    "label.map": "Карта",
+    "label.location": "Карта",
     "label.menu": "Меню",
     "label.submenu": "Подменю",
     "label.minigame": "Мини-игра",

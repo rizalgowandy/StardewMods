@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "tile",
-    "label.map": "map",
+    "label.location": "location",
     "label.menu": "menu",
     "label.submenu": "submenu",
     "label.minigame": "minigame",

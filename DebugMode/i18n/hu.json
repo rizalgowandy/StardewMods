@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "Pozíció",
-    "label.map": "Térkép",
+    "label.location": "Térkép",
     "label.menu": "Menü",
     "label.submenu": "Almenü",
     "label.minigame": "Minijáték",

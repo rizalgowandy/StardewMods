@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "piastrella",
-    "label.map": "mappa",
+    "label.location": "mappa",
     "label.menu": "menu",
     "label.submenu": "sottomenu",
     "label.minigame": "minigioco",

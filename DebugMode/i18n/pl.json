@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "kafelek",
-    "label.map": "mapa",
+    "label.location": "mapa",
     "label.menu": "menu",
     "label.submenu": "podmenu",
     "label.minigame": "minigra",

@@ -3,6 +3,7 @@
 # Release notes
 ## Upcoming release
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle debug mode.
+* Changed 'map' label to 'location' to match [technical terminology](https://stardewvalleywiki.com/Modding:Location_data#Terminology).
 * Internal changes to Generic Mod Config Menu integration.
 
 ## 1.14.0

@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "タイル",
-    "label.map": "マップ",
+    "label.location": "マップ",
     "label.menu": "メニュー",
     "label.submenu": "サブメニュー",
     "label.minigame": "ミニゲーム",
