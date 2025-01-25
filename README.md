@@ -8,6 +8,9 @@ Active mods:
   automatically pull raw items from the chest and push processed items into it. Connect multiple
   machines with a chest to create factories._
 
+* **Central Station** <small>(not released yet)</small>  
+  _Travel to other mods' destinations by boat, bus, or train through the Central Station._
+
 * **Chests Anywhere** <small>([ModDrop](https://www.moddrop.com/stardew-valley/mods/606600) | [Nexus](https://www.nexusmods.com/stardewvalley/mods/518) | [source](ChestsAnywhere))</small>  
   _Access your chests from anywhere and organize them your way. Transfer items without having to
   run around, from the comfort of your bed to the deepest mine level._
