@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -192,14 +193,14 @@ internal class ModEntry : Mod
         Game1.warpFarmer(request, stop.ToTile?.X ?? 0, stop.ToTile?.Y ?? 0, toFacingDirection);
     }
 
-    /// <summary>The action to perform when the player arrives in the location.</summary>
+    /// <summary>The action to perform when the player arrives at the destination.</summary>
     /// <param name="stop">The stop that the player warped to.</param>
     /// <param name="network">The network which the player travelled to reach the stop.</param>
     private void OnWarped(StopModel stop, StopNetwork network)
     {
         GameLocation location = Game1.currentLocation;
 
-        // detect warp position
+        // auto-detect arrival spot if needed
         if (stop.ToTile is null)
         {
             int tileX = 0;
@@ -218,6 +219,40 @@ internal class ModEntry : Mod
                 Utility.getDefaultWarpLocation(location?.Name, ref tileX, ref tileY);
 
             Game1.player.Position = new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize);
+        }
+
+        // pause fade to simulate travel
+        // (setting a null message pauses without showing a message afterward)
+        const int pauseTime = 1500;
+        Game1.pauseThenMessage(pauseTime, null);
+
+        // play transit effects mid-fade
+        switch (network)
+        {
+            case StopNetwork.Bus:
+                Game1.playSound("busDriveOff");
+                break;
+
+            case StopNetwork.Boat:
+                Game1.playSound("waterSlosh");
+                DelayedAction.playSoundAfterDelay("waterSlosh", 500);
+                DelayedAction.playSoundAfterDelay("waterSlosh", 1000);
+                break;
+
+            case StopNetwork.Train:
+                {
+                    Game1.playSound("trainLoop", out ICue cue);
+                    cue.SetVariable("Volume", 100f); // default volume is zero
+                    DelayedAction.functionAfterDelay(
+                        () =>
+                        {
+                            Game1.playSound("trainWhistle"); // disguise end of looping sounds
+                            cue.Stop(AudioStopOptions.Immediate);
+                        },
+                        pauseTime
+                    );
+                }
+                break;
         }
     }
 
