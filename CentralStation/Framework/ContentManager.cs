@@ -183,6 +183,51 @@ internal class ContentManager
         return false;
     }
 
+    /// <summary>Add the Central Station action properties to a map.</summary>
+    /// <param name="location">The location whose map to change.</param>
+    public void AddTileProperties(GameLocation location)
+    {
+        this.AddTileProperties(location.Map, isBusStop: location is BusStop { Name: "BusStop" });
+    }
+
+    /// <summary>Add the Central Station action properties to a map.</summary>
+    /// <param name="map">The map to change.</param>
+    /// <param name="isBusStop">Whether this is for the vanilla bus stop location.</param>
+    public void AddTileProperties(Map? map, bool isBusStop)
+    {
+        // get map info
+        var layer = map?.GetLayer("Buildings");
+        if (layer is null)
+            return;
+
+        // edit tiles
+        for (int y = 0, maxY = layer.LayerHeight; y <= maxY; y++)
+        {
+            for (int x = 0, maxX = layer.LayerWidth; x <= maxX; x++)
+            {
+                // get tile
+                Tile? tile = layer.Tiles[x, y];
+                if (tile is null)
+                    continue;
+
+                // swap action properties
+                if (tile.Properties.TryGetValue("Action", out string action))
+                {
+                    switch (action)
+                    {
+                        case "BoatTicket":
+                            tile.Properties["Action"] = "CentralStation Boat";
+                            break;
+                    }
+                }
+
+                // add to bus stop
+                if (isBusStop && tile.TileIndex is 1057 && tile.TileSheet?.Id is "outdoors")
+                    tile.Properties["Action"] = "CentralStation Bus";
+            }
+        }
+    }
+
 
     /*********
     ** Private methods

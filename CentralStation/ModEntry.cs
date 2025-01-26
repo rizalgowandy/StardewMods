@@ -7,7 +7,6 @@ using Pathoschild.Stardew.CentralStation.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Extensions;
 using StardewValley.Locations;
 
 namespace Pathoschild.Stardew.CentralStation;
@@ -32,63 +31,51 @@ internal class ModEntry : Mod
         this.ContentManager = new(this.ModManifest.UniqueID, helper.GameContent, helper.ModRegistry, this.Monitor);
 
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
-        helper.Events.Input.ButtonPressed += this.OnButtonPressed;
+        helper.Events.Player.Warped += this.OnWarped;
+
+        GameLocation.RegisterTileAction("CentralStation", this.OnTileActionInvoked);
     }
 
 
     /*********
     ** Private methods
     *********/
-    /// <inheritdoc cref="IInputEvents.ButtonPressed" />
-    private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
+    /// <summary>Handle the player activating an <c>Action</c> tile property.</summary>
+    /// <param name="location">The location containing the property.</param>
+    /// <param name="args">The action arguments.</param>
+    /// <param name="who">The player who activated it.</param>
+    /// <param name="tile">The tile containing the action property.</param>
+    private bool OnTileActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
     {
-        if (Context.CanPlayerMove)
+        switch (ArgUtility.Get(args, 0))
         {
-            Vector2 tile = e.Cursor.GrabTile;
+            // Central Station action
+            case "CentralStation":
+                {
+                    if (!ArgUtility.TryGetOptionalEnum(args, 1, out StopNetwork network, out _, defaultValue: StopNetwork.Train))
+                    {
+                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{args[1]}'; the second argument should be one of '{string.Join("', '", Enum.GetNames(typeof(StopNetwork)))}'. Defaulting to train.", LogLevel.Warn);
+                        return false;
+                    }
 
-            if (e.Button.IsActionButton() && this.TryOpenMenu(Game1.currentLocation, (int)tile.X, (int)tile.Y))
-                this.Helper.Input.Suppress(e.Button);
+                    this.OpenMenu(network);
+                    return true;
+                }
+
+            // fallback in case these didn't get swapped
+            case "BoatTicket":
+                this.OpenMenu(StopNetwork.Boat);
+                return false;
+
+            default:
+                return false;
         }
     }
 
-    /// <summary>Open a destination menu if there's a relevant action or tile index at a given tile position.</summary>
-    /// <param name="location">The location to check.</param>
-    /// <param name="tileX">The tile X position to check.</param>
-    /// <param name="tileY">The tile Y position to check.</param>
-    /// <returns>Returns whether a menu was opened.</returns>
-    private bool TryOpenMenu(GameLocation? location, int tileX, int tileY)
+    /// <inheritdoc cref="IPlayerEvents.Warped" />
+    private void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (location is null)
-            return false;
-
-        // Central Station action property
-        string action = location.doesTileHaveProperty(tileX, tileY, "Action", "Buildings");
-        if (action?.StartsWithIgnoreCase("CentralStation") is true)
-        {
-            string[] fields = ArgUtility.SplitBySpaceQuoteAware(action);
-            if (!ArgUtility.TryGetOptionalEnum(fields, 1, out StopNetwork network, out _, defaultValue: StopNetwork.Train))
-            {
-                this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{action}'; the second argument should be one of '{string.Join("', '", Enum.GetNames(typeof(StopNetwork)))}'. Defaulting to train.", LogLevel.Warn);
-                return false;
-            }
-
-            this.OpenMenu(network);
-            return true;
-        }
-
-        // hook into vanilla ticket machines
-        if (action is "BoatTicket" && Game1.MasterPlayer.hasOrWillReceiveMail("willyBoatFixed") && this.ContentManager.GetAvailableStops(StopNetwork.Boat).Any(stop => stop.Id != this.ContentManager.GingerIslandBoatId))
-            this.OpenMenu(StopNetwork.Boat);
-        if (Game1.currentLocation is BusStop busStop && (busStop.getTileIndexAt(tileX, tileY, "Buildings", "outdoors") is 1057 || busStop.getTileIndexAt(tileX, tileY - 1, "Buildings", "outdoors") is 1057))
-        {
-            if (Game1.MasterPlayer.mailReceived.Contains("ccVault") && this.ContentManager.GetAvailableStops(StopNetwork.Bus).Any(stop => stop.Id != this.ContentManager.DesertBusId))
-            {
-                this.OpenMenu(StopNetwork.Bus);
-                return true;
-            }
-        }
-
-        return false;
+        this.ContentManager.AddTileProperties(e.NewLocation);
     }
 
     /// <summary>Open the menu to choose a destination.</summary>
