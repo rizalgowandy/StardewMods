@@ -33,7 +33,8 @@ You can also interact with ticket machines in various mod locations.
 ### Compatibility with other mods
 There are no known mod conflicts.
 
-Central Station automatically shows stops added through the Train Station mod if it's installed too.
+Central Station automatically shows stops added through the Bus Locations and Train Station mods if they're installed
+too.
 
 ## For mod authors
 ### Add a stop

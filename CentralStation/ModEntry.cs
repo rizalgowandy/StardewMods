@@ -4,10 +4,12 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
+using Pathoschild.Stardew.CentralStation.Framework.Integrations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
+using StardewValley.Menus;
 
 namespace Pathoschild.Stardew.CentralStation;
 
@@ -23,6 +25,9 @@ internal class ModEntry : Mod
     /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
     private StopManager StopManager = null!; // set in Entry
 
+    /// <summary>Whether the Bus Locations mod is installed, regardless of whether it has any stops loaded.</summary>
+    private bool HasBusLocationsMod;
+
 
     /*********
     ** Public methods
@@ -34,9 +39,11 @@ internal class ModEntry : Mod
 
         this.ContentManager = new(this.ModManifest.UniqueID, helper.GameContent, helper.ModRegistry, this.Monitor);
         this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
+        this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
+        helper.Events.Display.MenuChanged += this.OnMenuChanged;
 
         GameLocation.RegisterTileAction("CentralStation", this.OnTileActionInvoked);
     }
@@ -85,6 +92,18 @@ internal class ModEntry : Mod
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
         this.ContentManager.AddTileProperties(e.NewLocation);
+    }
+
+    /// <inheritdoc cref="IDisplayEvents.MenuChanged" />
+    private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+    {
+        // Bus Locations ignores Central Station's menu and replaces any open menu with its own. Since we include Bus
+        // Locations' stops in our menu, reopen ours instead.
+        if (this.HasBusLocationsMod && Game1.currentLocation is BusStop && e.NewMenu is DialogueBox dialogueBox && dialogueBox.dialogues.FirstOrDefault() is "Where would you like to go?" or "Out of service")
+        {
+            if (this.StopManager.GetAvailableStops(StopNetwork.Bus).Any())
+                this.OpenMenu(StopNetwork.Bus);
+        }
     }
 
     /// <summary>Open the menu to choose a destination.</summary>

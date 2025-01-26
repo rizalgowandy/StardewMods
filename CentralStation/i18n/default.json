@@ -2,5 +2,6 @@
     "destinations.central-station": "Central Station",
     "destinations.stardew-valley": "Stardew Valley Station",
 
+    "destinations.from-bus-locations-mod": "{{stopName}} [Bus Locations mod]",
     "destinations.from-train-station-mod": "{{stopName}} [Train Station mod]"
 }
