@@ -72,6 +72,10 @@ internal class ModEntry : Mod
                 this.OpenMenu(StopNetwork.Boat);
                 return false;
 
+            case "TrainStation":
+                this.OpenMenu(StopNetwork.Train);
+                return true;
+
             default:
                 return false;
         }

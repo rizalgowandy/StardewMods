@@ -4,3 +4,4 @@
 ## 1.0.0
 - Initial release.
 - Added support for boat, bus, and train stations.
+- Added integration with Train Station mod.

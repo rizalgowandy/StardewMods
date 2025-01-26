@@ -66,6 +66,10 @@ internal class StopManager
         if (this.CustomStopProviders is null)
         {
             this.CustomStopProviders = new();
+
+            TrainStationStopProvider trainStation = new(this.ModRegistry, this.Monitor);
+            if (trainStation.IsNeeded())
+                this.CustomStopProviders.Add(trainStation);
         }
 
         return this.CustomStopProviders;

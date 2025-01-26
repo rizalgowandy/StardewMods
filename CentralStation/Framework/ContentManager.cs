@@ -218,6 +218,10 @@ internal class ContentManager
                         case "BoatTicket":
                             tile.Properties["Action"] = "CentralStation Boat";
                             break;
+
+                        case "TrainStation":
+                            tile.Properties["Action"] = "CentralStation Train";
+                            break;
                     }
                 }
 
