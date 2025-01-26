@@ -6,7 +6,7 @@ map properties.
 ## Contents
 * [For players](#for-players)
   * [Buy a ticket](#buy-a-ticket)
-  * [Compatibility](#compatibility)
+  * [Compatibility with other mods](#compatibility-with-other-mods)
 * [For mod authors](#for-mod-authors)
   * [Add a stop](#add-a-stop)
   * [Add a ticket machine](#add-a-ticket-machine)
@@ -29,6 +29,9 @@ Alternatively, you can take any of those routes to the Central Station and then 
 example, take the bus to Central Station and then switch onto a boat to Ginger Island.
 
 You can also interact with ticket machines in various mod locations.
+
+### Compatibility with other mods
+There are no known mod conflicts.
 
 ## For mod authors
 ### Add a stop

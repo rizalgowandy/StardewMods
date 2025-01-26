@@ -20,6 +20,9 @@ internal class ModEntry : Mod
     /// <summary>Manages the Central Station content provided by content packs.</summary>
     private ContentManager ContentManager = null!; // set in Entry
 
+    /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
+    private StopManager StopManager = null!; // set in Entry
+
 
     /*********
     ** Public methods
@@ -28,7 +31,9 @@ internal class ModEntry : Mod
     public override void Entry(IModHelper helper)
     {
         I18n.Init(helper.Translation);
+
         this.ContentManager = new(this.ModManifest.UniqueID, helper.GameContent, helper.ModRegistry, this.Monitor);
+        this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
 
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
@@ -83,7 +88,7 @@ internal class ModEntry : Mod
     private void OpenMenu(StopNetwork network)
     {
         // get stops
-        StopModel[] stops = this.ContentManager.GetAvailableStops(network).ToArray();
+        StopModel[] stops = this.StopManager.GetAvailableStops(network).ToArray();
         if (stops.Length == 0)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_OutOfOrder"));
