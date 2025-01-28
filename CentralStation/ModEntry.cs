@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
+using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.CentralStation.Framework.Integrations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -37,7 +38,7 @@ internal class ModEntry : Mod
     {
         I18n.Init(helper.Translation);
 
-        this.ContentManager = new(this.ModManifest.UniqueID, helper.GameContent, helper.ModRegistry, this.Monitor);
+        this.ContentManager = new(helper.GameContent, helper.ModRegistry, this.Monitor);
         this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
         this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
@@ -149,7 +150,7 @@ internal class ModEntry : Mod
             case StopNetwork.Boat:
                 {
                     // default warp
-                    if (stopId == this.ContentManager.GingerIslandBoatId && Game1.currentLocation is BoatTunnel tunnel)
+                    if (stopId == DestinationIds.GingerIsland && Game1.currentLocation is BoatTunnel tunnel)
                     {
                         if (this.TryDeductCost(tunnel.TicketPrice))
                             tunnel.StartDeparture();
@@ -165,7 +166,7 @@ internal class ModEntry : Mod
                     if (Game1.currentLocation is BusStop busStop)
                     {
                         // default warp
-                        if (stopId == this.ContentManager.DesertBusId)
+                        if (stopId == DestinationIds.Desert)
                         {
                             busStop.lastQuestionKey = "Bus";
                             busStop.afterQuestion = null;

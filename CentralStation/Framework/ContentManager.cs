@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.Common;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -19,12 +20,6 @@ internal class ContentManager
     /*********
     ** Fields
     *********/
-    /// <summary>The unique mod ID for Central Station.</summary>
-    private readonly string ModId;
-
-    /// <summary>The asset name for the data asset containing destinations.</summary>
-    private readonly string DataAssetName;
-
     /// <summary>The SMAPI API for loading and managing content assets.</summary>
     private readonly IGameContentHelper ContentHelper;
 
@@ -36,47 +31,24 @@ internal class ContentManager
 
 
     /*********
-    ** Accessors
-    *********/
-    /// <summary>The unique ID for the Central Station location.</summary>
-    public string CentralStationLocationId { get; }
-
-    /// <summary>The bus destination ID for the desert.</summary>
-    public string DesertBusId { get; }
-
-    /// <summary>The boat destination ID for Ginger Island.</summary>
-    public string GingerIslandBoatId { get; }
-
-    /// <summary>The map property which opens a destination menu.</summary>
-    public const string MapProperty = "CentralStation";
-
-
-    /*********
     ** Public methods
     *********/
     /// <summary>Construct an instance.</summary>
-    /// <param name="modId">The unique mod ID for Central Station.</param>
     /// <param name="contentHelper">The SMAPI API for loading and managing content assets.</param>
     /// <param name="modRegistry">The SMAPI API for fetching metadata about loaded mods.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    public ContentManager(string modId, IGameContentHelper contentHelper, IModRegistry modRegistry, IMonitor monitor)
+    public ContentManager(IGameContentHelper contentHelper, IModRegistry modRegistry, IMonitor monitor)
     {
-        this.ModId = modId;
-        this.DataAssetName = $"Mods/{modId}/Stops";
         this.ContentHelper = contentHelper;
         this.ModRegistry = modRegistry;
         this.Monitor = monitor;
-
-        this.CentralStationLocationId = $"{this.ModId}_CentralStation";
-        this.DesertBusId = $"{this.ModId}_Desert";
-        this.GingerIslandBoatId = $"{this.ModId}_GingerIsland";
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
     /// <param name="network">The network for which to get stops.</param>
     public IEnumerable<StopModel> GetAvailableStops(StopNetwork network)
     {
-        foreach (StopModel? stop in this.ContentHelper.Load<List<StopModel?>>(this.DataAssetName))
+        foreach (StopModel? stop in this.ContentHelper.Load<List<StopModel?>>(DataAssetNames.Stops))
         {
             if (stop is null)
                 continue;
@@ -110,11 +82,11 @@ internal class ContentManager
         // add Central Station
         if (e.Name.IsEquivalentTo("Data/Locations"))
             e.Edit(this.EditLocations);
-        else if (e.Name.IsEquivalentTo($"Maps/{this.CentralStationLocationId}"))
+        else if (e.Name.IsEquivalentTo($"Maps/{Constant.CentralStationLocationId}"))
             e.LoadFromModFile<Map>("assets/centralStation.tmx", AssetLoadPriority.Exclusive);
 
         // add data asset
-        else if (e.Name.IsEquivalentTo(this.DataAssetName))
+        else if (e.Name.IsEquivalentTo(DataAssetNames.Stops))
             e.LoadFrom(this.BuildDefaultContentModel, AssetLoadPriority.Exclusive);
 
         // add ticket machine to railroad
@@ -137,7 +109,7 @@ internal class ContentManager
             {
                 for (int x = 0, maxX = buildingsLayer.TileWidth; x <= maxX; x++)
                 {
-                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action == $"{ContentManager.MapProperty} {network}")
+                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action == $"{Constant.MapProperty} {network}")
                     {
                         tile = new Point(x, y);
                         return true;
@@ -242,11 +214,11 @@ internal class ContentManager
     {
         var data = asset.AsDictionary<string, LocationData>().Data;
 
-        data[this.CentralStationLocationId] = new LocationData
+        data[Constant.CentralStationLocationId] = new LocationData
         {
             CreateOnLoad = new()
             {
-                MapPath = $"Maps/{this.CentralStationLocationId}"
+                MapPath = $"Maps/{Constant.CentralStationLocationId}"
             }
         };
     }
@@ -258,23 +230,23 @@ internal class ContentManager
             // central station
             new StopModel
             {
-                Id = this.CentralStationLocationId,
+                Id = DestinationIds.CentralStation,
                 DisplayName = I18n.Destinations_CentralStation(),
-                ToLocation = this.CentralStationLocationId,
+                ToLocation = Constant.CentralStationLocationId,
                 Networks = [StopNetwork.Boat, StopNetwork.Bus, StopNetwork.Train]
             },
 
             // boat
             new StopModel
             {
-                Id = $"{this.ModId}_BoatTunnel",
+                Id = DestinationIds.BoatTunnel,
                 DisplayName = I18n.Destinations_StardewValley(),
                 ToLocation = "BoatTunnel",
                 Networks = [StopNetwork.Boat]
             },
             new StopModel
             {
-                Id = this.GingerIslandBoatId,
+                Id = DestinationIds.GingerIsland,
                 DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:IslandName"),
                 ToLocation = "IslandSouth",
                 ToTile = new Point(21, 43),
@@ -286,7 +258,7 @@ internal class ContentManager
             // bus
             new StopModel
             {
-                Id = $"{this.ModId}_BusStop",
+                Id = DestinationIds.BusStop,
                 DisplayName = I18n.Destinations_StardewValley(),
                 ToLocation = "BusStop",
                 ToFacingDirection = "down",
@@ -294,7 +266,7 @@ internal class ContentManager
             },
             new StopModel
             {
-                Id = this.DesertBusId,
+                Id = DestinationIds.Desert,
                 DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:MapPage.cs.11062"),
                 ToLocation = "Desert",
                 ToTile = new Point(18, 27),
@@ -306,7 +278,7 @@ internal class ContentManager
             // train
             new StopModel
             {
-                Id = $"{this.ModId}_Railroad",
+                Id = DestinationIds.Railroad,
                 DisplayName = I18n.Destinations_StardewValley(),
                 ToLocation = "Railroad",
                 ToTile = null, // auto-detect ticket machine
@@ -362,7 +334,7 @@ internal class ContentManager
         // add tiles
         buildingsLayer.Tiles[defaultX, defaultY] = new StaticTile(buildingsLayer, tileSheet, BlendMode.Alpha, bottomTileIndex)
         {
-            Properties = { ["Action"] = $"{ContentManager.MapProperty} {StopNetwork.Train}" }
+            Properties = { ["Action"] = $"{Constant.MapProperty} {StopNetwork.Train}" }
         };
         frontLayer.Tiles[defaultX, defaultY - 1] = new StaticTile(frontLayer, tileSheet, BlendMode.Alpha, topTileIndex);
     }
