@@ -16,6 +16,9 @@ internal class StopModel
     /// <summary>The translated name for the stop, shown in the bus or train menu.</summary>
     public string? DisplayName { get; set; }
 
+    /// <summary>If set, overrides <see cref="DisplayName"/> when shown in Central Station's combined menu.</summary>
+    public string? DisplayNameFromCentralStation { get; set; }
+
     /// <summary>The internal name of the location to which the player should warp when they select this stop.</summary>
     public string ToLocation { get; set; } = null!; // validated on load
 

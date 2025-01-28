@@ -73,6 +73,7 @@ field name          | usage
 `Networks`           | _(Optional)_ How the player can reach the stop. This can be an array containing any combination of `Train` (default), `Boat`, and `Bus`.
 `Cost`              | _(Optional)_ The gold price to purchase a ticket. Default free.
 `Conditions`        | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the destination to appear in the menu.
+`DisplayNameFromCentralStation` | _(Optional)_ If set, overrides `DisplayName` when shown in Central Station's combined menu. This is only needed if a destination name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
 
 ### Add a ticket machine
 You can add an [`Action` map property](https://stardewvalleywiki.com/Modding:Maps#Action) wherever you want the player

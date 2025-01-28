@@ -18,7 +18,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     private readonly IMonitor Monitor;
 
     /// <summary>The stops provided by Bus Locations.</summary>
-    private readonly StopModel[] Stops;
+    private readonly StopModel[] BusStops;
 
     /// <summary>The unique ID for the Bus Locations mod.</summary>
     public const string ModId = "hootless.BusLocations";
@@ -33,19 +33,21 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     public BusLocationsStopProvider(IModRegistry modRegistry, IMonitor monitor)
     {
         this.Monitor = monitor;
-        this.Stops = this.LoadFromBusLocations(modRegistry, monitor) ?? [];
+        this.BusStops = this.LoadFromBusLocations(modRegistry, monitor) ?? [];
     }
 
     /// <summary>Whether the integration is needed.</summary>
     public bool IsNeeded()
     {
-        return this.Stops.Length > 0;
+        return this.BusStops.Length > 0;
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork network)
+    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
     {
-        return this.Stops;
+        return network is null or StopNetwork.Bus
+            ? this.BusStops
+            : ([]);
     }
 
 

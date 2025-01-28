@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common.Integrations.TrainStation;
 using StardewModdingAPI;
@@ -43,21 +44,31 @@ internal class TrainStationStopProvider : ICustomStopProvider
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork network)
+    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
     {
         var api = this.TrainStation;
 
         // skip if not applicable
-        if (!api.IsLoaded || network is not (StopNetwork.Boat or StopNetwork.Train))
+        if (!api.IsLoaded || network is not (null or StopNetwork.Boat or StopNetwork.Train))
             yield break;
 
         // get enumerator
         IEnumerator<ITrainStationStopModel?>? enumerator = null;
         try
         {
-            enumerator = api
-                .GetAvailableStops(isBoat: network is StopNetwork.Boat)
-                .GetEnumerator();
+            if (network is null)
+            {
+                enumerator =
+                    (api.GetAvailableStops(true))
+                    .Concat(api.GetAvailableStops(false))
+                    .GetEnumerator();
+            }
+            else
+            {
+                enumerator = api
+                    .GetAvailableStops(isBoat: network is StopNetwork.Boat)
+                    .GetEnumerator();
+            }
         }
         catch (Exception ex)
         {

@@ -40,8 +40,8 @@ internal class StopManager
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
-    /// <param name="network">The network for which to get stops.</param>
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork network)
+    /// <param name="network">The network for which to get stops, or <c>null</c> to get all of them.</param>
+    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
     {
         // Central Station stops
         foreach (StopModel stop in this.ContentManager.GetAvailableStops(network))

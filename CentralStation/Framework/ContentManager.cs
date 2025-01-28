@@ -45,8 +45,8 @@ internal class ContentManager
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
-    /// <param name="network">The network for which to get stops.</param>
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork network)
+    /// <param name="network">The network for which to get stops, or <c>null</c> to get all of them.</param>
+    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
     {
         foreach (StopModel? stop in this.ContentHelper.Load<List<StopModel?>>(DataAssetNames.Stops))
         {
@@ -71,7 +71,7 @@ internal class ContentManager
             }
 
             // match if applicable
-            if (stop.Networks.Contains(network) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Conditions))
+            if ((network is null || stop.Networks.Contains(network.Value)) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Conditions))
                 yield return stop;
         }
     }
@@ -241,6 +241,7 @@ internal class ContentManager
             {
                 Id = DestinationIds.BoatTunnel,
                 DisplayName = I18n.Destinations_StardewValley(),
+                DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Boat(),
                 ToLocation = "BoatTunnel",
                 Networks = [StopNetwork.Boat]
             },
@@ -260,6 +261,7 @@ internal class ContentManager
             {
                 Id = DestinationIds.BusStop,
                 DisplayName = I18n.Destinations_StardewValley(),
+                DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Bus(),
                 ToLocation = "BusStop",
                 ToFacingDirection = "down",
                 Networks = [StopNetwork.Bus]
@@ -280,6 +282,7 @@ internal class ContentManager
             {
                 Id = DestinationIds.Railroad,
                 DisplayName = I18n.Destinations_StardewValley(),
+                DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Train(),
                 ToLocation = "Railroad",
                 ToTile = null, // auto-detect ticket machine
                 Networks = [StopNetwork.Train]

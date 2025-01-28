@@ -65,6 +65,14 @@ internal class ModEntry : Mod
             // Central Station action
             case "CentralStation":
                 {
+                    // central menu
+                    if (location.Name is Constant.CentralStationLocationId)
+                    {
+                        this.OpenMenu(null);
+                        return true;
+                    }
+
+                    // ticket machine
                     if (!ArgUtility.TryGetOptionalEnum(args, 1, out StopNetwork network, out _, defaultValue: StopNetwork.Train))
                     {
                         this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{args[1]}'; the second argument should be one of '{string.Join("', '", Enum.GetNames(typeof(StopNetwork)))}'. Defaulting to train.", LogLevel.Warn);
@@ -108,8 +116,8 @@ internal class ModEntry : Mod
     }
 
     /// <summary>Open the menu to choose a destination.</summary>
-    /// <param name="network">The network for which to get stops.</param>
-    private void OpenMenu(StopNetwork network)
+    /// <param name="network">The network for which to get stops, or <c>null</c> for all stops.</param>
+    private void OpenMenu(StopNetwork? network)
     {
         // get stops
         StopModel[] stops = this.StopManager.GetAvailableStops(network).ToArray();
@@ -123,9 +131,14 @@ internal class ModEntry : Mod
         List<Response> responses = new List<Response>();
         foreach (StopModel stop in stops)
         {
+            string? rawDisplayName = network is null
+                ? stop.DisplayNameFromCentralStation ?? stop.DisplayName
+                : stop.DisplayName;
+            rawDisplayName ??= stop.Id;
+
             string label = stop.Cost > 0
-                ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", stop.DisplayName, Utility.getNumberWithCommas(stop.Cost))
-                : stop.DisplayName ?? stop.Id;
+                ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", rawDisplayName, Utility.getNumberWithCommas(stop.Cost))
+                : rawDisplayName;
 
             responses.Add(new Response(stop.Id, label));
         }
@@ -138,11 +151,17 @@ internal class ModEntry : Mod
     /// <summary>Handle the player choosing a destination in the UI.</summary>
     /// <param name="stopId">The selected stop ID.</param>
     /// <param name="stops">The stops which the player chose from.</param>
-    /// <param name="network">The network containing the stop.</param>
-    private void OnDestinationPicked(string stopId, StopModel[] stops, StopNetwork network)
+    /// <param name="network">The network containing the stop, or <c>null</c> if it was selected from the Central Station combined menu.</param>
+    private void OnDestinationPicked(string stopId, StopModel[] stops, StopNetwork? network)
     {
         if (stopId is "Cancel")
             return;
+
+        // get stop
+        StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId);
+        if (stop is null)
+            return;
+        network ??= stop.Networks.FirstOrDefault(StopNetwork.Train);
 
         // network-specific behavior
         switch (network)
@@ -187,11 +206,6 @@ internal class ModEntry : Mod
                 break;
         }
 
-        // get stop
-        StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId);
-        if (stop is null)
-            return;
-
         // charge ticket price
         if (!this.TryDeductCost(stop.Cost))
         {
@@ -205,7 +219,7 @@ internal class ModEntry : Mod
 
         // warp
         LocationRequest request = Game1.getLocationRequest(stop.ToLocation);
-        request.OnWarp += () => this.OnWarped(stop, network);
+        request.OnWarp += () => this.OnWarped(stop, network.Value);
         Game1.warpFarmer(request, stop.ToTile?.X ?? 0, stop.ToTile?.Y ?? 0, toFacingDirection);
     }
 
