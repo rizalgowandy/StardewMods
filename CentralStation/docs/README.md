@@ -48,8 +48,7 @@ To add a boat, bus, or train stop:
        "Action": "EditData",
        "Target": "Mods/Cherry.TrainStation/Destinations",
        "Entries": {
-           "{{ModId}}_ClintShop": { // should match your Id field below
-               "Id": "{{ModId}}_ClintShop",
+           "{{ModId}}_ClintShop": {
                "DisplayName": "Clint's Shop",
                "ToLocation": "Town",
                "Networks": [ "Train" ],
@@ -65,7 +64,7 @@ The available fields for a boat or train stop are:
 
 field name          | usage
 ------------------- | -----
-`Id`                | A [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) for your destination. This must be prefixed with your unique mod ID like `{{ModId}}_`.
+_key_               | The entry key (not a field) is a [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) for your destination. This must be prefixed with your unique mod ID like `{{ModId}}_`.
 `DisplayName`       | The display name to show in the menu. This should usually be translated into the player's current language using Content Patcher's `i18n` token.
 `ToLocation`        | The internal name of the location to which the player should be warped to. You can see internal location names in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).
 `ToTile`            | <p>_(Optional)_ The tile position to which the player should be warped to. You can see tile coordinates in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).</p><p>If omitted, Central Station will place the player just south of the ticket machine (if present), else it'll use the [default arrival tile](https://stardewvalleywiki.com/Modding:Maps#Warps_.26_map_positions).</li></ul>

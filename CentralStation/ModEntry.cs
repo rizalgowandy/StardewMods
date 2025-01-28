@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
 using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.CentralStation.Framework.Integrations;
+using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -120,7 +121,17 @@ internal class ModEntry : Mod
     private void OpenMenu(StopNetwork? network)
     {
         // get stops
-        StopModel[] stops = this.StopManager.GetAvailableStops(network).ToArray();
+        // Central Station first, then Stardew Valley, then any others in alphabetical order
+        StopModelWithId[] stops = this.StopManager
+            .GetAvailableStops(network)
+            .OrderBy(stop => stop.Id switch
+            {
+                DestinationIds.CentralStation => 0,
+                DestinationIds.BoatTunnel or DestinationIds.BusStop or DestinationIds.Railroad => 1,
+                _ => 2
+            })
+            .ThenBy(stop => stop.Stop.DisplayName, HumanSortComparer.DefaultIgnoreCase)
+            .ToArray();
         if (stops.Length == 0)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_OutOfOrder"));
@@ -129,18 +140,18 @@ internal class ModEntry : Mod
 
         // get menu options
         List<Response> responses = new List<Response>();
-        foreach (StopModel stop in stops)
+        foreach ((string id, StopModel stop) in stops)
         {
             string? rawDisplayName = network is null
                 ? stop.DisplayNameFromCentralStation ?? stop.DisplayName
                 : stop.DisplayName;
-            rawDisplayName ??= stop.Id;
+            rawDisplayName ??= id;
 
             string label = stop.Cost > 0
                 ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", rawDisplayName, Utility.getNumberWithCommas(stop.Cost))
                 : rawDisplayName;
 
-            responses.Add(new Response(stop.Id, label));
+            responses.Add(new Response(id, label));
         }
         responses.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Locations:MineCart_Destination_Cancel")));
 
@@ -151,14 +162,14 @@ internal class ModEntry : Mod
     /// <summary>Handle the player choosing a destination in the UI.</summary>
     /// <param name="stopId">The selected stop ID.</param>
     /// <param name="stops">The stops which the player chose from.</param>
-    /// <param name="network">The network containing the stop, or <c>null</c> if it was selected from the Central Station combined menu.</param>
-    private void OnDestinationPicked(string stopId, StopModel[] stops, StopNetwork? network)
+    /// <param name="network">The network containing the stop, or <c>null</c> if it was selected from the Central Station combined menu..</param>
+    private void OnDestinationPicked(string stopId, StopModelWithId[] stops, StopNetwork? network)
     {
         if (stopId is "Cancel")
             return;
 
         // get stop
-        StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId);
+        StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId)?.Stop;
         if (stop is null)
             return;
         network ??= stop.Networks.FirstOrDefault(StopNetwork.Train);

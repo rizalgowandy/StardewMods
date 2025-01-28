@@ -40,17 +40,17 @@ internal class StopManager
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
-    /// <param name="network">The network for which to get stops, or <c>null</c> to get all of them.</param>
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
+    /// <param name="network">The network for which to get stops.</param>
+    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetwork? network)
     {
         // Central Station stops
-        foreach (StopModel stop in this.ContentManager.GetAvailableStops(network))
+        foreach (StopModelWithId stop in this.ContentManager.GetAvailableStops(network))
             yield return stop;
 
         // from mod integrations
         foreach (ICustomStopProvider provider in this.GetCustomStopProviders())
         {
-            foreach (StopModel stop in provider.GetAvailableStops(network))
+            foreach (StopModelWithId stop in provider.GetAvailableStops(network))
                 yield return stop;
         }
     }

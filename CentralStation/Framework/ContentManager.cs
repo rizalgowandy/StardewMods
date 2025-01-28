@@ -46,33 +46,33 @@ internal class ContentManager
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
     /// <param name="network">The network for which to get stops, or <c>null</c> to get all of them.</param>
-    public IEnumerable<StopModel> GetAvailableStops(StopNetwork? network)
+    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetwork? network)
     {
-        foreach (StopModel? stop in this.ContentHelper.Load<List<StopModel?>>(DataAssetNames.Stops))
+        foreach ((string id, StopModel? stop) in this.ContentHelper.Load<Dictionary<string, StopModel?>>(DataAssetNames.Stops))
         {
             if (stop is null)
                 continue;
 
             // validate
-            if (string.IsNullOrWhiteSpace(stop.Id))
+            if (string.IsNullOrWhiteSpace(id))
             {
                 this.Monitor.LogOnce($"Ignored {stop.Networks} destination to {stop.ToLocation} with no ID field.", LogLevel.Warn);
                 continue;
             }
-            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, stop.Id) is null)
+            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, id) is null)
             {
-                this.Monitor.LogOnce($"Ignored {stop.Networks} destination with ID '{stop.Id}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_StopId`.", LogLevel.Warn);
+                this.Monitor.LogOnce($"Ignored {stop.Networks} destination with ID '{id}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_StopId`.", LogLevel.Warn);
                 continue;
             }
             if (string.IsNullOrWhiteSpace(stop.ToLocation))
             {
-                this.Monitor.LogOnce($"Ignored {stop.Networks} destination with ID '{stop.Id}' because it has no {nameof(stop.ToLocation)} field.", LogLevel.Warn);
+                this.Monitor.LogOnce($"Ignored {stop.Networks} destination with ID '{id}' because it has no {nameof(stop.ToLocation)} field.", LogLevel.Warn);
                 continue;
             }
 
             // match if applicable
             if ((network is null || stop.Networks.Contains(network.Value)) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Conditions))
-                yield return stop;
+                yield return new StopModelWithId(id, stop);
         }
     }
 
@@ -224,30 +224,28 @@ internal class ContentManager
     }
 
     /// <summary>Build the data asset model with the default stops.</summary>
-    private List<StopModel> BuildDefaultContentModel()
+    private Dictionary<string, StopModel> BuildDefaultContentModel()
     {
-        return [
+        return new()
+        {
             // central station
-            new StopModel
+            [DestinationIds.CentralStation] = new StopModel
             {
-                Id = DestinationIds.CentralStation,
                 DisplayName = I18n.Destinations_CentralStation(),
                 ToLocation = Constant.CentralStationLocationId,
                 Networks = [StopNetwork.Boat, StopNetwork.Bus, StopNetwork.Train]
             },
 
             // boat
-            new StopModel
+            [DestinationIds.BoatTunnel] = new StopModel
             {
-                Id = DestinationIds.BoatTunnel,
                 DisplayName = I18n.Destinations_StardewValley(),
                 DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Boat(),
                 ToLocation = "BoatTunnel",
                 Networks = [StopNetwork.Boat]
             },
-            new StopModel
+            [DestinationIds.GingerIsland] = new StopModel
             {
-                Id = DestinationIds.GingerIsland,
                 DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:IslandName"),
                 ToLocation = "IslandSouth",
                 ToTile = new Point(21, 43),
@@ -257,18 +255,16 @@ internal class ContentManager
             },
 
             // bus
-            new StopModel
+            [DestinationIds.BusStop] = new StopModel
             {
-                Id = DestinationIds.BusStop,
                 DisplayName = I18n.Destinations_StardewValley(),
                 DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Bus(),
                 ToLocation = "BusStop",
                 ToFacingDirection = "down",
                 Networks = [StopNetwork.Bus]
             },
-            new StopModel
+            [DestinationIds.Desert] = new StopModel
             {
-                Id = DestinationIds.Desert,
                 DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:MapPage.cs.11062"),
                 ToLocation = "Desert",
                 ToTile = new Point(18, 27),
@@ -278,16 +274,15 @@ internal class ContentManager
             },
 
             // train
-            new StopModel
+            [DestinationIds.Railroad] = new StopModel
             {
-                Id = DestinationIds.Railroad,
                 DisplayName = I18n.Destinations_StardewValley(),
                 DisplayNameFromCentralStation = I18n.Destinations_StardewValley_Train(),
                 ToLocation = "Railroad",
                 ToTile = null, // auto-detect ticket machine
                 Networks = [StopNetwork.Train]
             }
-        ];
+        };
     }
 
     /// <summary>Add the ticket machine tiles and action to the railroad map.</summary>

@@ -4,16 +4,13 @@ using StardewValley;
 
 namespace Pathoschild.Stardew.CentralStation.Framework;
 
-/// <summary>A boat or train stop that can be visited by the player.</summary>
+/// <summary>A destination that can be visited by the player.</summary>
 internal class StopModel
 {
     /*********
     ** Accessors
     *********/
-    /// <summary>A unique identifier for this stop.</summary>
-    public string Id { get; set; } = null!; // validated on load
-
-    /// <summary>The translated name for the stop, shown in the bus or train menu.</summary>
+    /// <summary>The translated name for the stop, shown in the destination menu.</summary>
     public string? DisplayName { get; set; }
 
     /// <summary>If set, overrides <see cref="DisplayName"/> when shown in Central Station's combined menu.</summary>
@@ -45,7 +42,6 @@ internal class StopModel
     public StopModel() { }
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="id"><inheritdoc cref="Id" path="/summary" /></param>
     /// <param name="displayName"><inheritdoc cref="DisplayName" path="/summary" /></param>
     /// <param name="toLocation"><inheritdoc cref="ToLocation" path="/summary" /></param>
     /// <param name="toTile"><inheritdoc cref="ToTile" path="/summary" /></param>
@@ -53,9 +49,8 @@ internal class StopModel
     /// <param name="cost"><inheritdoc cref="Cost" path="/summary" /></param>
     /// <param name="networks"><inheritdoc cref="Networks" path="/summary" /></param>
     /// <param name="conditions"><inheritdoc cref="Conditions" path="/summary" /></param>
-    public StopModel(string id, string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, List<StopNetwork> networks, string? conditions)
+    public StopModel(string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, List<StopNetwork> networks, string? conditions)
     {
-        this.Id = id;
         this.DisplayName = displayName;
         this.ToLocation = toLocation;
         this.ToTile = toTile;
