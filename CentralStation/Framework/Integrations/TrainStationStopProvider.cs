@@ -112,7 +112,7 @@ internal class TrainStationStopProvider : ICustomStopProvider
                     toFacingDirection: stop.FacingDirectionAfterWarp.ToString(),
                     cost: stop.Cost,
                     network: stop.IsBoat ? StopNetworks.Boat : StopNetworks.Train,
-                    conditions: this.ConvertExpandedPreconditionsToGameStateQuery(stop.Conditions)
+                    condition: this.ConvertExpandedPreconditionsToGameStateQuery(stop.Conditions)
                 )
             );
         }

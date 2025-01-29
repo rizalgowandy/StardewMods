@@ -31,7 +31,7 @@ internal class StopModel
     public StopNetworks Network { get; set; } = StopNetworks.Train;
 
     /// <summary>If set, a game state query which indicates whether this stop should appear in the menu at a given time. The contextual location is set to the player's current location.</summary>
-    public string? Conditions { get; set; }
+    public string? Condition { get; set; }
 
 
     /*********
@@ -47,8 +47,8 @@ internal class StopModel
     /// <param name="toFacingDirection"><inheritdoc cref="ToFacingDirection" path="/summary" /></param>
     /// <param name="cost"><inheritdoc cref="Cost" path="/summary" /></param>
     /// <param name="network"><inheritdoc cref="Network" path="/summary" /></param>
-    /// <param name="conditions"><inheritdoc cref="Conditions" path="/summary" /></param>
-    public StopModel(string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, StopNetworks network, string? conditions)
+    /// <param name="condition"><inheritdoc cref="Condition" path="/summary" /></param>
+    public StopModel(string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, StopNetworks network, string? condition)
     {
         this.DisplayName = displayName;
         this.ToLocation = toLocation;
@@ -56,6 +56,6 @@ internal class StopModel
         this.ToFacingDirection = toFacingDirection;
         this.Cost = cost;
         this.Network = network;
-        this.Conditions = conditions;
+        this.Condition = condition;
     }
 }

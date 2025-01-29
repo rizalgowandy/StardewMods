@@ -64,7 +64,7 @@ _key_               | The entry key (not a field) is a [unique string ID](https:
 `ToFacingDirection` | _(Optional)_ The direction the player should face after warping. The possible values are `up`, `down`, `left`, and `right`. Default `down`.
 `Network`           | _(Optional)_ How the player can reach the stop. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train`.
 `Cost`              | _(Optional)_ The gold price to purchase a ticket. Default free.
-`Conditions`        | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the destination to appear in the menu.
+`Condition`         | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the destination to appear in the menu.
 `DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a destination name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
 
 ### Add a ticket machine
@@ -91,7 +91,7 @@ the machine if the `Action: CentralStation Train` tile property is already prese
 train stop to match the position of the ticket machine.
 
 ### Conditional stops
-The `Conditions` field in your stop data lets you decide when your destination should appear. The conditions are
+The `Condition` field in your stop data lets you decide when your destination should appear. The conditions are
 checked each time the menu is opened, so this can be used for a wide variety of customizations.
 
 For example, let's say you want to create your own hub station:
@@ -110,7 +110,7 @@ For example, let's say you want to create your own hub station:
 You can add a condition like this to the [stop data](#add-a-stop) for your location A–C, so they're only available from
 your hub station:
 ```js
-"Conditions": "LOCATION_NAME Here {{ModId}}_YourRailStop"
+"Condition": "LOCATION_NAME Here {{ModId}}_YourRailStop"
 ```
 
 See [Modding:Game state queries](https://stardewvalleywiki.com/Modding:Game_state_queries) on the wiki for the built-in

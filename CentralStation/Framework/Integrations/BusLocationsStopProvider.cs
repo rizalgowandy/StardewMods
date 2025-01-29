@@ -116,7 +116,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
                                 toFacingDirection: arrivalFacing.ToString(),
                                 cost: ticketPrice,
                                 StopNetworks.Bus,
-                                conditions: null
+                                condition: null
                             )
                         )
                     );
