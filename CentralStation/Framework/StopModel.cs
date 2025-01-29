@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
@@ -13,8 +12,8 @@ internal class StopModel
     /// <summary>The translated name for the stop, shown in the destination menu.</summary>
     public string? DisplayName { get; set; }
 
-    /// <summary>If set, overrides <see cref="DisplayName"/> when shown in Central Station's combined menu.</summary>
-    public string? DisplayNameFromCentralStation { get; set; }
+    /// <summary>If set, overrides <see cref="DisplayName"/> when shown in a menu containing multiple transport networks.</summary>
+    public string? DisplayNameInCombinedLists { get; set; }
 
     /// <summary>The internal name of the location to which the player should warp when they select this stop.</summary>
     public string ToLocation { get; set; } = null!; // validated on load
@@ -26,10 +25,10 @@ internal class StopModel
     public string ToFacingDirection { get; set; } = "down";
 
     /// <summary>The gold price to go to that stop.</summary>
-    public int Cost { get; set; } = 0;
+    public int Cost { get; set; }
 
     /// <summary>The networks through which this stop is available.</summary>
-    public List<StopNetwork> Networks { get; set; } = [StopNetwork.Train];
+    public StopNetworks Network { get; set; } = StopNetworks.Train;
 
     /// <summary>If set, a game state query which indicates whether this stop should appear in the menu at a given time. The contextual location is set to the player's current location.</summary>
     public string? Conditions { get; set; }
@@ -47,16 +46,16 @@ internal class StopModel
     /// <param name="toTile"><inheritdoc cref="ToTile" path="/summary" /></param>
     /// <param name="toFacingDirection"><inheritdoc cref="ToFacingDirection" path="/summary" /></param>
     /// <param name="cost"><inheritdoc cref="Cost" path="/summary" /></param>
-    /// <param name="networks"><inheritdoc cref="Networks" path="/summary" /></param>
+    /// <param name="network"><inheritdoc cref="Network" path="/summary" /></param>
     /// <param name="conditions"><inheritdoc cref="Conditions" path="/summary" /></param>
-    public StopModel(string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, List<StopNetwork> networks, string? conditions)
+    public StopModel(string displayName, string toLocation, Point? toTile, string toFacingDirection, int cost, StopNetworks network, string? conditions)
     {
         this.DisplayName = displayName;
         this.ToLocation = toLocation;
         this.ToTile = toTile;
         this.ToFacingDirection = toFacingDirection;
         this.Cost = cost;
-        this.Networks = networks;
+        this.Network = network;
         this.Conditions = conditions;
     }
 }

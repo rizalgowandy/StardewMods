@@ -44,35 +44,28 @@ internal class TrainStationStopProvider : ICustomStopProvider
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetwork? network)
+    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
     {
         var api = this.TrainStation;
 
         // skip if not applicable
-        if (!api.IsLoaded || network is not (null or StopNetwork.Boat or StopNetwork.Train))
+        if (!api.IsLoaded || !networks.HasAnyFlag(StopNetworks.Boat | StopNetworks.Train))
             yield break;
 
         // get enumerator
         IEnumerator<ITrainStationStopModel?>? enumerator = null;
         try
         {
-            if (network is null)
-            {
-                enumerator =
-                    (api.GetAvailableStops(true))
-                    .Concat(api.GetAvailableStops(false))
-                    .GetEnumerator();
-            }
-            else
-            {
-                enumerator = api
-                    .GetAvailableStops(isBoat: network is StopNetwork.Boat)
-                    .GetEnumerator();
-            }
+            bool isBoat = networks.HasFlag(StopNetworks.Boat);
+            bool isTrain = networks.HasFlag(StopNetworks.Train);
+
+            enumerator = isBoat && isTrain
+                ? api.GetAvailableStops(true).Concat(api.GetAvailableStops(false)).GetEnumerator()
+                : api.GetAvailableStops(isBoat).GetEnumerator();
         }
         catch (Exception ex)
         {
-            this.Monitor.Log($"Could not load {network} stops from the Train Station mod because its API returned an unexpected error.\nTechnical details: {ex}", LogLevel.Warn);
+            this.Monitor.Log($"Could not load {networks} stops from the Train Station mod because its API returned an unexpected error.\nTechnical details: {ex}", LogLevel.Warn);
             enumerator?.Dispose();
             yield break;
         }
@@ -96,7 +89,7 @@ internal class TrainStationStopProvider : ICustomStopProvider
             }
             catch (Exception ex)
             {
-                this.Monitor.Log($"Could not load {network} stops from the Train Station mod because its API returned an unexpected error.\nTechnical details: {ex}", LogLevel.Warn);
+                this.Monitor.Log($"Could not load {networks} stops from the Train Station mod because its API returned an unexpected error.\nTechnical details: {ex}", LogLevel.Warn);
                 yield break;
             }
 
@@ -118,7 +111,7 @@ internal class TrainStationStopProvider : ICustomStopProvider
                     toTile: new Point(stop.TargetX, stop.TargetY),
                     toFacingDirection: stop.FacingDirectionAfterWarp.ToString(),
                     cost: stop.Cost,
-                    networks: [stop.IsBoat ? StopNetwork.Boat : StopNetwork.Train],
+                    network: stop.IsBoat ? StopNetworks.Boat : StopNetworks.Train,
                     conditions: this.ConvertExpandedPreconditionsToGameStateQuery(stop.Conditions)
                 )
             );

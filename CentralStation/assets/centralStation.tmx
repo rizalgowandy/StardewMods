@@ -1461,7 +1461,7 @@
  <objectgroup id="11" name="Buildings">
   <object id="39" name="TileData" x="0" y="48" width="16" height="16">
    <properties>
-    <property name="Action" value="CentralStation"/>
+    <property name="Action" value="CentralStation Boat Bus Train"/>
    </properties>
   </object>
  </objectgroup>

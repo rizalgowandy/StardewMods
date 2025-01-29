@@ -66,31 +66,25 @@ internal class ModEntry : Mod
             // Central Station action
             case "CentralStation":
                 {
-                    // central menu
-                    if (location.Name is Constant.CentralStationLocationId)
-                    {
-                        this.OpenMenu(null);
-                        return true;
-                    }
+                    StopNetworks networks = StopNetworks.Train;
 
-                    // ticket machine
-                    if (!ArgUtility.TryGetOptionalEnum(args, 1, out StopNetwork network, out _, defaultValue: StopNetwork.Train))
+                    if (ArgUtility.TryGetOptionalRemainder(args, 1, out string? rawNetworks, delimiter: ',') && rawNetworks is not null && !Utility.TryParseEnum(rawNetworks, out networks))
                     {
-                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{args[1]}'; the second argument should be one of '{string.Join("', '", Enum.GetNames(typeof(StopNetwork)))}'. Defaulting to train.", LogLevel.Warn);
+                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{rawNetworks}'; the second argument should be one or more of '{string.Join("', '", Enum.GetNames(typeof(StopNetworks)))}'.", LogLevel.Warn);
                         return false;
                     }
 
-                    this.OpenMenu(network);
+                    this.OpenMenu(networks);
                     return true;
                 }
 
             // fallback in case these didn't get swapped
             case "BoatTicket":
-                this.OpenMenu(StopNetwork.Boat);
+                this.OpenMenu(StopNetworks.Boat);
                 return false;
 
             case "TrainStation":
-                this.OpenMenu(StopNetwork.Train);
+                this.OpenMenu(StopNetworks.Train);
                 return true;
 
             default:
@@ -111,19 +105,19 @@ internal class ModEntry : Mod
         // Locations' stops in our menu, reopen ours instead.
         if (this.HasBusLocationsMod && Game1.currentLocation is BusStop && e.NewMenu is DialogueBox dialogueBox && dialogueBox.dialogues.FirstOrDefault() is "Where would you like to go?" or "Out of service")
         {
-            if (this.StopManager.GetAvailableStops(StopNetwork.Bus).Any())
-                this.OpenMenu(StopNetwork.Bus);
+            if (this.StopManager.GetAvailableStops(StopNetworks.Bus).Any())
+                this.OpenMenu(StopNetworks.Bus);
         }
     }
 
     /// <summary>Open the menu to choose a destination.</summary>
-    /// <param name="network">The network for which to get stops, or <c>null</c> for all stops.</param>
-    private void OpenMenu(StopNetwork? network)
+    /// <param name="networks">The networks for which to get stops.</param>
+    private void OpenMenu(StopNetworks networks)
     {
         // get stops
         // Central Station first, then Stardew Valley, then any others in alphabetical order
         StopModelWithId[] stops = this.StopManager
-            .GetAvailableStops(network)
+            .GetAvailableStops(networks)
             .OrderBy(stop => stop.Id switch
             {
                 DestinationIds.CentralStation => 0,
@@ -142,8 +136,8 @@ internal class ModEntry : Mod
         List<Response> responses = new List<Response>();
         foreach ((string id, StopModel stop) in stops)
         {
-            string? rawDisplayName = network is null
-                ? stop.DisplayNameFromCentralStation ?? stop.DisplayName
+            string? rawDisplayName = networks.HasMultipleFlags()
+                ? stop.DisplayNameInCombinedLists ?? stop.DisplayName
                 : stop.DisplayName;
             rawDisplayName ??= id;
 
@@ -156,14 +150,14 @@ internal class ModEntry : Mod
         responses.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Locations:MineCart_Destination_Cancel")));
 
         // show menu
-        Game1.currentLocation.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"), responses.ToArray(), (_, selectedId) => this.OnDestinationPicked(selectedId, stops, network));
+        Game1.currentLocation.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"), responses.ToArray(), (_, selectedId) => this.OnDestinationPicked(selectedId, stops, networks));
     }
 
     /// <summary>Handle the player choosing a destination in the UI.</summary>
     /// <param name="stopId">The selected stop ID.</param>
     /// <param name="stops">The stops which the player chose from.</param>
-    /// <param name="network">The network containing the stop, or <c>null</c> if it was selected from the Central Station combined menu..</param>
-    private void OnDestinationPicked(string stopId, StopModelWithId[] stops, StopNetwork? network)
+    /// <param name="networks">The networks containing the stop.</param>
+    private void OnDestinationPicked(string stopId, StopModelWithId[] stops, StopNetworks networks)
     {
         if (stopId is "Cancel")
             return;
@@ -172,46 +166,42 @@ internal class ModEntry : Mod
         StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId)?.Stop;
         if (stop is null)
             return;
-        network ??= stop.Networks.FirstOrDefault(StopNetwork.Train);
 
-        // network-specific behavior
-        switch (network)
+        // apply vanilla behavior for default routes
+        switch (stopId)
         {
-            case StopNetwork.Boat:
+            // boat to Ginger Island
+            case DestinationIds.GingerIsland:
+                if (Game1.currentLocation is BoatTunnel tunnel && networks.HasFlag(StopNetworks.Boat))
                 {
-                    // default warp
-                    if (stopId == DestinationIds.GingerIsland && Game1.currentLocation is BoatTunnel tunnel)
-                    {
-                        if (this.TryDeductCost(tunnel.TicketPrice))
-                            tunnel.StartDeparture();
-                        else
-                            Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
-                        return;
-                    }
+                    if (this.TryDeductCost(tunnel.TicketPrice))
+                        tunnel.StartDeparture();
+                    else
+                        Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
+                    return;
                 }
                 break;
 
-            case StopNetwork.Bus:
+            // bus to desert
+            case DestinationIds.Desert:
+                if (Game1.currentLocation is BusStop busStop && networks.HasFlag(StopNetworks.Bus))
                 {
-                    if (Game1.currentLocation is BusStop busStop)
+                    // default warp
+                    if (stopId == DestinationIds.Desert)
                     {
-                        // default warp
-                        if (stopId == DestinationIds.Desert)
-                        {
-                            busStop.lastQuestionKey = "Bus";
-                            busStop.afterQuestion = null;
-                            busStop.answerDialogue(new Response("Yes", ""));
-                            return;
-                        }
+                        busStop.lastQuestionKey = "Bus";
+                        busStop.afterQuestion = null;
+                        busStop.answerDialogue(new Response("Yes", ""));
+                        return;
+                    }
 
-                        // requires bus driver
-                        // derived from BusStop.answerDialogue
-                        NPC pam = Game1.getCharacterFromName("Pam");
-                        if (pam is not null && !Game1.netWorldState.Value.canDriveYourselfToday.Value && (!busStop.characters.Contains(pam) || pam.TilePoint.X != 21 || pam.TilePoint.Y != 10))
-                        {
-                            Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NoDriver"));
-                            return;
-                        }
+                    // requires bus driver
+                    // derived from BusStop.answerDialogue
+                    NPC pam = Game1.getCharacterFromName("Pam");
+                    if (pam is not null && !Game1.netWorldState.Value.canDriveYourselfToday.Value && (!busStop.characters.Contains(pam) || pam.TilePoint.X != 21 || pam.TilePoint.Y != 10))
+                    {
+                        Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NoDriver"));
+                        return;
                     }
                 }
                 break;
@@ -230,16 +220,20 @@ internal class ModEntry : Mod
 
         // warp
         LocationRequest request = Game1.getLocationRequest(stop.ToLocation);
-        request.OnWarp += () => this.OnWarped(stop, network.Value);
+        request.OnWarp += () => this.OnWarped(stop, networks);
         Game1.warpFarmer(request, stop.ToTile?.X ?? 0, stop.ToTile?.Y ?? 0, toFacingDirection);
     }
 
     /// <summary>The action to perform when the player arrives at the destination.</summary>
     /// <param name="stop">The stop that the player warped to.</param>
-    /// <param name="network">The network which the player travelled to reach the stop.</param>
-    private void OnWarped(StopModel stop, StopNetwork network)
+    /// <param name="network">The networks which the player travelled to reach the stop.</param>
+    private void OnWarped(StopModel stop, StopNetworks network)
     {
         GameLocation location = Game1.currentLocation;
+
+        // if there are multiple possible networks, choose one
+        if (network.HasMultipleFlags())
+            network = network.GetPreferred();
 
         // auto-detect arrival spot if needed
         if (stop.ToTile is null)
@@ -270,17 +264,17 @@ internal class ModEntry : Mod
         // play transit effects mid-fade
         switch (network)
         {
-            case StopNetwork.Bus:
+            case StopNetworks.Bus:
                 Game1.playSound("busDriveOff");
                 break;
 
-            case StopNetwork.Boat:
+            case StopNetworks.Boat:
                 Game1.playSound("waterSlosh");
                 DelayedAction.playSoundAfterDelay("waterSlosh", 500);
                 DelayedAction.playSoundAfterDelay("waterSlosh", 1000);
                 break;
 
-            case StopNetwork.Train:
+            case StopNetworks.Train:
                 {
                     Game1.playSound("trainLoop", out ICue cue);
                     cue.SetVariable("Volume", 100f); // default volume is zero

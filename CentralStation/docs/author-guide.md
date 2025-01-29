@@ -15,6 +15,7 @@ section below.
 * [Advanced destinations](#advanced-destinations)
   * [Edit the railroad map](#edit-the-railroad-map)
   * [Conditional stops](#conditional-stops)
+  * [Multi-network stops](#multi-network-stops)
 * [See also](#see-also)
 
 ## Basic usage
@@ -61,7 +62,7 @@ _key_               | The entry key (not a field) is a [unique string ID](https:
 `ToLocation`        | The internal name of the location to which the player should be warped to. You can see internal location names in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).
 `ToTile`            | <p>_(Optional)_ The tile position to which the player should be warped to. You can see tile coordinates in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).</p><p>If omitted, Central Station will place the player just south of the ticket machine (if present), else it'll use the [default arrival tile](https://stardewvalleywiki.com/Modding:Maps#Warps_.26_map_positions).</li></ul>
 `ToFacingDirection` | _(Optional)_ The direction the player should face after warping. The possible values are `up`, `down`, `left`, and `right`. Default `down`.
-`Network`           | _(Optional)_ How the player can reach the stop. This can be `Boat`, `Bus`, or `Train`. Defaults to `Train`.
+`Network`           | _(Optional)_ How the player can reach the stop. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train`.
 `Cost`              | _(Optional)_ The gold price to purchase a ticket. Default free.
 `Conditions`        | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the destination to appear in the menu.
 `DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a destination name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
@@ -75,7 +76,7 @@ The format is:
 Action CentralStation Network
 ```
 
-The `Network` must be `Boat`, `Bus`, or `Train`. If omitted, it defaults to `Train`.
+The `Network` must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). If omitted, it defaults to `Train`.
 
 The network affects:
 * which destinations are shown in the menu;
@@ -114,6 +115,20 @@ your hub station:
 
 See [Modding:Game state queries](https://stardewvalleywiki.com/Modding:Game_state_queries) on the wiki for the built-in
 conditions, and you can also use any game state queries added by other mods.
+
+### Multi-network stops
+One stop can be on multiple networks at once. For example, Central Station is connected to the boat, bus, and train
+networks.
+
+This involves two changes:
+* In your [stop data](#add-a-stop)'s `Network` field, add comma-delimited networks. For example:
+  ```js
+  "Network": "Boat, Bus"
+  ```
+* When adding the ticket machine, add **space**-delimited networks. For example:
+  ```
+  Action: CentralStation Boat Bus
+  ```
 
 ## See also
 * [README](README.md) for other info

@@ -43,9 +43,9 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetwork? network)
+    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
     {
-        return network is null or StopNetwork.Bus
+        return networks.HasFlag(StopNetworks.Bus)
             ? this.BusStops
             : ([]);
     }
@@ -115,7 +115,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
                                     : null,
                                 toFacingDirection: arrivalFacing.ToString(),
                                 cost: ticketPrice,
-                                [StopNetwork.Bus],
+                                StopNetworks.Bus,
                                 conditions: null
                             )
                         )
