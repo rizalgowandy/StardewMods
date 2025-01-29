@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="19" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="44">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="19" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="47">
  <properties>
   <property name="ForceAllowTreePlanting" value="T"/>
   <property name="Outdoors" value="T"/>
@@ -1462,6 +1462,21 @@
   <object id="39" name="TileData" x="0" y="48" width="16" height="16">
    <properties>
     <property name="Action" value="CentralStation Boat Bus Train"/>
+   </properties>
+  </object>
+  <object id="44" name="TileData" x="112" y="48" width="16" height="16">
+   <properties>
+    <property name="Action" value="OpenShop Pathoschild.CentralStation_GiftShop"/>
+   </properties>
+  </object>
+  <object id="45" name="TileData" x="128" y="48" width="16" height="16">
+   <properties>
+    <property name="Action" value="OpenShop Pathoschild.CentralStation_FoodCourt"/>
+   </properties>
+  </object>
+  <object id="46" name="TileData" x="208" y="48" width="16" height="16">
+   <properties>
+    <property name="Action" value="Pathoschild.CentralStation_Vendor"/>
    </properties>
   </object>
  </objectgroup>

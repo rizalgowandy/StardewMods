@@ -47,7 +47,8 @@ internal class ModEntry : Mod
         helper.Events.Player.Warped += this.OnWarped;
         helper.Events.Display.MenuChanged += this.OnMenuChanged;
 
-        GameLocation.RegisterTileAction("CentralStation", this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(Constant.MapProperty, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction($"{Constant.ModId}_Vendor", this.OnTileActionInvoked);
     }
 
 
@@ -63,8 +64,8 @@ internal class ModEntry : Mod
     {
         switch (ArgUtility.Get(args, 0))
         {
-            // Central Station action
-            case "CentralStation":
+            // ticket machine
+            case Constant.MapProperty:
                 {
                     StopNetworks networks = StopNetworks.Train;
 
@@ -77,6 +78,11 @@ internal class ModEntry : Mod
                     this.OpenMenu(networks);
                     return true;
                 }
+
+            // vendor shop
+            case $"{Constant.ModId}_Vendor":
+                Game1.drawDialogueNoTyping(I18n.VendorShop_Dialogue_ComingSoon());
+                return true;
 
             // fallback in case these didn't get swapped
             case "BoatTicket":

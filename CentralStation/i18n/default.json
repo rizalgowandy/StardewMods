@@ -13,5 +13,25 @@
 
     // stops from other mods
     "destinations.from-bus-locations-mod": "{{stopName}} [Bus Locations mod]",
-    "destinations.from-train-station-mod": "{{stopName}} [Train Station mod]"
+    "destinations.from-train-station-mod": "{{stopName}} [Train Station mod]",
+
+
+    /*********
+    ** Shop dialogues
+    *********/
+    "food-court.dialogue.1": "Get your grub here! Mostly not made from grubs.",
+    "food-court.dialogue.2": "Guaranteed lowest prices in the food court.",
+    "food-court.dialogue.3": "We mostly passed our last food safety inspection!",
+    "food-court.dialogue.4": "Oh, a customer. Whatcha want?",
+    "food-court.dialogue.5": "We got fresh and hot food! Well, hot. If you microwave it.",
+
+    "gift-shop.dialogue.1": "Going far? Make sure you have everything you need!",
+    "gift-shop.dialogue.2": "Heading home? Grab some souvenirs to bring back!",
+    "gift-shop.dialogue.3": "We've got an extensive collection of novelty shirts. (Too many, please buy some.)",
+    "gift-shop.dialogue.4": "We have so much stuff I don't know where we'll store it. Please buy something!",
+    "gift-shop.dialogue.5": "Heading somewhere cold? We've got some cold weather gear in stock!",
+    "gift-shop.dialogue.6": "Try these ear muffs. Feel that? It's authentic Castle Village velvet!",
+    "gift-shop.dialogue.7": "This is rare wood from across the Gem sea. Very hard to find.",
+
+    "vendor-shop.dialogue.coming-soon": "A little sign: \"Local pop-up shops coming soon!\". You hear workers inside getting things ready."
 }
