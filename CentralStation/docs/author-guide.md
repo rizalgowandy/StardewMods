@@ -3,7 +3,7 @@
 This page helps mod authors use Central Station with their mods. **See the [main README](README.md) for other
 info.**
 
-> ![TIP]  
+> [!TIP]  
 > This page covers everything you can do with Central Station. However, you probably only need the 'Basic usage'
 section below.
 
@@ -12,7 +12,7 @@ section below.
   * [Overview](#overview)
   * [Add a stop](#add-a-stop)
   * [Add a ticket machine](#add-a-ticket-machine)
-* [Advanced destinations](#advanced-destinations)
+* [Advanced stops](#advanced-stops)
   * [Edit the railroad map](#edit-the-railroad-map)
   * [Conditional stops](#conditional-stops)
   * [Multi-network stops](#multi-network-stops)
@@ -28,23 +28,23 @@ For example, let's say you add a custom island only reachable by boat. There are
   the boat network) to go the island.
 * _Or_ get a ticket to the Central Station from any network, then get a boat ticket from there to your island.
 
-Your destinations are highly customizable with optional features like ticket pricing and conditions.
+Your stops are highly customizable with optional features like ticket pricing and conditions.
 
 ### Add a stop
 To add a boat, bus, or train stop:
 
 1. Create a [Content Patcher content pack](https://stardewvalleywiki.com/Modding:Content_Patcher) if you don't already
    have one.
-2. In your `content.json`, add entries to the `Mods/Pathoschild.CentralStation/Stops` asset:
+2. In your `content.json`, add entries to the stops data asset:
    ```js
    {
        "Action": "EditData",
-       "Target": "Mods/Cherry.TrainStation/Destinations",
+       "Target": "Mods/Pathoschild.CentralStation/Stops",
        "Entries": {
            "{{ModId}}_ClintShop": {
                "DisplayName": "Clint's Shop",
                "ToLocation": "Town",
-               "Networks": [ "Train" ],
+               "Network": "Train",
                "ToTile": { "X": 105, "Y": 80 }
            }
        }
@@ -57,15 +57,15 @@ The available fields for a boat or train stop are:
 
 field name          | usage
 ------------------- | -----
-_key_               | The entry key (not a field) is a [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) for your destination. This must be prefixed with your unique mod ID like `{{ModId}}_`.
-`DisplayName`       | The display name to show in the menu. This should usually be translated into the player's current language using Content Patcher's `i18n` token.
+_key_               | The entry key (not a field) is a [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) for your stop. This must be prefixed with your unique mod ID like `{{ModId}}_`.
+`DisplayName`       | The display name to show in the menu. This should usually be translated into the player's current language using Content Patcher's `i18n` token. You can use [tokenizable strings](https://stardewvalleywiki.com/Modding:Tokenizable_strings) in this field.
 `ToLocation`        | The internal name of the location to which the player should be warped to. You can see internal location names in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).
 `ToTile`            | <p>_(Optional)_ The tile position to which the player should be warped to. You can see tile coordinates in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).</p><p>If omitted, Central Station will place the player just south of the ticket machine (if present), else it'll use the [default arrival tile](https://stardewvalleywiki.com/Modding:Maps#Warps_.26_map_positions).</li></ul>
 `ToFacingDirection` | _(Optional)_ The direction the player should face after warping. The possible values are `up`, `down`, `left`, and `right`. Default `down`.
 `Network`           | _(Optional)_ How the player can reach the stop. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train`.
 `Cost`              | _(Optional)_ The gold price to purchase a ticket. Default free.
-`Condition`         | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the destination to appear in the menu.
-`DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a destination name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
+`Condition`         | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the stop to appear in the menu.
+`DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a stop name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
 
 ### Add a ticket machine
 You can add an [`Action` map property](https://stardewvalleywiki.com/Modding:Maps#Action) wherever you want the player
@@ -79,10 +79,10 @@ Action CentralStation Network
 The `Network` must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). If omitted, it defaults to `Train`.
 
 The network affects:
-* which destinations are shown in the menu;
-* and which sound effects play when transiting to a destination which is on multiple networks.
+* which stops are shown in the menu;
+* and which sound effects play when transiting to a stop which is on multiple networks.
 
-## Advanced destinations
+## Advanced stops
 ### Edit the railroad map
 Central Station automatically adds a train ticket machine to `Maps/Railroad` on tile (32, 40).
 
@@ -91,8 +91,8 @@ the machine if the `Action: CentralStation Train` tile property is already prese
 train stop to match the position of the ticket machine.
 
 ### Conditional stops
-The `Condition` field in your stop data lets you decide when your destination should appear. The conditions are
-checked each time the menu is opened, so this can be used for a wide variety of customizations.
+The `Condition` field in your stop data lets you decide when your stop should appear. The conditions are checked each
+time the menu is opened, so this can be used for a wide variety of customizations.
 
 For example, let's say you want to create your own hub station:
 ```

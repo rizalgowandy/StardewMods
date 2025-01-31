@@ -6,5 +6,5 @@
     "Description": "Lets you travel to other mods' destinations by boat, bus, or train through the Central Station.",
     "UniqueID": "Pathoschild.CentralStation",
     "EntryDll": "CentralStation.dll",
-    "UpdateKeys": [ "Nexus:" ]
+    "UpdateKeys": [ "Nexus:8000" ]
 }

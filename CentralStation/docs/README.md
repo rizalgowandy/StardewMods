@@ -15,7 +15,7 @@ map properties.
 To take the train, use the ticket machine at the railroad next to the station:  
 ![](train-station.png)
 
-To take the bus, use the ticket machine at the bus stop once the bus has been repaired and Pam is present:  
+To take the bus, use the ticket machine at the bus stop:  
 ![](bus-stop.png)
 
 For the boat, use the ticket machine in [Willy's back room](https://stardewvalleywiki.com/Fish_Shop#Willy.27s_Boat)
