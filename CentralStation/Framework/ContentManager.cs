@@ -6,9 +6,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Extensions;
-using StardewValley.GameData.Locations;
-using StardewValley.GameData.Shops;
 using StardewValley.Locations;
+using StardewValley.TokenizableStrings;
 using xTile;
 using xTile.Layers;
 using xTile.Tiles;
@@ -77,25 +76,36 @@ internal class ContentManager
         }
     }
 
+    /// <summary>Get a translation provided by the content pack.</summary>
+    /// <param name="key">The translation key.</param>
+    /// <param name="tokens">The tokens with which to format the text, if any.</param>
+    public string GetTranslation(string key, params object[] tokens)
+    {
+        return Game1.content.LoadString($"Mods\\{Constant.ModId}\\InternalTranslations:{key}", tokens);
+    }
+
+    /// <summary>Get the formatted label to show for a stop in a destination menu.</summary>
+    /// <param name="stopId">The stop ID.</param>
+    /// <param name="stop">The stop data.</param>
+    /// <param name="networks">The stop networks in the destination list in which the label will be shown.</param>
+    public string GetStopLabel(string stopId, StopModel stop, StopNetworks networks)
+    {
+        string? rawDisplayName = networks.HasMultipleFlags()
+            ? stop.DisplayNameInCombinedLists ?? stop.DisplayName
+            : stop.DisplayName;
+
+        string displayName = TokenParser.ParseText(rawDisplayName ?? stopId);
+
+        return stop.Cost > 0
+            ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", displayName, Utility.getNumberWithCommas(stop.Cost))
+            : displayName;
+    }
+
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
-        // add Central Station
-        if (e.Name.IsEquivalentTo("Data/Locations"))
-            e.Edit(this.EditLocations);
-        else if (e.Name.IsEquivalentTo($"Maps/{Constant.CentralStationLocationId}"))
-            e.LoadFromModFile<Map>("assets/centralStation.tmx", AssetLoadPriority.Exclusive);
-
-        // add shops
-        else if (e.Name.IsEquivalentTo("Data/Shops"))
-            e.Edit(this.EditShops, AssetEditPriority.Late);
-
-        // add stops
-        else if (e.Name.IsEquivalentTo(DataAssetNames.Stops))
-            e.LoadFrom(this.BuildDefaultContentModel, AssetLoadPriority.Exclusive);
-
         // add ticket machine to railroad
-        else if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
+        if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
             e.Edit(asset => this.AddTicketMachineToMap(asset.AsMap()), AssetEditPriority.Late);
     }
 
@@ -217,265 +227,6 @@ internal class ContentManager
     /*********
     ** Private methods
     *********/
-    /// <summary>Edit the <c>Data/Locations</c> asset.</summary>
-    /// <param name="asset">The asset data.</param>
-    private void EditLocations(IAssetData asset)
-    {
-        var data = asset.AsDictionary<string, LocationData>().Data;
-
-        data[Constant.CentralStationLocationId] = new LocationData
-        {
-            CreateOnLoad = new()
-            {
-                MapPath = $"Maps/{Constant.CentralStationLocationId}"
-            }
-        };
-    }
-
-    /// <summary>Edit the <c>Data/Shops</c> asset.</summary>
-    /// <param name="asset">The asset data.</param>
-    private void EditShops(IAssetData asset)
-    {
-        var data = asset.AsDictionary<string, ShopData>().Data;
-
-        // food court
-        data[$"{Constant.ModId}_FoodCourt"] = new ShopData
-        {
-            Owners = [
-                new ShopOwnerData
-                {
-                    Id = "Default",
-                    Name = "AnyOrNone",
-                    Dialogues = [
-                        new ShopDialogueData
-                        {
-                            Id = "Default",
-                            RandomDialogue = [I18n.FoodCourt_Dialogue_1(), I18n.FoodCourt_Dialogue_2(), I18n.FoodCourt_Dialogue_3(), I18n.FoodCourt_Dialogue_4(), I18n.FoodCourt_Dialogue_5()]
-                        }
-                    ]
-                }
-            ],
-            Items = [
-                // drinks
-                ShopItem("AppleJuice", "FLAVORED_ITEM Juice (O)613", 250),
-                ShopItem("OrangeJuice", "FLAVORED_ITEM Juice (O)635", 250),
-                ShopItem("Coffee", "(O)395", 350),
-                ShopItem("TripleShotEspresso", "(O)253", 1_000),
-
-                // meals
-                ShopItem("FriedEgg", "(O)194", 100),
-                ShopItem("Tortilla", "(O)229", 100),
-                ShopItem("FriedMushroom", "(O)205", 300),
-                ShopItem("Salad", "(O)196", 300),
-                ShopItem("SurvivalBurger", "(O)241", 300),
-                ShopItem("Pizza", "(O)206", 500),
-                ShopItem("FruitSalad", "(O)610", 600),
-
-                // fruit
-                ShopItem("Apple", "(O)613", 200),
-                ShopItem("Banana", "(O)91", 400),
-                ShopItem("Orange", "(O)635", 500),
-                ShopItem("Pineapple", "(O)832", 600),
-
-                // snacks
-                ShopItem("MapleSyrup", "(O)724", 500),
-                ShopItem("Raisins", "(O)Raisins", 1_000),
-
-                // deserts
-                ShopItem("IceCream", "(O)233", 250),
-                ShopItem("Cookie", "(O)223", 250),
-                ShopItem("CranberryCandy", "(O)612", 400),
-                ShopItem("BananaPudding", "(O)904", 1_000),
-                ShopItem("ChocolateCake", "(O)220", 1_000),
-                ShopItem("BlackberryCobbler", "(O)611", 1_000)
-            ]
-        };
-
-        // gift shop
-        data[$"{Constant.ModId}_GiftShop"] = new ShopData
-        {
-            Owners = [
-                new ShopOwnerData
-                {
-                    Id = "Default",
-                    Name = "AnyOrNone",
-                    Dialogues = [
-                        new ShopDialogueData
-                        {
-                            Id = "Default",
-                            RandomDialogue = [I18n.GiftShop_Dialogue_1(), I18n.GiftShop_Dialogue_2(), I18n.GiftShop_Dialogue_3(), I18n.GiftShop_Dialogue_4(), I18n.GiftShop_Dialogue_5(), I18n.GiftShop_Dialogue_6(), I18n.GiftShop_Dialogue_7()]
-                        }
-                    ]
-                }
-            ],
-            Items = [
-                // hats
-                ShopItem("Sunglasses", "(H)88", 500),
-                ShopItem("FishingHat", "(H)55", 1_000),
-                ShopItem("FloppyBeanie", "(H)54", 1_000),
-                ShopItem("Goggles", "(H)89", 1_000),
-                ShopItem("PropellerHat", "(H)68", 1_000),
-                ..EarlyAccessShopItem(id: "EarMuffs", itemId: "(H)11", unlockedPrice: 4_000, lockedPrice: 40_000, unlockConditions: "PLAYER_HAS_ACHIEVEMENT Current 13"), // per hat shop
-
-                // boots
-                ..EarlyAccessShopItem(id: "TundraBoots", itemId: "(B)509", unlockedPrice: 750, lockedPrice: 7_500, unlockConditions: "MINE_LOWEST_LEVEL_REACHED 50"),     // per Adventurer's Guild shop
-
-                // pants
-                ShopItem("Shorts", "(P)1", 2_000),
-                ShopItem("GrassSkirt", "(P)6", 3_000),
-                ShopItem("RelaxedFitPants", "(P)12", 3_000),
-                ShopItem("RelaxedFitShorts", "(P)13", 3_000),
-
-                // travel shirts
-                ShopItem("BikiniTop", "(S)1134", 4_000),
-                ShopItem("IslandBikini", "(S)1297", 4_000),
-                ShopItem("HolidayShirt", "(S)1186", 5_000),
-                ShopItem("TropicalSunriseShirt", "(S)1296", 5_000),
-                ShopItem("OceanShirt", "(S)1193", 5_000),
-                ShopItem("VacationShirt", "(S)1204", 5_000),
-                ShopItem("SunsetShirt", "(S)1212", 5_000),
-
-                // novelty shirts
-                ShopItem("HeartShirt", "(S)1028", 3_000),
-                ShopItem("StoreOwnersShirt", "(S)1030", 4_000),
-                ShopItem("GreenTunic", "(S)1034", 4_000),
-                ShopItem("RetroRainbowShirt", "(S)1039", 4_000),
-                ShopItem("FakeMusclesShirt", "(S)1153", 5_000),
-                ShopItem("CavemanShirt", "(S)1156", 5_000),
-                ShopItem("JesterShirt", "(S)1192", 5_000),
-                ShopItem("TrashCanShirt", "(S)1232", 5_000),
-                ShopItem("FriedEggShirt", "(S)1246", 5_000),
-                ShopItem("BurgerShirt", "(S)1247", 5_000),
-                ShopItem("CrabCakeShirt", "(S)1276", 5_000),
-                ShopItem("TomatoShirt", "(S)1282", 5_000),
-                ShopItem("ShrimpEnthusiastShirt", "(S)1286", 5_000),
-                ShopItem("Shirt1077", "(S)1077", 5_000), // dog face?
-                ShopItem("Shirt1093", "(S)1093", 5_000), // ._.
-                ShopItem("Shirt1095", "(S)1095", 5_000), // eyes
-                ShopItem("Shirt1105", "(S)1105", 5_000), // Joja
-
-                // practical shirts
-                ShopItem("RainCoat", "(S)1260", 6_000),
-                ShopItem("GrayHoodie", "(S)1160", 6_000),
-                ShopItem("BlueHoodie", "(S)1161", 6_000),
-                ShopItem("RedHoodie", "(S)1162", 6_000),
-                ShopItem("Cardigan", "(S)1218", 6_000),
-
-                // 'rare wood from across the Gem sea'
-                new ShopItemData
-                {
-                    Id = "Wood",
-                    ItemId = "(O)388",
-                    AvailableStock = 1,
-                    AvailableStockLimit = LimitedStockMode.Player,
-                    Price = 10_000
-                },
-
-                // rings
-                ShopItem("SmallGlowRing", "(O)516", 10_000)
-            ]
-        };
-
-        static ShopItemData ShopItem(string id, string itemId, int price, string? conditions = null)
-        {
-            return new ShopItemData
-            {
-                Id = id,
-                ItemId = itemId,
-                Price = price,
-                Condition = conditions
-            };
-        }
-
-        static ShopItemData[] EarlyAccessShopItem(string id, string itemId, int unlockedPrice, int lockedPrice, string unlockConditions)
-        {
-            return
-            [
-                new ShopItemData
-                {
-                    Id = id,
-                    ItemId = itemId,
-                    Price = unlockedPrice,
-                    Condition = unlockConditions
-                },
-                new ShopItemData
-                {
-                    Id = $"{id}_Locked",
-                    ItemId = itemId,
-                    Price = lockedPrice,
-                    Condition = $"!{unlockConditions}"
-                }
-            ];
-        }
-    }
-
-    /// <summary>Build the data asset model with the default stops.</summary>
-    private Dictionary<string, StopModel> BuildDefaultContentModel()
-    {
-        return new()
-        {
-            // central station
-            [DestinationIds.CentralStation] = new StopModel
-            {
-                DisplayName = I18n.Destinations_CentralStation(),
-                ToLocation = Constant.CentralStationLocationId,
-                Network = StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train
-            },
-
-            // boat
-            [DestinationIds.BoatTunnel] = new StopModel
-            {
-                DisplayName = I18n.Destinations_StardewValley(),
-                DisplayNameInCombinedLists = I18n.Destinations_StardewValley_Boat(),
-                ToLocation = "BoatTunnel",
-                Network = StopNetworks.Boat,
-                Condition = "PLAYER_HAS_MAIL Host willyBoatFixed"
-            },
-            [DestinationIds.GingerIsland] = new StopModel
-            {
-                DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:IslandName"),
-                ToLocation = "IslandSouth",
-                ToTile = new Point(21, 43),
-                ToFacingDirection = "up",
-                Cost = (Game1.getLocationFromName("BoatTunnel") as BoatTunnel)?.TicketPrice ?? 1000,
-                Network = StopNetworks.Boat,
-                Condition = "PLAYER_HAS_MAIL Host willyBoatFixed"
-            },
-
-            // bus
-            [DestinationIds.BusStop] = new StopModel
-            {
-                DisplayName = I18n.Destinations_StardewValley(),
-                DisplayNameInCombinedLists = I18n.Destinations_StardewValley_Bus(),
-                ToLocation = "BusStop",
-                ToFacingDirection = "down",
-                Network = StopNetworks.Bus
-                // bus stop is always enabled with Central Station
-            },
-            [DestinationIds.Desert] = new StopModel
-            {
-                DisplayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:MapPage.cs.11062"),
-                ToLocation = "Desert",
-                ToTile = new Point(18, 27),
-                ToFacingDirection = "down",
-                Cost = (Game1.getLocationFromName("BusStop") as BusStop)?.TicketPrice ?? 500,
-                Network = StopNetworks.Bus,
-                Condition = "LOCATION_ACCESSIBLE Desert"
-            },
-
-            // train
-            [DestinationIds.Railroad] = new StopModel
-            {
-                DisplayName = I18n.Destinations_StardewValley(),
-                DisplayNameInCombinedLists = I18n.Destinations_StardewValley_Train(),
-                ToLocation = "Railroad",
-                ToTile = null, // auto-detect ticket machine
-                Network = StopNetworks.Train,
-                Condition = "LOCATION_ACCESSIBLE Railroad"
-            }
-        };
-    }
-
     /// <summary>Add the ticket machine tiles and action to the railroad map.</summary>
     /// <param name="asset">The railroad map asset.</param>
     private void AddTicketMachineToMap(IAssetData<Map> asset)

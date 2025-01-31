@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" />
-    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ContentPacks Include="[CP] CentralStation" Version="$(Version)" />
   </ItemGroup>
 
   <Import Project="..\Common\Common.projitems" Label="Shared" />

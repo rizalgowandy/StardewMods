@@ -12,8 +12,8 @@
     "destinations.stardew-valley.train": "Stardew Valley - Railroad",
 
     // stops from other mods
-    "destinations.from-bus-locations-mod": "{{stopName}} [Bus Locations mod]",
-    "destinations.from-train-station-mod": "{{stopName}} [Train Station mod]",
+    "destinations.from-bus-locations-mod": "{0} [Bus Locations mod]", // {0} = stop name
+    "destinations.from-train-station-mod": "{0} [Train Station mod]", // {0} = stop name
 
 
     /*********
@@ -31,7 +31,7 @@
     "gift-shop.dialogue.4": "We have so much stuff I don't know where we'll store it. Please buy something!",
     "gift-shop.dialogue.5": "Heading somewhere cold? We've got some cold weather gear in stock!",
     "gift-shop.dialogue.6": "Try these ear muffs. Feel that? It's authentic Castle Village velvet!",
-    "gift-shop.dialogue.7": "This is rare wood from across the Gem sea. Very hard to find.",
+    "gift-shop.dialogue.7": "This is rare wood from across the Gem Sea. Very hard to find.",
 
     "vendor-shop.dialogue.coming-soon": "A little sign: \"Local pop-up shops coming soon!\". You hear workers inside getting things ready."
 }

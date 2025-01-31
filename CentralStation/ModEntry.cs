@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -37,16 +36,20 @@ internal class ModEntry : Mod
     /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
-        I18n.Init(helper.Translation);
+        // validate
+        this.ValidateInstall();
 
+        // init
         this.ContentManager = new(helper.GameContent, helper.ModRegistry, this.Monitor);
         this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
         this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
+        // hook events
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
         helper.Events.Display.MenuChanged += this.OnMenuChanged;
 
+        // hook tile actions
         GameLocation.RegisterTileAction(Constant.MapProperty, this.OnTileActionInvoked);
         GameLocation.RegisterTileAction($"{Constant.ModId}_Vendor", this.OnTileActionInvoked);
     }
@@ -55,6 +58,26 @@ internal class ModEntry : Mod
     /*********
     ** Private methods
     *********/
+    /// <summary>Validate that Central Station is installed correctly.</summary>
+    private bool ValidateInstall()
+    {
+        IModInfo? contentPack = this.Helper.ModRegistry.Get("Pathoschild.CentralStation.Content");
+
+        if (contentPack is null)
+        {
+            this.Monitor.Log("Central Station is missing its content files, so it won't work. Please delete and reinstall the mod to fix this.", LogLevel.Error);
+            return false;
+        }
+
+        if (contentPack.Manifest.Version.ToString() != this.ModManifest.Version.ToString())
+        {
+            this.Monitor.Log($"Central Station was updated incorrectly, so it won't work. (It has code version {this.ModManifest.Version} and content version {contentPack.Manifest.Version}.) Please delete and reinstall the mod to fix this.", LogLevel.Error);
+            return false;
+        }
+
+        return true;
+    }
+
     /// <summary>Handle the player activating an <c>Action</c> tile property.</summary>
     /// <param name="location">The location containing the property.</param>
     /// <param name="args">The action arguments.</param>
@@ -81,7 +104,7 @@ internal class ModEntry : Mod
 
             // vendor shop
             case $"{Constant.ModId}_Vendor":
-                Game1.drawDialogueNoTyping(I18n.VendorShop_Dialogue_ComingSoon());
+                Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
                 return true;
 
             // fallback in case these didn't get swapped
@@ -122,15 +145,16 @@ internal class ModEntry : Mod
     {
         // get stops
         // Central Station first, then Stardew Valley, then any others in alphabetical order
-        StopModelWithId[] stops = this.StopManager
+        var stops = this.StopManager
             .GetAvailableStops(networks)
+            .Select(stop => (stop.Id, stop.Stop, Label: this.ContentManager.GetStopLabel(stop.Id, stop.Stop, networks)))
             .OrderBy(stop => stop.Id switch
             {
                 DestinationIds.CentralStation => 0,
                 DestinationIds.BoatTunnel or DestinationIds.BusStop or DestinationIds.Railroad => 1,
                 _ => 2
             })
-            .ThenBy(stop => stop.Stop.DisplayName, HumanSortComparer.DefaultIgnoreCase)
+            .ThenBy(stop => stop.Label, HumanSortComparer.DefaultIgnoreCase)
             .ToArray();
         if (stops.Length == 0)
         {
@@ -139,38 +163,28 @@ internal class ModEntry : Mod
         }
 
         // get menu options
-        List<Response> responses = new List<Response>();
-        foreach ((string id, StopModel stop) in stops)
-        {
-            string? rawDisplayName = networks.HasMultipleFlags()
-                ? stop.DisplayNameInCombinedLists ?? stop.DisplayName
-                : stop.DisplayName;
-            rawDisplayName ??= id;
-
-            string label = stop.Cost > 0
-                ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", rawDisplayName, Utility.getNumberWithCommas(stop.Cost))
-                : rawDisplayName;
-
-            responses.Add(new Response(id, label));
-        }
-        responses.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Locations:MineCart_Destination_Cancel")));
+        Response[] responses = [
+            ..stops.Select(stop => new Response(stop.Id, stop.Label)),
+            new Response("Cancel", Game1.content.LoadString("Strings\\Locations:MineCart_Destination_Cancel"))
+        ];
 
         // show menu
-        Game1.currentLocation.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"), responses.ToArray(), (_, selectedId) => this.OnDestinationPicked(selectedId, stops, networks));
+        Game1.currentLocation.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"), responses, OnRawDestinationPicked);
+        void OnRawDestinationPicked(Farmer who, string selectedId)
+        {
+            StopModel? stop = stops.FirstOrDefault(stop => stop.Id == selectedId).Stop;
+            if (stop != null)
+                this.OnDestinationPicked(selectedId, stop, networks);
+        }
     }
 
     /// <summary>Handle the player choosing a destination in the UI.</summary>
     /// <param name="stopId">The selected stop ID.</param>
-    /// <param name="stops">The stops which the player chose from.</param>
+    /// <param name="stop">The selected stop.</param>
     /// <param name="networks">The networks containing the stop.</param>
-    private void OnDestinationPicked(string stopId, StopModelWithId[] stops, StopNetworks networks)
+    private void OnDestinationPicked(string stopId, StopModel stop, StopNetworks networks)
     {
         if (stopId is "Cancel")
-            return;
-
-        // get stop
-        StopModel? stop = stops.FirstOrDefault(s => s.Id == stopId)?.Stop;
-        if (stop is null)
             return;
 
         // apply vanilla behavior for default routes

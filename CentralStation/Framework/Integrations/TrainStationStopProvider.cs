@@ -22,6 +22,9 @@ internal class TrainStationStopProvider : ICustomStopProvider
     /// <summary>The integration with the Train Station mod.</summary>
     private readonly TrainStationIntegration TrainStation;
 
+    /// <summary>Get a translation provided by the content pack.</summary>
+    private readonly Func<string, object[], string> GetTranslation;
+
 
     /*********
     ** Public methods
@@ -29,9 +32,11 @@ internal class TrainStationStopProvider : ICustomStopProvider
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    public TrainStationStopProvider(IModRegistry modRegistry, IMonitor monitor)
+    /// <param name="getTranslation">Get a translation provided by the content pack.</param>
+    public TrainStationStopProvider(IModRegistry modRegistry, IMonitor monitor, Func<string, object[], string> getTranslation)
     {
         this.Monitor = monitor;
+        this.GetTranslation = getTranslation;
 
         this.HasExpandedPreconditionsUtility = modRegistry.IsLoaded("Cherry.ExpandedPreconditionsUtility");
         this.TrainStation = new TrainStationIntegration(modRegistry, monitor);
@@ -106,7 +111,7 @@ internal class TrainStationStopProvider : ICustomStopProvider
             yield return new(
                 stop.Id,
                 new StopModel(
-                    displayName: I18n.Destinations_FromTrainStationMod(stopName: stop.DisplayName),
+                    displayName: this.GetTranslation("destinations.from-train-station-mod", [stop.DisplayName]),
                     toLocation: stop.TargetMapName,
                     toTile: new Point(stop.TargetX, stop.TargetY),
                     toFacingDirection: stop.FacingDirectionAfterWarp.ToString(),

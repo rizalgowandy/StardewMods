@@ -17,6 +17,9 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     /// <summary>Encapsulates monitoring and logging.</summary>
     private readonly IMonitor Monitor;
 
+    /// <summary>Get a translation provided by the content pack.</summary>
+    private readonly Func<string, object[], string> GetTranslation;
+
     /// <summary>The stops provided by Bus Locations.</summary>
     private readonly StopModelWithId[] BusStops;
 
@@ -30,9 +33,11 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    public BusLocationsStopProvider(IModRegistry modRegistry, IMonitor monitor)
+    /// <param name="getTranslation">Get a translation provided by the content pack.</param>
+    public BusLocationsStopProvider(IModRegistry modRegistry, IMonitor monitor, Func<string, object[], string> getTranslation)
     {
         this.Monitor = monitor;
+        this.GetTranslation = getTranslation;
         this.BusStops = this.LoadFromBusLocations(modRegistry, monitor) ?? [];
     }
 
@@ -108,7 +113,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
                         new(
                             $"BusLocations_{Guid.NewGuid():N}",
                             new StopModel(
-                                displayName: I18n.Destinations_FromBusLocationsMod(stopName: displayName ?? mapName),
+                                displayName: this.GetTranslation("destinations.from-bus-locations-mod", [displayName ?? mapName]),
                                 toLocation: mapName,
                                 toTile: destinationX is not -1 && destinationY is not -1
                                     ? new Point(destinationX, destinationY)
