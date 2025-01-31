@@ -232,14 +232,16 @@ internal class ModEntry : Mod
 
     /// <summary>The action to perform when the player arrives at the destination.</summary>
     /// <param name="stop">The stop that the player warped to.</param>
-    /// <param name="network">The networks which the player travelled to reach the stop.</param>
-    private void OnWarped(StopModel stop, StopNetworks network)
+    /// <param name="fromNetwork">The networks of the stop where the player embarked to reach this one.</param>
+    private void OnWarped(StopModel stop, StopNetworks fromNetwork)
     {
         GameLocation location = Game1.currentLocation;
 
-        // if there are multiple possible networks, choose one
-        if (network.HasMultipleFlags())
-            network = network.GetPreferred();
+        // choose network travelled
+        StopNetworks network = stop.Network & fromNetwork;
+        if (network == 0)
+            network = stop.Network;
+        network = network.GetPreferred();
 
         // auto-detect arrival spot if needed
         if (stop.ToTile is null)
