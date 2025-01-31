@@ -428,7 +428,8 @@ internal class ContentManager
                 DisplayName = I18n.Destinations_StardewValley(),
                 DisplayNameInCombinedLists = I18n.Destinations_StardewValley_Boat(),
                 ToLocation = "BoatTunnel",
-                Network = StopNetworks.Boat
+                Network = StopNetworks.Boat,
+                Condition = "PLAYER_HAS_MAIL Host willyBoatFixed"
             },
             [DestinationIds.GingerIsland] = new StopModel
             {
@@ -437,7 +438,8 @@ internal class ContentManager
                 ToTile = new Point(21, 43),
                 ToFacingDirection = "up",
                 Cost = (Game1.getLocationFromName("BoatTunnel") as BoatTunnel)?.TicketPrice ?? 1000,
-                Network = StopNetworks.Boat
+                Network = StopNetworks.Boat,
+                Condition = "PLAYER_HAS_MAIL Host willyBoatFixed"
             },
 
             // bus
@@ -448,6 +450,7 @@ internal class ContentManager
                 ToLocation = "BusStop",
                 ToFacingDirection = "down",
                 Network = StopNetworks.Bus
+                // bus stop is always enabled with Central Station
             },
             [DestinationIds.Desert] = new StopModel
             {
@@ -456,7 +459,8 @@ internal class ContentManager
                 ToTile = new Point(18, 27),
                 ToFacingDirection = "down",
                 Cost = (Game1.getLocationFromName("BusStop") as BusStop)?.TicketPrice ?? 500,
-                Network = StopNetworks.Bus
+                Network = StopNetworks.Bus,
+                Condition = "LOCATION_ACCESSIBLE Desert"
             },
 
             // train
@@ -466,7 +470,8 @@ internal class ContentManager
                 DisplayNameInCombinedLists = I18n.Destinations_StardewValley_Train(),
                 ToLocation = "Railroad",
                 ToTile = null, // auto-detect ticket machine
-                Network = StopNetworks.Train
+                Network = StopNetworks.Train,
+                Condition = "LOCATION_ACCESSIBLE Railroad"
             }
         };
     }
