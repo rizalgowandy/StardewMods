@@ -549,6 +549,15 @@
             }
         },
 
+        // add location messages
+        {
+            "Action": "EditData",
+            "Target": "Strings/StringsFromMaps",
+            "Entries": {
+                "{{MainModId}}_TransitAreaDoors": "{{i18n: location-flavor.transit-area-doors}}"
+            }
+        },
+
         // provide translations for C# mod
         {
             "Action": "Load",

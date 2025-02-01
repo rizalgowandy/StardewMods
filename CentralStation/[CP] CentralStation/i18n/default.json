@@ -59,5 +59,11 @@
 
     "books.religion.1": "'Finding Yoba', an anonymous brochure from Stardew Valley.",
 
-    "books.science.1": "'Junimos and Other Folklore of the Ferngill Republic'."
+    "books.science.1": "'Junimos and Other Folklore of the Ferngill Republic'.",
+
+
+    /*********
+    ** Location flavor text
+    *********/
+    "location-flavor.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first."
 }
