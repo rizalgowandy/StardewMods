@@ -5,4 +5,7 @@ internal class DataAssetNames
 {
     /// <summary>The asset name for the data asset containing destinations.</summary>
     public const string Stops = $"Mods/{Constant.ModId}/Stops";
+
+    /// <summary>The asset name for the data asset containing book dialogues.</summary>
+    public const string Bookshelf = $"Mods/{Constant.ModId}/Bookshelf";
 }

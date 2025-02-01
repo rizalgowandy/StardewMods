@@ -29,6 +29,9 @@ internal class ContentManager
     /// <summary>Encapsulates monitoring and logging.</summary>
     private readonly IMonitor Monitor;
 
+    /// <summary>The book dialogues which the player has already seen during this session.</summary>
+    private readonly HashSet<string> SeenBookshelfDialogues = new();
+
 
     /*********
     ** Public methods
@@ -74,6 +77,36 @@ internal class ContentManager
             if (stop.Network.HasAnyFlag(networks) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Condition))
                 yield return new StopModelWithId(id, stop);
         }
+    }
+
+    /// <summary>Get a random bookshelf dialogue.</summary>
+    public string GetBookshelfDialogue()
+    {
+        // get available options
+        List<string> options = new();
+        foreach ((string id, List<string>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string>?>>(DataAssetNames.Bookshelf))
+        {
+            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, id, allowModOnlyId: true) is null)
+            {
+                this.Monitor.LogOnce($"Ignored bookshelf messages with ID '{id}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_StopId`.", LogLevel.Warn);
+                continue;
+            }
+
+            options.AddRange(dialogues ?? []);
+        }
+        options.RemoveAll(option => string.IsNullOrWhiteSpace(option) || this.SeenBookshelfDialogues.Contains(option));
+
+        // if we've seen them all, reset
+        if (options.Count == 0 && this.SeenBookshelfDialogues.Count > 0)
+        {
+            this.SeenBookshelfDialogues.Clear();
+            return this.GetBookshelfDialogue();
+        }
+
+        // choose one
+        string selected = Game1.random.ChooseFrom(options);
+        this.SeenBookshelfDialogues.Add(selected);
+        return selected;
     }
 
     /// <summary>Get a translation provided by the content pack.</summary>
@@ -124,7 +157,7 @@ internal class ContentManager
             {
                 for (int x = 0, maxX = buildingsLayer.TileWidth; x <= maxX; x++)
                 {
-                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action.StartsWithIgnoreCase(Constant.MapProperty))
+                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action.StartsWithIgnoreCase(MapActions.Tickets))
                     {
                         string foundRawNetwork = ArgUtility.SplitBySpaceAndGet(action, 1, StopNetworks.Train.ToString());
                         if (Utility.TryParseEnum(foundRawNetwork, out StopNetworks foundNetwork) && network.HasAnyFlag(foundNetwork))
@@ -274,7 +307,7 @@ internal class ContentManager
         // add tiles
         buildingsLayer.Tiles[defaultX, defaultY] = new StaticTile(buildingsLayer, tileSheet, BlendMode.Alpha, bottomTileIndex)
         {
-            Properties = { ["Action"] = $"{Constant.MapProperty} {StopNetworks.Train}" }
+            Properties = { ["Action"] = $"{MapActions.Tickets} {StopNetworks.Train}" }
         };
         frontLayer.Tiles[defaultX, defaultY - 1] = new StaticTile(frontLayer, tileSheet, BlendMode.Alpha, topTileIndex);
     }

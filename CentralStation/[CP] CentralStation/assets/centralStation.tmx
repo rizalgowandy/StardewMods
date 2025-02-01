@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="75" height="37" tilewidth="16" tileheight="16" infinite="0" nextlayerid="36" nextobjectid="251">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="75" height="37" tilewidth="16" tileheight="16" infinite="0" nextlayerid="36" nextobjectid="253">
  <properties>
   <property name="DefaultWarpLocation" value="60 13"/>
  </properties>
@@ -394,22 +394,12 @@
     <property name="Action" value="OpenShop Pathoschild.CentralStation_GiftShop"/>
    </properties>
   </object>
-  <object id="245" name="TileData" x="96" y="192" width="16" height="16">
+  <object id="245" name="TileData" x="96" y="192" width="32" height="16">
    <properties>
-    <property name="Action" value="Pathoschild.CentralStation_Vendor"/>
+    <property name="Action" value="Pathoschild.CentralStation_PopUpShop"/>
    </properties>
   </object>
-  <object id="246" name="TileData" x="112" y="192" width="16" height="16">
-   <properties>
-    <property name="Action" value="Pathoschild.CentralStation_Vendor"/>
-   </properties>
-  </object>
-  <object id="247" name="TileData" x="272" y="192" width="16" height="16">
-   <properties>
-    <property name="Action" value="OpenShop Pathoschild.CentralStation_FoodCourt"/>
-   </properties>
-  </object>
-  <object id="248" name="TileData" x="288" y="192" width="16" height="16">
+  <object id="247" name="TileData" x="272" y="192" width="32" height="16">
    <properties>
     <property name="Action" value="OpenShop Pathoschild.CentralStation_FoodCourt"/>
    </properties>
@@ -422,6 +412,16 @@
   <object id="250" name="TileData" x="208" y="208" width="32" height="16">
    <properties>
     <property name="Action" value="ColaMachine"/>
+   </properties>
+  </object>
+  <object id="251" name="TileData" x="880" y="208" width="48" height="16">
+   <properties>
+    <property name="Action" value="Pathoschild.CentralStation_Bookshelf"/>
+   </properties>
+  </object>
+  <object id="252" name="TileData" x="1072" y="208" width="48" height="16">
+   <properties>
+    <property name="Action" value="Pathoschild.CentralStation_Bookshelf"/>
    </properties>
   </object>
  </objectgroup>

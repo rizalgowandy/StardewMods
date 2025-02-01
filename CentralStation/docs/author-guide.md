@@ -16,6 +16,8 @@ section below.
   * [Edit the railroad map](#edit-the-railroad-map)
   * [Conditional stops](#conditional-stops)
   * [Multi-network stops](#multi-network-stops)
+* [Add content to central station](#add-content-to-central-station)
+  * [Add bookshelf messages](#add-bookshelf-messages)
 * [See also](#see-also)
 
 ## Basic usage
@@ -129,6 +131,29 @@ This involves two changes:
   ```
   Action: CentralStation Boat Bus
   ```
+
+## Add content to central station
+### Add bookshelf messages
+Players can click a bookshelf to show a randomly-selected message, usually a book title or similar message. For
+example:
+> ![](screenshots/bookshelf.png)
+
+To add your own messages to the rotation:
+
+1. In your `content.json`, use an `EditData` patch to add them to the data asset:
+   ```js
+   {
+       "Action": "EditData",
+       "Target": "Mods/Pathoschild.CentralStation/Bookshelf",
+       "Entries": {
+           "{{ModId}}": [
+               "'Pufferchicks and Where to Find them'.",
+               "'Pufferchicks Incorporated', a detailed analysis of pufferchick evolution through a corporate lens."
+           ]
+       }
+   }
+   ```
+2. Add any number of messages to the array. These should usually use the `i18n` token to support translations.
 
 ## See also
 * [README](README.md) for other info

@@ -13,14 +13,14 @@ map properties.
 ## For players
 ### Buy a ticket
 To take the train, use the ticket machine at the railroad next to the station:  
-![](train-station.png)
+![](screenshots/train-station.png)
 
 To take the bus, use the ticket machine at the bus stop:  
-![](bus-stop.png)
+![](screenshots/bus-stop.png)
 
 For the boat, use the ticket machine in [Willy's back room](https://stardewvalleywiki.com/Fish_Shop#Willy.27s_Boat)
 once the boat has been repaired:  
-![](boat-dock.png)
+![](screenshots/boat-dock.png)
 
 Alternatively, you can take any of those routes to the Central Station and then switch to another line from there. For
 example, take the bus to Central Station and then switch onto a boat to Ginger Island.

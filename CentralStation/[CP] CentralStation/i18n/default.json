@@ -33,5 +33,31 @@
     "gift-shop.dialogue.6": "Try these ear muffs. Feel that? It's authentic Castle Village velvet!",
     "gift-shop.dialogue.7": "This is rare wood from across the Gem Sea. Very hard to find.",
 
-    "vendor-shop.dialogue.coming-soon": "A little sign: \"Local pop-up shops coming soon!\". You hear workers inside getting things ready."
+    "vendor-shop.dialogue.coming-soon": "A little sign: \"Local pop-up shops coming soon!\". You hear workers inside getting things ready.",
+
+
+    /*********
+    ** Book titles
+    *********/
+    "books.cooking.1": "'Void Mayonnaise and Other Goblin Delicacies'.",
+
+    "books.geography.1": "'The Ferngill Coast and What we Found There'.",
+    "books.geography.2": "'Grampleton Forestry: Volume VII'.",
+    "books.geography.3": "'Night Life of Zuzu City'.",
+    "books.geography.4": "'Raccoons of Prairie Island'.",
+    "books.geography.5": "'Stardew Valley and Other Quaint Locales'.",
+    "books.geography.6": "'Flowers of the Ferngill Republic' by Ms Sandy.",
+
+    "books.history.1": "'Encyclopedia of the Smoluanu: Culture, History, Stereotypes, and Speculation'.",
+    "books.history.2": "'Introduction to the Arcane' by M. Rasmodius.",
+    "books.history.3": "'Invaders and Shadows: a History of the Elemental Wars'.",
+    "books.history.4": "'Tundra Dwellers Beyond the Frozen Sea'.",
+    "books.history.5": "'Empire and Republic': an in-depth analysis of the conflict between the Ferngill and Gotoro nations.",
+    "books.history.6": "'An Exhaustive Catalogue of Rarecrow History' by The Z.C. Rarecrow Society.",
+
+    "books.promotional.1": "'The Incredible Pelican Town', a promotional flyer by Mayor Lewis.",
+
+    "books.religion.1": "'Finding Yoba', an anonymous brochure from Stardew Valley.",
+
+    "books.science.1": "'Junimos and Other Folklore of the Ferngill Republic'."
 }

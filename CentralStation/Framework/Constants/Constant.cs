@@ -8,7 +8,4 @@ internal class Constant
 
     /// <summary>The unique ID for the Central Station location.</summary>
     public const string CentralStationLocationId = $"{Constant.ModId}_CentralStation";
-
-    /// <summary>The map property which opens a destination menu.</summary>
-    public const string MapProperty = "CentralStation";
 }

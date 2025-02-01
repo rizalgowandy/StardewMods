@@ -51,8 +51,9 @@ internal class ModEntry : Mod
         helper.Events.Display.MenuChanged += this.OnMenuChanged;
 
         // hook tile actions
-        GameLocation.RegisterTileAction(Constant.MapProperty, this.OnTileActionInvoked);
-        GameLocation.RegisterTileAction($"{Constant.ModId}_Vendor", this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(MapActions.Tickets, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(MapActions.Bookshelf, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(MapActions.PopUpShop, this.OnTileActionInvoked);
     }
 
 
@@ -89,7 +90,7 @@ internal class ModEntry : Mod
         switch (ArgUtility.Get(args, 0))
         {
             // ticket machine
-            case Constant.MapProperty:
+            case MapActions.Tickets:
                 {
                     StopNetworks networks = StopNetworks.Train;
 
@@ -103,8 +104,17 @@ internal class ModEntry : Mod
                     return true;
                 }
 
-            // vendor shop
-            case $"{Constant.ModId}_Vendor":
+            // bookshelf
+            case MapActions.Bookshelf:
+                {
+                    string dialogue = this.ContentManager.GetBookshelfDialogue();
+                    if (!string.IsNullOrWhiteSpace(dialogue))
+                        Game1.drawDialogueNoTyping(dialogue);
+                }
+                return true;
+
+            // pop-up shop
+            case MapActions.PopUpShop:
                 Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
                 return true;
 
