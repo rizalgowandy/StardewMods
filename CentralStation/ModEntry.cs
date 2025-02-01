@@ -206,23 +206,10 @@ internal class ModEntry : Mod
             case DestinationIds.Desert:
                 if (Game1.currentLocation is BusStop busStop && networks.HasFlag(StopNetworks.Bus))
                 {
-                    // default warp
-                    if (stopId == DestinationIds.Desert)
-                    {
-                        busStop.lastQuestionKey = "Bus";
-                        busStop.afterQuestion = null;
-                        busStop.answerDialogue(new Response("Yes", ""));
-                        return;
-                    }
-
-                    // requires bus driver
-                    // derived from BusStop.answerDialogue
-                    NPC pam = Game1.getCharacterFromName("Pam");
-                    if (pam is not null && !Game1.netWorldState.Value.canDriveYourselfToday.Value && (!busStop.characters.Contains(pam) || pam.TilePoint.X != 21 || pam.TilePoint.Y != 10))
-                    {
-                        Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NoDriver"));
-                        return;
-                    }
+                    busStop.lastQuestionKey = "Bus";
+                    busStop.afterQuestion = null;
+                    busStop.answerDialogue(new Response("Yes", ""));
+                    return;
                 }
                 break;
         }
