@@ -37,7 +37,8 @@ internal class ModEntry : Mod
     public override void Entry(IModHelper helper)
     {
         // validate
-        this.ValidateInstall();
+        if (!this.ValidateInstall())
+            return;
 
         // init
         this.ContentManager = new(helper.GameContent, helper.ModRegistry, this.Monitor);
