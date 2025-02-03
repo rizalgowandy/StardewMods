@@ -1,0 +1,68 @@
+﻿/*
+
+    This file adds the Central Station location and its flavor text.
+
+*/
+{
+    "$schema": "https://smapi.io/schemas/content-patcher.json",
+
+    "Changes": [
+        // add location
+        {
+            "Action": "EditData",
+            "Target": "Data/Locations",
+            "Entries": {
+                "{{MainModId}}_CentralStation": {
+                    "CreateOnLoad": {
+                        "MapPath": "{{InternalAssetKey: assets/centralStation.tmx}}"
+                    }
+                }
+            }
+        },
+
+        // book shelf flavor text
+        {
+            "Action": "Load",
+            "Target": "Mods/{{MainModId}}/Bookshelf",
+            "FromFile": "assets/empty.json"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Mods/{{MainModId}}/Bookshelf",
+            "Entries": {
+                "{{MainModId}}": [
+                    "{{i18n: books.cooking.1}}",
+
+                    "{{i18n: books.geography.1}}",
+                    "{{i18n: books.geography.2}}",
+                    "{{i18n: books.geography.3}}",
+                    "{{i18n: books.geography.4}}",
+                    "{{i18n: books.geography.5}}",
+                    "{{i18n: books.geography.6}}",
+
+                    "{{i18n: books.history.1}}",
+                    "{{i18n: books.history.2}}",
+                    "{{i18n: books.history.3}}",
+                    "{{i18n: books.history.4}}",
+                    "{{i18n: books.history.5}}",
+                    "{{i18n: books.history.6}}",
+
+                    "{{i18n: books.promotional.1}}",
+
+                    "{{i18n: books.religion.1}}",
+
+                    "{{i18n: books.science.1}}"
+                ]
+            }
+        },
+
+        // add location messages
+        {
+            "Action": "EditData",
+            "Target": "Strings/StringsFromMaps",
+            "Entries": {
+                "{{MainModId}}_TransitAreaDoors": "{{i18n: location-flavor.transit-area-doors}}"
+            }
+        }
+    ]
+}

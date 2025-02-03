@@ -47,6 +47,14 @@ internal class ContentManager
         this.Monitor = monitor;
     }
 
+    /// <inheritdoc cref="IPlayerEvents.Warped" />
+    public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
+    {
+        // add ticket machine to railroad
+        if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
+            e.Edit(asset => this.AddTicketMachineToMap(asset.AsMap()), AssetEditPriority.Late);
+    }
+
     /// <summary>Get the stops which can be selected from the current location.</summary>
     /// <param name="networks">The networks for which to get stops.</param>
     public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
@@ -132,14 +140,6 @@ internal class ContentManager
         return stop.Cost > 0
             ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", displayName, Utility.getNumberWithCommas(stop.Cost))
             : displayName;
-    }
-
-    /// <inheritdoc cref="IPlayerEvents.Warped" />
-    public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
-    {
-        // add ticket machine to railroad
-        if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
-            e.Edit(asset => this.AddTicketMachineToMap(asset.AsMap()), AssetEditPriority.Late);
     }
 
     /// <summary>Get the tile which contains an <c>Action</c> tile property which opens a given network's menu, if any.</summary>
