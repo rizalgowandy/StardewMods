@@ -65,5 +65,64 @@
     /*********
     ** Location flavor text
     *********/
-    "location-flavor.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first."
+    "location-flavor.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first.",
+
+
+    /*********
+    ** Tourist dialogue
+    *********/
+    "tourist.young-boy.1": "Hi.",
+    "tourist.young-boy.2": "I'm just waiting for my mom.",
+    "tourist.young-boy.3": "I'm not supposed to talk to strangers.",
+
+    "tourist.woman-in-black-dress.1": "I love traveling to different small-town festivals. It's a great break from the office.",
+
+    "tourist.man-with-drink.1": "The best part of travel is the food.",
+    "tourist.man-with-drini.2": "Have you tried the food court? Honestly, it's barely edible. But it's part of the experience!",
+
+    "tourist.man-with-sunglasses": "Hey.#You should visit Grampleton sometime.",
+
+    "tourist.man-with-top-hat.1": "Hey kid. Want to know the secret to wealth?",
+    "tourist.man-with-top-hat.2": "Get rich quick schemes. Gambling. Casino always wins, know what I mean? Heh.",
+
+    "tourist.strong-man": "Are you strong like me? Smash stone!#But no stone here. Sad.",
+
+    "tourist.desert-racer-man.1": "I'm off to the races!",
+    "tourist.desert-racer-man.2": "Oh, I really am. Now that I'm retired, I can finally travel to see racing events first-hand.#Have you been to the desert races? Wonderful fun.",
+
+    "tourist.desert-scholar-man.1": "Greetings, friend! They're opening a new library in Zuzu City.",
+    "tourist.desert-scholar-man.2": "There's a number of volumes I've been looking for. I hope they have some.",
+    "tourist.desert-scholar-man.3": "If not, I'm sure they'll have new volumes to explore!",
+
+    "tourist.flamingo.1": "...",
+    "tourist.flamingo.2": "...?",
+    "tourist.flamingo.3": "*honk!*",
+    "tourist.flamingo.4": "(She's studiously ignoring you.)",
+
+    "tourist.shrouded-figure": "I could send you home, for a price.#But you can just take the bus.",
+
+    "tourist.welwick.1": "I see you've been speaking with my old friend Rasmodius.",
+    "tourist.welwick.2": "I hope he hasn't been involving you in his schemes, hehe.",
+
+    "tourist.cashier-girl.1": "I work long hours on my feet. It's exhausting and I have almost no time to myself.",
+    "tourist.cashier-girl.2": "I'd love to just stay home and rest. But what's life without adventure?!",
+    "tourist.cashier-girl.3": "There's so many places we can reach for free. I'm going to visit all of them!",
+
+    "tourist.governor.1": "This Central Station was built thanks to our economic development plan to link all the little towns together, did you know that?",
+    "tourist.governor.2": "So lovely to finally be taking the train myself.#I really ought to bring the missus next time.",
+
+    "tourist.lupini.1": "Greetings, young ${man^lady^person}$. Have you seen my latest paintings?",
+    "tourist.lupini.2": "I'm off to open a new gallery. You may tag along if you wish.",
+
+    "tourist.red-cap-guy.1": "The great thing about travel is all the different people and fashions.",
+    "tourist.red-cap-guy.2": "It's hard to feel overdressed when everyone's so different!",
+
+    "tourist.shorts-man": "It's awfully chilly in here.#Maybe I'll get some of that cold gear from the gift shop...",
+
+    "tourist.red-pirate": "(He's focused on his drink and doesn't notice you.)",
+
+    "tourist.grim-pirate": "From yonder tracks, a chilling tale...#An announcement heard in the depths of the station...#Aye, I missed my train.",
+
+    "tourist.blackgull-pirate.1": "Shiver me timbers! Where are the others?",
+    "tourist.blackgull-pirate.2": "We be boardin' any minute..."
 }

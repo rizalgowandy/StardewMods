@@ -47,15 +47,17 @@ internal class ModEntry : Mod
         this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
         // hook events
+        helper.Events.GameLoop.DayStarted += this.ContentManager.OnDayStarted;
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
         helper.Events.Display.MenuChanged += this.OnMenuChanged;
         helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
         // hook tile actions
-        GameLocation.RegisterTileAction(MapActions.Tickets, this.OnTileActionInvoked);
         GameLocation.RegisterTileAction(MapActions.Bookshelf, this.OnTileActionInvoked);
         GameLocation.RegisterTileAction(MapActions.PopUpShop, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(MapActions.Tickets, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(MapActions.TouristDialogue, this.OnTileActionInvoked);
     }
 
 
@@ -99,6 +101,30 @@ internal class ModEntry : Mod
             case MapActions.PopUpShop:
                 Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
                 return true;
+
+            // tourist dialogue
+            case MapActions.TouristDialogue:
+                {
+                    if (!ArgUtility.TryGet(args, 1, out string mapId, out string error) || !ArgUtility.TryGet(args, 2, out string touristId, out error))
+                    {
+                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid {args[0]} property: {error}.", LogLevel.Warn);
+                        return false;
+                    }
+
+                    string? dialogue = this.ContentManager.GetNextTouristDialogue(mapId, touristId);
+                    if (dialogue is not null)
+                    {
+                        dialogue = Dialogue.applyGenderSwitchBlocks(Game1.player.Gender, dialogue);
+                        Game1.drawObjectDialogue(dialogue);
+
+                        if (this.ContentManager.GetNextTouristDialogue(mapId, touristId, markSeen: false) is null)
+                            location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action"); // if we're viewing their last dialogue, remove the property to avoid a ghost hand cursor
+                        return true;
+                    }
+
+                    location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action");
+                    return false;
+                }
 
             // fallback in case these didn't get swapped
             case "BoatTicket":

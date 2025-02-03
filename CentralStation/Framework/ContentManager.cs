@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.Common;
@@ -20,6 +23,9 @@ internal class ContentManager
     /*********
     ** Fields
     *********/
+    /// <summary>The probability that a tourist will spawn on a given spawn tile, as a value between 0 (never) and 1 (always).</summary>
+    private const float TouristSpawnChance = 0.35f;
+
     /// <summary>The SMAPI API for loading and managing content assets.</summary>
     private readonly IGameContentHelper ContentHelper;
 
@@ -31,6 +37,9 @@ internal class ContentManager
 
     /// <summary>The book dialogues which the player has already seen during this session.</summary>
     private readonly HashSet<string> SeenBookshelfDialogues = new();
+
+    /// <summary>The tourist dialogues already seen by the current player today, indexed by <c>{map id}#{tourist id}</c>.</summary>
+    private readonly Dictionary<string, HashSet<string>> SeenTouristDialogues = new();
 
 
     /*********
@@ -47,12 +56,24 @@ internal class ContentManager
         this.Monitor = monitor;
     }
 
+    /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
+    public void OnDayStarted(object? sender, DayStartedEventArgs e)
+    {
+        // reapply map edits (e.g. random tourists)
+        this.SeenTouristDialogues.Clear();
+        this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
+    }
+
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
         // add ticket machine to railroad
         if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
             e.Edit(asset => this.AddTicketMachineToMap(asset.AsMap()), AssetEditPriority.Late);
+
+        // apply edits to Central Station map
+        if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Constant.ModId}"))
+            e.Edit(this.EditCentralStationMap, AssetEditPriority.Early);
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
@@ -140,6 +161,64 @@ internal class ContentManager
         return stop.Cost > 0
             ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", displayName, Utility.getNumberWithCommas(stop.Cost))
             : displayName;
+    }
+
+    /// <summary>Get the next dialogue a tourist will speak, if they have any.</summary>
+    /// <param name="mapId">The ID for the tourist map data which added the tourist.</param>
+    /// <param name="touristId">The ID of the tourist within its tourist map data.</param>
+    /// <param name="markSeen">Whether to mark the dialogue seen, so it's skipped next time this method is called.</param>
+    public string? GetNextTouristDialogue(string mapId, string touristId, bool markSeen = true)
+    {
+        // get tourist map entry
+        Dictionary<string, TouristMapModel?> data = this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(DataAssetNames.Tourists);
+        if (!data.TryGetValue(mapId, out TouristMapModel? mapData))
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that map ID wasn't found in the data.");
+            return null;
+        }
+
+        // get tourist entry
+        TouristModel? tourist = mapData?.Tourists?.FirstOrDefault(p => p.Key == touristId).Value;
+        if (tourist is null)
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist ID wasn't found in its tourist map data.");
+            return null;
+        }
+        if (tourist.Dialogue?.Count is not > 0)
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist has no dialogue.");
+            return null;
+        }
+
+        // get next dialogue
+        string seenDialoguesKey = $"{mapId}#{touristId}";
+        for (int i = 0; i < tourist.Dialogue.Count; i++)
+        {
+            string dialogue = tourist.Dialogue[i] ?? string.Empty;
+
+            if (!this.SeenTouristDialogues.TryGetValue(seenDialoguesKey, out HashSet<string>? seenDialogues))
+                this.SeenTouristDialogues[seenDialoguesKey] = seenDialogues = new();
+
+            string dialogueKey = $"{i}#{dialogue}";
+            bool isNext = markSeen
+                ? seenDialogues.Add(dialogueKey)
+                : !seenDialogues.Contains(dialogueKey);
+
+            if (isNext)
+                return dialogue;
+        }
+
+        // none found, reset if applicable
+        if (tourist.DialogueRepeats)
+        {
+            string dialogue = tourist.Dialogue.FirstOrDefault() ?? string.Empty;
+            if (markSeen)
+                this.SeenTouristDialogues[seenDialoguesKey] = [$"0#{dialogue}"];
+            return dialogue;
+        }
+
+        // no further dialogue
+        return null;
     }
 
     /// <summary>Get the tile which contains an <c>Action</c> tile property which opens a given network's menu, if any.</summary>
@@ -260,6 +339,129 @@ internal class ContentManager
     /*********
     ** Private methods
     *********/
+    /// <summary>Apply edits to the Central Station map when it's loaded.</summary>
+    /// <param name="assetData">The asset data.</param>
+    private void EditCentralStationMap(IAssetData assetData)
+    {
+        this.AddCentralStationTourists(assetData.AsMap());
+    }
+
+    /// <summary>Add random tourist NPCs to the Central Station map.</summary>
+    /// <param name="assetData">The Central Station map asset to edit.</param>
+    [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract", Justification = "This is the method that validates the API contract.")]
+    private void AddCentralStationTourists(IAssetDataForMap assetData)
+    {
+        // collect available NPCs
+        List<(string mapId, TouristMapModel map, string touristId, TouristModel tourist)> validTourists = new();
+        foreach ((string mapId, TouristMapModel? touristMapData) in this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(DataAssetNames.Tourists))
+        {
+            // skip empty entry
+            if (touristMapData?.Tourists?.Count is not > 0)
+                continue;
+
+            // validate
+            if (string.IsNullOrWhiteSpace(mapId))
+            {
+                this.Monitor.LogOnce("Ignored tourist map with no ID field.", LogLevel.Warn);
+                continue;
+            }
+            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, mapId, allowModOnlyId: true) is null)
+            {
+                this.Monitor.LogOnce($"Ignored tourist map with ID '{mapId}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_TouristMapId`.", LogLevel.Warn);
+                continue;
+            }
+            if (string.IsNullOrWhiteSpace(touristMapData.FromMap))
+            {
+                this.Monitor.LogOnce($"Ignored tourist map with ID '{mapId}' because it has no '{nameof(touristMapData.FromMap)}' value.", LogLevel.Warn);
+                continue;
+            }
+
+            // add tourists to pool
+            foreach ((string touristId, TouristModel? tourist) in touristMapData.Tourists)
+            {
+                if (tourist is null)
+                    continue;
+
+                // validate
+                if (string.IsNullOrWhiteSpace(touristId))
+                {
+                    this.Monitor.LogOnce($"Ignored tourist from tourist map '{mapId}' with no ID field.", LogLevel.Warn);
+                    continue;
+                }
+
+                // add to pool is available
+                if (GameStateQuery.CheckConditions(tourist.Condition))
+                    validTourists.Add((mapId, touristMapData, touristId, tourist));
+            }
+        }
+
+        // shuffle tourists
+        Utility.Shuffle(Game1.random, validTourists);
+
+        // spawn tourists on map
+        LocalizedContentManager contentManager = Game1.content.CreateTemporary();
+        Map map = assetData.Data;
+        Layer buildingsLayer = map.RequireLayer("Buildings");
+        Layer pathsLayer = map.RequireLayer("Paths");
+        for (int y = 0, maxY = pathsLayer.TileHeight; y <= maxY; y++)
+        {
+            for (int x = 0, maxX = pathsLayer.TileWidth; x <= maxX; x++)
+            {
+                // check preconditions
+                if (pathsLayer.Tiles[x, y]?.TileIndex is not 7) // red circle marks spawn points
+                    continue;
+                if (validTourists.Count is 0)
+                    return; // no further tourists can spawn
+                if (!Game1.random.NextBool(ContentManager.TouristSpawnChance))
+                    continue;
+
+                // get tourist data
+                (string mapId, TouristMapModel mapData, string touristId, TouristModel tourist) = validTourists.Last();
+                validTourists.RemoveAt(validTourists.Count - 1);
+
+                // load map
+                Map touristMap;
+                try
+                {
+                    touristMap = contentManager.Load<Map>(mapData.FromMap);
+                }
+                catch (Exception ex)
+                {
+                    this.Monitor.Log($"Ignored tourist '{mapId}' > '{touristId}' because its map could not be loaded.\nTechnical details: {ex}", LogLevel.Warn);
+                    continue;
+                }
+
+                // remove disallowed layers
+                foreach (Layer layer in touristMap.Layers)
+                {
+                    if (layer.Id is not ("Buildings" or "Front"))
+                        touristMap.RemoveLayer(layer);
+                }
+
+                // patch into map
+                Rectangle sourceRect = Utility.getSourceRectWithinRectangularRegion(
+                    regionX: 0,
+                    regionY: 0,
+                    regionWidth: touristMap.GetSizeInTiles().Width,
+                    sourceIndex: tourist.Index,
+                    sourceWidth: 1,
+                    sourceHeight: 2
+                );
+                assetData.PatchMap(touristMap, sourceRect, new Rectangle(x, y - 1, 1, 2));
+
+                // add dialogue action
+                if (tourist.Dialogue?.Count > 0)
+                {
+                    Tile? buildingTile = buildingsLayer.Tiles[x, y];
+                    if (buildingTile is null)
+                        buildingsLayer.Tiles[x, y] = buildingTile = new StaticTile(buildingsLayer, map.GetTileSheet(GameLocation.DefaultTileSheetId), BlendMode.Alpha, 0);
+
+                    buildingTile.Properties["Action"] = $"{MapActions.TouristDialogue} {mapId} {touristId}";
+                }
+            }
+        }
+    }
+
     /// <summary>Add the ticket machine tiles and action to the railroad map.</summary>
     /// <param name="asset">The railroad map asset.</param>
     private void AddTicketMachineToMap(IAssetData<Map> asset)

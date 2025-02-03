@@ -14,10 +14,15 @@
             "Entries": {
                 "{{MainModId}}_CentralStation": {
                     "CreateOnLoad": {
-                        "MapPath": "{{InternalAssetKey: assets/centralStation.tmx}}"
+                        "MapPath": "Maps/{{MainModId}}"
                     }
                 }
             }
+        },
+        {
+            "Action": "Load",
+            "Target": "Maps/{{MainModId}}",
+            "FromFile": "assets/centralStation.tmx"
         },
 
         // book shelf flavor text

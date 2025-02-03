@@ -16,8 +16,8 @@ section below.
   * [Edit the railroad map](#edit-the-railroad-map)
   * [Conditional stops](#conditional-stops)
   * [Multi-network stops](#multi-network-stops)
-* [Add content to central station](#add-content-to-central-station)
-  * [Add bookshelf messages](#add-bookshelf-messages)
+* [Bookshelf messages](#bookshelf-messages)
+* [Tourists](#tourists)
 * [See also](#see-also)
 
 ## Basic usage
@@ -59,14 +59,14 @@ The available fields for a boat or train stop are:
 
 field name          | usage
 ------------------- | -----
-_key_               | The entry key (not a field) is a [unique string ID](https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID) for your stop. This must be prefixed with your unique mod ID like `{{ModId}}_`.
+_key_               | The entry key (not a field) is a [unique string ID][] for your stop. This must be prefixed with your unique mod ID like `{{ModId}}_`.
 `DisplayName`       | The display name to show in the menu. This should usually be translated into the player's current language using Content Patcher's `i18n` token. You can use [tokenizable strings](https://stardewvalleywiki.com/Modding:Tokenizable_strings) in this field.
 `ToLocation`        | The internal name of the location to which the player should be warped to. You can see internal location names in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).
 `ToTile`            | <p>_(Optional)_ The tile position to which the player should be warped to. You can see tile coordinates in-game using [Debug Mode](https://www.nexusmods.com/stardewvalley/mods/679).</p><p>If omitted, Central Station will place the player just south of the ticket machine (if present), else it'll use the [default arrival tile](https://stardewvalleywiki.com/Modding:Maps#Warps_.26_map_positions).</li></ul>
 `ToFacingDirection` | _(Optional)_ The direction the player should face after warping. The possible values are `up`, `down`, `left`, and `right`. Default `down`.
 `Network`           | _(Optional)_ How the player can reach the stop. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train`.
 `Cost`              | _(Optional)_ The gold price to purchase a ticket. Default free.
-`Condition`         | _(Optional)_ If set, the [game state query](https://stardewvalleywiki.com/Modding:Game_state_queries) which must be met for the stop to appear in the menu.
+`Condition`         | _(Optional)_ If set, the [game state query][] which must be met for the stop to appear in the menu.
 `DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a stop name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
 
 ### Add a ticket machine
@@ -132,10 +132,9 @@ This involves two changes:
   Action: CentralStation Boat Bus
   ```
 
-## Add content to central station
-### Add bookshelf messages
-Players can click a bookshelf to show a randomly-selected message, usually a book title or similar message. For
-example:
+## Bookshelf messages
+Players can click a bookshelf in the Central Station to show a randomly-selected message, usually a book title or
+similar message. For example:
 > ![](screenshots/bookshelf.png)
 
 To add your own messages to the rotation:
@@ -155,6 +154,165 @@ To add your own messages to the rotation:
    ```
 2. Add any number of messages to the array. These should usually use the `i18n` token to support translations.
 
+## Tourists
+The Central Station is scattered with random non-social NPCs (_tourists_), which remain for the duration of that day.
+Each one is essentially a tiny map patch.
+
+To add your own tourists:
+
+1. [Create a map asset](https://stardewvalleywiki.com/Modding:Maps) with any number of 1x2 tourists on the `Buildings`
+   and `Front` layers. This can include animations, tile rotation, tile properties, etc.
+
+   For example:  
+   ![](screenshots/tourist-map.png)
+
+2. In your `content.json`, use an `EditData` patch to add your tourists to the pool. This data specifies (a) the map
+   asset you defined above, and (b) the data for each tourist in the map.
+
+   For example, this adds the first two tourists from step 1:
+   ```js
+   {
+       "Action": "EditData",
+       "Target": "Mods/Pathoschild.CentralStation/Tourists",
+       "Entries": {
+           "{{ModId}}": {
+               "FromMap": "{{InternalAssetKey: assets/tourists.tmx}}",
+               "Tourists": {
+                   "Child": {
+                       "Index": 0,
+                       "Dialogue": [
+                           "Hi.",
+                           "I'm just waiting for my mom.",
+                           "I'm not supposed to talk to strangers."
+                       ]
+                   },
+                   "WomanInDress": {
+                       "Index": 1,
+                       "Condition": "DATE_RANGE Fall 1 1 Fall 15",
+                       "Dialogue": [
+                           "It's almost time for the fair in Stardew Valley! I've been looking forward to it.",
+                           "Tickets to Stardew Valley are free too, since they're covered by the town."
+                       ]
+                   }
+               }
+           }
+       }
+   }
+   ```
+2. Edit the data accordingly (see the fields below). You can add any number of tourists in the same `EditData` patch.
+
+### Map data
+The available fields for each entry are:
+
+<table>
+<tr>
+<th>field name</th>
+<th>usage</th>
+</tr>
+<tr>
+<td><em>key</em></td>
+<td>
+
+The entry key (not a field) is a [unique string ID][] for your tourist map. This must be prefixed with your unique mod
+ID, like `{{ModId}}_Tourists`.
+
+</td>
+</tr>
+<tr>
+<td><code>FromMap</code></td>
+<td>
+
+The [asset name](https://stardewvalleywiki.com/Modding:Common_data_field_types#Asset_name) for the
+[map](https://stardewvalleywiki.com/Modding:Maps) containing any number of 1x2 tourists on the `Buildings` and `Front`
+layers. (Other layers will be ignored.)
+
+The map can be any width and can use features like animations, tile rotation, [action tile
+properties](https://stardewvalleywiki.com/Modding:Maps#Action), etc. There's no need for dialogue actions though,
+since you can use the `Dialogue` field below.
+
+</td>
+</tr>
+<tr>
+<td><code>Tourists</code></td>
+<td>
+
+The data for each tourist in the map. Any tourists not listed in this field are ignored. See [_tourist
+data_](#tourist-data) below.
+
+</td>
+</tr>
+</table>
+
+### Tourist data
+Within a map entry's `Tourists` field, the available fields for each tourist are:
+
+<table>
+<tr>
+<th>field name</th>
+<th>usage</th>
+</tr>
+<tr>
+<td><em>key</em></td>
+<td>
+
+The entry key (not a field) is a unique ID for this tourist within your tourist map. There's no need to prefix your mod
+ID, since it's scoped to the tourist map entry.
+
+</td>
+</tr>
+<tr>
+<td><code>Index</code></td>
+<td>
+
+The tourist's position within the map file, counting left-to-right from zero:
+```
+┌───┬───┬───┐
+│ 0 │ 1 │ 2 │
+├───┼───┼───┤
+│ 3 │ 4 │ 5 │
+└───┴───┴───┘
+```
+
+</td>
+</tr>
+
+<tr>
+<td><code>Dialogue</code></td>
+<td>
+
+_(Optional)_ An array of dialogues spoken by the tourist, if any. Each time the player clicks the tourist, it will show the
+next dialogue in the list. Default none.
+
+You can use `#` in dialogue text to split it into consecutive dialogue boxes, `^` to add newlines, and [gender-switch
+blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch).
+
+These should usually be translated into the player's current language using Content Patcher's `i18n` token.
+
+</td>
+</tr>
+<tr>
+<td><code>DialogueRepeats</code></td>
+<td>
+
+_(Optional)_ Once the player has seen all the dialogue lines in `Dialogue`, whether clicking the tourist again will
+restart from the first dialogue (`true`) or do nothing (`false`). Default `false`.
+
+</td>
+</tr>
+<tr>
+<td><code>Condition</code></td>
+<td>
+
+_(Optional)_ A [game state query][] which indicates whether a tourist can appear today.
+
+</td>
+</tr>
+</tr>
+</table>
+
 ## See also
 * [README](README.md) for other info
 * [Ask for help](https://stardewvalleywiki.com/Modding:Help)
+
+[game state query]: https://stardewvalleywiki.com/Modding:Game_state_queries
+[unique string ID]: https://stardewvalleywiki.com/Modding:Common_data_field_types#Unique_string_ID
