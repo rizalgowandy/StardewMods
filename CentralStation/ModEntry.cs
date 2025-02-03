@@ -9,6 +9,7 @@ using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.Locations;
 using StardewValley.Menus;
 
@@ -49,6 +50,7 @@ internal class ModEntry : Mod
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
         helper.Events.Display.MenuChanged += this.OnMenuChanged;
+        helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
         // hook tile actions
         GameLocation.RegisterTileAction(MapActions.Tickets, this.OnTileActionInvoked);
@@ -60,26 +62,6 @@ internal class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Validate that Central Station is installed correctly.</summary>
-    private bool ValidateInstall()
-    {
-        IModInfo? contentPack = this.Helper.ModRegistry.Get("Pathoschild.CentralStation.Content");
-
-        if (contentPack is null)
-        {
-            this.Monitor.Log("Central Station is missing its content files, so it won't work. Please delete and reinstall the mod to fix this.", LogLevel.Error);
-            return false;
-        }
-
-        if (contentPack.Manifest.Version.ToString() != this.ModManifest.Version.ToString())
-        {
-            this.Monitor.Log($"Central Station was updated incorrectly, so it won't work. (It has code version {this.ModManifest.Version} and content version {contentPack.Manifest.Version}.) Please delete and reinstall the mod to fix this.", LogLevel.Error);
-            return false;
-        }
-
-        return true;
-    }
-
     /// <summary>Handle the player activating an <c>Action</c> tile property.</summary>
     /// <param name="location">The location containing the property.</param>
     /// <param name="args">The action arguments.</param>
@@ -129,6 +111,28 @@ internal class ModEntry : Mod
 
             default:
                 return false;
+        }
+    }
+
+    /// <inheritdoc cref="IInputEvents.ButtonPressed" />
+    private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
+    {
+        // The Bus Stop location handles its ticket machine tile indexes before actions are checked, so override it here.
+        if (Context.CanPlayerMove && e.Button.IsActionButton() && Game1.currentLocation is BusStop busStop)
+        {
+            Vector2 tile = e.Cursor.GrabTile;
+            string action =
+                // there's some fuzziness in the game's grab tile logic, so prevent the default logic sometimes applying
+                busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Action", "Buildings")
+                ?? busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y - 1, "Action", "Buildings")
+                ?? busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y + 1, "Action", "Buildings");
+
+            if (action.StartsWithIgnoreCase(MapActions.Tickets))
+            {
+                string[] args = ArgUtility.SplitBySpace(action);
+                this.OnTileActionInvoked(busStop, args, Game1.player, tile.ToPoint());
+                this.Helper.Input.Suppress(e.Button);
+            }
         }
     }
 
@@ -322,5 +326,25 @@ internal class ModEntry : Mod
         }
 
         return false;
+    }
+
+    /// <summary>Validate that Central Station is installed correctly.</summary>
+    private bool ValidateInstall()
+    {
+        IModInfo? contentPack = this.Helper.ModRegistry.Get("Pathoschild.CentralStation.Content");
+
+        if (contentPack is null)
+        {
+            this.Monitor.Log("Central Station is missing its content files, so it won't work. Please delete and reinstall the mod to fix this.", LogLevel.Error);
+            return false;
+        }
+
+        if (contentPack.Manifest.Version.ToString() != this.ModManifest.Version.ToString())
+        {
+            this.Monitor.Log($"Central Station was updated incorrectly, so it won't work. (It has code version {this.ModManifest.Version} and content version {contentPack.Manifest.Version}.) Please delete and reinstall the mod to fix this.", LogLevel.Error);
+            return false;
+        }
+
+        return true;
     }
 }
