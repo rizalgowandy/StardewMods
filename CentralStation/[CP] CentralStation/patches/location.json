@@ -1,6 +1,6 @@
 ﻿/*
 
-    This file adds the Central Station location and its flavor text.
+    This file adds the Central Station location, its flavor text, and its CJB Cheats Menu warp.
 
 */
 {
@@ -67,6 +67,21 @@
             "Target": "Strings/StringsFromMaps",
             "Entries": {
                 "{{MainModId}}_TransitAreaDoors": "{{i18n: location-flavor.transit-area-doors}}"
+            }
+        },
+
+        // add warp via CJB Cheats Menu
+        {
+            "Action": "EditData",
+            "Target": "Mods/CJBok.CheatsMenu/Warps",
+            "Entries": {
+                "{{MainModId}}_CentralStation": {
+                    "Id": "{{MainModId}}_CentralStation",
+                    "SectionId": "main",
+                    "DisplayName": "{{i18n: destinations.central-station}}",
+                    "Location": "{{MainModId}}_CentralStation",
+                    "Tile": "37, 9"
+                }
             }
         }
     ]
