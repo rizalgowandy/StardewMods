@@ -7,6 +7,7 @@ using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.Common;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Locations;
@@ -36,10 +37,10 @@ internal class ContentManager
     private readonly IMonitor Monitor;
 
     /// <summary>The book dialogues which the player has already seen during this session.</summary>
-    private readonly HashSet<string> SeenBookshelfDialogues = new();
+    private readonly PerScreen<HashSet<string>> SeenBookshelfMessages = new(() => new());
 
     /// <summary>The tourist dialogues already seen by the current player today, indexed by <c>{map id}#{tourist id}</c>.</summary>
-    private readonly Dictionary<string, HashSet<string>> SeenTouristDialogues = new();
+    private readonly PerScreen<Dictionary<string, HashSet<string>>> SeenTouristDialogues = new(() => new());
 
 
     /*********
@@ -60,7 +61,7 @@ internal class ContentManager
     public void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
         // reapply map edits (e.g. random tourists)
-        this.SeenTouristDialogues.Clear();
+        this.SeenTouristDialogues.ResetAllScreens();
         this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
     }
 
@@ -108,9 +109,11 @@ internal class ContentManager
         }
     }
 
-    /// <summary>Get a random bookshelf dialogue.</summary>
-    public string GetBookshelfDialogue()
+    /// <summary>Get a random bookshelf message.</summary>
+    public string GetBookshelfMessage()
     {
+        HashSet<string> seenMessages = this.SeenBookshelfMessages.Value;
+
         // get available options
         List<string> options = new();
         foreach ((string id, List<string>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string>?>>(DataAssetNames.Bookshelf))
@@ -123,18 +126,18 @@ internal class ContentManager
 
             options.AddRange(dialogues ?? []);
         }
-        options.RemoveAll(option => string.IsNullOrWhiteSpace(option) || this.SeenBookshelfDialogues.Contains(option));
+        options.RemoveAll(option => string.IsNullOrWhiteSpace(option) || seenMessages.Contains(option));
 
         // if we've seen them all, reset
-        if (options.Count == 0 && this.SeenBookshelfDialogues.Count > 0)
+        if (options.Count == 0 && seenMessages.Count > 0)
         {
-            this.SeenBookshelfDialogues.Clear();
-            return this.GetBookshelfDialogue();
+            seenMessages.Clear();
+            return this.GetBookshelfMessage();
         }
 
         // choose one
         string selected = Game1.random.ChooseFrom(options);
-        this.SeenBookshelfDialogues.Add(selected);
+        seenMessages.Add(selected);
         return selected;
     }
 
@@ -191,13 +194,14 @@ internal class ContentManager
         }
 
         // get next dialogue
+        Dictionary<string, HashSet<string>> seenDialoguesByNpc = this.SeenTouristDialogues.Value;
         string seenDialoguesKey = $"{mapId}#{touristId}";
         for (int i = 0; i < tourist.Dialogue.Count; i++)
         {
             string dialogue = tourist.Dialogue[i] ?? string.Empty;
 
-            if (!this.SeenTouristDialogues.TryGetValue(seenDialoguesKey, out HashSet<string>? seenDialogues))
-                this.SeenTouristDialogues[seenDialoguesKey] = seenDialogues = new();
+            if (!seenDialoguesByNpc.TryGetValue(seenDialoguesKey, out HashSet<string>? seenDialogues))
+                seenDialoguesByNpc[seenDialoguesKey] = seenDialogues = new();
 
             string dialogueKey = $"{i}#{dialogue}";
             bool isNext = markSeen
@@ -213,7 +217,7 @@ internal class ContentManager
         {
             string dialogue = tourist.Dialogue.FirstOrDefault() ?? string.Empty;
             if (markSeen)
-                this.SeenTouristDialogues[seenDialoguesKey] = [$"0#{dialogue}"];
+                seenDialoguesByNpc[seenDialoguesKey] = [$"0#{dialogue}"];
             return dialogue;
         }
 
@@ -347,6 +351,8 @@ internal class ContentManager
     [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract", Justification = "This is the method that validates the API contract.")]
     private void AddCentralStationTourists(IAssetDataForMap assetData)
     {
+        Random random = Utility.CreateDaySaveRandom(Game1.hash.GetDeterministicHashCode(Constant.ModId));
+
         // collect available NPCs
         List<(string mapId, TouristMapModel map, string touristId, TouristModel tourist)> validTourists = new();
         foreach ((string mapId, TouristMapModel? touristMapData) in this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(DataAssetNames.Tourists))
@@ -392,7 +398,7 @@ internal class ContentManager
         }
 
         // shuffle tourists
-        Utility.Shuffle(Game1.random, validTourists);
+        Utility.Shuffle(random, validTourists);
 
         // spawn tourists on map
         LocalizedContentManager contentManager = Game1.content.CreateTemporary();
@@ -408,7 +414,7 @@ internal class ContentManager
                     continue;
                 if (validTourists.Count is 0)
                     return; // no further tourists can spawn
-                if (!Game1.random.NextBool(ContentManager.TouristSpawnChance))
+                if (!random.NextBool(ContentManager.TouristSpawnChance))
                     continue;
 
                 // get tourist data

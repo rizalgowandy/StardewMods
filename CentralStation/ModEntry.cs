@@ -91,9 +91,9 @@ internal class ModEntry : Mod
             // bookshelf
             case MapActions.Bookshelf:
                 {
-                    string dialogue = this.ContentManager.GetBookshelfDialogue();
-                    if (!string.IsNullOrWhiteSpace(dialogue))
-                        Game1.drawDialogueNoTyping(dialogue);
+                    string message = this.ContentManager.GetBookshelfMessage();
+                    if (!string.IsNullOrWhiteSpace(message))
+                        Game1.drawDialogueNoTyping(message);
                 }
                 return true;
 
