@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -193,15 +194,14 @@ internal class ModEntry : Mod
             return;
         }
 
-        // get menu options
-        Response[] responses = [
-            ..stops.Select(stop => new Response(stop.Id, stop.Label)),
-            new Response("Cancel", Game1.content.LoadString("Strings\\Locations:MineCart_Destination_Cancel"))
-        ];
-
         // show menu
-        Game1.currentLocation.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"), responses, OnRawDestinationPicked);
-        void OnRawDestinationPicked(Farmer who, string selectedId)
+        Game1.currentLocation.ShowPagedResponses(
+            prompt: Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"),
+             responses: [.. stops.Select(stop => KeyValuePair.Create(stop.Id, stop.Label))],
+            on_response: OnRawDestinationPicked,
+            itemsPerPage: 6 // largest page size used in vanilla, barely fits on smallest screen
+        );
+        void OnRawDestinationPicked(string selectedId)
         {
             StopModel? stop = stops.FirstOrDefault(stop => stop.Id == selectedId).Stop;
             if (stop != null)
