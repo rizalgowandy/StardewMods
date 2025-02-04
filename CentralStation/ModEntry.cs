@@ -126,15 +126,6 @@ internal class ModEntry : Mod
                     return false;
                 }
 
-            // fallback in case these didn't get swapped
-            case "BoatTicket":
-                this.OpenMenu(StopNetworks.Boat);
-                return false;
-
-            case "TrainStation":
-                this.OpenMenu(StopNetworks.Train);
-                return true;
-
             default:
                 return false;
         }

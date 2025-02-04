@@ -286,24 +286,19 @@ internal class ContentManager
         return false;
     }
 
-    /// <summary>Add the Central Station action properties to a map.</summary>
+    /// <summary>Add the Central Station action properties to a location's map.</summary>
     /// <param name="location">The location whose map to change.</param>
     public void AddTileProperties(GameLocation location)
     {
-        this.AddTileProperties(location.Map, isBusStop: location is BusStop { Name: "BusStop" });
-    }
-
-    /// <summary>Add the Central Station action properties to a map.</summary>
-    /// <param name="map">The map to change.</param>
-    /// <param name="isBusStop">Whether this is for the vanilla bus stop location.</param>
-    public void AddTileProperties(Map? map, bool isBusStop)
-    {
         // get map info
-        var layer = map?.GetLayer("Buildings");
+        Map map = location.Map;
+        Layer? layer = map?.GetLayer("Buildings");
         if (layer is null)
             return;
 
         // edit tiles
+        bool isBoatTunnel = location is BoatTunnel { Name: "BoatTunnel" };
+        bool isBusStop = location is BusStop { Name: "BusStop" };
         for (int y = 0, maxY = layer.LayerHeight; y <= maxY; y++)
         {
             for (int x = 0, maxX = layer.LayerWidth; x <= maxX; x++)
@@ -319,7 +314,8 @@ internal class ContentManager
                     switch (action)
                     {
                         case "BoatTicket":
-                            tile.Properties["Action"] = "CentralStation Boat";
+                            if (!isBoatTunnel || Game1.MasterPlayer.hasOrWillReceiveMail("willyBoatFixed"))
+                                tile.Properties["Action"] = "CentralStation Boat";
                             break;
 
                         case "TrainStation":
