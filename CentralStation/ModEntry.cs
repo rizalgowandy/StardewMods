@@ -150,7 +150,6 @@ internal class ModEntry : Mod
             string action =
                 // there's some fuzziness in the game's grab tile logic, so prevent the default logic sometimes applying
                 busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Action", "Buildings")
-                ?? busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y - 1, "Action", "Buildings")
                 ?? busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y + 1, "Action", "Buildings");
 
             if (action.StartsWithIgnoreCase(MapActions.Tickets))
