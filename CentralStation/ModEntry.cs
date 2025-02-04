@@ -5,14 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
 using Pathoschild.Stardew.CentralStation.Framework.Constants;
-using Pathoschild.Stardew.CentralStation.Framework.Integrations;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Extensions;
 using StardewValley.Locations;
-using StardewValley.Menus;
 
 namespace Pathoschild.Stardew.CentralStation;
 
@@ -28,9 +25,6 @@ internal class ModEntry : Mod
     /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
     private StopManager StopManager = null!; // set in Entry
 
-    /// <summary>Whether the Bus Locations mod is installed, regardless of whether it has any stops loaded.</summary>
-    private bool HasBusLocationsMod;
-
 
     /*********
     ** Public methods
@@ -45,14 +39,11 @@ internal class ModEntry : Mod
         // init
         this.ContentManager = new(helper.GameContent, helper.ModRegistry, this.Monitor);
         this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
-        this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
         // hook events
         helper.Events.GameLoop.DayStarted += this.ContentManager.OnDayStarted;
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
         helper.Events.Player.Warped += this.OnWarped;
-        helper.Events.Display.MenuChanged += this.OnMenuChanged;
-        helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
         // hook tile actions
         GameLocation.RegisterTileAction(MapActions.Bookshelf, this.OnTileActionInvoked);
@@ -138,43 +129,10 @@ internal class ModEntry : Mod
         }
     }
 
-    /// <inheritdoc cref="IInputEvents.ButtonPressed" />
-    private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
-    {
-        // The Bus Stop location handles its ticket machine tile indexes before actions are checked, so override it here.
-        if (Context.CanPlayerMove && e.Button.IsActionButton() && Game1.currentLocation is BusStop busStop)
-        {
-            Vector2 tile = e.Cursor.GrabTile;
-            string action =
-                // there's some fuzziness in the game's grab tile logic, so prevent the default logic sometimes applying
-                busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Action", "Buildings")
-                ?? busStop.doesTileHaveProperty((int)tile.X, (int)tile.Y + 1, "Action", "Buildings");
-
-            if (action.StartsWithIgnoreCase(MapActions.Tickets))
-            {
-                string[] args = ArgUtility.SplitBySpace(action);
-                this.OnTileActionInvoked(busStop, args, Game1.player, tile.ToPoint());
-                this.Helper.Input.Suppress(e.Button);
-            }
-        }
-    }
-
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
         this.ContentManager.AddTileProperties(e.NewLocation);
-    }
-
-    /// <inheritdoc cref="IDisplayEvents.MenuChanged" />
-    private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
-    {
-        // Bus Locations ignores Central Station's menu and replaces any open menu with its own. Since we include Bus
-        // Locations' stops in our menu, reopen ours instead.
-        if (this.HasBusLocationsMod && Game1.currentLocation is BusStop && e.NewMenu is DialogueBox dialogueBox && dialogueBox.dialogues.FirstOrDefault() is "Where would you like to go?" or "Out of service")
-        {
-            if (this.StopManager.GetAvailableStops(StopNetworks.Bus).Any())
-                this.OpenMenu(StopNetworks.Bus);
-        }
     }
 
     /// <summary>Open the menu to choose a destination.</summary>

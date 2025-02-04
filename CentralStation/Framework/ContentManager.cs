@@ -69,11 +69,13 @@ internal class ContentManager
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
-        // add ticket machine to railroad
+        // edit vanilla locations
+        if (e.NameWithoutLocale.IsEquivalentTo("Maps/BusStop"))
+            e.Edit(asset => this.EditBusStopMap(asset.AsMap()), AssetEditPriority.Late);
         if (e.NameWithoutLocale.IsEquivalentTo("Maps/Railroad"))
-            e.Edit(asset => this.AddTicketMachineToMap(asset.AsMap()), AssetEditPriority.Late);
+            e.Edit(asset => this.EditRailroadMap(asset.AsMap()), AssetEditPriority.Late);
 
-        // apply edits to Central Station map
+        // edit Central Station map
         if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Constant.ModId}"))
             e.Edit(this.EditCentralStationMap, AssetEditPriority.Early);
     }
@@ -82,7 +84,7 @@ internal class ContentManager
     /// <param name="networks">The networks for which to get stops.</param>
     public IEnumerable<Stop> GetAvailableStops(StopNetworks networks)
     {
-        foreach ((string id, StopModel? stop) in this.ContentHelper.Load<Dictionary<string, StopModel?>>(DataAssetNames.Stops))
+        foreach ((string id, StopModel? stop) in this.ContentHelper.Load<Dictionary<string, StopModel?>>(AssetNames.Stops))
         {
             if (stop is null)
                 continue;
@@ -133,7 +135,7 @@ internal class ContentManager
 
         // get available options
         List<string> options = new();
-        foreach ((string id, List<string>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string>?>>(DataAssetNames.Bookshelf))
+        foreach ((string id, List<string>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string>?>>(AssetNames.Bookshelf))
         {
             if (CommonHelper.TryGetModFromStringId(this.ModRegistry, id, allowModOnlyId: true) is null)
             {
@@ -192,7 +194,7 @@ internal class ContentManager
     public string? GetNextTouristDialogue(string mapId, string touristId, bool markSeen = true)
     {
         // get tourist map entry
-        Dictionary<string, TouristMapModel?> data = this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(DataAssetNames.Tourists);
+        Dictionary<string, TouristMapModel?> data = this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(AssetNames.Tourists);
         if (!data.TryGetValue(mapId, out TouristMapModel? mapData))
         {
             this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that map ID wasn't found in the data.");
@@ -349,7 +351,7 @@ internal class ContentManager
 
                 // add to bus stop
                 if (isBusStop && tile.TileIndex is 1057 && tile.TileSheet?.Id is "outdoors")
-                    tile.Properties["Action"] = "CentralStation Bus";
+                    this.TryAddTicketMachine(map, x, y, StopNetworks.Bus);
             }
         }
     }
@@ -374,7 +376,7 @@ internal class ContentManager
 
         // collect available NPCs
         List<(string mapId, TouristMapModel map, string touristId, TouristModel tourist)> validTourists = new();
-        foreach ((string mapId, TouristMapModel? touristMapData) in this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(DataAssetNames.Tourists))
+        foreach ((string mapId, TouristMapModel? touristMapData) in this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(AssetNames.Tourists))
         {
             // skip empty entry
             if (touristMapData?.Tourists?.Count is not > 0)
@@ -483,55 +485,85 @@ internal class ContentManager
         }
     }
 
-    /// <summary>Add the ticket machine tiles and action to the railroad map.</summary>
-    /// <param name="asset">The railroad map asset.</param>
-    private void AddTicketMachineToMap(IAssetData<Map> asset)
+    /// <summary>Edit the vanilla bus stop map.</summary>
+    /// <param name="asset">The map asset to edit.</param>
+    private void EditBusStopMap(IAssetDataForMap asset)
     {
-        const int defaultX = 32;
-        const int defaultY = 40;
-        const int topTileIndex = 1032;
-        const int bottomTileIndex = 1057;
-
-        Map map = asset.Data;
-
-        // skip if already present
-        if (this.TryGetActionTile(map, StopNetworks.Train, out _))
-            return;
-
-        // get tile sheet
-        TileSheet tileSheet = map.GetTileSheet(GameLocation.DefaultTileSheetId);
-        if (tileSheet == null)
+        // replace ticket machine
+        // This reduces headaches due to the vanilla game's hardcode tile index checks applying before Central Station's action property
+        Layer? layer = asset.Data.GetLayer("Buildings");
+        if (layer != null)
         {
-            this.Monitor.Log($"Can't add ticket machine to railroad because another mod deleted the '{GameLocation.DefaultTileSheetId}' tile sheet.", LogLevel.Warn);
+            for (int y = 0, maxY = layer.LayerHeight; y <= maxY; y++)
+            {
+                for (int x = 0, maxX = layer.LayerWidth; x <= maxX; x++)
+                {
+                    // get tile
+                    Tile? tile = layer.Tiles[x, y];
+                    if (tile is null)
+                        continue;
+
+                    if (tile.TileIndex is 1057 && tile.TileSheet?.Id is "outdoors")
+                        this.TryAddTicketMachine(asset, x, y, StopNetworks.Bus);
+                }
+            }
+        }
+    }
+
+    /// <summary>Edit the vanilla railroad map.</summary>
+    /// <param name="asset">The map asset to edit.</param>
+    private void EditRailroadMap(IAssetDataForMap asset)
+    {
+        // add ticket machine if not already present
+        if (!this.TryGetActionTile(asset.Data, StopNetworks.Train, out _))
+            this.TryAddTicketMachine(asset, tileX: 32, tileY: 40, StopNetworks.Train);
+    }
+
+    /// <summary>Add a ticket machine to a map.</summary>
+    /// <param name="map">The map to edit.</param>
+    /// <param name="tileX">The tile X position at which to place the machine.</param>
+    /// <param name="tileY">The tile Y position at which to place the bottom of the machine.</param>
+    /// <param name="networks">The networks to which the ticket machine is connected.</param>
+    /// <returns>Returns whether the ticket machine was successfully applied.</returns>
+    private void TryAddTicketMachine(Map map, int tileX, int tileY, StopNetworks networks)
+    {
+        IAssetDataForMap asset = this.ContentHelper.GetPatchHelper(map, map.assetPath).AsMap();
+
+        this.TryAddTicketMachine(asset, tileX, tileY, networks);
+    }
+
+    /// <summary>Add a ticket machine to a map.</summary>
+    /// <param name="asset">The map asset to edit.</param>
+    /// <param name="tileX">The tile X position at which to place the machine.</param>
+    /// <param name="tileY">The tile Y position at which to place the bottom of the machine.</param>
+    /// <param name="networks">The networks to which the ticket machine is connected.</param>
+    /// <returns>Returns whether the ticket machine was successfully applied.</returns>
+    private void TryAddTicketMachine(IAssetDataForMap asset, int tileX, int tileY, StopNetworks networks)
+    {
+        // load ticket machine patch
+        Map ticketMachine;
+        try
+        {
+            ticketMachine = this.ContentHelper.Load<Map>(AssetNames.TicketMachine);
+        }
+        catch (Exception ex)
+        {
+            this.Monitor.Log($"Couldn't load ticket machine to apply it to {asset.Name}. Is the mod installed correctly?\nTechnical details: {ex}", LogLevel.Error);
             return;
         }
 
-        // get layers
-        Layer buildingsLayer = map.GetLayer("Buildings");
-        Layer frontLayer = map.GetLayer("Front");
-        if (buildingsLayer is null)
+        // apply patch
+        asset.PatchMap(ticketMachine, targetArea: new Rectangle(tileX, tileY - 1, 1, 2));
+
+        // set action property
+        Layer buildingsLayer = asset.Data.RequireLayer("Buildings");
+        Tile? tile = buildingsLayer.Tiles[tileX, tileY];
+        if (tile is null)
         {
-            this.Monitor.Log("Can't add ticket machine to railroad because another mod deleted the 'Buildings' layer.", LogLevel.Warn);
-            return;
-        }
-        if (frontLayer is null)
-        {
-            this.Monitor.Log("Can't add ticket machine to railroad because another mod deleted the 'Front' layer.", LogLevel.Warn);
+            this.Monitor.Log($"Couldn't set Central Station action property after adding machine to {asset.Name}.", LogLevel.Error);
             return;
         }
 
-        // validate position
-        if (!buildingsLayer.IsValidTileLocation(defaultX, defaultY) || !frontLayer.IsValidTileLocation(defaultX, defaultY))
-        {
-            this.Monitor.Log($"Can't add ticket machine to railroad because the tile position ({defaultX}, {defaultY}) is outside the map.", LogLevel.Warn);
-            return;
-        }
-
-        // add tiles
-        buildingsLayer.Tiles[defaultX, defaultY] = new StaticTile(buildingsLayer, tileSheet, BlendMode.Alpha, bottomTileIndex)
-        {
-            Properties = { ["Action"] = $"{MapActions.Tickets} {StopNetworks.Train}" }
-        };
-        frontLayer.Tiles[defaultX, defaultY - 1] = new StaticTile(frontLayer, tileSheet, BlendMode.Alpha, topTileIndex);
+        tile.Properties["Action"] = $"{MapActions.Tickets} {networks.ToString().Replace(",", " ")}";
     }
 }

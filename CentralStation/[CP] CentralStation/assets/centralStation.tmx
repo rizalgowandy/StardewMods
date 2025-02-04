@@ -64,8 +64,8 @@
  <tileset firstgid="2865" name="spring_town" tilewidth="16" tileheight="16" tilecount="2304" columns="32">
   <image source=".spring_town.png" width="512" height="1152"/>
  </tileset>
- <tileset firstgid="5169" name="z_centralstation_interior" tilewidth="16" tileheight="16" tilecount="400" columns="20">
-  <image source="centralstation_interior.png" width="320" height="320"/>
+ <tileset firstgid="5169" name="z_centralstation" tilewidth="16" tileheight="16" tilecount="400" columns="20">
+  <image source="centralStation.png" width="320" height="320"/>
   <tile id="340">
    <animation>
     <frame tileid="341" duration="1000"/>
