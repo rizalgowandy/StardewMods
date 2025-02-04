@@ -28,6 +28,13 @@ internal class StopManager
     /*********
     ** Public methods
     *********/
+    /// <summary>The stops registered through the mod API.</summary>
+    public Dictionary<string, Stop> ModApiStops { get; } = new();
+
+
+    /*********
+    ** Public methods
+    *********/
     /// <summary>Construct an instance.</summary>
     /// <param name="contentManager"><inheritdoc cref="ContentManager" path="/summary" /></param>
     /// <param name="monitor"><inheritdoc cref="Monitor" path="/summary" /></param>
@@ -45,6 +52,10 @@ internal class StopManager
     {
         // Central Station stops
         foreach (Stop stop in this.ContentManager.GetAvailableStops(networks))
+            yield return stop;
+
+        // from API
+        foreach (Stop stop in this.ModApiStops.Values)
             yield return stop;
 
         // from mod integrations

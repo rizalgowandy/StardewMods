@@ -18,6 +18,7 @@ section below.
   * [Multi-network stops](#multi-network-stops)
 * [Bookshelf messages](#bookshelf-messages)
 * [Tourists](#tourists)
+* [C# mod API](#c-mod-api)
 * [See also](#see-also)
 
 ## Basic usage
@@ -309,6 +310,37 @@ _(Optional)_ A [game state query][] which indicates whether a tourist can appear
 </tr>
 </tr>
 </table>
+
+## C# mod API
+Central Station has a [mod-provided API](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#Mod-provided_APIs)
+you can use to add destinations from a C# mod.
+
+To add stops through the API:
+
+1. Copy [`ICentralStationApi.cs`](../ICentralStationApi.cs) into your mod code, and **remove any methods you don't
+   need**.
+2. In [SMAPI's `GameLoop.GameLaunched` event](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Events#GameLoop.GameLaunched),
+   get the API:
+   ```c#
+   var centralStation = this.Helper.ModRegistry.GetApi<ICentralStationApi>("Pathoschild.CentralStation");
+   if (centralStation is null)
+       return; // Central Station not installed
+   ```
+3. Call methods on the API (see IntelliSense for documentation).
+
+   For example, to register a stop:
+   ```c#
+   centralStation.RegisterStop(
+       id: "ExampleLocation",                 // Central Station will prefix your mod ID automatically
+       displayName: () => "Example Location", // you should usually use `helper.Translation.Get` to translate it
+       toLocation: "Woods",
+       toTile: null,
+       toFacingDirection: Game1.down,
+       cost: 100,
+       network: "Bus",
+       condition: null
+   );
+   ```
 
 ## See also
 * [README](README.md) for other info

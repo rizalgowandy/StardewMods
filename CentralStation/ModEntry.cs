@@ -61,6 +61,12 @@ internal class ModEntry : Mod
         GameLocation.RegisterTileAction(MapActions.TouristDialogue, this.OnTileActionInvoked);
     }
 
+    /// <inheritdoc />
+    public override object GetApi(IModInfo mod)
+    {
+        return new CentralStationApi(mod.Manifest, this.StopManager);
+    }
+
 
     /*********
     ** Private methods
