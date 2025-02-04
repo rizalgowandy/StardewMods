@@ -1,6 +1,7 @@
 ﻿/*
 
-    This file adds the Central Station location, its flavor text, and its CJB Cheats Menu warp.
+    This file adds the Central Station location and related data (its flavor text, world map entry, and CJB Cheats Menu
+    warp).
 
 */
 {
@@ -13,6 +14,7 @@
             "Target": "Data/Locations",
             "Entries": {
                 "{{MainModId}}_CentralStation": {
+                    "DisplayName": "{{i18n: destinations.central-station}}",
                     "CreateOnLoad": {
                         "MapPath": "Maps/{{MainModId}}"
                     }
@@ -23,6 +25,31 @@
             "Action": "Load",
             "Target": "Maps/{{MainModId}}",
             "FromFile": "assets/centralStation.tmx"
+        },
+
+        // add to world map
+        {
+            "Action": "EditData",
+            "Target": "Data/WorldMap",
+            "TargetField": [ "Valley", "MapAreas" ],
+            "Entries": {
+                "{{MainModId}}_CentralStation": {
+                    "Id": "{{MainModId}}_CentralStation",
+                    "PixelArea": { // bottom-left corner, implying it's somewhere to the left on the coast
+                        "X": 0,
+                        "Y": 146,
+                        "Width": 1,
+                        "Height": 1
+                    },
+                    "ScrollText": "{{i18n: destinations.central-station}}",
+                    "WorldPositions": [
+                        {
+                            "Id": "CentralStation",
+                            "LocationName": "{{MainModId}}_CentralStation"
+                        }
+                    ]
+                }
+            }
         },
 
         // book shelf flavor text
