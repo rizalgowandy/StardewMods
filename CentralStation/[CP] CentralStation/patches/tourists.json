@@ -34,7 +34,7 @@
                         "WomanInBlackDress": {
                             "Index": 1,
                             "Dialogue": [
-                                "{{i18n: tourist.woman-in-black-dress.1}}"
+                                "{{i18n: tourist.woman-in-black-dress}}"
                             ]
                         },
                         "ManWithDrink": {
