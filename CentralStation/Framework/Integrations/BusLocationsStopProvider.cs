@@ -21,7 +21,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     private readonly Func<string, object[], string> GetTranslation;
 
     /// <summary>The stops provided by Bus Locations.</summary>
-    private readonly StopModelWithId[] BusStops;
+    private readonly Stop[] BusStops;
 
     /// <summary>The unique ID for the Bus Locations mod.</summary>
     public const string ModId = "hootless.BusLocations";
@@ -48,11 +48,11 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
+    public IEnumerable<Stop> GetAvailableStops(StopNetworks networks)
     {
         return networks.HasFlag(StopNetworks.Bus)
             ? this.BusStops
-            : ([]);
+            : [];
     }
 
 
@@ -62,7 +62,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
     /// <summary>Load the stops registered with the Bus Locations mod.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    private StopModelWithId[]? LoadFromBusLocations(IModRegistry modRegistry, IMonitor monitor)
+    private Stop[]? LoadFromBusLocations(IModRegistry modRegistry, IMonitor monitor)
     {
         try
         {
@@ -87,7 +87,7 @@ internal class BusLocationsStopProvider : ICustomStopProvider
             }
 
             // load stops
-            List<StopModelWithId> stops = new();
+            List<Stop> stops = new();
             foreach (object location in locations)
             {
                 if (location is null)
@@ -110,19 +110,18 @@ internal class BusLocationsStopProvider : ICustomStopProvider
 
                     // add stop
                     stops.Add(
-                        new(
-                            $"BusLocations_{Guid.NewGuid():N}",
-                            new StopModel(
-                                displayName: this.GetTranslation("destinations.from-bus-locations-mod", [displayName ?? mapName]),
-                                toLocation: mapName,
-                                toTile: destinationX is not -1 && destinationY is not -1
-                                    ? new Point(destinationX, destinationY)
-                                    : null,
-                                toFacingDirection: arrivalFacing.ToString(),
-                                cost: ticketPrice,
-                                StopNetworks.Bus,
-                                condition: null
-                            )
+                        new Stop(
+                            Id: $"BusLocations_{Guid.NewGuid():N}",
+                            DisplayName: () => this.GetTranslation("destinations.from-bus-locations-mod", [displayName ?? mapName]),
+                            DisplayNameInCombinedLists: null,
+                            ToLocation: mapName,
+                            ToTile: destinationX is not -1 && destinationY is not -1
+                                ? new Point(destinationX, destinationY)
+                                : null,
+                            ToFacingDirection: arrivalFacing,
+                            Cost: ticketPrice,
+                            Network: StopNetworks.Bus,
+                            Condition: null
                         )
                     );
                 }

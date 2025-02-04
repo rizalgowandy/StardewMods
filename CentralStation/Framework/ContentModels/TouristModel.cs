@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pathoschild.Stardew.CentralStation.Framework;
+namespace Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 
 /// <summary>The data for a random tourist that can be spawned in the Central Station map.</summary>
 internal class TouristModel

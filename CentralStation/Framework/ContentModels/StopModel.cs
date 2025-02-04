@@ -1,36 +1,35 @@
 using Microsoft.Xna.Framework;
-using StardewValley;
 
-namespace Pathoschild.Stardew.CentralStation.Framework;
+namespace Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 
-/// <summary>A destination that can be visited by the player.</summary>
+/// <summary>A content model which defines a destination that can be visited by the player.</summary>
 internal class StopModel
 {
     /*********
     ** Accessors
     *********/
-    /// <summary>The translated name for the stop, shown in the destination menu.</summary>
+    /// <inheritdoc cref="Stop.DisplayName" />
     public string? DisplayName { get; set; }
 
-    /// <summary>If set, overrides <see cref="DisplayName"/> when shown in a menu containing multiple transport networks.</summary>
+    /// <inheritdoc cref="Stop.DisplayNameInCombinedLists" />
     public string? DisplayNameInCombinedLists { get; set; }
 
-    /// <summary>The internal name of the location to which the player should warp when they select this stop.</summary>
+    /// <inheritdoc cref="Stop.ToLocation" />
     public string ToLocation { get; set; } = null!; // validated on load
 
-    /// <summary>The tile position to which the player should warp when they select this stop, or <c>null</c> to auto-detect a position based on the ticket machine tile (if present) else the default warp arrival tile.</summary>
+    /// <inheritdoc cref="Stop.ToTile" />
     public Point? ToTile { get; set; }
 
-    /// <summary>The direction the player should be facing after they warp, matching a value recognized by <see cref="Utility.TryParseDirection"/>.</summary>
+    /// <inheritdoc cref="Stop.ToFacingDirection" />
     public string ToFacingDirection { get; set; } = "down";
 
-    /// <summary>The gold price to go to that stop.</summary>
+    /// <inheritdoc cref="Stop.Cost" />
     public int Cost { get; set; }
 
-    /// <summary>The networks through which this stop is available.</summary>
+    /// <inheritdoc cref="Stop.Network" />
     public StopNetworks Network { get; set; } = StopNetworks.Train;
 
-    /// <summary>If set, a game state query which indicates whether this stop should appear in the menu at a given time. The contextual location is set to the player's current location.</summary>
+    /// <inheritdoc cref="Stop.Condition" />
     public string? Condition { get; set; }
 
 

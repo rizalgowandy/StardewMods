@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.CentralStation.Framework.Constants;
+using Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 using Pathoschild.Stardew.Common;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -79,7 +80,7 @@ internal class ContentManager
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
     /// <param name="networks">The networks for which to get stops.</param>
-    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
+    public IEnumerable<Stop> GetAvailableStops(StopNetworks networks)
     {
         foreach ((string id, StopModel? stop) in this.ContentHelper.Load<Dictionary<string, StopModel?>>(DataAssetNames.Stops))
         {
@@ -105,7 +106,23 @@ internal class ContentManager
 
             // match if applicable
             if (stop.Network.HasAnyFlag(networks) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Condition))
-                yield return new StopModelWithId(id, stop);
+            {
+                yield return new Stop(
+                    Id: id,
+                    DisplayName: () => stop.DisplayName ?? id,
+                    DisplayNameInCombinedLists: stop.DisplayNameInCombinedLists != null
+                        ? () => stop.DisplayNameInCombinedLists
+                        : null,
+                    ToLocation: stop.ToLocation,
+                    ToTile: stop.ToTile,
+                    ToFacingDirection: Utility.TryParseDirection(stop.ToFacingDirection, out int toFacingDirection)
+                        ? toFacingDirection
+                        : Game1.down,
+                    Cost: stop.Cost,
+                    Network: stop.Network,
+                    Condition: stop.Condition
+                );
+            }
         }
     }
 
@@ -150,16 +167,18 @@ internal class ContentManager
     }
 
     /// <summary>Get the formatted label to show for a stop in a destination menu.</summary>
-    /// <param name="stopId">The stop ID.</param>
     /// <param name="stop">The stop data.</param>
     /// <param name="networks">The stop networks in the destination list in which the label will be shown.</param>
-    public string GetStopLabel(string stopId, StopModel stop, StopNetworks networks)
+    public string GetStopLabel(Stop stop, StopNetworks networks)
     {
-        string? rawDisplayName = networks.HasMultipleFlags()
-            ? stop.DisplayNameInCombinedLists ?? stop.DisplayName
-            : stop.DisplayName;
+        string rawDisplayName = networks.HasMultipleFlags()
+            ? stop.DisplayNameInCombinedLists?.Invoke() ?? stop.DisplayName()
+            : stop.DisplayName();
 
-        string displayName = TokenParser.ParseText(rawDisplayName ?? stopId);
+        if (string.IsNullOrWhiteSpace(rawDisplayName))
+            rawDisplayName = stop.Id;
+
+        string displayName = TokenParser.ParseText(rawDisplayName);
 
         return stop.Cost > 0
             ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", displayName, Utility.getNumberWithCommas(stop.Cost))

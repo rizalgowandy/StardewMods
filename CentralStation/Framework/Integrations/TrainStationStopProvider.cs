@@ -49,7 +49,7 @@ internal class TrainStationStopProvider : ICustomStopProvider
     }
 
     /// <inheritdoc />
-    public IEnumerable<StopModelWithId> GetAvailableStops(StopNetworks networks)
+    public IEnumerable<Stop> GetAvailableStops(StopNetworks networks)
     {
         var api = this.TrainStation;
 
@@ -108,17 +108,16 @@ internal class TrainStationStopProvider : ICustomStopProvider
             }
 
             // add stop
-            yield return new(
-                stop.Id,
-                new StopModel(
-                    displayName: this.GetTranslation("destinations.from-train-station-mod", [stop.DisplayName]),
-                    toLocation: stop.TargetMapName,
-                    toTile: new Point(stop.TargetX, stop.TargetY),
-                    toFacingDirection: stop.FacingDirectionAfterWarp.ToString(),
-                    cost: stop.Cost,
-                    network: stop.IsBoat ? StopNetworks.Boat : StopNetworks.Train,
-                    condition: this.ConvertExpandedPreconditionsToGameStateQuery(stop.Conditions)
-                )
+            yield return new Stop(
+                Id: stop.Id,
+                DisplayName: () => this.GetTranslation("destinations.from-train-station-mod", [stop.DisplayName]),
+                DisplayNameInCombinedLists: null,
+                ToLocation: stop.TargetMapName,
+                ToTile: new Point(stop.TargetX, stop.TargetY),
+                ToFacingDirection: stop.FacingDirectionAfterWarp,
+                Cost: stop.Cost,
+                Network: stop.IsBoat ? StopNetworks.Boat : StopNetworks.Train,
+                Condition: this.ConvertExpandedPreconditionsToGameStateQuery(stop.Conditions)
             );
         }
     }

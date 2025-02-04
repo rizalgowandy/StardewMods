@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pathoschild.Stardew.CentralStation.Framework;
+namespace Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 
 /// <summary>The data for a map file containing random tourists.</summary>
 internal class TouristMapModel

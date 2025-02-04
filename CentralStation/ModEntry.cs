@@ -177,18 +177,18 @@ internal class ModEntry : Mod
     {
         // get stops
         // Central Station first, then Stardew Valley, then any others in alphabetical order
-        var stops = this.StopManager
+        var choices = this.StopManager
             .GetAvailableStops(networks)
-            .Select(stop => (stop.Id, stop.Stop, Label: this.ContentManager.GetStopLabel(stop.Id, stop.Stop, networks)))
-            .OrderBy(stop => stop.Id switch
+            .Select(stop => (Stop: stop, Label: this.ContentManager.GetStopLabel(stop, networks)))
+            .OrderBy(choice => choice.Stop.Id switch
             {
                 DestinationIds.CentralStation => 0,
                 DestinationIds.BoatTunnel or DestinationIds.BusStop or DestinationIds.Railroad => 1,
                 _ => 2
             })
-            .ThenBy(stop => stop.Label, HumanSortComparer.DefaultIgnoreCase)
+            .ThenBy(choice => choice.Label, HumanSortComparer.DefaultIgnoreCase)
             .ToArray();
-        if (stops.Length == 0)
+        if (choices.Length == 0)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:MineCart_OutOfOrder"));
             return;
@@ -197,29 +197,25 @@ internal class ModEntry : Mod
         // show menu
         Game1.currentLocation.ShowPagedResponses(
             prompt: Game1.content.LoadString("Strings\\Locations:MineCart_ChooseDestination"),
-             responses: [.. stops.Select(stop => KeyValuePair.Create(stop.Id, stop.Label))],
+             responses: [.. choices.Select(choice => KeyValuePair.Create(choice.Stop.Id, choice.Label))],
             on_response: OnRawDestinationPicked,
             itemsPerPage: 6 // largest page size used in vanilla, barely fits on smallest screen
         );
         void OnRawDestinationPicked(string selectedId)
         {
-            StopModel? stop = stops.FirstOrDefault(stop => stop.Id == selectedId).Stop;
+            Stop? stop = choices.FirstOrDefault(stop => stop.Stop.Id == selectedId).Stop;
             if (stop != null)
-                this.OnDestinationPicked(selectedId, stop, networks);
+                this.OnDestinationPicked(stop, networks);
         }
     }
 
     /// <summary>Handle the player choosing a destination in the UI.</summary>
-    /// <param name="stopId">The selected stop ID.</param>
     /// <param name="stop">The selected stop.</param>
     /// <param name="networks">The networks containing the stop.</param>
-    private void OnDestinationPicked(string stopId, StopModel stop, StopNetworks networks)
+    private void OnDestinationPicked(Stop stop, StopNetworks networks)
     {
-        if (stopId is "Cancel")
-            return;
-
         // apply vanilla behavior for default routes
-        switch (stopId)
+        switch (stop.Id)
         {
             // boat to Ginger Island
             case DestinationIds.GingerIsland:
@@ -252,20 +248,16 @@ internal class ModEntry : Mod
             return;
         }
 
-        // parse facing direction
-        if (!Utility.TryParseDirection(stop.ToFacingDirection, out int toFacingDirection))
-            toFacingDirection = Game1.down;
-
         // warp
         LocationRequest request = Game1.getLocationRequest(stop.ToLocation);
         request.OnWarp += () => this.OnWarped(stop, networks);
-        Game1.warpFarmer(request, stop.ToTile?.X ?? 0, stop.ToTile?.Y ?? 0, toFacingDirection);
+        Game1.warpFarmer(request, stop.ToTile?.X ?? 0, stop.ToTile?.Y ?? 0, stop.ToFacingDirection);
     }
 
     /// <summary>The action to perform when the player arrives at the destination.</summary>
     /// <param name="stop">The stop that the player warped to.</param>
     /// <param name="fromNetwork">The networks of the stop where the player embarked to reach this one.</param>
-    private void OnWarped(StopModel stop, StopNetworks fromNetwork)
+    private void OnWarped(Stop stop, StopNetworks fromNetwork)
     {
         GameLocation location = Game1.currentLocation;
 
