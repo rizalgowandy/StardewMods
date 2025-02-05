@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -74,11 +73,9 @@ internal class ModEntry : Mod
             // ticket machine
             case MapActions.Tickets:
                 {
-                    StopNetworks networks = StopNetworks.Train;
-
-                    if (ArgUtility.TryGetOptionalRemainder(args, 1, out string? rawNetworks, delimiter: ',') && rawNetworks is not null && !Utility.TryParseEnum(rawNetworks, out networks))
+                    if (!this.ContentManager.TryParseOptionalSpaceDelimitedNetworks(args, 1, out StopNetworks networks, out string? error, StopNetworks.Train))
                     {
-                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property '{rawNetworks}'; the second argument should be one or more of '{string.Join("', '", Enum.GetNames(typeof(StopNetworks)))}'.", LogLevel.Warn);
+                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property: {error}", LogLevel.Warn);
                         return false;
                     }
 
@@ -132,7 +129,8 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
-        this.ContentManager.AddTileProperties(e.NewLocation);
+        this.ContentManager.ConvertPreviousTicketMachines(e.NewLocation);
+        this.ContentManager.AddTicketMachineForMapProperty(e.NewLocation);
     }
 
     /// <summary>Open the menu to choose a destination.</summary>

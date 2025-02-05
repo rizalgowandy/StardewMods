@@ -311,14 +311,42 @@ internal class ContentManager
         return false;
     }
 
-    /// <summary>Add the Central Station action properties to a location's map.</summary>
+    /// <summary>Try to parse a space-delimited list of networks from map or tile property arguments.</summary>
+    /// <param name="args">The property arguments to read.</param>
+    /// <param name="index">The index of the first argument to include within the <paramref name="args" />.</param>
+    /// <param name="networks">The parsed networks value.</param>
+    /// <param name="error">An error phrase indicating why getting the argument failed, if applicable.</param>
+    /// <param name="defaultValue">The value to return if the index is out of bounds.</param>
+    public bool TryParseOptionalSpaceDelimitedNetworks(string[] args, int index, out StopNetworks networks, [NotNullWhen(false)] out string? error, StopNetworks defaultValue)
+    {
+        // get default
+        if (!ArgUtility.TryGetOptionalRemainder(args, index, out string? rawNetworks, delimiter: ',') || rawNetworks is null)
+        {
+            error = null;
+            networks = defaultValue;
+            return true;
+        }
+
+        // invalid
+        if (!Utility.TryParseEnum(rawNetworks, out networks))
+        {
+            error = $"value '{rawNetworks.Replace(',', ' ')}' can't be parsed as a network type; should be '{string.Join("', '", Enum.GetNames(typeof(StopNetworks)))}', or a space-delimited list thereof";
+            return false;
+        }
+
+        // else parsed
+        error = null;
+        return true;
+    }
+
+    /// <summary>Add the Central Station action properties for vanilla or legacy ticket machines.</summary>
     /// <param name="location">The location whose map to change.</param>
-    public void AddTileProperties(GameLocation location)
+    public void ConvertPreviousTicketMachines(GameLocation location)
     {
         // get map info
         Map map = location.Map;
         Layer? layer = map?.GetLayer("Buildings");
-        if (layer is null)
+        if (map is null || layer is null)
             return;
 
         // edit tiles
@@ -354,6 +382,26 @@ internal class ContentManager
                     this.TryAddTicketMachine(map, x, y, StopNetworks.Bus);
             }
         }
+    }
+
+    /// <summary>Add a Central Station ticket machine if the location has a <see cref="Constant.TicketMachineMapProperty"/> map property.</summary>
+    /// <param name="location">The location to edit.</param>
+    public void AddTicketMachineForMapProperty(GameLocation location)
+    {
+        // get property
+        if (!location.TryGetMapProperty(Constant.TicketMachineMapProperty, out string? rawProperty))
+            return;
+
+        // parse args
+        string[] args = rawProperty.Split(' ');
+        if (!ArgUtility.TryGetPoint(args, 0, out Point tile, out string? error) || !this.TryParseOptionalSpaceDelimitedNetworks(args, 2, out StopNetworks networks, out error, defaultValue: StopNetworks.Train))
+        {
+            this.Monitor.Log($"Location '{location.NameOrUniqueName}' has invalid property '{rawProperty}': {error}", LogLevel.Warn);
+            return;
+        }
+
+        // add ticket machine
+        this.TryAddTicketMachine(location.Map, tile.X, tile.Y, networks);
     }
 
 

@@ -11,7 +11,8 @@ section below.
 * [Basic usage](#basic-usage)
   * [Overview](#overview)
   * [Add a stop](#add-a-stop)
-  * [Add a ticket machine](#add-a-ticket-machine)
+  * [Add a default ticket machine](#add-a-default-ticket-machine)
+  * [Add a custom ticket machine](#add-a-custom-ticket-machine)
 * [Advanced stops](#advanced-stops)
   * [Edit the railroad map](#edit-the-railroad-map)
   * [Conditional stops](#conditional-stops)
@@ -70,20 +71,39 @@ _key_               | The entry key (not a field) is a [unique string ID][] for 
 `Condition`         | _(Optional)_ If set, the [game state query][] which must be met for the stop to appear in the menu.
 `DisplayNameInCombinedLists` | _(Optional)_ If set, overrides `DisplayName` when shown in a menu containing multiple transport networks. This is only needed if a stop name is reused for different transport networks (e.g. "Stardew Valley" for boat, bus, and train stops).
 
-### Add a ticket machine
-You can add an [`Action` map property](https://stardewvalleywiki.com/Modding:Maps#Action) wherever you want the player
-to get tickets. This can be a ticket machine, counter, or anything else thematically appropriate for your location.
-
-The format is:
+### Add a default ticket machine
+To add Central Station's ticket machine automatically, just add this [map property](https://stardewvalleywiki.com/Modding:Maps)
+(not tile property) to your map:
 ```
-Action CentralStation Network
+Pathoschild.CentralStation_TicketMachine <x> <y> [networks]
 ```
 
-The `Network` must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). If omitted, it defaults to `Train`.
+The arguments are:
 
-The network affects:
-* which stops are shown in the menu;
-* and which sound effects play when transiting to a stop which is on multiple networks.
+argument   | usage
+---------- | -----
+`x y`      | The tile position where it should appear. This matches the machine's bottom tile (i.e. where it 'stands' on the map).
+`networks` | _(Optional)_ The networks this ticket machine is connected to, which affects (a) which stops are shown and (b) which sound effects play while traveling. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train` if omitted.
+
+For example, to add a boat ticket machine to tile (5, 10):
+```
+Pathoschild.CentralStation_TicketMachine 5 10 Boat
+```
+
+### Add a custom ticket machine
+You can add your own ticket machine, counter, or anything else thematically appropriate for your location to the map.
+Then just add this [`Action` tile property](https://stardewvalleywiki.com/Modding:Maps#Action) where the player can
+click to get tickets:
+
+```
+Action CentralStation [networks]
+```
+
+The argument is:
+
+argument   | usage
+---------- | -----
+`networks` | _(Optional)_ The networks this ticket machine is connected to, which affects (a) which stops are shown and (b) which sound effects play while traveling. This must be `Boat`, `Bus`, `Train`, or [multiple networks](#multi-network-stops). Defaults to `Train` if omitted.
 
 ## Advanced stops
 ### Edit the railroad map
@@ -128,7 +148,7 @@ This involves two changes:
   ```js
   "Network": "Boat, Bus"
   ```
-* When adding the ticket machine, add **space**-delimited networks. For example:
+* In map or tile properties, add **space**-delimited networks. For example:
   ```
   Action: CentralStation Boat Bus
   ```

@@ -8,4 +8,7 @@ internal class Constant
 
     /// <summary>The unique ID for the Central Station location.</summary>
     public const string CentralStationLocationId = $"{Constant.ModId}_CentralStation";
+
+    /// <summary>The map property name which adds a ticket machine automatically to a map.</summary>
+    public const string TicketMachineMapProperty = $"{Constant.ModId}_TicketMachine";
 }
