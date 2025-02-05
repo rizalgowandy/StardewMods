@@ -107,7 +107,7 @@ internal class ContentManager
             }
 
             // match if applicable
-            if (stop.Network.HasAnyFlag(networks) && stop.ToLocation != Game1.currentLocation.Name && Game1.getLocationFromName(stop.ToLocation) is not null && GameStateQuery.CheckConditions(stop.Condition))
+            if (Stop.ShouldEnable(stop.ToLocation, stop.Condition, stop.Network, networks))
             {
                 yield return new Stop(
                     Id: id,
