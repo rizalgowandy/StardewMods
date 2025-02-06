@@ -20,6 +20,7 @@ section below.
 * [Bookshelf messages](#bookshelf-messages)
 * [Tourists](#tourists)
 * [C# mod API](#c-mod-api)
+* [FAQs](#faqs)
 * [See also](#see-also)
 
 ## Basic usage
@@ -361,6 +362,21 @@ To add stops through the API:
        condition: null
    );
    ```
+
+## FAQs
+### Can I make Central Station optional?
+Yep. Requiring it makes things easier for you (since you don't need to worry about fallback options), but you can
+certainly make it optional.
+
+For example, one simple approach:
+1. Add your data patches per the above docs.
+2. Add vanilla ticket machines to your maps with `Action Warp` [tile properties](https://stardewvalleywiki.com/Modding:Maps).
+2. Add Central Station's [ticket machine map property](#add-a-default-ticket-machine), and specify the tile position of
+   your default warps.
+
+If Central Station is installed, it'll patch its ticket machine over your default warp based on the map property. This
+replaces the `Buildings` and `Front` layers for the patched tiles, so the fallback `Action` will be replaced. If it's
+not installed, your `EditData` patches will just be ignored and players will use your fallback warp.
 
 ## See also
 * [README](README.md) for other info
