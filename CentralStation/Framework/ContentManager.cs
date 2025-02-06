@@ -503,8 +503,9 @@ internal class ContentManager
                 }
 
                 // remove disallowed layers
-                foreach (Layer layer in touristMap.Layers)
+                for (int i = touristMap.Layers.Count - 1; i >= 0; i--)
                 {
+                    Layer layer = touristMap.Layers[i];
                     if (layer.Id is not ("Buildings" or "Front"))
                         touristMap.RemoveLayer(layer);
                 }
