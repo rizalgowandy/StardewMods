@@ -357,14 +357,9 @@
  </layer>
  <objectgroup id="4" name="Back"/>
  <objectgroup id="5" name="Buildings">
-  <object id="242" name="TileData" x="576" y="112" width="16" height="16">
+  <object id="242" name="TileData" x="560" y="112" width="80" height="16">
    <properties>
-    <property name="Action" value="CentralStation Boat Bus Train"/>
-   </properties>
-  </object>
-  <object id="243" name="TileData" x="608" y="112" width="16" height="16">
-   <properties>
-    <property name="Action" value="CentralStation Boat Bus Train"/>
+    <property name="Action" value="Pathoschild.CentralStation TicketBooth"/>
    </properties>
   </object>
   <object id="244" name="TileData" x="880" y="384" width="16" height="16">
@@ -409,7 +404,7 @@
   </object>
   <object id="254" name="TileData" x="992" y="240" width="16" height="16">
    <properties>
-    <property name="Action" value="CentralStation Boat Bus Train"/>
+    <property name="Action" value="Pathoschild.CentralStation TicketMachine"/>
    </properties>
   </object>
  </objectgroup>

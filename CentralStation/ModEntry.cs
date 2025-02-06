@@ -7,7 +7,9 @@ using Pathoschild.Stardew.CentralStation.Framework.Constants;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.Locations;
 
 namespace Pathoschild.Stardew.CentralStation;
@@ -23,6 +25,9 @@ internal class ModEntry : Mod
 
     /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
     private StopManager StopManager = null!; // set in Entry
+
+    /// <summary>Whether the player saw a rare Central Station message since they arrived.</summary>
+    private readonly PerScreen<bool> SawRareMessage = new();
 
 
     /*********
@@ -88,8 +93,30 @@ internal class ModEntry : Mod
         if (location.NameOrUniqueName != Constant.CentralStationLocationId)
             return false;
 
-        switch (ArgUtility.Get(args, 1))
+        string subAction = ArgUtility.Get(args, 1);
+        switch (subAction)
         {
+            // Central Station ticket booth/machine: rare chance of showing a secret message before the ticket menu
+            case MapSubActions.TicketBooth:
+            case MapSubActions.TicketMachine:
+                {
+                    void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
+
+                    if (location.Name is Constant.CentralStationLocationId && !this.SawRareMessage.Value && Game1.random.NextBool(0.05))
+                    {
+                        this.SawRareMessage.Value = true;
+                        string messageKey = subAction is MapSubActions.TicketBooth
+                            ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
+                            : $"location.ticket-machine.{Game1.random.Next(1, 3)}";
+                        Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+                        Game1.PerformActionWhenPlayerFree(ShowTickets);
+                    }
+                    else
+                        ShowTickets();
+
+                    return true;
+                }
+
             // bookshelf
             case MapSubActions.Bookshelf:
                 {
@@ -136,6 +163,8 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
+        this.SawRareMessage.Value = false;
+
         this.ContentManager.ConvertPreviousTicketMachines(e.NewLocation);
         this.ContentManager.AddTicketMachineForMapProperty(e.NewLocation);
     }

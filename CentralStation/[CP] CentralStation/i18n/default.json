@@ -65,7 +65,17 @@
     /*********
     ** Location flavor text
     *********/
-    "location-flavor.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first.",
+    // message shown when clicking the exit doors
+    "location.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first.",
+
+    // rare messages shown when clicking the ticket counter
+    "location.ticket-counter.1": "(You try to peer into the ticket booth, but there's just a vague shadow through the tinted glass.)",
+    "location.ticket-counter.2": "(You hear strange whispers through the glass.)",
+    "location.ticket-counter.3": "(Suddenly you can see through the tinted glass, just for a moment. When you think back, you can't remember what you saw.)",
+
+    // rare messages shown when clicking ticket machine
+    "location.ticket-machine.1": "(You sense a vague disapproval from the ticket counter. Or maybe you're just imagining it.)",
+    "location.ticket-machine.2": "(You get a vague sense of unease for skipping the ticket counter.)",
 
 
     /*********

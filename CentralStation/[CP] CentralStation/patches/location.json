@@ -92,7 +92,7 @@
             "Action": "EditData",
             "Target": "Strings/StringsFromMaps",
             "Entries": {
-                "{{MainModId}}_TransitAreaDoors": "{{i18n: location-flavor.transit-area-doors}}"
+                "{{MainModId}}_TransitAreaDoors": "{{i18n: location.transit-area-doors}}"
             }
         },
 
