@@ -261,7 +261,7 @@ internal class ContentManager
             {
                 for (int x = 0, maxX = buildingsLayer.TileWidth; x <= maxX; x++)
                 {
-                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action.StartsWithIgnoreCase(MapActions.Tickets))
+                    if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action.StartsWithIgnoreCase(Constant.TicketsAction))
                     {
                         string foundRawNetwork = ArgUtility.SplitBySpaceAndGet(action, 1, StopNetworks.Train.ToString());
                         if (Utility.TryParseEnum(foundRawNetwork, out StopNetworks foundNetwork) && network.HasAnyFlag(foundNetwork))
@@ -527,7 +527,7 @@ internal class ContentManager
                     if (buildingTile is null)
                         buildingsLayer.Tiles[x, y] = buildingTile = new StaticTile(buildingsLayer, map.GetTileSheet(GameLocation.DefaultTileSheetId), BlendMode.Alpha, 0);
 
-                    buildingTile.Properties["Action"] = $"{MapActions.TouristDialogue} {mapId} {touristId}";
+                    buildingTile.Properties["Action"] = $"{Constant.InternalAction} {MapSubActions.TouristDialogue} {mapId} {touristId}";
                 }
             }
         }
@@ -612,6 +612,6 @@ internal class ContentManager
             return;
         }
 
-        tile.Properties["Action"] = $"{MapActions.Tickets} {networks.ToString().Replace(",", " ")}";
+        tile.Properties["Action"] = $"{Constant.TicketsAction} {networks.ToString().Replace(",", " ")}";
     }
 }

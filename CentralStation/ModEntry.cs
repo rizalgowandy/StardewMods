@@ -45,10 +45,8 @@ internal class ModEntry : Mod
         helper.Events.Player.Warped += this.OnWarped;
 
         // hook tile actions
-        GameLocation.RegisterTileAction(MapActions.Bookshelf, this.OnTileActionInvoked);
-        GameLocation.RegisterTileAction(MapActions.PopUpShop, this.OnTileActionInvoked);
-        GameLocation.RegisterTileAction(MapActions.Tickets, this.OnTileActionInvoked);
-        GameLocation.RegisterTileAction(MapActions.TouristDialogue, this.OnTileActionInvoked);
+        GameLocation.RegisterTileAction(Constant.TicketsAction, this.OnTicketsActionInvoked);
+        GameLocation.RegisterTileAction(Constant.InternalAction, this.OnInternalActionInvoked);
     }
 
     /// <inheritdoc />
@@ -61,30 +59,39 @@ internal class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Handle the player activating an <c>Action</c> tile property.</summary>
+    /// <summary>Handle the player activating the map property which opens a destination menu.</summary>
     /// <param name="location">The location containing the property.</param>
     /// <param name="args">The action arguments.</param>
     /// <param name="who">The player who activated it.</param>
     /// <param name="tile">The tile containing the action property.</param>
-    private bool OnTileActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnTicketsActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
     {
-        switch (ArgUtility.Get(args, 0))
+        if (!this.ContentManager.TryParseOptionalSpaceDelimitedNetworks(args, 1, out StopNetworks networks, out string? error, StopNetworks.Train))
         {
-            // ticket machine
-            case MapActions.Tickets:
-                {
-                    if (!this.ContentManager.TryParseOptionalSpaceDelimitedNetworks(args, 1, out StopNetworks networks, out string? error, StopNetworks.Train))
-                    {
-                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property: {error}", LogLevel.Warn);
-                        return false;
-                    }
+            this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid CentralStation property: {error}", LogLevel.Warn);
+            return false;
+        }
 
-                    this.OpenMenu(networks);
-                    return true;
-                }
+        this.OpenMenu(networks);
+        return true;
+    }
 
+    /// <summary>Handle the player activating the map property which performs an internal sub-action identified by a <see cref="MapSubActions"/> value.</summary>
+    /// <param name="location">The location containing the property.</param>
+    /// <param name="args">The action arguments.</param>
+    /// <param name="who">The player who activated it.</param>
+    /// <param name="tile">The tile containing the action property.</param>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnInternalActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
+    {
+        if (location.NameOrUniqueName != Constant.CentralStationLocationId)
+            return false;
+
+        switch (ArgUtility.Get(args, 1))
+        {
             // bookshelf
-            case MapActions.Bookshelf:
+            case MapSubActions.Bookshelf:
                 {
                     string message = this.ContentManager.GetBookshelfMessage();
                     if (!string.IsNullOrWhiteSpace(message))
@@ -93,14 +100,14 @@ internal class ModEntry : Mod
                 return true;
 
             // pop-up shop
-            case MapActions.PopUpShop:
+            case MapSubActions.PopUpShop:
                 Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
                 return true;
 
             // tourist dialogue
-            case MapActions.TouristDialogue:
+            case MapSubActions.TouristDialogue:
                 {
-                    if (!ArgUtility.TryGet(args, 1, out string mapId, out string error) || !ArgUtility.TryGet(args, 2, out string touristId, out error))
+                    if (!ArgUtility.TryGet(args, 2, out string mapId, out string error) || !ArgUtility.TryGet(args, 3, out string touristId, out error))
                     {
                         this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid {args[0]} property: {error}.", LogLevel.Warn);
                         return false;

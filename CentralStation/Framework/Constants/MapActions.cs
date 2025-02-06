@@ -1,17 +1,14 @@
 namespace Pathoschild.Stardew.CentralStation.Framework.Constants;
 
-/// <summary>The tile action names handled by Central Station.</summary>
-internal class MapActions
+/// <summary>The <c>Action <see cref="Constant.InternalAction"/></c> tile action arguments handled by Central Station.</summary>
+internal class MapSubActions
 {
-    /// <summary>The map property which opens the bookshelf dialogue.</summary>
-    public const string Bookshelf = $"{Constant.ModId}_Bookshelf";
+    /// <summary>The sub-action which opens the bookshelf dialogue.</summary>
+    public const string Bookshelf = "Bookshelf";
 
-    /// <summary>The map property which opens the pop-up shop.</summary>
-    public const string PopUpShop = $"{Constant.ModId}_PopUpShop";
+    /// <summary>The sub-action which opens the pop-up shop.</summary>
+    public const string PopUpShop = "PopUpShop";
 
-    /// <summary>The map property which opens a destination menu.</summary>
-    public const string Tickets = "CentralStation";
-
-    /// <summary>The map property which opens a destination menu.</summary>
-    public const string TouristDialogue = $"{Constant.ModId}_TouristDialogue";
+    /// <summary>The sub-action which opens a destination menu.</summary>
+    public const string TouristDialogue = "TouristDialogue";
 }

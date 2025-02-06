@@ -374,7 +374,7 @@
   </object>
   <object id="245" name="TileData" x="96" y="192" width="32" height="16">
    <properties>
-    <property name="Action" value="Pathoschild.CentralStation_PopUpShop"/>
+    <property name="Action" value="Pathoschild.CentralStation PopUpShop"/>
    </properties>
   </object>
   <object id="247" name="TileData" x="272" y="192" width="32" height="16">
@@ -394,12 +394,12 @@
   </object>
   <object id="251" name="TileData" x="880" y="208" width="48" height="16">
    <properties>
-    <property name="Action" value="Pathoschild.CentralStation_Bookshelf"/>
+    <property name="Action" value="Pathoschild.CentralStation Bookshelf"/>
    </properties>
   </object>
   <object id="252" name="TileData" x="1072" y="208" width="48" height="16">
    <properties>
-    <property name="Action" value="Pathoschild.CentralStation_Bookshelf"/>
+    <property name="Action" value="Pathoschild.CentralStation Bookshelf"/>
    </properties>
   </object>
   <object id="253" name="TileData" x="960" y="192" width="80" height="16">
