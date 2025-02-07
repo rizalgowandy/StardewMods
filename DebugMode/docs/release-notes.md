@@ -5,6 +5,7 @@
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle debug mode.
 * Changed 'map' label to 'location' to match [technical terminology](https://stardewvalleywiki.com/Modding:Location_data#Terminology).
 * Internal changes to Generic Mod Config Menu integration.
+* Improved translations. Thanks to MakinDay (updated Italian)!
 
 ## 1.14.0
 Released 11 January 2025 for SMAPI 4.1.10 or later.

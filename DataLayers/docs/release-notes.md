@@ -4,6 +4,7 @@
 ## Upcoming release
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle data layers UI.
 * Internal changes to Generic Mod Config Menu integration.
+* Improved translations. Thanks to MakinDay (updated Italian)!
 
 ## 1.18.2
 Released 11 January 2025 for SMAPI 4.1.10 or later.

@@ -5,7 +5,7 @@
 * Added experience gained from harvesting crops to their lookup.
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to look up what's in front of the player or open the search UI.
 * Internal changes to Generic Mod Config Menu integration.
-* Improved translations. Thanks to BlackRosePetals (updated Chinese)!
+* Improved translations. Thanks to BlackRosePetals (updated Chinese) and MakinDay (updated Italian)!
 
 ## 1.47.0
 Released 11 January 2025 for SMAPI 4.1.10 or later.
