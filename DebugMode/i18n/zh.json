@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "坐标",
-    "label.map": "地图",
+    "label.location": "地图",
     "label.menu": "菜单",
     "label.submenu": "子菜单",
     "label.minigame": "小游戏",
@@ -25,5 +25,12 @@
     // controls
     "config.title.controls": "键位",
     "config.toggle-debug-key.name": "开关调试信息",
-    "config.toggle-debug-key.desc": "开/关调试信息的按键。"
+    "config.toggle-debug-key.desc": "开/关调试信息的按键。",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-debug-mode.name": "调试模式",
+    "icon.toggle-debug-mode.desc": "切换调试模式"
 }

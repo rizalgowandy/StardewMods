@@ -14,6 +14,7 @@ using ContentPatcher.Framework.Tokens;
 using ContentPatcher.Framework.TriggerActions;
 using ContentPatcher.Framework.Validators;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -302,16 +303,24 @@ internal class ModEntry : Mod
         {
             if (contentPack.Config.Any())
             {
-                GenericModConfigMenuIntegrationForContentPack configMenu = new GenericModConfigMenuIntegrationForContentPack(
-                    contentPack: contentPack.ContentPack,
+                InvariantDictionary<ConfigField> config = contentPack.Config;
+                var api = new GenericModConfigMenuIntegration<InvariantDictionary<ConfigField>>(
                     modRegistry: this.Helper.ModRegistry,
                     monitor: this.Monitor,
                     manifest: contentPack.Manifest,
-                    parseCommaDelimitedField: this.ParseCommaDelimitedField,
-                    config: contentPack.Config,
+                    getConfig: () => config,
+                    reset: () =>
+                    {
+                        foreach (ConfigField configField in config.Values)
+                            configField.SetValue(configField.DefaultValues);
+                    },
                     saveAndApply: () => this.OnContentPackConfigChanged(contentPack)
                 );
-                configMenu.Register();
+                if (!api.IsLoaded)
+                    break;
+
+                var configMenu = new GenericModConfigMenuIntegrationForContentPack(contentPack.ContentPack, this.ParseCommaDelimitedField, config);
+                configMenu.Register(api, this.Monitor);
             }
         }
     }

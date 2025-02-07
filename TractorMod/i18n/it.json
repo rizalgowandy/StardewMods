@@ -245,5 +245,12 @@
     "config.slingshot.tooltip": "Scegli se vuoi sparare la fionda verso il cursore. (Si tratta di un'opzione estremamente potente, che consuma voracemente le munizioni a causa della velocità del trattore).",
 
     "config.custom-tool-names.name": "Nomi degli attrezzi personalizzati",
-    "config.custom-tool-names.tooltip": "Gli oggetti/strumenti personalizzati da attivare mentre si guida il trattore. Gli strumenti saranno utilizzati su ogni casella circostante, mentre gli oggetti saranno posizionati a terra. Se si specifica qualcosa che è già supportato (come l'ascia), questo annulla tutte le limitazioni sul suo utilizzo. È necessario specificare il nome interno esatto (non il nome visualizzato tradotto), come 'Axe' o 'Mega Bomb'. Separare i valori multipli con le virgole."
+    "config.custom-tool-names.tooltip": "Gli oggetti/strumenti personalizzati da attivare mentre si guida il trattore. Gli strumenti saranno utilizzati su ogni casella circostante, mentre gli oggetti saranno posizionati a terra. Se si specifica qualcosa che è già supportato (come l'ascia), questo annulla tutte le limitazioni sul suo utilizzo. È necessario specificare il nome interno esatto (non il nome visualizzato tradotto), come 'Axe' o 'Mega Bomb'. Separare i valori multipli con le virgole.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Evoca Trattore"
 }

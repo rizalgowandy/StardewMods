@@ -313,6 +313,8 @@
     "crop.summary.drops-X-to-Y": "donne de {{min}} à {{max}} ({{percent}}% chance de culture supplémentaire)",
     "crop.summary.harvest-once": "récolté après {{daysToFirstHarvest}} jours",
     "crop.summary.harvest-multi": "récolté après {{daysToFirstHarvest}} jours, puis tout les {{daysToNextHarvests}} jours",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "pousse en {{seasons}}",
     "crop.summary.sells-for": "vendu pour {{price}}",
     "crop.harvest.too-late": "trop tard dans la saison pour la prochaine récolte (sera le {{date}})",
@@ -767,5 +769,12 @@
     "config.page-down.name": "Bas de page",
     "config.page-down.desc": "Les touches qui permettent de faire défiler un long contenu d'une page entière vers le bas.",
     "config.toggle-debug.name": "Afficher le débogage",
-    "config.toggle-debug.desc": "Les touches qui permettent d’afficher/cacher des informations de débogage."
+    "config.toggle-debug.desc": "Les touches qui permettent d’afficher/cacher des informations de débogage.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Activer une recherche (Lookup Anything)"
 }

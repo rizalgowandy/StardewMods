@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.Common.Utilities;
 using Pathoschild.Stardew.TractorMod.Framework;
 using Pathoschild.Stardew.TractorMod.Framework.Attachments;
@@ -141,28 +143,30 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForTractor(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            saveAndApply: () =>
-            {
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
-
         // warn about incompatible mods
         if (this.Helper.ModRegistry.IsLoaded("bcmpinc.HarvestWithScythe"))
             this.Monitor.Log("The 'Harvest With Scythe' mod is compatible with Tractor Mod, but it may break some tractor scythe features. You can ignore this warning if you don't have any scythe issues.", LogLevel.Warn);
+
+        // add config UI
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForTractor(this.Helper.ModRegistry),
+            get: () => this.Config,
+            set: config => this.Config = config,
+            onSaved: this.UpdateConfig
+        );
+
+        // add Iconic Framework icon
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                this.Helper.ModContent.GetInternalAssetName("assets/icon.png").BaseName,
+                new Rectangle(0, 0, 16, 16),
+                I18n.Icon_SummonTractor_Name,
+                I18n.Icon_SummonTractor_Desc,
+                this.SummonTractor
+            );
+        }
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

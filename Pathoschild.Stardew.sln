@@ -52,6 +52,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Mods", "Tests.Mods\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TractorMod", "TractorMod\TractorMod.csproj", "{DDF905ED-320B-48AF-91A5-2A5563F256FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation", "CentralStation\CentralStation.csproj", "{DE72EBFD-2E30-47C1-A941-82E8922DED6B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{44366a09-9a49-49b5-9d5f-51dc3f751fcb}*SharedItemsImports = 5
@@ -70,6 +72,7 @@ Global
 		Common\Common.projitems*{9eecb232-2178-4101-9397-cfb885bc25f2}*SharedItemsImports = 5
 		Common\Common.projitems*{b9e9edfc-e98a-4370-994f-40a9f39a0284}*SharedItemsImports = 13
 		Common\Common.projitems*{ddf905ed-320b-48af-91a5-2a5563f256fa}*SharedItemsImports = 5
+		Common\Common.projitems*{de72ebfd-2e30-47c1-a941-82e8922ded6b}*SharedItemsImports = 5
 		Common\Common.projitems*{ef4f1a38-6601-4441-b7b1-e9c26b312192}*SharedItemsImports = 5
 		Common\Common.projitems*{f2c606b1-51d2-48f3-9cf7-2f8cd46daff9}*SharedItemsImports = 5
 		Common\Common.projitems*{fca458cf-d872-47b7-9048-403c56a20905}*SharedItemsImports = 5
@@ -143,6 +146,10 @@ Global
 		{DDF905ED-320B-48AF-91A5-2A5563F256FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDF905ED-320B-48AF-91A5-2A5563F256FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDF905ED-320B-48AF-91A5-2A5563F256FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE72EBFD-2E30-47C1-A941-82E8922DED6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE72EBFD-2E30-47C1-A941-82E8922DED6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE72EBFD-2E30-47C1-A941-82E8922DED6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE72EBFD-2E30-47C1-A941-82E8922DED6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

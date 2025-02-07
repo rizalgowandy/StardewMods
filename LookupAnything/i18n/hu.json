@@ -311,6 +311,8 @@
     "crop.summary.drops-X-to-Y": "{{min}} és {{max}} darab között termel ({{percent}}% esély van extrára)",
     "crop.summary.harvest-once": "begyűjthető {{daysToFirstHarvest}} nap múlva",
     "crop.summary.harvest-multi": "begyűjthető {{daysToFirstHarvest}} nap múlva, és utána pedig {{daysToNextHarvests}} naponként újra terem",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "a következő évszakban nő: {{seasons}}",
     "crop.summary.sells-for": "ára: {{price}}",
     "crop.harvest.too-late": "ebben az évszakban már nincs ideje teremni (a következő termőnap ekkor lenne: {{date}})",
@@ -778,5 +780,13 @@
     "config.page-down.name": "Page down",
     "config.page-down.desc": "The keys which scroll down long content by a full page.",
     "config.toggle-debug.name": "Toggle debug",
-    "config.toggle-debug.desc": "The keys which toggle the display of debug information."
+    "config.toggle-debug.desc": "The keys which toggle the display of debug information.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

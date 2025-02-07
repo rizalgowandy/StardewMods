@@ -114,5 +114,13 @@
     "config.layer-updates-per-second.desc": "Katmanların saniyede kaç kere güncelleneceği. Varsayılan değerden büyük değerler takılmalara sebep olabilir. Varsayılan değer: {{defaultValue}}.",
 
     "config.layer-shortcut.name": "Kısayol tuşu",
-    "config.layer-shortcut.desc": "Kaplama açıkken bu katmanı seçen tuş."
+    "config.layer-shortcut.desc": "Kaplama açıkken bu katmanı seçen tuş.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-data-layers.name": "Data Layers",
+    "icon.toggle-data-layers.desc": "Toggle Data Layers"
 }

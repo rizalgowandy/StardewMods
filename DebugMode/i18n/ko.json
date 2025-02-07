@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen (디버그 화면에 나타나는 라벨들)
     "label.tile": "타일 좌표",
-    "label.map": "지도",
+    "label.location": "지도",
     "label.menu": "메뉴",
     "label.submenu": "하위메뉴",
     "label.minigame": "미니게임",
@@ -28,5 +28,12 @@
     // controls
     "config.title.controls": "단축키 설정",
     "config.toggle-debug-key.name": "디버그 정보 전환",
-    "config.toggle-debug-key.desc": "디버그 정보를 실행하는 키."
+    "config.toggle-debug-key.desc": "디버그 정보를 실행하는 키.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "디버그 모드 활성화"
 }

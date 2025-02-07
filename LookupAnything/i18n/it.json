@@ -62,8 +62,7 @@
     "friendship-status.kicked-out": "Cacciato via",
 
     // custom content (shows which mod added an item, NPC, etc)
-    // TODO
-    "added-by-mod": "Added by mod",
+    "added-by-mod": "Aggiunto dalla mod",
     "added-by-mod.summary": "{{modName}}",
 
     /*********
@@ -117,14 +116,14 @@
     "location.forest.island-tip": "fiume nella foresta (punta Sud dell'isola maggiore)",
     "location.forest.lake": "laghetto nella foresta",
     "location.forest.river": "fiume nella foresta",
-    "location.HarveyRoom": "Harvey's Room", // TODO
-    "location.LeoTreeHouse": "Treehouse", // TODO
-    "location.SandyHouse": "Oasis", // TODO
-    "location.SebastianRoom": "Sebastian's Room", // TODO
+    "location.HarveyRoom": "stanza di Harvey",
+    "location.LeoTreeHouse": "casa sull'albero",
+    "location.SandyHouse": "oasi",
+    "location.SebastianRoom": "stanza di Sebastian",
     "location.submarine": "sottomarino",
     "location.town.northmost-bridge": "paese (ponte Nord)",
     "location.undergroundMine": "miniera",
-    "location.undergroundMine.level": "miniera livello {{level}}",
+    "location.undergroundMine.level": "livello {{level}} della miniera",
     "location.witchSwamp": "palude della strega",
 
     "location.caldera": "Caldera dell'Isola Zenzero",
@@ -309,6 +308,8 @@
     "crop.summary.drops-X-to-Y": "ne facadere da {{min}} a {{max}} ({{percent}}% di probabilità in più di raccolto extra)",
     "crop.summary.harvest-once": "raccogli dopo {{daysToFirstHarvest}} giorni",
     "crop.summary.harvest-multi": "raccogli dopo {{daysToFirstHarvest}} giorni, e successivamente ogni {{daysToNextHarvests}} giorni",
+    "crop.summary.farming-xp": "conferisce +{{amount}} XP agricoltura per raccolto",
+    "crop.summary.foraging-xp": "conferisce +{{amount}} XP foraggiamento per raccolto",
     "crop.summary.seasons": "cresce in {{seasons}}",
     "crop.summary.sells-for": "vendibile a {{price}}",
     "crop.harvest.too-late": "sei troppo avanti nella stagione attuale per la prossima raccolta (finirebbe il {{date}})",
@@ -497,19 +498,19 @@
     "npc.neutral-gifts": "Regali neutrali",
     "npc.dislikes-gifts": "Regali che non piacciono",
     "npc.hates-gifts": "Regali che odia",
-    "npc.schedule": "Today's schedule", // TODO
+    "npc.schedule": "Programma di oggi",
 
     // values
     "npc.can-romance.married": "Siete sposati! <", // < turns into a heart
     "npc.can-romance.housemate": "Siete coinquilini!",
     "npc.friendship.not-met": "Non vi siete ancora incontrati.",
     "npc.friendship.need-bouquet": "ha bisogno di un bouquet per avanzare",
-    "npc.friendship.need-points": "prossimo fra {{count}} pti",
+    "npc.friendship.need-points": "prossimo fra {{count}} p.ti",
     "npc.undiscovered-gift-taste": "{{count}} oggetti non rivelati",
     "npc.unowned-gift-taste": "{{count}} oggetti non posseduti",
-    "npc.schedule.current-position": "Currently at {{locationName}} ({{x}}, {{y}}).", // TODO
-    "npc.schedule.no-entries": "No schedule loaded.", // TODO
-    "npc.schedule.entry": "{{time}}: walk to {{locationName}} ({{x}}, {{y}}).", // TODO
+    "npc.schedule.current-position": "Attualmente si trova presso {{locationName}} ({{x}}, {{y}}).",
+    "npc.schedule.no-entries": "Nessun programma caricato.",
+    "npc.schedule.entry": "{{time}}: cammina verso {{locationName}} ({{x}}, {{y}}).",
 
 
     /*********
@@ -761,5 +762,12 @@
     "config.page-down.name": "Pagina giù",
     "config.page-down.desc": "I tasti che fanno scorrere i contenuti lunghi di una pagina intera verso il basso.",
     "config.toggle-debug.name": "Attiva debug",
-    "config.toggle-debug.desc": "I tasti che attivano la visualizzazione delle informazioni di debug."
+    "config.toggle-debug.desc": "I tasti che attivano la visualizzazione delle informazioni di debug.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Attiva/disattiva ricerca di Lookup Anything"
 }

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.SkipIntro.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -52,19 +53,11 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForSkipIntro(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.Helper.WriteConfig(this.Config);
-            },
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForSkipIntro(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
     }
 
     /// <inheritdoc cref="IDisplayEvents.MenuChanged" />

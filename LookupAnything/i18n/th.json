@@ -311,6 +311,8 @@
     "crop.summary.drops-X-to-Y": "ได้รับ {{min}}-{{max}} ({{percent}}% โอกาสของพืชผลพิเศษ)",
     "crop.summary.harvest-once": "เก็บเกี่ยวได้หลังผ่านไป {{daysToFirstHarvest}} วัน",
     "crop.summary.harvest-multi": "เก็บเกี่ยวได้หลังผ่านไป {{daysToFirstHarvest}} วัน, แล้วก็ทุก {{daysToNextHarvests}} วัน",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "เติบโตใน{{seasons}}",
     "crop.summary.sells-for": "ขายได้ {{price}}",
     "crop.harvest.too-late": "สายเกินไปสำหรับฤดูเก็บเกี่ยวครั้งถัดไป (จะอยู่ถึงวันที่ {{date}})",
@@ -768,5 +770,13 @@
     "config.page-down.name": "Page down",
     "config.page-down.desc": "ปุ่มที่เลื่อนลงมาตามเนื้อหายาวๆเต็มหน้า",
     "config.toggle-debug.name": "สลับดีบัก",
-    "config.toggle-debug.desc": "ปุ่มที่สลับการแสดงข้อมูลดีบัก"
+    "config.toggle-debug.desc": "ปุ่มที่สลับการแสดงข้อมูลดีบัก",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "タイル",
-    "label.map": "マップ",
+    "label.location": "マップ",
     "label.menu": "メニュー",
     "label.submenu": "サブメニュー",
     "label.minigame": "ミニゲーム",
@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "コントロール",
     "config.toggle-debug-key.name": "デバッグ情報の切り替え",
-    "config.toggle-debug-key.desc": "デバッグ情報を切り替えるキー。"
+    "config.toggle-debug-key.desc": "デバッグ情報を切り替えるキー。",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

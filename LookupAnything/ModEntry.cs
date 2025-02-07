@@ -7,6 +7,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.LookupAnything.Components;
 using Pathoschild.Stardew.LookupAnything.Framework;
 using Pathoschild.Stardew.LookupAnything.Framework.Lookups;
@@ -113,15 +115,26 @@ internal class ModEntry : Mod
         this.TargetFactory = new TargetFactory(this.Helper.Reflection, this.GameHelper, () => this.Config, () => this.Config.EnableTileLookups);
         this.DebugInterface = new PerScreen<DebugInterface>(() => new DebugInterface(this.GameHelper, this.TargetFactory, () => this.Config, this.Monitor));
 
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForLookupAnything(
-            getConfig: () => this.Config,
-            reset: () => this.Config = new ModConfig(),
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        // add config UI
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForLookupAnything(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
+
+        // add Iconic Framework integration
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                "LooseSprites/Cursors",
+                new Rectangle(330, 357, 7, 13),
+                I18n.Icon_ToggleSearch_Name,
+                I18n.Icon_ToggleSearch_Desc,
+                onClick: () => this.ShowLookup(ignoreCursor: true),
+                onRightClick: this.TryToggleSearch
+            );
+        }
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
@@ -201,7 +214,8 @@ internal class ModEntry : Mod
     }
 
     /// <summary>Show the lookup UI for the current target.</summary>
-    private void ShowLookup()
+    /// <param name="ignoreCursor">Whether to ignore the cursor position and search for a subject in front of the player.</param>
+    private void ShowLookup(bool ignoreCursor = false)
     {
         if (!this.IsDataValid)
             return;
@@ -213,7 +227,7 @@ internal class ModEntry : Mod
             try
             {
                 // get target
-                ISubject? subject = this.GetSubject(logMessage);
+                ISubject? subject = this.GetSubject(logMessage, ignoreCursor);
                 if (subject == null)
                 {
                     this.Monitor.Log($"{logMessage} no target found.");
@@ -333,7 +347,8 @@ internal class ModEntry : Mod
 
     /// <summary>Get the most relevant subject under the player's cursor.</summary>
     /// <param name="logMessage">The log message to which to append search details.</param>
-    private ISubject? GetSubject(StringBuilder logMessage)
+    /// <param name="ignoreCursor">Whether to ignore the cursor position and search for a subject in front of the player.</param>
+    private ISubject? GetSubject(StringBuilder logMessage, bool ignoreCursor = false)
     {
         if (!this.IsDataValid)
             return null;
@@ -343,7 +358,10 @@ internal class ModEntry : Mod
         if (!Game1.uiMode)
             cursorPos = Utility.ModifyCoordinatesForUIScale(cursorPos); // menus use UI coordinates
 
-        bool hasCursor = Constants.TargetPlatform != GamePlatform.Android && Game1.wasMouseVisibleThisFrame; // note: only reliable when a menu isn't open
+        bool hasCursor =
+            !ignoreCursor
+            && Constants.TargetPlatform != GamePlatform.Android
+            && Game1.wasMouseVisibleThisFrame; // note: only reliable when a menu isn't open
 
         // open menu
         if (Game1.activeClickableMenu != null)

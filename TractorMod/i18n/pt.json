@@ -252,5 +252,13 @@
     "config.slingshot.tooltip": "Se deve disparar o estilingue em direção ao cursor. (Isso é extremamente poderoso e consumirá munição vorazmente devido à velocidade da ferramenta do trator.)",
 
     "config.custom-tool-names.name": "Nomes Personalizados de Ferramentas",
-    "config.custom-tool-names.tooltip": "Os itens/ferramentas personalizados para habilitar enquanto estiver pilotando o trator. As ferramentas serão usadas em cada bloco ao redor, enquanto os itens serão colocados. Se você especificar algo que já é suportado (como o machado), isso substitui todas as limitações de seu uso. Você deve especificar o nome interno exato (não o nome de exibição traduzido), como 'Axe' ou 'Mega Bomb'. Separe vários valores com vírgulas."
+    "config.custom-tool-names.tooltip": "Os itens/ferramentas personalizados para habilitar enquanto estiver pilotando o trator. As ferramentas serão usadas em cada bloco ao redor, enquanto os itens serão colocados. Se você especificar algo que já é suportado (como o machado), isso substitui todas as limitações de seu uso. Você deve especificar o nome interno exato (não o nome de exibição traduzido), como 'Axe' ou 'Mega Bomb'. Separe vários valores com vírgulas.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.summon-tractor.name": "Tractor Mod",
+    "icon.summon-tractor.desc": "Summon Tractor"
 }

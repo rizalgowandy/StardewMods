@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "ปุ่มที่ใช้สำหรับเปิดใช้งานการเลื่อนรายการแบบเลื่อนของหมวดหมู่ด้วยล้อเลื่อนของเมาส์เมื่อกดค้างไว้",
 
     "config.hold-to-scroll-chests.name": "กดค้างเพื่อเลื่อนหีบ",
-    "config.hold-to-scroll-chests.desc": "ปุ่มที่เมื่อกดค้างไว้ จะเปิดใช้งานการเลื่อนทรวงอกแบบเลื่อนลงด้วยล้อเลื่อนของเมาส์"
+    "config.hold-to-scroll-chests.desc": "ปุ่มที่เมื่อกดค้างไว้ จะเปิดใช้งานการเลื่อนทรวงอกแบบเลื่อนลงด้วยล้อเลื่อนของเมาส์",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

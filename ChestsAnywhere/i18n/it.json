@@ -86,13 +86,13 @@
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Tasto rapido per IU Scrigno",
+    "config.title.open-menu-hotkey": "Tasto rapido per IU Baule",
 
     "config.toggle-ui-key.name": "Attiva IU",
-    "config.toggle-ui-key.desc": "I tasti che mostrano o nascondono l'interfaccia utente dello scrigno.",
+    "config.toggle-ui-key.desc": "I tasti che mostrano o nascondono l'interfaccia utente del baule.",
 
-    "config.reopen-last-chest.name": "Riapri l'ultimo scrigno",
-    "config.reopen-last-chest.desc": "Quando premi il tasto 'Attiva IU', scegli se riaprire l'ultimo scrigno selezionato durante la sessione di gioco in corso.",
+    "config.reopen-last-chest.name": "Riapri l'ultimo baule",
+    "config.reopen-last-chest.desc": "Quando premi il tasto 'Attiva IU', scegli se riaprire l'ultimo baule selezionato durante la sessione di gioco in corso.",
 
     "config.default-category.name": "Categoria predefinita",
     "config.default-category.desc": "Quando premi il tasto 'Attiva IU', mostra gli scrigni di questa categoria per impostazione predefinita (se impostata). Questo si applica dopo 'riapri l'ultimo scrigno'.",
@@ -124,5 +124,12 @@
     "config.hold-to-scroll-categories.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina delle categorie con la rotella del mouse.",
 
     "config.hold-to-scroll-chests.name": "Tieni premuto per scorrere i bauli",
-    "config.hold-to-scroll-chests.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina dei bauli con la rotella del mouse."
+    "config.hold-to-scroll-chests.desc": "I tasti che, se tenuti premuti, consentono di scorrere il menu a tendina dei bauli con la rotella del mouse.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Apri Menu"
 }

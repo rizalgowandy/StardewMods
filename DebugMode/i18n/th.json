@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "ไทล์",
-    "label.map": "แผนที่",
+    "label.location": "แผนที่",
     "label.menu": "เมนู",
     "label.submenu": "เมนูย่อย",
     "label.minigame": "มินิเกม",
@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "การควบคุม",
     "config.toggle-debug-key.name": "สลับข้อมูลดีบัก",
-    "config.toggle-debug-key.desc": "ปุ่มสลับข้อมูลดีบัก"
+    "config.toggle-debug-key.desc": "ปุ่มสลับข้อมูลดีบัก",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

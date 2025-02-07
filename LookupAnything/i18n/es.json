@@ -311,6 +311,8 @@
     "crop.summary.drops-X-to-Y": "Suelta de {{min}} a {{max}} ({{percent}}% de probabilidad de cultivos extra)",
     "crop.summary.harvest-once": "Crece en {{daysToFirstHarvest}} días",
     "crop.summary.harvest-multi": "Crece en {{daysToFirstHarvest}} días, después cada {{daysToNextHarvests}} días",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "Crece en {{seasons}}",
     "crop.summary.sells-for": "Se vende por {{price}}",
     "crop.harvest.too-late": "Demasiado tarde para cosecharlo esta temporada (sería en {{date}})",
@@ -766,5 +768,13 @@
     "config.page-down.name": "Bajar de página",
     "config.page-down.desc": "Las teclas que desplazan hacia abajo el contenido largo por una página completa.",
     "config.toggle-debug.name": "Activar debug",
-    "config.toggle-debug.desc": "Las teclas que activan la visualización de la información de debug."
+    "config.toggle-debug.desc": "Las teclas que activan la visualización de la información de debug.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

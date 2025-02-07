@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.DebugMode.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -90,15 +92,25 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForDebugMode(
-            getConfig: () => this.Config,
-            reset: () => this.Config = new ModConfig(),
-            saveAndApply: () => this.Helper.WriteConfig(this.Config),
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        // add config UI
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForDebugMode(),
+            get: () => this.Config,
+            set: config => this.Config = config
+        );
+
+        // add Iconic Framework icon
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                this.Helper.ModContent.GetInternalAssetName("assets/icon.png").BaseName,
+                new Rectangle(0, 0, 16, 16),
+                I18n.Icon_ToggleDebugMode_Name,
+                I18n.Icon_ToggleDebugMode_Desc,
+                this.ToggleDebugMenu
+            );
+        }
     }
 
     /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
@@ -240,7 +252,7 @@ internal class ModEntry : Mod
             Vector2 tile = Game1.currentCursorTile;
 
             yield return $"{I18n.Label_Tile()}: {tile.X}, {tile.Y}";
-            yield return $"{I18n.Label_Map()}:  {location.Name}";
+            yield return $"{I18n.Label_Location()}: {location.Name}";
         }
 
         // menu

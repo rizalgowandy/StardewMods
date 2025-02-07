@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "case",
-    "label.map": "carte",
+    "label.location": "carte",
     "label.menu": "menu",
     "label.submenu": "sous-menu",
     "label.minigame": "mini-jeu",
@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Contrôles",
     "config.toggle-debug-key.name": "Basculer les informations de débogage",
-    "config.toggle-debug-key.desc": "Les touches qui permettent de basculer les informations de débogage."
+    "config.toggle-debug-key.desc": "Les touches qui permettent de basculer les informations de débogage.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Activer le Debug Mode"
 }

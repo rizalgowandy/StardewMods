@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Pathoschild.Stardew.Automate.Framework.Machines.Buildings;
 using Pathoschild.Stardew.Automate.Framework.Machines.Objects;
@@ -21,14 +20,11 @@ using StardewValley.TokenizableStrings;
 namespace Pathoschild.Stardew.Automate.Framework;
 
 /// <summary>Registers the mod configuration with Generic Mod Config Menu.</summary>
-internal class GenericModConfigMenuIntegrationForAutomate
+internal class GenericModConfigMenuIntegrationForAutomate : IGenericModConfigMenuIntegrationFor<ModConfig>
 {
     /*********
     ** Fields
     *********/
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<ModConfig> ConfigMenu;
-
     /// <summary>The internal mod data.</summary>
     private readonly DataModel Data;
 
@@ -37,27 +33,15 @@ internal class GenericModConfigMenuIntegrationForAutomate
     ** Public methods
     *********/
     /// <summary>Construct an instance.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    /// <param name="manifest">The mod manifest.</param>
     /// <param name="data">The internal mod data.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">Reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForAutomate(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, DataModel data, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    public GenericModConfigMenuIntegrationForAutomate(DataModel data)
     {
-        this.ConfigMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
         this.Data = data;
     }
 
-    /// <summary>Register the config menu if available.</summary>
-    public void Register()
+    /// <inheritdoc />
+    public void Register(GenericModConfigMenuIntegration<ModConfig> menu, IMonitor monitor)
     {
-        // get config menu
-        var menu = this.ConfigMenu;
-        if (!menu.IsLoaded)
-            return;
-
         menu.Register();
 
         // main options

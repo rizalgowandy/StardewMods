@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
+using Pathoschild.Stardew.Common.Integrations.IconicFramework;
 using Pathoschild.Stardew.Common.Patching;
 using Pathoschild.Stardew.HorseFluteAnywhere.Framework;
 using Pathoschild.Stardew.HorseFluteAnywhere.Patches;
@@ -69,24 +71,26 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForHorseFluteAnywhere(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            saveAndApply: () =>
-            {
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        // add config UI
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForHorseFluteAnywhere(),
+            get: () => this.Config,
+            set: config => this.Config = config,
+            onSaved: this.UpdateConfig
+        );
+
+        // add Iconic Framework icon
+        IconicFrameworkIntegration iconicFramework = new(this.Helper.ModRegistry, this.Monitor);
+        if (iconicFramework.IsLoaded)
+        {
+            iconicFramework.AddToolbarIcon(
+                "LooseSprites/Cursors",
+                new Rectangle(194, 193, 12, 14),
+                I18n.Icon_SummonHorse_Name,
+                I18n.Icon_SummonHorse_Desc,
+                () => this.TryUseHorseFlute()
+            );
+        }
     }
 
     /// <inheritdoc cref="IInputEvents.ButtonsChanged" />

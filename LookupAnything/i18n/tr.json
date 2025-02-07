@@ -309,6 +309,8 @@
     "crop.summary.drops-X-to-Y": "{{min}}'den {{max}} taneye kadar düşer ({{percent}}% ekstra mahsul şansı)",
     "crop.summary.harvest-once": "{{daysToFirstHarvest}} gün sonra hasat edilir",
     "crop.summary.harvest-multi": "{{daysToFirstHarvest}} günün ardından her {{daysToNextHarvests}} günde bir hasat edilir",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "{{seasons}} mevsiminde büyür",
     "crop.summary.sells-for": "{{price}} satılır",
     "crop.harvest.too-late": "sonraki hasat için sezon çok geç (muhtemelen {{date}})",
@@ -761,5 +763,13 @@
     "config.page-down.name": "Sayfayı aşağı kaydır",
     "config.page-down.desc": "Uzun içeriği tam sayfa aşağı kaydıran tuşlar.",
     "config.toggle-debug.name": "Hata ayıklamayı aç/kapat",
-    "config.toggle-debug.desc": "Hata ayıklama bilgilerinin görüntülenmesini değiştiren tuşlar."
+    "config.toggle-debug.desc": "Hata ayıklama bilgilerinin görüntülenmesini değiştiren tuşlar.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

@@ -124,6 +124,12 @@
     "config.hold-to-scroll-categories.desc": "Les touches qui, lorsqu'elles sont maintenues, permettent de faire défiler la liste déroulante des catégories avec la molette de la souris.",
 
     "config.hold-to-scroll-chests.name": "Maintenir pour faire défiler les coffres",
-    "config.hold-to-scroll-chests.desc": "Les touches qui, lorsqu'elles sont maintenues, permettent de faire défiler la liste déroulante des coffres avec la molette de la souris."
+    "config.hold-to-scroll-chests.desc": "Les touches qui, lorsqu'elles sont maintenues, permettent de faire défiler la liste déroulante des coffres avec la molette de la souris.",
 
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Ouvrir le menu de Chests anywhere"
 }

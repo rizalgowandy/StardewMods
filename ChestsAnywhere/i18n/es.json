@@ -124,5 +124,13 @@
     "config.hold-to-scroll-categories.desc": "Las teclas que, al mantenerlas pulsadas, permiten desplazar el desplegable de categorías con la rueda de desplazamiento del ratón.",
 
     "config.hold-to-scroll-chests.name": "Mantener para desplazar cofres",
-    "config.hold-to-scroll-chests.desc": "Las teclas que, al mantenerlas pulsadas, permiten desplazar el desplegable de los cofres con la rueda de desplazamiento del ratón."
+    "config.hold-to-scroll-chests.desc": "Las teclas que, al mantenerlas pulsadas, permiten desplazar el desplegable de los cofres con la rueda de desplazamiento del ratón.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.open-menu.name": "Chests Anywhere",
+    "icon.open-menu.desc": "Open Menu"
 }

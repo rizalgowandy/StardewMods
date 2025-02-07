@@ -1,6 +1,13 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.3.0
+Released 07 February 2025 for SMAPI 4.1.10 or later.
+
+* Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to use horse flute.
+* Internal changes to Generic Mod Config Menu integration.
+* Improved translations. Thanks to MakinDay (updated Italian)!
+
 ## 1.2.3
 Released 04 November 2024 for SMAPI 4.1.2 or later.
 

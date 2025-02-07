@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "posição",
-    "label.map": "mapa",
+    "label.location": "mapa",
     "label.menu": "menu",
     "label.submenu": "submenu",
     "label.minigame": "minijogo",
@@ -28,5 +28,13 @@
     // controls
     "config.title.controls": "Controles",
     "config.toggle-debug-key.name": "Alternar informações de depuração",
-    "config.toggle-debug-key.desc": "As teclas que alternam as informações de depuração."
+    "config.toggle-debug-key.desc": "As teclas que alternam as informações de depuração.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

@@ -310,6 +310,8 @@
     "crop.summary.drops-X-to-Y": " {{min}}-{{max}}個収穫可能（{{percent}}%の確率で追加の収穫）",
     "crop.summary.harvest-once": " 植えてから{{daysToFirstHarvest}}日後に収穫可能",
     "crop.summary.harvest-multi": " 植えてから{{daysToFirstHarvest}}日後に収穫可能。また{{daysToNextHarvests}}日毎に再収穫可能",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": " {{seasons}}に成長する",
     "crop.summary.sells-for": " {{price}}で売れる",
     "crop.harvest.too-late": "次の収穫には間に合わない（{{date}}で収穫可能になるため）",
@@ -762,5 +764,13 @@
     "config.page-down.name": "ページダウン",
     "config.page-down.desc": "表示内容が多い場合、1ページ分を下にスクロールするキー設定。",
     "config.toggle-debug.name": "デバッグ表示",
-    "config.toggle-debug.desc": "デバッグ情報を表示するためのキー設定。"
+    "config.toggle-debug.desc": "デバッグ情報を表示するためのキー設定。",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

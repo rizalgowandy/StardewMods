@@ -310,6 +310,8 @@
     "crop.summary.drops-X-to-Y": "rơi ra từ {{min}} đến {{max}} ({{percent}}% cơ hội có thêm vụ mùa)",
     "crop.summary.harvest-once": "thu hoạch sau {{daysToFirstHarvest}} ngày",
     "crop.summary.harvest-multi": "thu hoạch sau {{daysToFirstHarvest}} ngày, sau đó mỗi {{daysToNextHarvests}} ngày",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "phát triển trong {{seasons}}",
     "crop.summary.sells-for": "bán được {{price}}",
     "crop.harvest.too-late": "quá muộn thu hoạch trong mùa này (thu hoạch sẽ vào {{date}})",
@@ -762,5 +764,13 @@
     "config.page-down.name": "Cuộn xuống trang",
     "config.page-down.desc": "Các phím để cuộn xuống nội dung dài một trang.",
     "config.toggle-debug.name": "Chuyển đổi chế độ gỡ lỗi",
-    "config.toggle-debug.desc": "Các phím để chuyển đổi hiển thị thông tin gỡ lỗi."
+    "config.toggle-debug.desc": "Các phím để chuyển đổi hiển thị thông tin gỡ lỗi.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

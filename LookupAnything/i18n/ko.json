@@ -310,6 +310,8 @@
     "crop.summary.drops-X-to-Y": "{{min}} ~ {{max}}개의 추가 작물을 ({{percent}}%의 확률로 획득 가능)",
     "crop.summary.harvest-once": "{{daysToFirstHarvest}}일 후에 수확 가능",
     "crop.summary.harvest-multi": "{{daysToFirstHarvest}}일 후에 수확 가능, 그 후 매 {{daysToNextHarvests}}일마다 주기적 수확 가능.",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "{{seasons}}에 자람",
     "crop.summary.sells-for": "판매 가격: {{price}}",
     "crop.harvest.too-late": "작물을 수확하기엔 너무 늦은 계절이다 (다음 수확까지 {{date}}일 걸림)",
@@ -762,5 +764,12 @@
     "config.page-down.name": "페이지 아래로",
     "config.page-down.desc": "긴 내용을 전체 페이지만큼 아래로 스크롤하는 키.",
     "config.toggle-debug.name": "디버그 전환",
-    "config.toggle-debug.desc": "디버그 정보 표시를 전환하는 키."
+    "config.toggle-debug.desc": "디버그 정보 표시를 전환하는 키.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "무엇이든 조회 버튼"
 }

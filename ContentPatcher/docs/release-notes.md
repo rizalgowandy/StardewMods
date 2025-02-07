@@ -9,6 +9,11 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## 2.5.2
+Released 07 February 2025 for SMAPI 4.1.10 or later.
+
+* Internal changes to Generic Mod Config Menu integration.
+
 ## 2.5.1
 Released 13 January 2025 for SMAPI 4.1.10 or later.
 

@@ -4,7 +4,7 @@
     *********/
     // labels shown on the debug screen
     "label.tile": "kafelek",
-    "label.map": "mapa",
+    "label.location": "mapa",
     "label.menu": "menu",
     "label.submenu": "podmenu",
     "label.minigame": "minigra",
@@ -30,5 +30,13 @@
     // TODO
     "config.title.controls": "Controls",
     "config.toggle-debug-key.name": "Toggle debug info",
-    "config.toggle-debug-key.desc": "The keys which toggle the debug info."
+    "config.toggle-debug-key.desc": "The keys which toggle the debug info.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-debug-mode.name": "Debug Mode",
+    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
 }

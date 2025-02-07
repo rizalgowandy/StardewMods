@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Integrations.GenericModConfigMenu;
 using Pathoschild.Stardew.FastAnimations.Framework;
 using Pathoschild.Stardew.FastAnimations.Handlers;
 using StardewModdingAPI;
@@ -55,24 +56,12 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched" />
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForFastAnimations(
-            getConfig: () => this.Config,
-            reset: () =>
-            {
-                this.Config = new ModConfig();
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            saveAndApply: () =>
-            {
-                this.Helper.WriteConfig(this.Config);
-                this.UpdateConfig();
-            },
-            modRegistry: this.Helper.ModRegistry,
-            monitor: this.Monitor,
-            manifest: this.ModManifest
-        ).Register();
+        this.AddGenericModConfigMenu(
+            new GenericModConfigMenuIntegrationForFastAnimations(),
+            get: () => this.Config,
+            set: config => this.Config = config,
+            onSaved: this.UpdateConfig
+        );
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded" />

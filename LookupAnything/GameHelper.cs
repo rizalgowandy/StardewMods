@@ -519,32 +519,7 @@ internal class GameHelper
     /// <param name="id">The content's unique ID to parse. For an item, this must be the unqualified item ID.</param>
     public IModInfo? TryGetModFromStringId(string? id)
     {
-        if (id is null)
-            return null;
-
-        // The unique string ID convention is `{mod id}_{content id}`, but both the mod ID and content ID can contain
-        // underscores. So here we split by `_` and check every possible prefix before the final underscore to see
-        // if it's a valid mod ID. We take the longest match since some mods use suffixes for grouped mods, like
-        // `mainMod` and `mainMod_cp`.
-
-        string[] parts = id.Split('_');
-        if (parts.Length == 1)
-            return null;
-
-        IModInfo? mod = null;
-        {
-            string modId = parts[0];
-            int itemIdIndex = parts.Length - 1;
-            for (int i = 0; i < itemIdIndex; i++)
-            {
-                if (i != 0)
-                    modId += '_' + parts[i];
-
-                mod = this.ModRegistry.Get(modId) ?? mod;
-            }
-        }
-
-        return mod;
+        return CommonHelper.TryGetModFromStringId(this.ModRegistry, id);
     }
 
 

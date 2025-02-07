@@ -7,14 +7,11 @@ using StardewModdingAPI;
 namespace Pathoschild.Stardew.DataLayers.Framework;
 
 /// <summary>Registers the mod configuration with Generic Mod Config Menu.</summary>
-internal class GenericModConfigMenuIntegrationForDataLayers
+internal class GenericModConfigMenuIntegrationForDataLayers : IGenericModConfigMenuIntegrationFor<ModConfig>
 {
     /*********
     ** Fields
     *********/
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<ModConfig> ConfigMenu;
-
     /// <summary>The default mod settings.</summary>
     private readonly ModConfig DefaultConfig = new();
 
@@ -26,28 +23,17 @@ internal class GenericModConfigMenuIntegrationForDataLayers
     ** Public methods
     *********/
     /// <summary>Construct an instance.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    /// <param name="manifest">The mod manifest.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">Reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
     /// <param name="colorSchemes">The color schemes available to apply.</param>
-    public GenericModConfigMenuIntegrationForDataLayers(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply, Dictionary<string, ColorScheme> colorSchemes)
+    public GenericModConfigMenuIntegrationForDataLayers(Dictionary<string, ColorScheme> colorSchemes)
     {
-        this.ConfigMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
         this.ColorSchemes = colorSchemes;
     }
 
-    /// <summary>Register the config menu if available.</summary>
-    public void Register()
+    /// <inheritdoc />
+    public void Register(GenericModConfigMenuIntegration<ModConfig> menu, IMonitor monitor)
     {
-        var menu = this.ConfigMenu;
-        if (!menu.IsLoaded)
-            return;
-
-        menu.Register();
         menu
+            .Register()
             .AddSectionTitle(I18n.Config_Section_MainOptions)
             .AddCheckbox(
                 name: I18n.Config_ShowGrid_Name,
@@ -90,19 +76,19 @@ internal class GenericModConfigMenuIntegrationForDataLayers
                 set: (config, value) => config.Controls.NextLayer = value
             );
 
-        this.AddLayerConfig(config => config.Layers.Accessible, "accessible");
-        this.AddLayerConfig(config => config.Layers.Buildable, "buildable");
-        this.AddLayerConfig(config => config.Layers.CoverageForBeeHouses, "bee-houses");
-        this.AddLayerConfig(config => config.Layers.CoverageForJunimoHuts, "junimo-huts");
-        this.AddLayerConfig(config => config.Layers.CoverageForScarecrows, "scarecrows");
-        this.AddLayerConfig(config => config.Layers.CoverageForSprinklers, "sprinklers");
-        this.AddLayerConfig(config => config.Layers.CropHarvest, "crop-harvest");
-        this.AddLayerConfig(config => config.Layers.CropWater, "crop-water");
-        this.AddLayerConfig(config => config.Layers.CropPaddyWater, "crop-paddy-water");
-        this.AddLayerConfig(config => config.Layers.CropFertilizer, "crop-fertilizer");
-        this.AddLayerConfig(config => config.Layers.Machines, "machines");
-        this.AddLayerConfig(config => config.Layers.TileGrid, "grid");
-        this.AddLayerConfig(config => config.Layers.Tillable, "tillable");
+        this.AddLayerConfig(menu, config => config.Layers.Accessible, "accessible");
+        this.AddLayerConfig(menu, config => config.Layers.Buildable, "buildable");
+        this.AddLayerConfig(menu, config => config.Layers.CoverageForBeeHouses, "bee-houses");
+        this.AddLayerConfig(menu, config => config.Layers.CoverageForJunimoHuts, "junimo-huts");
+        this.AddLayerConfig(menu, config => config.Layers.CoverageForScarecrows, "scarecrows");
+        this.AddLayerConfig(menu, config => config.Layers.CoverageForSprinklers, "sprinklers");
+        this.AddLayerConfig(menu, config => config.Layers.CropHarvest, "crop-harvest");
+        this.AddLayerConfig(menu, config => config.Layers.CropWater, "crop-water");
+        this.AddLayerConfig(menu, config => config.Layers.CropPaddyWater, "crop-paddy-water");
+        this.AddLayerConfig(menu, config => config.Layers.CropFertilizer, "crop-fertilizer");
+        this.AddLayerConfig(menu, config => config.Layers.Machines, "machines");
+        this.AddLayerConfig(menu, config => config.Layers.TileGrid, "grid");
+        this.AddLayerConfig(menu, config => config.Layers.Tillable, "tillable");
     }
 
 
@@ -110,13 +96,14 @@ internal class GenericModConfigMenuIntegrationForDataLayers
     ** Private methods
     *********/
     /// <summary>Add the config section for a layer.</summary>
+    /// <param name="menu">The integration API through which to register the config menu.</param>
     /// <param name="getLayer">Get the layer field from a config model.</param>
     /// <param name="translationKey">The translation key for this layer.</param>
-    private void AddLayerConfig(Func<ModConfig, LayerConfig> getLayer, string translationKey)
+    private void AddLayerConfig(GenericModConfigMenuIntegration<ModConfig> menu, Func<ModConfig, LayerConfig> getLayer, string translationKey)
     {
         LayerConfig defaultConfig = getLayer(this.DefaultConfig);
 
-        this.ConfigMenu
+        menu
             .AddSectionTitle(() => this.GetLayerSectionTitle(translationKey))
             .AddCheckbox(
                 name: I18n.Config_LayerEnabled_Name,

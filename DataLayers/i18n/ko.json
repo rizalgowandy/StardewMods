@@ -114,5 +114,12 @@
     "config.layer-updates-per-second.desc": "레이어가 표시될 때 초당 몇 번 업데이트할지 설정합니다. 기본값보다 높게 설정하면 렉이 발생할 수 있습니다. 기본값: {{defaultValue}}.",
 
     "config.layer-shortcut.name": "단축키",
-    "config.layer-shortcut.desc": "레이어 보기가 열려있을 때 이 레이어로 바로가는 단축키 입니다."
+    "config.layer-shortcut.desc": "레이어 보기가 열려있을 때 이 레이어로 바로가는 단축키 입니다.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.toggle-data-layers.name": "Data Layers",
+    "icon.toggle-data-layers.desc": "데이터 레이어 활성화"
 }

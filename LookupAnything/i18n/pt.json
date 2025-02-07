@@ -311,6 +311,8 @@
     "crop.summary.drops-X-to-Y": "Solta de {{min}} pra no máximo {{max}} unidades({{percent}}% chance de colher unidades a mais)",
     "crop.summary.harvest-once": "Colher após {{daysToFirstHarvest}} dias",
     "crop.summary.harvest-multi": "Colhe depois de {{daysToFirstHarvest}} dias, depois a cada {{daysToNextHarvests}} dias",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "Cresce no(a) {{seasons}}",
     "crop.summary.sells-for": "Vende por {{price}}",
     "crop.harvest.too-late": "Muito tarde para colher nessa estação (deveria ser no {{date}})",
@@ -764,5 +766,13 @@
     "config.page-down.name": "Página abaixo",
     "config.page-down.desc": "As teclas que rolam para baixo o conteúdo longo por uma página inteira.",
     "config.toggle-debug.name": "Alternar depuração",
-    "config.toggle-debug.desc": "As teclas que alternam a exibição de informações de depuração."
+    "config.toggle-debug.desc": "As teclas que alternam a exibição de informações de depuração.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

@@ -310,6 +310,8 @@
     "crop.summary.drops-X-to-Y": "Сбор от {{min}} до {{max}} ({{percent}}% шанс на дополнительный сбор)",
     "crop.summary.harvest-once": "урожай через {{daysToFirstHarvest}} дн.",
     "crop.summary.harvest-multi": "урожай через {{daysToFirstHarvest}} дн., затем каждые {{daysToNextHarvests}} дн.",
+    "crop.summary.farming-xp": "gives +{{amount}} farming XP per harvest", // TODO
+    "crop.summary.foraging-xp": "gives +{{amount}} foraging XP per harvest", // TODO
     "crop.summary.seasons": "сезон роста - {{seasons}}",
     "crop.summary.sells-for": "продаётся за {{price}}",
     "crop.harvest.too-late": "слишком поздно в этом сезоне для следующего сбора (урожай {{date}})",
@@ -762,5 +764,13 @@
     "config.page-down.name": "Страница вниз",
     "config.page-down.desc": "Клавиши, которые прокручивают длинное содержимое вниз на целую страницу.",
     "config.toggle-debug.name": "Toggle debug", // TODO
-    "config.toggle-debug.desc": "Клавиши, переключающие отображение отладочной информации."
+    "config.toggle-debug.desc": "Клавиши, переключающие отображение отладочной информации.",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    // TODO
+    "icon.toggle-search.name": "Lookup Anything",
+    "icon.toggle-search.desc": "Toggle Lookup Anything Search"
 }

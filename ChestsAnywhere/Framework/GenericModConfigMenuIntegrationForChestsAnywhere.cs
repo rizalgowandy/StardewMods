@@ -8,14 +8,11 @@ using StardewValley.Extensions;
 namespace Pathoschild.Stardew.ChestsAnywhere.Framework;
 
 /// <summary>Registers the mod configuration with Generic Mod Config Menu.</summary>
-internal class GenericModConfigMenuIntegrationForChestsAnywhere
+internal class GenericModConfigMenuIntegrationForChestsAnywhere : IGenericModConfigMenuIntegrationFor<ModConfig>
 {
     /*********
     ** Fields
     *********/
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<ModConfig> ConfigMenu;
-
     /// <summary>The name for the mines and Skull Cavern for the <see cref="ModConfig.DisabledInLocations"/> field.</summary>
     private const string MinesName = "UndergroundMine";
 
@@ -24,27 +21,12 @@ internal class GenericModConfigMenuIntegrationForChestsAnywhere
     /*********
     ** Public methods
     *********/
-    /// <summary>Construct an instance.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
-    /// <param name="manifest">The mod manifest.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">Reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForChestsAnywhere(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    /// <inheritdoc />
+    public void Register(GenericModConfigMenuIntegration<ModConfig> menu, IMonitor monitor)
     {
-        this.ConfigMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
-    }
-
-    /// <summary>Register the config menu if available.</summary>
-    public void Register()
-    {
-        var menu = this.ConfigMenu;
-        if (!menu.IsLoaded)
-            return;
-
-        menu.Register();
         menu
+            .Register()
+
             // general options
             .AddSectionTitle(I18n.Config_Title_GeneralOptions)
             .AddCheckbox(

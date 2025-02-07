@@ -68,7 +68,7 @@
     /****
     ** remote access
     ****/
-    "config.title.remote-access": "Remote access", // TODO
+    "config.title.remote-access": "远程访问箱子设置",
 
     "config.range.name": "箱子显示范围",
     "config.range.desc": "箱子可通过菜单访问的范围。",
@@ -77,25 +77,25 @@
     "config.range.currentLocation": "当前位置内的箱子",
     "config.range.none": "无（无法远程访问箱子）",
 
-    "config.disable-mines.name": "禁用在矿井和骷髅洞穴",
-    "config.disable-mines.desc": "是否在矿井或骷髅洞穴中远程禁用箱子。",
+    "config.disable-mines.name": "在矿井和骷髅洞穴禁用",
+    "config.disable-mines.desc": "是否在矿井或骷髅洞穴中禁用远程访问箱子的功能。",
 
-    "config.disable-custom-names.name": "禁用在位置名称",
-    "config.disable-custom-names.desc": "用于禁用远程访问箱子的位置的内部名称（如调试模式Mod所示）。 你可以用逗号列出多个。",
+    "config.disable-custom-names.name": "在某个位置名称时禁用",
+    "config.disable-custom-names.desc": "用于在某个位置名称时禁用远程访问箱子的功能。关于名称请使用位置的内部名称（如调试模式Mod所示）。 你可以用逗号列出多个。",
 
     /****
     ** open menu hotkey
     ****/
-    "config.title.open-menu-hotkey": "Hotkey to open chest UI", // TODO
+    "config.title.open-menu-hotkey": "用于打开箱子UI的热键",
 
     "config.toggle-ui-key.name": "切换UI",
     "config.toggle-ui-key.desc": "显示或隐藏箱子UI的按键",
 
-    "config.reopen-last-chest.name": "Reopen last chest", // TODO
-    "config.reopen-last-chest.desc": "When you press the 'toggle UI' button, whether to reopen the last chest you selected yourself during the current game session.", // TODO
+    "config.reopen-last-chest.name": "自动打开最后开过的箱子",
+    "config.reopen-last-chest.desc": "当你按下'切换UI'按钮时，是否重新打开当前游戏会话中你自己上次选择的箱子。",
 
-    "config.default-category.name": "Default category", // TODO
-    "config.default-category.desc": "When you press the 'toggle UI' button, show the chests in this category by default (if set). This applies after 'reopen last chest'.", // TODO
+    "config.default-category.name": "默认类别",
+    "config.default-category.desc": "当你按下'切换界面'按钮时，默认显示此类别中的箱子（如果已设置）。此设置在启用'自动打开最后开过的箱子'之后生效。",
 
     /****
     ** controls when chest UI is open
@@ -124,5 +124,12 @@
     "config.hold-to-scroll-categories.desc": "按住时，可以用鼠标滚轮滚动分类的下拉菜单",
 
     "config.hold-to-scroll-chests.name": "按住以滚动箱子",
-    "config.hold-to-scroll-chests.desc": "按住时，可以用鼠标滚轮滚动箱子的下拉菜单"
+    "config.hold-to-scroll-chests.desc": "按住时，可以用鼠标滚轮滚动箱子的下拉菜单",
+
+
+    /*********
+    ** Iconic Framework icon
+    *********/
+    "icon.open-menu.name": "打开宝箱",
+    "icon.open-menu.desc": "任意地点打开宝箱"
 }
