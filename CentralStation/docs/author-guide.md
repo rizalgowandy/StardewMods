@@ -19,7 +19,9 @@ section below.
   * [Multi-network stops](#multi-network-stops)
 * [Bookshelf messages](#bookshelf-messages)
 * [Tourists](#tourists)
-* [C# mod API](#c-mod-api)
+* [Mod integrations](#mod-integrations)
+  * [Recolors](#recolors)
+  * [C# mod API](#c-mod-api)
 * [FAQs](#faqs)
 * [See also](#see-also)
 
@@ -332,7 +334,12 @@ _(Optional)_ A [game state query][] which indicates whether a tourist can appear
 </tr>
 </table>
 
-## C# mod API
+## Mod integrations
+### Recolors
+All custom tiles are in the `Maps/Pathoschild.CentralStation_Tiles` asset, which you can target with an `EditImage`
+patch to recolor.
+
+### C# mod API
 Central Station has a [mod-provided API](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#Mod-provided_APIs)
 you can use to add destinations from a C# mod.
 

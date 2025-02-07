@@ -63,7 +63,7 @@
   </tile>
  </tileset>
  <tileset firstgid="2865" name="centralStation" tilewidth="16" tileheight="16" tilecount="600" columns="20">
-  <image source="centralStation.png" width="320" height="480"/>
+  <image source=".Pathoschild.CentralStation_Tiles.png" width="320" height="480"/>
  </tileset>
  <tileset firstgid="3465" name="paths" tilewidth="16" tileheight="16" tilecount="64" columns="4">
   <image source=".paths.png" width="64" height="256"/>
