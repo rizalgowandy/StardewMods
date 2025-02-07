@@ -107,7 +107,7 @@ internal class ModEntry : Mod
                         this.SawRareMessage.Value = true;
                         string messageKey = subAction is MapSubActions.TicketBooth
                             ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
-                            : $"location.ticket-machine.{Game1.random.Next(1, 3)}";
+                            : $"location.ticket-machine.{Game1.random.Next(1, 4)}";
                         Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
                         Game1.PerformActionWhenPlayerFree(ShowTickets);
                     }

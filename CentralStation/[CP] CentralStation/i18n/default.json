@@ -76,6 +76,7 @@
     // rare messages shown when clicking ticket machine
     "location.ticket-machine.1": "(You sense a vague disapproval from the ticket counter. Or maybe you're just imagining it.)",
     "location.ticket-machine.2": "(You get a vague sense of unease for skipping the ticket counter.)",
+    "location.ticket-machine.3": "(The machine lists dozens of destinations you've never heard of. You blink and the normal list is back.)",
 
 
     /*********
