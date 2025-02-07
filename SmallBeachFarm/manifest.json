@@ -1,8 +1,8 @@
 ﻿{
     "Name": "Small Beach Farm",
     "Author": "Pathoschild",
-    "Version": "2.5.10",
-    "MinimumApiVersion": "4.1.2",
+    "Version": "2.5.11",
+    "MinimumApiVersion": "4.1.10",
     "Description": "A fertile pocket beach farm.",
     "UniqueID": "Pathoschild.SmallBeachFarm",
     "EntryDll": "SmallBeachFarm.dll",

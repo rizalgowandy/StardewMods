@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.26.0
+Released 07 February 2025 for SMAPI 4.1.10 or later.
+
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to open chests remotely.
 * Internal changes to Generic Mod Config Menu integration.
 * Improved translations. Thanks to cky008 (updated Chinese) and MakinDay (updated Italian)!

@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 4.22.0
+Released 07 February 2025 for SMAPI 4.1.10 or later.
+
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to summon tractor.
 * Internal changes to Generic Mod Config Menu integration.
 * Improved translations. Thanks to hofaxd (updated German) and MakinDay (updated Italian)!

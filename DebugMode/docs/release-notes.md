@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.15.0
+Released 07 February 2025 for SMAPI 4.1.10 or later.
+
 * Added integration with [Iconic Framework](https://www.nexusmods.com/stardewvalley/mods/11026) to toggle debug mode.
 * Changed 'map' label to 'location' to match [technical terminology](https://stardewvalleywiki.com/Modding:Location_data#Terminology).
 * Internal changes to Generic Mod Config Menu integration.
