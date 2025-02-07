@@ -8,7 +8,7 @@
     "label.menu": "menu",
     "label.submenu": "sottomenu",
     "label.minigame": "minigioco",
-    "label.dialogue": "dialogue", // TODO
+    "label.dialogue": "dialogo",
     "label.festival-name": "festa",
     "label.event-id": "ID evento",
     "label.event-script": "script di eventi",
@@ -34,7 +34,6 @@
     /*********
     ** Iconic Framework icon
     *********/
-    // TODO
     "icon.toggle-debug-mode.name": "Debug Mode",
-    "icon.toggle-debug-mode.desc": "Toggle Debug Mode"
+    "icon.toggle-debug-mode.desc": "Attiva/disattiva Debug Mode"
 }
