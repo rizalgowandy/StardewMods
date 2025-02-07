@@ -3,8 +3,8 @@
  <properties>
   <property name="DefaultWarpLocation" value="60 13"/>
  </properties>
- <tileset firstgid="1" name="z_centralstation" tilewidth="16" tileheight="16" tilecount="400" columns="20">
-  <image source=".Pathoschild.CentralStation_Tiles.png" width="320" height="320"/>
+ <tileset firstgid="1" name="z_centralstation" tilewidth="16" tileheight="16" tilecount="420" columns="20">
+  <image source=".Pathoschild.CentralStation_Tiles.png" width="320" height="336"/>
   <tile id="340">
    <animation>
     <frame tileid="341" duration="1000"/>
@@ -29,12 +29,12 @@
  <layer id="2" name="Buildings" width="1" height="2">
   <data encoding="csv">
 0,
-364
+71
 </data>
  </layer>
  <layer id="35" name="Front" width="1" height="2">
   <data encoding="csv">
-344,
+51,
 0
 </data>
  </layer>
