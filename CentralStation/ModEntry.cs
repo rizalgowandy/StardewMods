@@ -56,8 +56,8 @@ internal class ModEntry : Mod
         helper.Events.Player.Warped += this.OnWarped;
 
         // hook tile actions
-        GameLocation.RegisterTileAction(Constant.TicketsAction, this.OnTicketsActionInvoked);
-        GameLocation.RegisterTileAction(Constant.InternalAction, this.OnInternalActionInvoked);
+        GameLocation.RegisterTileAction(Constant.TicketsAction, this.OnTicketsAction);
+        GameLocation.RegisterTileAction(Constant.InternalAction, this.OnCentralAction);
     }
 
     /// <inheritdoc />
@@ -70,13 +70,16 @@ internal class ModEntry : Mod
     /*********
     ** Private methods
     *********/
+    /****
+    ** Handle map actions
+    ****/
     /// <summary>Handle the player activating the map property which opens a destination menu.</summary>
     /// <param name="location">The location containing the property.</param>
     /// <param name="args">The action arguments.</param>
     /// <param name="who">The player who activated it.</param>
     /// <param name="tile">The tile containing the action property.</param>
     /// <returns>Returns whether the action was handled.</returns>
-    private bool OnTicketsActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
+    private bool OnTicketsAction(GameLocation location, string[] args, Farmer who, Point tile)
     {
         if (!this.ContentManager.TryParseOptionalSpaceDelimitedNetworks(args, 1, out StopNetworks networks, out string? error, StopNetworks.Train))
         {
@@ -88,119 +91,166 @@ internal class ModEntry : Mod
         return true;
     }
 
-    /// <summary>Handle the player activating the map property which performs an internal sub-action identified by a <see cref="MapSubActions"/> value.</summary>
+    /// <summary>Handle the player activating the map property in the Central Station which performs an internal sub-action identified by a <see cref="MapSubActions"/> value.</summary>
     /// <param name="location">The location containing the property.</param>
     /// <param name="args">The action arguments.</param>
     /// <param name="who">The player who activated it.</param>
     /// <param name="tile">The tile containing the action property.</param>
     /// <returns>Returns whether the action was handled.</returns>
-    private bool OnInternalActionInvoked(GameLocation location, string[] args, Farmer who, Point tile)
+    private bool OnCentralAction(GameLocation location, string[] args, Farmer who, Point tile)
     {
-        if (location.NameOrUniqueName != Constant.CentralStationLocationId)
+        if (location.NameOrUniqueName is not Constant.CentralStationLocationId)
             return false;
 
         string subAction = ArgUtility.Get(args, 1);
         switch (subAction)
         {
-            // ticket booth/machine: rare chance of showing a secret message before the ticket menu
             case MapSubActions.TicketBooth:
             case MapSubActions.TicketMachine:
-                {
-                    void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
+                return this.OnCentralTicketAction(isTicketBooth: subAction is MapSubActions.TicketBooth);
 
-                    if (!this.SawRareMessage.Value && Game1.random.NextBool(0.05))
-                    {
-                        this.SawRareMessage.Value = true;
-                        string messageKey = subAction is MapSubActions.TicketBooth
-                            ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
-                            : $"location.ticket-machine.{Game1.random.Next(1, 4)}";
-                        Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
-                        Game1.PerformActionWhenPlayerFree(ShowTickets);
-                    }
-                    else
-                        ShowTickets();
-
-                    return true;
-                }
-
-            // bookshelf
             case MapSubActions.Bookshelf:
-                {
-                    string message = this.ContentManager.GetBookshelfMessage();
-                    if (!string.IsNullOrWhiteSpace(message))
-                        Game1.drawDialogueNoTyping(message);
-                }
-                return true;
+                return this.OnCentralBookshelfAction();
 
-            // cola machine: rare chance of free item, else show dialogue to buy Joja cola
             case MapSubActions.ColaMachine:
-                if (!this.GotRareColaDrop.Value && Game1.random.NextBool(0.05))
-                {
-                    this.GotRareColaDrop.Value = true;
-
-                    const string jojaColaId = "(O)167";
-
-                    Item drink;
-                    string messageKey;
-
-                    if (Game1.random.NextBool(0.5))
-                    {
-                        drink = ItemRegistry.Create(jojaColaId);
-                        messageKey = $"location.cola-machine.{Game1.random.Next(2, 4)}"; // skip variant 1, which suggests a non-Joja Cola item
-                    }
-                    else
-                    {
-                        ParsedItemData[] drinks = ItemRegistry
-                            .GetObjectTypeDefinition()
-                            .GetAllData()
-                            .Where(p => p.RawData is ObjectData { IsDrink: true } && p.QualifiedItemId is not jojaColaId)
-                            .ToArray();
-
-                        drink = ItemRegistry.Create(Game1.random.ChooseFrom(drinks).QualifiedItemId);
-                        messageKey = $"location.cola-machine.{Game1.random.Next(1, 4)}";
-                    }
-
-                    Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
-                    Game1.PerformActionWhenPlayerFree(() => Game1.player.addItemByMenuIfNecessary(drink));
-                }
-                else
-                    location.performAction(["ColaMachine"], who, new Location(tile.X, tile.Y));
-                return true;
+                return this.OnCentralColaAction(location, who, tile);
 
             // pop-up shop
             case MapSubActions.PopUpShop:
-                Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
-                return true;
+                return this.OnCentralPopupShopAction();
 
-            // tourist dialogue
             case MapSubActions.TouristDialogue:
-                {
-                    if (!ArgUtility.TryGet(args, 2, out string mapId, out string error) || !ArgUtility.TryGet(args, 3, out string touristId, out error))
-                    {
-                        this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid {args[0]} property: {error}.", LogLevel.Warn);
-                        return false;
-                    }
-
-                    string? dialogue = this.ContentManager.GetNextTouristDialogue(mapId, touristId);
-                    if (dialogue is not null)
-                    {
-                        dialogue = Dialogue.applyGenderSwitchBlocks(Game1.player.Gender, dialogue);
-                        Game1.drawObjectDialogue(dialogue);
-
-                        if (this.ContentManager.GetNextTouristDialogue(mapId, touristId, markSeen: false) is null)
-                            location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action"); // if we're viewing their last dialogue, remove the property to avoid a ghost hand cursor
-                        return true;
-                    }
-
-                    location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action");
-                    return false;
-                }
+                return this.OnCentralTouristAction(location, args, tile);
 
             default:
                 return false;
         }
     }
 
+    /// <summary>Handle the player activating a <see cref="MapSubActions.TicketBooth"/> or <see cref="MapSubActions.TicketMachine"/> action in the Central Station.</summary>
+    /// <param name="isTicketBooth">Whether the player interacted with the ticket booth (<c>true</c>) or machine (<c>false</c>).</param>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralTicketAction(bool isTicketBooth)
+    {
+        void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
+
+        // rare chance of showing a secret message before the ticket menu
+        if (!this.SawRareMessage.Value && Game1.random.NextBool(0.05))
+        {
+            this.SawRareMessage.Value = true;
+            string messageKey = isTicketBooth
+                ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
+                : $"location.ticket-machine.{Game1.random.Next(1, 4)}";
+            Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+            Game1.PerformActionWhenPlayerFree(ShowTickets);
+        }
+        else
+            ShowTickets();
+
+        return true;
+    }
+
+    /// <summary>Handle the player activating a <see cref="MapSubActions.Bookshelf"/> action in the Central Station.</summary>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralBookshelfAction()
+    {
+        string message = this.ContentManager.GetBookshelfMessage();
+
+        if (!string.IsNullOrWhiteSpace(message))
+        {
+            Game1.drawDialogueNoTyping(message);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>Handle the player activating a <see cref="MapSubActions.ColaMachine"/> action in the Central Station.</summary>
+    /// <param name="location">The location containing the property.</param>
+    /// <param name="who">The player who activated it.</param>
+    /// <param name="tile">The tile containing the action property.</param>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralColaAction(GameLocation location, Farmer who, Point tile)
+    {
+        const string jojaColaId = "(O)167";
+
+        // rare chance of free item, else show dialogue to buy Joja cola
+        if (!this.GotRareColaDrop.Value && Game1.random.NextBool(0.05))
+        {
+            this.GotRareColaDrop.Value = true;
+
+            Item drink;
+            string messageKey;
+
+            if (Game1.random.NextBool(0.5))
+            {
+                drink = ItemRegistry.Create(jojaColaId);
+                messageKey = $"location.cola-machine.{Game1.random.Next(2, 4)}"; // skip variant 1, which suggests a non-Joja Cola item
+            }
+            else
+            {
+                ParsedItemData[] drinks = ItemRegistry
+                    .GetObjectTypeDefinition()
+                    .GetAllData()
+                    .Where(p => p.RawData is ObjectData { IsDrink: true } && p.QualifiedItemId is not jojaColaId)
+                    .ToArray();
+
+                drink = ItemRegistry.Create(Game1.random.ChooseFrom(drinks).QualifiedItemId);
+                messageKey = $"location.cola-machine.{Game1.random.Next(1, 4)}";
+            }
+
+            Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+            Game1.PerformActionWhenPlayerFree(() => Game1.player.addItemByMenuIfNecessary(drink));
+        }
+        else
+            location.performAction(["ColaMachine"], who, new Location(tile.X, tile.Y));
+
+        return true;
+    }
+
+    /// <summary>Handle the player activating a <see cref="MapSubActions.PopUpShop"/> action in the Central Station.</summary>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralPopupShopAction()
+    {
+        Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("vendor-shop.dialogue.coming-soon"));
+        return true;
+    }
+
+    /// <summary>Handle the player activating a <see cref="MapSubActions.TouristDialogue"/> action in the Central Station.</summary>
+    /// <param name="location">The location containing the property.</param>
+    /// <param name="args">The action arguments.</param>
+    /// <param name="tile">The tile containing the action property.</param>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralTouristAction(GameLocation location, string[] args, Point tile)
+    {
+        // read args
+        if (!ArgUtility.TryGet(args, 2, out string mapId, out string error) || !ArgUtility.TryGet(args, 3, out string touristId, out error))
+        {
+            this.Monitor.LogOnce($"Location {location.NameOrUniqueName} has invalid {args[0]} property: {error}.", LogLevel.Warn);
+            return false;
+        }
+
+        // get dialogue
+        string? dialogue = this.ContentManager.GetNextTouristDialogue(mapId, touristId);
+        if (dialogue is not null)
+        {
+            dialogue = Dialogue.applyGenderSwitchBlocks(Game1.player.Gender, dialogue);
+            Game1.drawObjectDialogue(dialogue);
+
+            if (this.ContentManager.GetNextTouristDialogue(mapId, touristId, markSeen: false) is null)
+                location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action"); // if we're viewing their last dialogue, remove the property to avoid a ghost hand cursor
+            return true;
+        }
+
+        // no more dialogue, remove action cursor
+        location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action");
+        return false;
+    }
+
+
+    /****
+    ** Handle SMAPI events
+    ****/
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
@@ -211,6 +261,10 @@ internal class ModEntry : Mod
         this.ContentManager.AddTicketMachineForMapProperty(e.NewLocation);
     }
 
+
+    /****
+    ** Helper methods
+    ****/
     /// <summary>Open the menu to choose a destination.</summary>
     /// <param name="networks">The networks for which to get stops.</param>
     private void OpenMenu(StopNetworks networks)
