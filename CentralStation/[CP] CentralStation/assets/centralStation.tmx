@@ -379,12 +379,12 @@
   </object>
   <object id="249" name="TileData" x="160" y="208" width="32" height="16">
    <properties>
-    <property name="Action" value="ColaMachine"/>
+    <property name="Action" value="Pathoschild.CentralStation ColaMachine"/>
    </properties>
   </object>
   <object id="250" name="TileData" x="208" y="208" width="32" height="16">
    <properties>
-    <property name="Action" value="ColaMachine"/>
+    <property name="Action" value="Pathoschild.CentralStation ColaMachine"/>
    </properties>
   </object>
   <object id="251" name="TileData" x="880" y="208" width="48" height="16">

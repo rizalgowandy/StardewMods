@@ -10,7 +10,10 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Extensions;
+using StardewValley.GameData.Objects;
+using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
+using xTile.Dimensions;
 
 namespace Pathoschild.Stardew.CentralStation;
 
@@ -25,6 +28,9 @@ internal class ModEntry : Mod
 
     /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
     private StopManager StopManager = null!; // set in Entry
+
+    /// <summary>Whether the player received a free item from a cola machine since they arrived.</summary>
+    private readonly PerScreen<bool> GotRareColaDrop = new();
 
     /// <summary>Whether the player saw a rare Central Station message since they arrived.</summary>
     private readonly PerScreen<bool> SawRareMessage = new();
@@ -96,13 +102,13 @@ internal class ModEntry : Mod
         string subAction = ArgUtility.Get(args, 1);
         switch (subAction)
         {
-            // Central Station ticket booth/machine: rare chance of showing a secret message before the ticket menu
+            // ticket booth/machine: rare chance of showing a secret message before the ticket menu
             case MapSubActions.TicketBooth:
             case MapSubActions.TicketMachine:
                 {
                     void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
 
-                    if (location.Name is Constant.CentralStationLocationId && !this.SawRareMessage.Value && Game1.random.NextBool(0.05))
+                    if (!this.SawRareMessage.Value && Game1.random.NextBool(0.05))
                     {
                         this.SawRareMessage.Value = true;
                         string messageKey = subAction is MapSubActions.TicketBooth
@@ -124,6 +130,41 @@ internal class ModEntry : Mod
                     if (!string.IsNullOrWhiteSpace(message))
                         Game1.drawDialogueNoTyping(message);
                 }
+                return true;
+
+            // cola machine: rare chance of free item, else show dialogue to buy Joja cola
+            case MapSubActions.ColaMachine:
+                if (!this.GotRareColaDrop.Value && Game1.random.NextBool(0.05))
+                {
+                    this.GotRareColaDrop.Value = true;
+
+                    const string jojaColaId = "(O)167";
+
+                    Item drink;
+                    string messageKey;
+
+                    if (Game1.random.NextBool(0.5))
+                    {
+                        drink = ItemRegistry.Create(jojaColaId);
+                        messageKey = $"location.cola-machine.{Game1.random.Next(2, 4)}"; // skip variant 1, which suggests a non-Joja Cola item
+                    }
+                    else
+                    {
+                        ParsedItemData[] drinks = ItemRegistry
+                            .GetObjectTypeDefinition()
+                            .GetAllData()
+                            .Where(p => p.RawData is ObjectData { IsDrink: true } && p.QualifiedItemId is not jojaColaId)
+                            .ToArray();
+
+                        drink = ItemRegistry.Create(Game1.random.ChooseFrom(drinks).QualifiedItemId);
+                        messageKey = $"location.cola-machine.{Game1.random.Next(1, 4)}";
+                    }
+
+                    Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+                    Game1.PerformActionWhenPlayerFree(() => Game1.player.addItemByMenuIfNecessary(drink));
+                }
+                else
+                    location.performAction(["ColaMachine"], who, new Location(tile.X, tile.Y));
                 return true;
 
             // pop-up shop
@@ -163,6 +204,7 @@ internal class ModEntry : Mod
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
+        this.GotRareColaDrop.Value = false;
         this.SawRareMessage.Value = false;
 
         this.ContentManager.ConvertPreviousTicketMachines(e.NewLocation);

@@ -39,6 +39,10 @@
                 "location.ticket-machine.2": "{{i18n: location.ticket-machine.2}}",
                 "location.ticket-machine.3": "{{i18n: location.ticket-machine.3}}",
 
+                "location.cola-machine.1": "{{i18n: location.cola-machine.1}}",
+                "location.cola-machine.2": "{{i18n: location.cola-machine.2}}",
+                "location.cola-machine.3": "{{i18n: location.cola-machine.3}}",
+
                 "vendor-shop.dialogue.coming-soon": "{{i18n: vendor-shop.dialogue.coming-soon}}"
             }
         }
