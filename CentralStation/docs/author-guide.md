@@ -22,6 +22,9 @@ section below.
 * [Mod integrations](#mod-integrations)
   * [Recolors](#recolors)
   * [C# mod API](#c-mod-api)
+* [Lore guide](#lore-guide)
+  * [General guidelines](#general-guidelines)
+  * [Hidden lore](#hidden-lore)
 * [FAQs](#faqs)
 * [See also](#see-also)
 
@@ -310,7 +313,9 @@ next dialogue in the list. Default none.
 You can use `#` in dialogue text to split it into consecutive dialogue boxes, `^` to add newlines, and [gender-switch
 blocks](https://stardewvalleywiki.com/Modding:Dialogue#Gender_switch).
 
-These should usually be translated into the player's current language using Content Patcher's `i18n` token.
+Best practices:
+* These should usually be translated into the player's current language using Content Patcher's `i18n` token.
+* If your dialogue mentions the Central Station, see the [lore guide](#lore-guide).
 
 </td>
 </tr>
@@ -369,6 +374,62 @@ To add stops through the API:
        condition: null
    );
    ```
+
+## Lore guide
+The Central Station has a hidden backstory which is mentioned in some default content. If you add custom dialogue which
+mentions Central Station, this optional lore guide can help you keep it consistent.
+
+### General guidelines
+This section has light spoilers.
+
+* Central Station can only be reached and left via boat/bus/train transit lines.  
+  _NPCs shouldn't mention reaching it any other way (e.g. walking, driving, or taking their own boat), and shouldn't
+  mention going outside the station._
+* It's connected to regular boat/bus/train lines.  
+  _NPCs and players who transit through the station generally don't know there's anything unusual about it._
+* Who runs and maintains Central Station is never revealed.  
+  _In-game authorities like [the governor](https://stardewvalleywiki.com/Governor) are aware of the station and have
+  permits issued, but don't recall who filed them. Nobody works for the station (e.g. the shop keepers are independent).
+  No company has maintenance contracts with the station (e.g. for upkeep or maintenance)._
+* The backstory is rarely hinted at, and never explicitly stated.  
+  _If you want to hint at the backstory in custom dialogue, see the next section._
+
+
+### Hidden lore
+> [!WARNING]  
+> **This section has heavy spoilers, including details that are never revealed in-game.**
+>
+> If you want the intended experience, you should not read this section. This is only documented so that mod authors
+> adding custom dialogue can hint at the backstory in a way that's consistent with the base mod.
+
+> [!NOTE]  
+> The Custom Station lore is meant to be a vague background 'feel' to the station, so it should rarely be mentioned.
+> For example, only two default tourists have dialogues which vaguely hint at it.
+
+<details>
+<summary><em>View hidden lore (<strong>contains major spoilers</strong>):</em></summary>
+
+The Central Station is in the spirit world, and it's run by unknown but friendly spirits. You can't reach the station
+through normal means (e.g. driving along the road which the bus takes), and every transit destination seems to be
+reachable (e.g. a bus stop on another continent).
+
+This is never revealed to players or NPCs, and it's not possible to discover who runs the station and remember it. For
+example, there's a rare chance to see this message when you click the ticket counter:
+> _(Suddenly you can see through the tinted glass, just for a moment. When you think back, you can't remember what you
+> saw.)_
+
+The spirits who operate the station are never described in any detail, only indirectly or via their actions. For
+example, other rare messages state:
+> (You try to peer into the ticket booth, but there's just a vague shadow through the tinted glass.)  
+> (You hear strange whispers through the glass.)  
+> (This machine only sells Joja Cola, but something thuds into the pickup tray as you approach.)
+
+Messages which hint at this lore are generally eerie, strange, or otherworldly. However the spirits are always friendly,
+helpful, or playfully mischievous; they are _never_ threatening, scary, malicious, or hurtful.
+
+
+
+</details>
 
 ## FAQs
 ### Can I make Central Station optional?
