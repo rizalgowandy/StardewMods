@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using ContentPatcher.Framework.Conditions;
 using ContentPatcher.Framework.Migrations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace ContentPatcher.Framework.Patches;
 
@@ -61,6 +63,10 @@ internal interface IPatch : IContextual
 
     /// <summary>Whether the patch is currently applied to the target asset.</summary>
     bool IsApplied { get; set; }
+
+    /// <summary>The <see cref="Game1.ticks"/> when the patch values last changed.</summary>
+    [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global", Justification = "Kept for backwards compatibility with Content Patcher Animations.")]
+    int LastChangedTick { get; }
 
 
     /*********

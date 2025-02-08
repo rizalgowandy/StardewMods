@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using StardewValley;
 
 namespace ContentPatcher.Framework.Patches;
 
@@ -143,6 +144,9 @@ internal abstract class Patch : IPatch
     /// <inheritdoc />
     public bool IsApplied { get; set; }
 
+    /// <inheritdoc />
+    public int LastChangedTick { get; private set; }
+
 
     /*********
     ** Public methods
@@ -225,7 +229,10 @@ internal abstract class Patch : IPatch
         // update
         this.IsReady = isReady;
         if (changed || this.IsReady != wasReady)
+        {
+            this.LastChangedTick = Game1.ticks;
             return this.MarkUpdated();
+        }
 
         return false;
     }
