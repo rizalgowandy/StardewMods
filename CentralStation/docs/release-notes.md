@@ -2,7 +2,7 @@
 
 # Release notes
 ## Upcoming release
-* Improved translations. Thanks to CapMita (added Chinese) and NARCOAZAZAL (added Portuguese)!
+* Improved translations. Thanks to CapMita (added Chinese), MaxBladix (added French), and NARCOAZAZAL (added Portuguese)!
 
 ## 1.0.0
 Released 07 February 2025 for SMAPI 4.1.10 or later.
