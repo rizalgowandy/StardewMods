@@ -1,4 +1,9 @@
-﻿{
+﻿//
+// Note for translators:
+// Some lines have a 'note for translators' comment like this one to clarify intent. You generally shouldn't translate
+// the 'note for translators' comments themselves, since they just explain the official intent and aren't shown in-game.
+//
+{
     /*********
     ** Destination names
     *********/
@@ -19,11 +24,11 @@
     /*********
     ** Shop dialogues
     *********/
-    "food-court.dialogue.1": "Get your grub here! Mostly not made from grubs.",
-    "food-court.dialogue.2": "Guaranteed lowest prices in the food court.",
+    "food-court.dialogue.1": "Get your grub here! Mostly not made from grubs.", // note for translators: this is a pun in English, since grub can mean either 'food' or 'larvae'. If you can't translate the pun, I suggest translating as "Get your food here! Mostly not made from grubs" or similar instead.
+    "food-court.dialogue.2": "Guaranteed lowest prices in the food court.", // note for translators: this is a joke, since it's the only food shop in the food court.
     "food-court.dialogue.3": "We mostly passed our last food safety inspection!",
     "food-court.dialogue.4": "Oh, a customer. Whatcha want?",
-    "food-court.dialogue.5": "We got fresh and hot food! Well, hot. If you microwave it.",
+    "food-court.dialogue.5": "We got fresh and hot food! Well, hot. If you microwave it.", // note for translators: this is a joke which implies the food is neither hot nor fresh.
 
     "gift-shop.dialogue.1": "Going far? Make sure you have everything you need!",
     "gift-shop.dialogue.2": "Heading home? Grab some souvenirs to bring back!",
@@ -39,6 +44,9 @@
     /*********
     ** Book titles
     *********/
+    // Note for translators: this section refers to locations mentioned in the base game (like the Ferngill Republic and Zuzu City).
+    // You can find their translations via the language links on the left of the page at https://stardewvalleywiki.com/Setting.
+    // The 'Z.C. Rarecrow Society' is from a letter; see https://stardewvalleywiki.com/Deluxe_Scarecrow and its language links.
     "books.cooking.1": "'Void Mayonnaise and Other Goblin Delicacies'.",
 
     "books.geography.1": "'The Ferngill Coast and What we Found There'.",
@@ -127,7 +135,7 @@
     "tourist.governor.1": "It's very strange. Nobody knows who runs this station.#All the right permits were filed, but nobody remembers that happening.#Ah well, it's not the only strange thing in these parts.",
     "tourist.governor.2": "So lovely to finally be taking the train myself.#I really ought to bring the missus next time.",
 
-    "tourist.lupini.1": "Greetings, young ${man^lady^person}$. Have you seen my latest paintings?",
+    "tourist.lupini.1": "Greetings, young ${man^lady^person}$. Have you seen my latest paintings?", // note for translators: ${...}$ is a gender-switch block which switches between text for male, female, or non-binary players.
     "tourist.lupini.2": "I'm off to open a new gallery. You may tag along if you wish.",
 
     "tourist.red-cap-guy.1": "The great thing about travel is all the different people and fashions.",

@@ -1,4 +1,9 @@
-﻿{
+﻿//
+// Note for translators:
+// Some lines have a 'note for translators' comment like this one to clarify intent. You generally shouldn't translate
+// the 'note for translators' comments themselves, since they just explain the official intent and aren't shown in-game.
+//
+{
     /*********
     ** Destination names (Nomes dos Destinos)
     *********/
@@ -19,11 +24,11 @@
     /*********
     ** Shop dialogues (Diálogos das Lojas)
     *********/
-    "food-court.dialogue.1": "Comida boa aqui! E quase nada feito de insetos.",
-    "food-court.dialogue.2": "Os menores preços da praça de alimentação, eu garanto!",
+    "food-court.dialogue.1": "Comida boa aqui! E quase nada feito de insetos.", // note for translators: this is a pun in English, since grub can mean either 'food' or 'larvae'. If you can't translate the pun, I suggest translating as "Get your food here! Mostly not made from grubs" or similar instead.
+    "food-court.dialogue.2": "Os menores preços da praça de alimentação, eu garanto!", // note for translators: this is a joke, since it's the only food shop in the food court.
     "food-court.dialogue.3": "Passamos na última inspeção sanitária... essa foi quase!",
     "food-court.dialogue.4": "Oh, um cliente. O que vai querer?",
-    "food-court.dialogue.5": "Comida quente e fresquinha! Quer dizer, quente... Se esquentar no micro-ondas.",
+    "food-court.dialogue.5": "Comida quente e fresquinha! Quer dizer, quente... Se esquentar no micro-ondas.", // note for translators: this is a joke which implies the food is neither hot nor fresh.
 
     "gift-shop.dialogue.1": "Vai viajar? Não esqueça de levar tudo o que precisa!",
     "gift-shop.dialogue.2": "Voltando pra casa? Leve umas lembrancinhas!",
@@ -39,6 +44,9 @@
     /*********
     ** Book titles (Títulos de Livros)
     *********/
+    // Note for translators: this section refers to locations mentioned in the base game (like the Ferngill Republic and Zuzu City).
+    // You can find their translations via the language links on the left of the page at https://stardewvalleywiki.com/Setting.
+    // The 'Z.C. Rarecrow Society' is from a letter; see https://stardewvalleywiki.com/Deluxe_Scarecrow and its language links.
     "books.cooking.1": "'Maionese Sombria e Outras Delícias Goblins'.",
 
     "books.geography.1": "'A Costa de Ferngill e o Que Lá Habita'.",
@@ -127,7 +135,7 @@
     "tourist.governor.1": "É muito estranho. Ninguém sabe quem administra essa estação.#Todos os documentos foram assinados, mas ninguém lembra disso.#Bom, não é a única coisa estranha por aqui...",
     "tourist.governor.2": "Tão bom finalmente pegar o trem.#Tenho que trazer minha esposa na próxima.",
 
-    "tourist.lupini.1": "Saudações, jovem. Já viu minhas últimas pinturas?",
+    "tourist.lupini.1": "Saudações, jovem. Já viu minhas últimas pinturas?", // note for translators: ${...}$ is a gender-switch block which switches between text for male, female, or non-binary players.
     "tourist.lupini.2": "Tô indo abrir uma nova galeria. Pode vir junto se quiser.",
 
     "tourist.red-cap-guy.1": "O legal de viajar é conhecer pessoas e estilos diferentes.",

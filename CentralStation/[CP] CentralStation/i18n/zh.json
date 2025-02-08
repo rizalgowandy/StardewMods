@@ -1,4 +1,9 @@
-﻿{
+﻿//
+// Note for translators:
+// Some lines have a 'note for translators' comment like this one to clarify intent. You generally shouldn't translate
+// the 'note for translators' comments themselves, since they just explain the official intent and aren't shown in-game.
+//
+{
     /*********
     ** Destination names (目的地名称)
     *********/
@@ -19,11 +24,11 @@
     /*********
     ** Shop dialogues (商店对话)
     *********/
-    "food-court.dialogue.1": "来吃点东西吧！我保证它们“大部分”都不是虫子肉！",
-    "food-court.dialogue.2": "最低价特卖！",
+    "food-court.dialogue.1": "来吃点东西吧！我保证它们“大部分”都不是虫子肉！", // note for translators: this is a pun in English, since grub can mean either 'food' or 'larvae'. If you can't translate the pun, I suggest translating as "Get your food here! Mostly not made from grubs" or similar instead.
+    "food-court.dialogue.2": "最低价特卖！", // note for translators: this is a joke, since it's the only food shop in the food court.
     "food-court.dialogue.3": "我们上次食品安全检查勉强合格啦！",
     "food-court.dialogue.4": "哦，来客人了，要点什么吗？",
-    "food-court.dialogue.5": "新鲜又热乎的食物！呃，热乎的...微波炉加热也算吧。",
+    "food-court.dialogue.5": "新鲜又热乎的食物！呃，热乎的...微波炉加热也算吧。", // note for translators: this is a joke which implies the food is neither hot nor fresh.
 
     "gift-shop.dialogue.1": "要出远门？检查下必需品都带齐了吗！",
     "gift-shop.dialogue.2": "准备回家？带些纪念品回去吧！",
@@ -39,6 +44,9 @@
     /*********
     ** Book titles (书籍标题)
     *********/
+    // Note for translators: this section refers to locations mentioned in the base game (like the Ferngill Republic and Zuzu City).
+    // You can find their translations via the language links on the left of the page at https://stardewvalleywiki.com/Setting.
+    // The 'Z.C. Rarecrow Society' is from a letter; see https://stardewvalleywiki.com/Deluxe_Scarecrow and its language links.
     "books.cooking.1": "《虚空蛋黄酱与地精美食》",
 
     "books.geography.1": "《芬吉尔海岸探秘》",
@@ -127,7 +135,7 @@
     "tourist.governor.1": "很奇怪，没人知道车站是谁运营的。#所有手续都合规，但没人记得审批过程。#不过这一带怪事也不止这一件。",
     "tourist.governor.2": "终于能亲自坐火车了，真好。#下次该带夫人一起来。",
 
-    "tourist.lupini.1": "你好啊年轻的旅客，看过我的新画作了吗？",
+    "tourist.lupini.1": "你好啊年轻的旅客，看过我的新画作了吗？", // note for translators: ${...}$ is a gender-switch block which switches between text for male, female, or non-binary players.
     "tourist.lupini.2": "我要去开新画廊了，想跟来随时欢迎。",
 
     "tourist.red-cap-guy.1": "旅行的妙处就是能见识各种人和时尚。",
