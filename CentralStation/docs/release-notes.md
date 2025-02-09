@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Fixed map layer issue with a gift shop basket.
 * Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
 
 ## 1.0.1
