@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.0.1
+Released 08 February 2025 for SMAPI 4.1.10 or later.
+
 * Added warning when a stop is hidden because its target location doesn't exist.
 * Fixed Bus Locations mod overriding Central Station's ticket machine at the bus stop.
 * Improved translations. Thanks to CapMita (added Chinese), creeperkatze (added German), Lexith (added Turkish), MakinDay (added Italian), MaxBladix (added French), and NARCOAZAZAL (added Portuguese)!
