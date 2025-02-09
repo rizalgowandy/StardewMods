@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Fixed Bus Locations mod overriding Central Station's ticket machine at the bus stop.
 * Improved translations. Thanks to CapMita (added Chinese), Lexith (added Turkish), MakinDay (added Italian), MaxBladix (added French), and NARCOAZAZAL (added Portuguese)!
 
 ## 1.0.0

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Pathoschild.Stardew.CentralStation.Framework;
 using Pathoschild.Stardew.CentralStation.Framework.Constants;
+using Pathoschild.Stardew.CentralStation.Framework.Integrations;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -13,6 +14,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
+using StardewValley.Menus;
 using xTile.Dimensions;
 
 namespace Pathoschild.Stardew.CentralStation;
@@ -28,6 +30,9 @@ internal class ModEntry : Mod
 
     /// <summary>Manages the available destinations, including destinations provided through other frameworks like Train Station.</summary>
     private StopManager StopManager = null!; // set in Entry
+
+    /// <summary>Whether the Bus Locations mod is installed, regardless of whether it has any stops loaded.</summary>
+    private bool HasBusLocationsMod;
 
     /// <summary>Whether the player received a free item from a cola machine since they arrived.</summary>
     private readonly PerScreen<bool> GotRareColaDrop = new();
@@ -49,10 +54,12 @@ internal class ModEntry : Mod
         // init
         this.ContentManager = new(helper.GameContent, helper.ModRegistry, this.Monitor);
         this.StopManager = new(this.ContentManager, this.Monitor, helper.ModRegistry);
+        this.HasBusLocationsMod = helper.ModRegistry.IsLoaded(BusLocationsStopProvider.ModId);
 
         // hook events
         helper.Events.GameLoop.DayStarted += this.ContentManager.OnDayStarted;
         helper.Events.Content.AssetRequested += this.ContentManager.OnAssetRequested;
+        helper.Events.Display.MenuChanged += this.OnMenuChanged;
         helper.Events.Player.Warped += this.OnWarped;
 
         // hook tile actions
@@ -251,6 +258,21 @@ internal class ModEntry : Mod
     /****
     ** Handle SMAPI events
     ****/
+    /// <inheritdoc cref="IDisplayEvents.MenuChanged" />
+    private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+    {
+        // Bus Locations handles any action click on the ticket machine coordinates and replaces Central Station's
+        // menu even if it's shown first. Since we include Bus Locations' stops in our menu, reopen ours instead.
+        if (this.HasBusLocationsMod && Game1.currentLocation is BusStop busStop && e.NewMenu is DialogueBox dialogueBox && dialogueBox.dialogues.FirstOrDefault() is "Where would you like to go?" or "Out of service")
+        {
+            busStop.lastQuestionKey = null;
+            busStop.afterQuestion = null;
+            Game1.objectDialoguePortraitPerson = null;
+
+            this.OpenMenu(StopNetworks.Bus);
+        }
+    }
+
     /// <inheritdoc cref="IPlayerEvents.Warped" />
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
