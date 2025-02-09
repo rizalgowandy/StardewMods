@@ -130,7 +130,6 @@
     /*********
     ** Iconic Framework icon
     *********/
-    // TODO
-    "icon.open-menu.name": "Chests Anywhere",
-    "icon.open-menu.desc": "Open Menu"
+    "icon.open-menu.name": "Kisten Überall",
+    "icon.open-menu.desc": "Menü Öffnen"
 }
