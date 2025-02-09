@@ -14,30 +14,5 @@ namespace Pathoschild.Stardew.CentralStation.Framework
     /// <param name="Cost">The gold price to go to that stop.</param>
     /// <param name="Network">The networks through which this stop is available.</param>
     /// <param name="Condition">If set, a game state query which indicates whether this stop should appear in the menu at a given time. The contextual location is set to the player's current location.</param>
-    internal record Stop(string Id, Func<string> DisplayName, Func<string?>? DisplayNameInCombinedLists, string ToLocation, Point? ToTile, int ToFacingDirection, int Cost, StopNetworks Network, string? Condition)
-    {
-        /*********
-        ** Public methods
-        *********/
-        /// <summary>Get whether this stop should be enabled from the current location.</summary>
-        /// <param name="networks">The networks on which the player is traveling.</param>
-        public bool ShouldEnable(StopNetworks networks)
-        {
-            return Stop.ShouldEnable(this.ToLocation, this.Condition, this.Network, networks);
-        }
-
-        /// <summary>Get whether a stop should be enabled from the current location.</summary>
-        /// <param name="stopLocation"><inheritdoc cref="ToLocation"/></param>
-        /// <param name="condition"><inheritdoc cref="Condition"/></param>
-        /// <param name="stopNetworks"><inheritdoc cref="Network"/></param>
-        /// <param name="travelingNetworks">The networks on which the player is traveling.</param>
-        public static bool ShouldEnable(string stopLocation, string? condition, StopNetworks stopNetworks, StopNetworks travelingNetworks)
-        {
-            return
-                stopNetworks.HasAnyFlag(travelingNetworks)
-                && stopLocation != Game1.currentLocation.Name
-                && Game1.getLocationFromName(stopLocation) is not null
-                && GameStateQuery.CheckConditions(condition);
-        }
-    }
+    internal record Stop(string Id, Func<string> DisplayName, Func<string?>? DisplayNameInCombinedLists, string ToLocation, Point? ToTile, int ToFacingDirection, int Cost, StopNetworks Network, string? Condition);
 }

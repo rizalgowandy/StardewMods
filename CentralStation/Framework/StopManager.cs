@@ -57,7 +57,7 @@ internal class StopManager
         // from API
         foreach (Stop stop in this.ModApiStops.Values)
         {
-            if (stop.ShouldEnable(networks))
+            if (this.ContentManager.ShouldEnableStop(stop.Id, stop.ToLocation, stop.Condition, stop.Network, networks))
                 yield return stop;
         }
 

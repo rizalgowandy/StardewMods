@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added warning when a stop is hidden because its target location doesn't exist.
 * Fixed Bus Locations mod overriding Central Station's ticket machine at the bus stop.
 * Improved translations. Thanks to CapMita (added Chinese), creeperkatze (added German), Lexith (added Turkish), MakinDay (added Italian), MaxBladix (added French), and NARCOAZAZAL (added Portuguese)!
 
