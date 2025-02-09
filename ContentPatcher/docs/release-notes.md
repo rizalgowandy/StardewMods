@@ -9,6 +9,11 @@ When releasing a format change, don't forget to update the smapi.io/json schema!
 
 
 -->
+## 2.5.3
+Released 08 February 2025 for SMAPI 4.1.10 or later.
+
+* Fixed backwards compatibility with Content Patcher Animations.
+
 ## 2.5.2
 Released 07 February 2025 for SMAPI 4.1.10 or later.
 

@@ -35,7 +35,7 @@ own stops to each network.
 
 For example, let's say you add a custom island only reachable by boat. There are two ways to reach it:
 * Get a ticket from [Willy's boat](https://stardewvalleywiki.com/Fish_Shop#Willy.27s_Boat) (or any ticket machine on
-  the boat network) to go the island.
+  the boat network) to go to the island.
 * _Or_ get a ticket to the Central Station from any network, then get a boat ticket from there to your island.
 
 Your stops are highly customizable with optional features like ticket pricing and conditions.
@@ -399,22 +399,26 @@ This section has light spoilers.
 > [!WARNING]  
 > **This section has heavy spoilers, including details that are never revealed in-game.**
 >
-> If you want the intended experience, you should not read this section. This is only documented so that mod authors
-> adding custom dialogue can hint at the backstory in a way that's consistent with the base mod.
+> If you want the intended experience, **do not read this section**. This is only documented so that mod authors adding
+> custom dialogue can hint at the backstory in a way that's consistent with the base mod.
 
 > [!NOTE]  
-> The Custom Station lore is meant to be a vague background 'feel' to the station, so it should rarely be mentioned.
-> For example, only two default tourists have dialogues which vaguely hint at it.
+> The hidden lore is meant to be a vague background 'feel' to the station, so it should rarely be mentioned and never
+> directly explained. For example, only two default tourists have dialogues which vaguely hint at it.
 
 <details>
 <summary><em>View hidden lore (<strong>contains major spoilers</strong>):</em></summary>
 
 The Central Station is in the spirit world, and it's run by unknown but friendly spirits. You can't reach the station
 through normal means (e.g. driving along the road which the bus takes), and every transit destination seems to be
-reachable (e.g. a bus stop on another continent).
+reachable (e.g. bus stops on another continent).
 
-This is never revealed to players or NPCs, and it's not possible to discover who runs the station and remember it. For
-example, there's a rare chance to see this message when you click the ticket counter:
+This spirit world is more dynamic and changeable than the physical world. The Central Station is kept stable for its
+passengers, but sometimes the spirit world seeps through in a momentary 'flicker'. For players, this is visible as a
+rare chance of strange occurrences (like briefly seeing into the ticket booth).
+
+This is never directly revealed to players or NPCs, and it's not possible to discover who runs the station and remember
+it. For example, there's a rare chance to see this message when you click the ticket counter:
 > _(Suddenly you can see through the tinted glass, just for a moment. When you think back, you can't remember what you
 > saw.)_
 

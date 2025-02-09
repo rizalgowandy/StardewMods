@@ -107,7 +107,7 @@ internal class ContentManager
             }
 
             // match if applicable
-            if (Stop.ShouldEnable(stop.ToLocation, stop.Condition, stop.Network, networks))
+            if (this.ShouldEnableStop(id, stop.ToLocation, stop.Condition, stop.Network, networks))
             {
                 yield return new Stop(
                     Id: id,
@@ -126,6 +126,26 @@ internal class ContentManager
                 );
             }
         }
+    }
+
+    /// <summary>Get whether a stop should be enabled from the current location.</summary>
+    /// <param name="id"><inheritdoc cref="Stop.Id"/></param>
+    /// <param name="stopLocation"><inheritdoc cref="Stop.ToLocation"/></param>
+    /// <param name="condition"><inheritdoc cref="Stop.Condition"/></param>
+    /// <param name="stopNetworks"><inheritdoc cref="Stop.Network"/></param>
+    /// <param name="travelingNetworks">The networks on which the player is traveling.</param>
+    public bool ShouldEnableStop(string id, string stopLocation, string? condition, StopNetworks stopNetworks, StopNetworks travelingNetworks)
+    {
+        if (!stopNetworks.HasAnyFlag(travelingNetworks) || stopLocation == Game1.currentLocation.Name || !GameStateQuery.CheckConditions(condition))
+            return false;
+
+        if (Game1.getLocationFromName(stopLocation) is null)
+        {
+            this.Monitor.LogOnce($"Ignored {stopNetworks} destination with ID '{id}' because its target location '{stopLocation}' could not be found.", LogLevel.Warn);
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>Get a random bookshelf message.</summary>

@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Central Station content",
     "Author": "Pathoschild",
-    "Version": "1.0.0",
+    "Version": "1.0.1",
     "Description": "Adds the base content for the Central Station mod.",
     "UniqueID": "Pathoschild.CentralStation.Content",
     "ContentPackFor": {
