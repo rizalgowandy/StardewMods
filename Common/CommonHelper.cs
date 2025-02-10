@@ -95,6 +95,29 @@ internal static class CommonHelper
             );
     }
 
+    /// <summary>Format a time into display text for the current language.</summary>
+    /// <param name="time">The time of day.</param>
+    /// <remarks>Derived from <see cref="DayTimeMoneyBox.draw(SpriteBatch)"/>.</remarks>
+    public static string FormatTime(int time)
+    {
+        string timeStr = Game1.getTimeOfDayString(time);
+
+        // for some reason, Game1.getTimeOfDayString doesn't add am/pm in some languages (e.g. '0200 -> 1400' is shown as '2:00 -> 2:00')
+        if (LocalizedContentManager.CurrentLanguageCode is LocalizedContentManager.LanguageCode.it or LocalizedContentManager.LanguageCode.ko)
+        {
+            string amOrPm = Game1.content.LoadString(time is < 1200 or >= 2400
+                ? "Strings\\StringsFromCSFiles:DayTimeMoneyBox.cs.10370"
+                : "Strings\\StringsFromCSFiles:DayTimeMoneyBox.cs.10371"
+            );
+
+            timeStr = LocalizedContentManager.CurrentLanguageCode is LocalizedContentManager.LanguageCode.ko
+                ? amOrPm
+                : ' ' + amOrPm;
+        }
+
+        return timeStr;
+    }
+
     /****
     ** Fonts
     ****/

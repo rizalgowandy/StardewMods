@@ -3,6 +3,7 @@
 # Release notes
 ## Upcoming release
 * Add upper-right close buttons for lookup and search menus.
+* Fixed times in Italian and Korean shown without the am/pm indicator.
 * Improved translations. Thanks to BlackRosePetals (updated Chinese) and creeperkatze (updated German)!
 
 ## 1.48.0
