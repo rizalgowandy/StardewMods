@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## Upcoming release
+* Fixed error when speeding some events.
+
 ## 1.13.7
 Released 07 February 2025 for SMAPI 4.1.10 or later.
 
