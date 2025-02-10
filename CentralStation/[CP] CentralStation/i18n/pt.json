@@ -81,8 +81,11 @@
     /*********
     ** Location flavor text (Textos Ambientais dos Locais)
     *********/
-    // message from the exit doors (mensagem das portas de saída)
+    // message from the transit area doors (mensagem das portas de saída)
     "location.transit-area-doors": "Isso leva de volta ao cais e as plataformas. Você vai precisar de um ingresso da bilheteira primeiro.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter (mensagens raras do guichê de passagens)
     "location.ticket-counter.1": "(Você tenta espiar pelo guichê, mas só vê uma sombra vaga através do vidro escuro.)",

@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text
     *********/
-    // message from the exit doors
+    // message from the transit area doors
     "location.transit-area-doors": "Cela vous ramène au quai et plateformes. Vous devez d'abord vous procurer un billet au guichet.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter
     "location.ticket-counter.1": "(Vous essayez de jeter un coup d'œil dans le guichet, mais il n'y a qu'une ombre assez vague à travers la vitre teintée.)",

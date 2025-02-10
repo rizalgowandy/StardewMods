@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text (场景氛围文本)
     *********/
-    // message from the exit doors (出口门提示)
+    // message from the transit area doors (出口门提示)
     "location.transit-area-doors": "这扇门通往码头和站台，你需要先去售票处买票。",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter (售票处少见对话)
     "location.ticket-counter.1": "（你试图窥视售票亭，但有色玻璃后只有模糊的影子）",

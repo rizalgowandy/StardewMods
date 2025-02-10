@@ -37,8 +37,8 @@ internal class ModEntry : Mod
     /// <summary>Whether the player received a free item from a cola machine since they arrived.</summary>
     private readonly PerScreen<bool> GotRareColaDrop = new();
 
-    /// <summary>Whether the player saw a rare Central Station message since they arrived.</summary>
-    private readonly PerScreen<bool> SawRareMessage = new();
+    /// <summary>Whether the player saw a rare 'strange occurrence' in the Central Station since they arrived.</summary>
+    private readonly PerScreen<bool> SawStrangeOccurrence = new();
 
 
     /*********
@@ -122,7 +122,9 @@ internal class ModEntry : Mod
             case MapSubActions.ColaMachine:
                 return this.OnCentralColaAction(location, who, tile);
 
-            // pop-up shop
+            case MapSubActions.ExitDoor:
+                return this.OnCentralExitDoorAction();
+
             case MapSubActions.PopUpShop:
                 return this.OnCentralPopupShopAction();
 
@@ -142,9 +144,9 @@ internal class ModEntry : Mod
         void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
 
         // rare chance of showing a secret message before the ticket menu
-        if (!this.SawRareMessage.Value && Game1.random.NextBool(0.05))
+        if (!this.SawStrangeOccurrence.Value && Game1.random.NextBool(0.05))
         {
-            this.SawRareMessage.Value = true;
+            this.SawStrangeOccurrence.Value = true;
             string messageKey = isTicketBooth
                 ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
                 : $"location.ticket-machine.{Game1.random.Next(1, 4)}";
@@ -215,6 +217,32 @@ internal class ModEntry : Mod
         return true;
     }
 
+    /// <summary>Handle the player activating a <see cref="MapSubActions.ExitDoor"/> action in the Central Station.</summary>
+    /// <returns>Returns whether the action was handled.</returns>
+    private bool OnCentralExitDoorAction()
+    {
+        // rare chance of strange sounds, else locked-door sound
+        if (!this.SawStrangeOccurrence.Value && Game1.random.NextBool(0.05))
+        {
+            this.SawStrangeOccurrence.Value = true;
+
+            Game1.playSound("sipTea");
+            DelayedAction.playSoundAfterDelay("sipTea", 200);
+            DelayedAction.playSoundAfterDelay("sipTea", 400);
+            DelayedAction.playSoundAfterDelay("seeds", 600);
+            DelayedAction.playSoundAfterDelay("Duggy", 800);
+
+            DelayedAction.functionAfterDelay(() => Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation("location.exit-door.strange-sounds")), 800);
+        }
+        else
+        {
+            Game1.playSound("doorOpen", out ICue cue);
+            cue.Volume = 0.5f;
+        }
+
+        return true;
+    }
+
     /// <summary>Handle the player activating a <see cref="MapSubActions.PopUpShop"/> action in the Central Station.</summary>
     /// <returns>Returns whether the action was handled.</returns>
     private bool OnCentralPopupShopAction()
@@ -277,7 +305,7 @@ internal class ModEntry : Mod
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
         this.GotRareColaDrop.Value = false;
-        this.SawRareMessage.Value = false;
+        this.SawStrangeOccurrence.Value = false;
 
         this.ContentManager.ConvertPreviousTicketMachines(e.NewLocation);
         this.ContentManager.AddTicketMachineForMapProperty(e.NewLocation);

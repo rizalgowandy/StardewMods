@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text (Texto descriptivo de ubicaciones)
     *********/
-    // message from the exit doors (mensaje desde las puertas de salida)
+    // message from the transit area doors (mensaje desde las puertas de salida)
     "location.transit-area-doors": "Esto lleva de vuelta al muelle y a las plataformas. Necesitarás un boleto de la boletería primero.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter (mensajes raros desde la boletería)
     "location.ticket-counter.1": "(Tratas de mirar dentro de la boletería, pero solo ves una sombra vaga a través del cristal ahumado.)",

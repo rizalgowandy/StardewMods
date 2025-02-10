@@ -43,6 +43,9 @@
                 "location.cola-machine.2": "{{i18n: location.cola-machine.2}}",
                 "location.cola-machine.3": "{{i18n: location.cola-machine.3}}",
 
+                "location.exit-door": "{{i18n: location.exit-door}}",
+                "location.exit-door.strange-sounds": "{{i18n: location.exit-door.strange-sounds}}",
+
                 "vendor-shop.dialogue.coming-soon": "{{i18n: vendor-shop.dialogue.coming-soon}}"
             }
         }

@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text
     *********/
-    // message from the exit doors
+    // message from the transit area doors
     "location.transit-area-doors": "Bu yol rıhtıma ve platformlara geri dönüyor. Öncelikle bilet gişesinden bir bilet almalısın.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter
     "location.ticket-counter.1": "(Bilet gişesine bakmaya çalışıyorsun, ama renkli camın ardında belirsiz bir gölgeden başka bir şey göremiyorsun.)",
