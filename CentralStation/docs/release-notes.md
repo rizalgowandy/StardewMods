@@ -4,6 +4,7 @@
 ## Upcoming release
 * Tweaked Central Station map:
   * Added sound effect and rare interaction for exit door, and removed the stanchion line blocking it (but it's still locked).
+  * Raised juice prices in food court shop to avoid infinite money exploit with artisan profession.
   * Fixed map layer issue with a gift shop basket.
 * Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
 

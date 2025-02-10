@@ -35,12 +35,12 @@
                         {
                             "Id": "AppleJuice",
                             "ItemId": "FLAVORED_ITEM Juice (O)613",
-                            "Price": 250
+                            "Price": 350
                         },
                         {
                             "Id": "OrangeJuice",
                             "ItemId": "FLAVORED_ITEM Juice (O)635",
-                            "Price": 250
+                            "Price": 350
                         },
                         {
                             "Id": "Coffee",
