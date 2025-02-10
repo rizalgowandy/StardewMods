@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* The 'swing weapon' option no longer speeds up the sword block animation.
 * Fixed error when speeding some events.
 
 ## 1.13.7
