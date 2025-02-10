@@ -95,8 +95,12 @@ internal class SearchMenu : BaseMenu, IScrollableMenu, IDisposable
     /// <inheritdoc />
     public override void receiveLeftClick(int x, int y, bool playSound = true)
     {
+        // close button
+        if (this.upperRightCloseButton.containsPoint(x, y))
+            this.exitThisMenu();
+
         // search box
-        if (this.SearchTextbox.Bounds.Contains(x, y))
+        else if (this.SearchTextbox.Bounds.Contains(x, y))
             this.SearchTextbox.Select();
 
         // scroll up or down
@@ -281,6 +285,9 @@ internal class SearchMenu : BaseMenu, IScrollableMenu, IDisposable
             }
         }
 
+        // draw close button
+        this.upperRightCloseButton.draw(b);
+
         // draw mouse cursor
         this.drawMouse(Game1.spriteBatch);
     }
@@ -385,5 +392,8 @@ internal class SearchMenu : BaseMenu, IScrollableMenu, IDisposable
         int scrollGutter = this.ScrollButtonGutter;
         this.ScrollUpButton.bounds = new Rectangle(x + scrollGutter, (int)(y + contentHeight - CommonSprites.Icons.UpArrow.Height - scrollGutter - CommonSprites.Icons.DownArrow.Height), CommonSprites.Icons.UpArrow.Height, CommonSprites.Icons.UpArrow.Width);
         this.ScrollDownButton.bounds = new Rectangle(x + scrollGutter, (int)(y + contentHeight - CommonSprites.Icons.DownArrow.Height), CommonSprites.Icons.DownArrow.Height, CommonSprites.Icons.DownArrow.Width);
+
+        // add close button
+        this.initializeUpperRightCloseButton();
     }
 }
