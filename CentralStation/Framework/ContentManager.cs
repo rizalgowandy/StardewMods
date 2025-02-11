@@ -59,6 +59,7 @@ internal class ContentManager
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
+    [EventPriority(EventPriority.Low)] // let mods update tokens before we prepare the map
     public void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
         // reapply map edits (e.g. random tourists)
