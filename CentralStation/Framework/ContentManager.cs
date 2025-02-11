@@ -65,6 +65,9 @@ internal class ContentManager
         // reapply map edits (e.g. random tourists)
         this.SeenTouristDialogues.ResetAllScreens();
         this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
+
+        // add ticket machine if player wakes up in a location
+        this.AddTicketMachineForMapProperty(Game1.currentLocation);
     }
 
     /// <inheritdoc cref="IPlayerEvents.Warped" />

@@ -6,6 +6,7 @@
 * Raised juice prices in food court shop to avoid infinite money exploit with artisan profession.
 * Fixed map layer issue with a gift shop basket.
 * Fixed custom content like tourists loaded before Content Patcher updates its tokens.
+* Fixed ticket machine not added if you start the day in its location.
 * Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
 
 ## 1.0.1
