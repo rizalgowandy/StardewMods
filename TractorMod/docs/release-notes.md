@@ -616,12 +616,12 @@ Released 18 August 2017 for SMAPI 1.15.0 or later.
 * Improved translations. Thanks to Sasara (added German)!
 
 ## 3.2.1
-Released 26 April 2017 for SMAPI 1.10.0 or later [by lambui](https://github.com/lambui/StardewValleyMod_TractorMod).
+Released 26 April 2017 for SMAPI 1.10.0 or later [by lambui](https://github.com/lambui/StardewValleyMod_TractorMod), contributed by Pathoschild.
 
 * Fixed initialization errors.
 
 ## 3.2.0
-Released 26 April 2017 for SMAPI 1.10.0 or later [by lambui](https://github.com/lambui/StardewValleyMod_TractorMod).
+Released 26 April 2017 for SMAPI 1.10.0 or later [by lambui](https://github.com/lambui/StardewValleyMod_TractorMod), contributed by Pathoschild.
 
 * Updated for Stardew Valley 1.2 and SMAPI 1.10.
 
