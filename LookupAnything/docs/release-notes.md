@@ -1,9 +1,11 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
-## Upcoming release
+## 1.48.1
+Released 11 February 2025 for SMAPI 4.1.10 or later.
+
 * Add upper-right close buttons for lookup and search menus.
-* Fixed vague 'no longer compatible' message when running an old game version.
+* Fixed vague 'no longer compatible' message for players with an old game version.
 * Fixed times in Italian and Korean shown without the am/pm indicator.
 * Improved translations. Thanks to BlackRosePetals (updated Chinese) and creeperkatze (updated German)!
 

@@ -60,10 +60,9 @@ To add a boat, bus, or train stop:
        }
    }
    ```
-3. Edit the data accordingly (see the fields below). You can list any number of boat or train stops in the same
-   `EditData` patch.
+3. Edit the data accordingly (see the fields below). You can list any number of stops in the same `EditData` patch.
 
-The available fields for a boat or train stop are:
+The available fields for a stop are:
 
 field name          | usage
 ------------------- | -----
