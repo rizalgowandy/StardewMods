@@ -183,7 +183,7 @@ internal class ChestOverlay : BaseChestOverlay
         bool hasColorPicker = false;
         if (menu is ItemGrabMenu grabMenu)
         {
-            isBigChest = grabMenu.ItemsToGrabMenu.capacity >= 70;
+            isBigChest = grabMenu.ItemsToGrabMenu.rows >= 5;
             hasColorPicker = this.IsColorPickerShown(grabMenu);
         }
 
