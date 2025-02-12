@@ -21,6 +21,7 @@ internal sealed class WeaponSwingHandler : BaseAnimationHandler
             Game1.player.UsingTool
             && Game1.player.CurrentTool is MeleeWeapon weapon
             && !weapon.isScythe()
+            && (!weapon.isOnSpecial || weapon.type.Value != MeleeWeapon.defenseSword) // don't speed up blocking animation
             && this.SpeedUpPlayer(until: () => !Game1.player.UsingTool);
     }
 }

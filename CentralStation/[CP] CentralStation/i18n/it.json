@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text
     *********/
-    // message from the exit doors
+    // message from the transit area doors
     "location.transit-area-doors": "Queste conducono al molo e alle piattaforme. Prima è necessario acquistare un biglietto alla biglietteria.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter
     "location.ticket-counter.1": "(Provi a sbirciare nella biglietteria, ma vedi solo una vaga ombra attraverso il vetro oscurato.)",

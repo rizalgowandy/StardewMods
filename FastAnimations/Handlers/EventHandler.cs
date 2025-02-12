@@ -53,8 +53,11 @@ internal sealed class EventHandler : BaseAnimationHandler
 
     /// <summary>Get whether a raw command line is a <see cref="Event.DefaultCommands.Pause"/> command.</summary>
     /// <param name="rawCommand">The unparsed command line.</param>
-    private bool IsPauseCommand(string rawCommand)
+    private bool IsPauseCommand(string? rawCommand)
     {
+        if (rawCommand is null)
+            return false;
+
         const string pauseCommand = nameof(Event.DefaultCommands.Pause);
 
         // quick check

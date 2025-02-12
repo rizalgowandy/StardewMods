@@ -1,6 +1,12 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## 1.13.8
+Released 11 February 2025 for SMAPI 4.1.10 or later.
+
+* The 'swing weapon' option no longer speeds up the sword block animation.
+* Fixed error when speeding some events.
+
 ## 1.13.7
 Released 07 February 2025 for SMAPI 4.1.10 or later.
 

@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text
     *********/
-    // message from the exit doors
+    // message from the transit area doors
     "location.transit-area-doors": "This leads back to the dock and platforms. You'll need a ticket from the ticket counter first.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter
     "location.ticket-counter.1": "(You try to peer into the ticket booth, but there's just a vague shadow through the tinted glass.)",

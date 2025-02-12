@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common;
 using StardewValley;
 using StardewValley.Pathfinding;
 
@@ -57,7 +58,7 @@ internal class ScheduleField : GenericField
 
                 if (i > 0)
                     yield return new FormattedText(Environment.NewLine);
-                yield return new FormattedText(I18n.Npc_Schedule_Entry(time: Game1.getTimeOfDayString(time), locationName: locationName, x: entry.targetTile.X, y: entry.targetTile.Y), textColor);
+                yield return new FormattedText(I18n.Npc_Schedule_Entry(time: CommonHelper.FormatTime(time), locationName: locationName, x: entry.targetTile.X, y: entry.targetTile.Y), textColor);
             }
         }
         else

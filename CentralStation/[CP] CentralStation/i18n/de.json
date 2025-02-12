@@ -73,8 +73,11 @@
     /*********
     ** Location flavor text
     *********/
-    // message from the exit doors
+    // message from the transit area doors
     "location.transit-area-doors": "Hier geht es zurück zum Anleger und zu den Bahnsteigen. Du benötigst zuerst eine Fahrkarte vom Fahrkartenschalter.",
+
+    // messages from exit door
+    "location.exit-door.strange-sounds": "...?",
 
     // rare messages from ticket counter
     "location.ticket-counter.1": "(Du versuchst, einen Blick in den Fahrkartenschalter zu werfen, aber durch die getönten Scheiben ist nur ein undeutlicher Schatten zu sehen).",

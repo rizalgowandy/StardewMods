@@ -234,8 +234,8 @@ internal class LookupMenu : BaseMenu, IScrollableMenu, IDisposable
     /// <param name="y">The y-position of the cursor.</param>
     public void HandleLeftClick(int x, int y)
     {
-        // close menu when clicked outside
-        if (!this.isWithinBounds(x, y))
+        // close menu when clicked outside or on close button
+        if (!this.isWithinBounds(x, y) || this.upperRightCloseButton.containsPoint(x, y))
             this.exitThisMenu();
 
         // scroll up or down
@@ -430,6 +430,9 @@ internal class LookupMenu : BaseMenu, IScrollableMenu, IDisposable
                 }
             }
 
+            // draw close button
+            this.upperRightCloseButton.draw(b);
+
             // draw cursor
             this.drawMouse(Game1.spriteBatch);
         }, this.OnDrawError);
@@ -477,6 +480,9 @@ internal class LookupMenu : BaseMenu, IScrollableMenu, IDisposable
         float contentHeight = this.height - gutter * 2;
         this.ScrollUpButton.bounds = new Rectangle(x + gutter, (int)(y + contentHeight - CommonSprites.Icons.UpArrow.Height - gutter - CommonSprites.Icons.DownArrow.Height), CommonSprites.Icons.UpArrow.Height, CommonSprites.Icons.UpArrow.Width);
         this.ScrollDownButton.bounds = new Rectangle(x + gutter, (int)(y + contentHeight - CommonSprites.Icons.DownArrow.Height), CommonSprites.Icons.DownArrow.Height, CommonSprites.Icons.DownArrow.Width);
+
+        // add close button
+        this.initializeUpperRightCloseButton();
     }
 
     /// <summary>The method invoked when an unhandled exception is intercepted.</summary>
