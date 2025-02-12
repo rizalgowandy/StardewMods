@@ -147,10 +147,12 @@ internal class ModEntry : Mod
         if (!this.SawStrangeOccurrence.Value && Game1.random.NextBool(0.05))
         {
             this.SawStrangeOccurrence.Value = true;
-            string messageKey = isTicketBooth
-                ? $"location.ticket-counter.{Game1.random.Next(1, 4)}"
-                : $"location.ticket-machine.{Game1.random.Next(1, 4)}";
-            Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+
+            string message = isTicketBooth
+                ? this.ContentManager.GetNextStrangeMessage("location.ticket-counter", 1, 3)
+                : this.ContentManager.GetNextStrangeMessage("location.ticket-machine", 1, 3);
+
+            Game1.drawDialogueNoTyping(message);
             Game1.PerformActionWhenPlayerFree(ShowTickets);
         }
         else
@@ -187,12 +189,12 @@ internal class ModEntry : Mod
             this.GotRareColaDrop.Value = true;
 
             Item drink;
-            string messageKey;
+            string message;
 
             if (Game1.random.NextBool(0.5))
             {
                 drink = ItemRegistry.Create(jojaColaId);
-                messageKey = $"location.cola-machine.{Game1.random.Next(2, 4)}"; // skip variant 1, which suggests a non-Joja Cola item
+                message = this.ContentManager.GetNextStrangeMessage("location.cola-machine", 2, 3); // skip variant 1, which suggests a non-Joja Cola item
             }
             else
             {
@@ -203,10 +205,10 @@ internal class ModEntry : Mod
                     .ToArray();
 
                 drink = ItemRegistry.Create(Game1.random.ChooseFrom(drinks).QualifiedItemId);
-                messageKey = $"location.cola-machine.{Game1.random.Next(1, 4)}";
+                message = this.ContentManager.GetNextStrangeMessage("location.cola-machine", 1, 3);
             }
 
-            Game1.drawDialogueNoTyping(this.ContentManager.GetTranslation(messageKey));
+            Game1.drawDialogueNoTyping(message);
             Game1.PerformActionWhenPlayerFree(() => Game1.player.addItemByMenuIfNecessary(drink));
         }
         else

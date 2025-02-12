@@ -42,6 +42,9 @@ internal class ContentManager
     /// <summary>The dialogues shown when the player clicks a tourist, indexed by <c>{map id}#{tourist id}</c>.</summary>
     private readonly Dictionary<string, LiveMessageQueue> TouristDialogues = new();
 
+    /// <summary>The 'strange occurrence' messages shown in rare cases.</summary>
+    private readonly Dictionary<string, LiveMessageQueue> StrangeMessages = new();
+
 
     /*********
     ** Public methods
@@ -155,15 +158,6 @@ internal class ContentManager
         return true;
     }
 
-    /// <summary>Get a random bookshelf message.</summary>
-    /// <param name="message">The next message to display.</param>
-    /// <param name="hasMoreMessages">Whether there are more messages to show after this one (including repeats).</param>
-    /// <returns>Returns whether a message was found.</returns>
-    public bool TryGetBookshelfMessage([NotNullWhen(true)] out string? message, out bool hasMoreMessages)
-    {
-        return this.BookshelfMessages.TryGetNext(out message, out hasMoreMessages);
-    }
-
     /// <summary>Get a translation provided by the content pack.</summary>
     /// <param name="key">The translation key.</param>
     /// <param name="tokens">The tokens with which to format the text, if any.</param>
@@ -189,6 +183,15 @@ internal class ContentManager
         return stop.Cost > 0
             ? Game1.content.LoadString("Strings\\Locations:MineCart_DestinationWithPrice", displayName, Utility.getNumberWithCommas(stop.Cost))
             : displayName;
+    }
+
+    /// <summary>Get a random bookshelf message.</summary>
+    /// <param name="message">The next message to display.</param>
+    /// <param name="hasMoreMessages">Whether there are more messages to show after this one (including repeats).</param>
+    /// <returns>Returns whether a message was found.</returns>
+    public bool TryGetBookshelfMessage([NotNullWhen(true)] out string? message, out bool hasMoreMessages)
+    {
+        return this.BookshelfMessages.TryGetNext(out message, out hasMoreMessages);
     }
 
     /// <summary>Get the next dialogue a tourist will speak, if they have any.</summary>
@@ -227,6 +230,22 @@ internal class ContentManager
         }
 
         return false;
+    }
+
+    /// <summary>Get the next 'strange occurrence' message from a list of translations with keys in the form <c>{prefix}.{number suffix}</c>.</summary>
+    /// <param name="prefix">The translation key prefix.</param>
+    /// <param name="minSuffix">The min numeric key suffix.</param>
+    /// <param name="maxSuffix">The max numeric key suffix.</param>
+    /// <param name="shuffle">Whether to randomize the message order.</param>
+    public string GetNextStrangeMessage(string prefix, int minSuffix, int maxSuffix, bool shuffle = true)
+    {
+        string cacheKey = $"{prefix}#{minSuffix}-{maxSuffix}#{shuffle}";
+        if (!this.StrangeMessages.TryGetValue(cacheKey, out LiveMessageQueue? messages))
+            this.StrangeMessages[cacheKey] = messages = new LiveMessageQueue(loop: true, shuffle: shuffle, fetchMessages: () => this.GetNumberedTranslations(prefix, minSuffix, maxSuffix));
+
+        return messages.TryGetNext(out string? message, out _)
+            ? message
+            : string.Empty; // should never happen
     }
 
     /// <summary>Get the tile which contains an <c>Action</c> tile property which opens a given network's menu, if any.</summary>
@@ -655,6 +674,21 @@ internal class ContentManager
         {
             string text = tourist.Dialogue[i] ?? string.Empty;
             yield return new LiveMessageQueue.Message($"{mapId}#{touristId}#{i}#{text}", text); // include index: tourists can repeat dialogue text (e.g. the flamingo's "..." lines)
+        }
+    }
+
+    /// <summary>Get all translations with a prefix and suffix.</summary>
+    /// <param name="prefix">The translation key prefix.</param>
+    /// <param name="min">The min numeric key suffix.</param>
+    /// <param name="max">The max numeric key suffix.</param>
+    private IEnumerable<LiveMessageQueue.Message> GetNumberedTranslations(string prefix, int min, int max)
+    {
+        for (int i = min; i <= max; i++)
+        {
+            string key = $"{prefix}.{i}";
+            string text = this.GetTranslation(key);
+
+            yield return new LiveMessageQueue.Message(key, text);
         }
     }
 }

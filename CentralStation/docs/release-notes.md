@@ -5,6 +5,7 @@
 * For players:
   * Added sound effect and rare interaction for central station exit door, and removed the stanchion line blocking it (but it's still locked).
   * Raised juice prices in food court shop to avoid infinite money exploit with artisan profession.
+  * Rare messages within a play session no longer repeat unless you've already seen all of them.
   * Fixed map layer issue with a gift shop basket.
   * Fixed ticket machine not added if you start the day in its location.
   * Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
