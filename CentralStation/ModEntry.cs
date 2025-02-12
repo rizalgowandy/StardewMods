@@ -163,9 +163,7 @@ internal class ModEntry : Mod
     /// <returns>Returns whether the action was handled.</returns>
     private bool OnCentralBookshelfAction()
     {
-        string message = this.ContentManager.GetBookshelfMessage();
-
-        if (!string.IsNullOrWhiteSpace(message))
+        if (this.ContentManager.TryGetBookshelfMessage(out string? message, out _))
         {
             Game1.drawDialogueNoTyping(message);
             return true;
@@ -266,20 +264,15 @@ internal class ModEntry : Mod
         }
 
         // get dialogue
-        string? dialogue = this.ContentManager.GetNextTouristDialogue(mapId, touristId);
-        if (dialogue is not null)
-        {
-            dialogue = Dialogue.applyGenderSwitchBlocks(Game1.player.Gender, dialogue);
+        bool hasMessage = this.ContentManager.TryGetTouristDialogue(mapId, touristId, out string? dialogue, out bool hasMoreMessages);
+        if (hasMessage)
             Game1.drawObjectDialogue(dialogue);
 
-            if (this.ContentManager.GetNextTouristDialogue(mapId, touristId, markSeen: false) is null)
-                location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action"); // if we're viewing their last dialogue, remove the property to avoid a ghost hand cursor
-            return true;
-        }
+        // if we're viewing their last dialogue, remove the property to avoid a ghost hand cursor
+        if (!hasMoreMessages)
+            location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action");
 
-        // no more dialogue, remove action cursor
-        location.removeTileProperty(tile.X, tile.Y, "Buildings", "Action");
-        return false;
+        return hasMessage;
     }
 
 

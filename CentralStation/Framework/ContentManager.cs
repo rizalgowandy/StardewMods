@@ -8,7 +8,6 @@ using Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 using Pathoschild.Stardew.Common;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Locations;
@@ -37,11 +36,11 @@ internal class ContentManager
     /// <summary>Encapsulates monitoring and logging.</summary>
     private readonly IMonitor Monitor;
 
-    /// <summary>The book dialogues which the player has already seen during this session.</summary>
-    private readonly PerScreen<HashSet<string>> SeenBookshelfMessages = new(() => new());
+    /// <summary>The messages shown when the player clicks a bookshelf.</summary>
+    private readonly LiveMessageQueue BookshelfMessages;
 
-    /// <summary>The tourist dialogues already seen by the current player today, indexed by <c>{map id}#{tourist id}</c>.</summary>
-    private readonly PerScreen<Dictionary<string, HashSet<string>>> SeenTouristDialogues = new(() => new());
+    /// <summary>The dialogues shown when the player clicks a tourist, indexed by <c>{map id}#{tourist id}</c>.</summary>
+    private readonly Dictionary<string, LiveMessageQueue> TouristDialogues = new();
 
 
     /*********
@@ -56,14 +55,18 @@ internal class ContentManager
         this.ContentHelper = contentHelper;
         this.ModRegistry = modRegistry;
         this.Monitor = monitor;
+
+        this.BookshelfMessages = new LiveMessageQueue(loop: true, shuffle: true, this.GetBookshelfMessages);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
     [EventPriority(EventPriority.Low)] // let mods update tokens before we prepare the map
     public void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
+        // reset dialogue
+        this.TouristDialogues.Clear();
+
         // reapply map edits (e.g. random tourists)
-        this.SeenTouristDialogues.ResetAllScreens();
         this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
 
         // add ticket machine if player wakes up in a location
@@ -153,35 +156,12 @@ internal class ContentManager
     }
 
     /// <summary>Get a random bookshelf message.</summary>
-    public string GetBookshelfMessage()
+    /// <param name="message">The next message to display.</param>
+    /// <param name="hasMoreMessages">Whether there are more messages to show after this one (including repeats).</param>
+    /// <returns>Returns whether a message was found.</returns>
+    public bool TryGetBookshelfMessage([NotNullWhen(true)] out string? message, out bool hasMoreMessages)
     {
-        HashSet<string> seenMessages = this.SeenBookshelfMessages.Value;
-
-        // get available options
-        List<string> options = new();
-        foreach ((string id, List<string>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string>?>>(AssetNames.Bookshelf))
-        {
-            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, id, allowModOnlyId: true) is null)
-            {
-                this.Monitor.LogOnce($"Ignored bookshelf messages with ID '{id}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_StopId`.", LogLevel.Warn);
-                continue;
-            }
-
-            options.AddRange(dialogues ?? []);
-        }
-        options.RemoveAll(option => string.IsNullOrWhiteSpace(option) || seenMessages.Contains(option));
-
-        // if we've seen them all, reset
-        if (options.Count == 0 && seenMessages.Count > 0)
-        {
-            seenMessages.Clear();
-            return this.GetBookshelfMessage();
-        }
-
-        // choose one
-        string selected = Game1.random.ChooseFrom(options);
-        seenMessages.Add(selected);
-        return selected;
+        return this.BookshelfMessages.TryGetNext(out message, out hasMoreMessages);
     }
 
     /// <summary>Get a translation provided by the content pack.</summary>
@@ -214,60 +194,39 @@ internal class ContentManager
     /// <summary>Get the next dialogue a tourist will speak, if they have any.</summary>
     /// <param name="mapId">The ID for the tourist map data which added the tourist.</param>
     /// <param name="touristId">The ID of the tourist within its tourist map data.</param>
-    /// <param name="markSeen">Whether to mark the dialogue seen, so it's skipped next time this method is called.</param>
-    public string? GetNextTouristDialogue(string mapId, string touristId, bool markSeen = true)
+    /// <param name="message">The next message to display.</param>
+    /// <param name="hasMoreMessages">Whether there are more messages to show after this one (including repeats).</param>
+    /// <returns>Returns whether a message was found.</returns>
+    public bool TryGetTouristDialogue(string mapId, string touristId, [NotNullWhen(true)] out string? message, out bool hasMoreMessages)
     {
-        // get tourist map entry
-        Dictionary<string, TouristMapModel?> data = this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(AssetNames.Tourists);
-        if (!data.TryGetValue(mapId, out TouristMapModel? mapData))
+        // get message queue
+        string key = $"{mapId}#{touristId}";
+        if (!this.TouristDialogues.TryGetValue(key, out LiveMessageQueue? queue))
         {
-            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that map ID wasn't found in the data.");
-            return null;
+            // get whether the dialogue should repeat
+            // (If the tourist isn't valid, an error will be shown separately.)
+            bool? dialogueRepeats =
+                this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(AssetNames.Tourists)
+                .GetValueOrDefault(mapId)
+                ?.Tourists
+                ?.FirstOrDefault(p => p.Key == touristId).Value
+                ?.DialogueRepeats;
+
+            this.TouristDialogues[key] = queue = new LiveMessageQueue(
+                loop: dialogueRepeats ?? false,
+                shuffle: false,
+                () => this.GetTouristDialogues(mapId, touristId)
+            );
         }
 
-        // get tourist entry
-        TouristModel? tourist = mapData?.Tourists?.FirstOrDefault(p => p.Key == touristId).Value;
-        if (tourist is null)
+        // get next
+        if (queue.TryGetNext(out message, out hasMoreMessages))
         {
-            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist ID wasn't found in its tourist map data.");
-            return null;
-        }
-        if (tourist.Dialogue?.Count is not > 0)
-        {
-            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist has no dialogue.");
-            return null;
+            message = Dialogue.applyGenderSwitchBlocks(Game1.player.Gender, message);
+            return true;
         }
 
-        // get next dialogue
-        Dictionary<string, HashSet<string>> seenDialoguesByNpc = this.SeenTouristDialogues.Value;
-        string seenDialoguesKey = $"{mapId}#{touristId}";
-        for (int i = 0; i < tourist.Dialogue.Count; i++)
-        {
-            string dialogue = tourist.Dialogue[i] ?? string.Empty;
-
-            if (!seenDialoguesByNpc.TryGetValue(seenDialoguesKey, out HashSet<string>? seenDialogues))
-                seenDialoguesByNpc[seenDialoguesKey] = seenDialogues = new();
-
-            string dialogueKey = $"{i}#{dialogue}";
-            bool isNext = markSeen
-                ? seenDialogues.Add(dialogueKey)
-                : !seenDialogues.Contains(dialogueKey);
-
-            if (isNext)
-                return dialogue;
-        }
-
-        // none found, reset if applicable
-        if (tourist.DialogueRepeats)
-        {
-            string dialogue = tourist.Dialogue.FirstOrDefault() ?? string.Empty;
-            if (markSeen)
-                seenDialoguesByNpc[seenDialoguesKey] = [$"0#{dialogue}"];
-            return dialogue;
-        }
-
-        // no further dialogue
-        return null;
+        return false;
     }
 
     /// <summary>Get the tile which contains an <c>Action</c> tile property which opens a given network's menu, if any.</summary>
@@ -638,5 +597,64 @@ internal class ContentManager
         }
 
         tile.Properties["Action"] = $"{Constant.TicketsAction} {networks.ToString().Replace(",", " ")}";
+    }
+
+    /// <summary>Get the available bookshelf messages from the live asset.</summary>
+    private IEnumerable<LiveMessageQueue.Message> GetBookshelfMessages()
+    {
+        foreach ((string id, List<string?>? dialogues) in this.ContentHelper.Load<Dictionary<string, List<string?>?>>(AssetNames.Bookshelf))
+        {
+            if (CommonHelper.TryGetModFromStringId(this.ModRegistry, id, allowModOnlyId: true) is null)
+            {
+                this.Monitor.LogOnce($"Ignored bookshelf messages with ID '{id}': IDs must be prefixed with the exact unique mod ID, like `Example.ModId_StopId`.", LogLevel.Warn);
+                continue;
+            }
+
+            if (dialogues?.Count is not > 0)
+            {
+                this.Monitor.Log($"Can't get bookshelf messages with ID '{id}' because its dialogue list is empty.");
+                yield break;
+            }
+
+            foreach (string? text in dialogues)
+            {
+                if (!string.IsNullOrWhiteSpace(text))
+                    yield return new LiveMessageQueue.Message(Key: $"{id}#{text}", Text: text);
+            }
+        }
+    }
+
+    /// <summary>Get the available tourist dialogues from the live asset.</summary>
+    /// <param name="mapId">The ID for the tourist map data which added the tourist.</param>
+    /// <param name="touristId">The ID of the tourist within its tourist map data.</param>
+    private IEnumerable<LiveMessageQueue.Message> GetTouristDialogues(string mapId, string touristId)
+    {
+        // get tourist map entry
+        Dictionary<string, TouristMapModel?> data = this.ContentHelper.Load<Dictionary<string, TouristMapModel?>>(AssetNames.Tourists);
+        if (!data.TryGetValue(mapId, out TouristMapModel? mapData))
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that map ID wasn't found in the data.");
+            yield break;
+        }
+
+        // get tourist entry
+        TouristModel? tourist = mapData?.Tourists?.FirstOrDefault(p => p.Key == touristId).Value;
+        if (tourist is null)
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist ID wasn't found in its tourist map data.");
+            yield break;
+        }
+        if (tourist.Dialogue?.Count is not > 0)
+        {
+            this.Monitor.Log($"Can't get tourist dialogue '{mapId}' > '{touristId}' because that tourist has no dialogue.");
+            yield break;
+        }
+
+        // get dialogue
+        for (int i = 0; i < tourist.Dialogue.Count; i++)
+        {
+            string text = tourist.Dialogue[i] ?? string.Empty;
+            yield return new LiveMessageQueue.Message($"{mapId}#{touristId}#{i}#{text}", text); // include index: tourists can repeat dialogue text (e.g. the flamingo's "..." lines)
+        }
     }
 }

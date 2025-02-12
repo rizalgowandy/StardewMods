@@ -2,12 +2,15 @@
 
 # Release notes
 ## Upcoming release
-* Added sound effect and rare interaction for central station exit door, and removed the stanchion line blocking it (but it's still locked).
-* Raised juice prices in food court shop to avoid infinite money exploit with artisan profession.
-* Fixed map layer issue with a gift shop basket.
-* Fixed custom content like tourists loaded before Content Patcher updates its tokens.
-* Fixed ticket machine not added if you start the day in its location.
-* Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
+* For players:
+  * Added sound effect and rare interaction for central station exit door, and removed the stanchion line blocking it (but it's still locked).
+  * Raised juice prices in food court shop to avoid infinite money exploit with artisan profession.
+  * Fixed map layer issue with a gift shop basket.
+  * Fixed ticket machine not added if you start the day in its location.
+  * Improved translations. Thanks to Hayato2236 (added Spanish) and NARCOAZAZAL (updated Portuguese)!
+* For mod authors:
+  * Added warning if a bookshelf entry has no messages to simplify troubleshooting.
+  * Fixed custom content like tourists loaded before Content Patcher updates its tokens.
 
 ## 1.0.1
 Released 08 February 2025 for SMAPI 4.1.10 or later.
