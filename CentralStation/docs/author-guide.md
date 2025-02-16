@@ -449,6 +449,10 @@ If Central Station is installed, it'll patch its ticket machine over your defaul
 replaces the `Buildings` and `Front` layers for the patched tiles, so the fallback `Action` will be replaced. If it's
 not installed, your `EditData` patches will just be ignored and players will use your fallback warp.
 
+### Can I edit the map for the Central Station itself?
+That isn't recommended. Due to the [nature of the station](#lore-guide), the layout isn't fixed and may change from one
+visit to the other. Future versions of the mod will also likely make changes to accomodate new features and areas.
+
 ## See also
 * [README](README.md) for other info
 * [Ask for help](https://stardewvalleywiki.com/Modding:Help)
