@@ -5,8 +5,10 @@
 * For players:
   * Added more tourist spots in gift shop.
   * Added rare chance for station to be dark when traveling late.
+  * Rare interactions in the central station can no longer happen during your first few visits.
 
 * For mod authors:
+  * Added `Pathoschild.CentralStation_TimesVisited` stat to track the number of visits to the central station.
   * Fixed stops with `"Tile": null` ignoring ticket machines past tile position (64, 64) when choosing a default position.
 
 ## 1.1.0

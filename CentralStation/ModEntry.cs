@@ -144,7 +144,7 @@ internal class ModEntry : Mod
         void ShowTickets() => this.OpenMenu(StopNetworks.Boat | StopNetworks.Bus | StopNetworks.Train);
 
         // rare chance of showing a secret message before the ticket menu
-        if (!this.SawStrangeOccurrence.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
+        if (this.ContentManager.CanSeeStrangeOccurrences() && !this.SawStrangeOccurrence.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
         {
             this.SawStrangeOccurrence.Value = true;
 
@@ -184,7 +184,7 @@ internal class ModEntry : Mod
         const string jojaColaId = "(O)167";
 
         // rare chance of free item, else show dialogue to buy Joja cola
-        if (!this.GotRareColaDrop.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
+        if (this.ContentManager.CanSeeStrangeOccurrences() && !this.GotRareColaDrop.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
         {
             this.GotRareColaDrop.Value = true;
 
@@ -222,7 +222,7 @@ internal class ModEntry : Mod
     private bool OnCentralExitDoorAction()
     {
         // rare chance of strange sounds, else locked-door sound
-        if (!this.SawStrangeOccurrence.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
+        if (this.ContentManager.CanSeeStrangeOccurrences() && !this.SawStrangeOccurrence.Value && Game1.random.NextBool(Constant.StrangeInteractionChance))
         {
             this.SawStrangeOccurrence.Value = true;
 

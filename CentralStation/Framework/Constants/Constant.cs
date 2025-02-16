@@ -1,3 +1,5 @@
+using StardewValley;
+
 namespace Pathoschild.Stardew.CentralStation.Framework.Constants;
 
 /// <summary>The general constants defined for Central Station.</summary>
@@ -21,6 +23,9 @@ internal class Constant
     /// <summary>The map property which opens a destination menu.</summary>
     public const string TicketsAction = "CentralStation";
 
+    /// <summary>The key in <see cref="Game1.stats"/> for the number of times a player has visited the Central Station.</summary>
+    public const string TimesVisitedStatKey = $"{Constant.ModId}_TimesVisited";
+
     /// <summary>The probability that a tourist will spawn on a given spawn tile, as a value between 0 (never) and 1 (always).</summary>
     public const float TouristSpawnChance = 0.35f;
 
@@ -28,6 +33,10 @@ internal class Constant
     /****
     ** Strange occurrences
     ****/
+    /// <summary>The minimum number of times the player needs to visit the central station before rare strange occurrences can happen.</summary>
+    /// <remarks>This avoids confusion due to strange things happening the first times the player visits the station, before they become familiar with the baseline station.</remarks>
+    public const int MinVisitsBeforeStrangeOccurrences = 5;
+
     /// <summary>The probability of showing a strange interaction when performing an action in the central station.</summary>
     public const float StrangeInteractionChance = 0.05f;
 

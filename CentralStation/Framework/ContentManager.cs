@@ -100,16 +100,20 @@ internal class ContentManager
         this.ConvertPreviousTicketMachines(e.NewLocation);
         this.AddTicketMachineForMapProperty(e.NewLocation);
 
-        // rare dark station
+        // entered central station
         if (e.NewLocation.NameOrUniqueName is Constant.CentralStationLocationId)
         {
+            // increment stat
+            Game1.stats.Increment(Constant.TimesVisitedStatKey);
+
+            // rare dark station
             if (this.StationDark.Value)
             {
                 this.StationDark.Value = false;
                 this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
                 e.NewLocation.resetForPlayerEntry();
             }
-            else if (Game1.timeOfDay >= Constant.DarkStationMinTime && Game1.random.NextBool(Constant.DarkStationChance))
+            else if (this.CanSeeStrangeOccurrences() && Game1.timeOfDay >= Constant.DarkStationMinTime && Game1.random.NextBool(Constant.DarkStationChance))
             {
                 this.StationDark.Value = true;
                 Game1.stopMusicTrack(MusicContext.Default);
@@ -117,6 +121,12 @@ internal class ContentManager
                 e.NewLocation.resetForPlayerEntry();
             }
         }
+    }
+
+    /// <summary>Get whether the player can see rare strange occurrences in the Central Station.</summary>
+    public bool CanSeeStrangeOccurrences()
+    {
+        return Game1.stats.Get(Constant.TimesVisitedStatKey) >= Constant.MinVisitsBeforeStrangeOccurrences;
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
