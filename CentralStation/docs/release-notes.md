@@ -8,6 +8,7 @@
   * Rare interactions in the central station can no longer happen during your first few visits.
 
 * For mod authors:
+  * Added `OnlyInAreas` tourist field, which sets which part of the Central Station a tourist can appear in.
   * Added `Pathoschild.CentralStation_TimesVisited` stat to track the number of visits to the central station.
   * Fixed stops with `"Tile": null` ignoring ticket machines past tile position (64, 64) when choosing a default position.
 

@@ -17,6 +17,9 @@ internal class Constant
     /// <summary>The map property name which adds a ticket machine automatically to a map.</summary>
     public const string TicketMachineMapProperty = $"{Constant.ModId}_TicketMachine";
 
+    /// <summary>The map property name which defines the tourist areas in Central Station.</summary>
+    public const string TouristAreasMapProperty = $"{Constant.ModId}_TouristAreas";
+
     /// <summary>The map property which performs an internal sub-action identified by a <see cref="MapSubActions"/> value.</summary>
     public const string InternalAction = Constant.ModId;
 

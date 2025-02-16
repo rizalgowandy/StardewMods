@@ -335,6 +335,19 @@ _(Optional)_ A [game state query][] which indicates whether a tourist can appear
 
 </td>
 </tr>
+<tr>
+<td><code>OnlyInAreas</code></td>
+<td>
+
+_(Optional)_ The specific areas where this NPC can spawn. The valid values are `Bookshelves`, `FoodCourt`, `GiftShop`,
+`TicketCounter`, and `WaitingArea`. If omitted, the NPC can spawn in any area.
+
+For example, an NPC with this field can only spawn in the food court _or_ gift shop:
+```js
+"Areas": [ "FoodCout", "GiftShop" ]
+```
+
+</td>
 </tr>
 </table>
 
