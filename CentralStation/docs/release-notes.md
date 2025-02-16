@@ -1,6 +1,13 @@
 ﻿[← back to readme](README.md)
 
 # Release notes
+## Upcoming release
+* For players:
+  * Added more tourist spots in gift shop.
+
+* For mod authors:
+  * Fixed stops with `"Tile": null` ignoring ticket machines past tile position (64, 64) when choosing a default position.
+
 ## 1.1.0
 Released 11 February 2025 for SMAPI 4.1.10 or later.
 

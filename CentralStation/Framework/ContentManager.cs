@@ -259,9 +259,12 @@ internal class ContentManager
         Layer? buildingsLayer = map?.GetLayer("Buildings");
         if (buildingsLayer is not null)
         {
-            for (int y = 0, maxY = buildingsLayer.TileHeight; y <= maxY; y++)
+            int layerHeight = buildingsLayer.LayerHeight;
+            int layerWidth = buildingsLayer.LayerWidth;
+
+            for (int y = 0; y < layerHeight; y++)
             {
-                for (int x = 0, maxX = buildingsLayer.TileWidth; x <= maxX; x++)
+                for (int x = 0; x < layerWidth; x++)
                 {
                     if (buildingsLayer.Tiles[x, y]?.Properties?.TryGetValue("Action", out string action) is true && action.StartsWithIgnoreCase(Constant.TicketsAction))
                     {
@@ -294,9 +297,12 @@ internal class ContentManager
         Layer? layer = map?.GetLayer(layerId);
         if (layer is not null)
         {
-            for (int y = 0, maxY = layer.TileHeight; y <= maxY; y++)
+            int layerHeight = layer.LayerHeight;
+            int layerWidth = layer.LayerWidth;
+
+            for (int y = 0; y < layerHeight; y++)
             {
-                for (int x = 0, maxX = layer.TileWidth; x <= maxX; x++)
+                for (int x = 0; x < layerWidth; x++)
                 {
                     var mapTile = layer.Tiles[x, y];
                     if (mapTile?.TileIndex == index && mapTile.TileSheet?.Id == tileSheetId)
@@ -351,12 +357,15 @@ internal class ContentManager
         if (map is null || layer is null)
             return;
 
+        int layerHeight = layer.LayerHeight;
+        int layerWidth = layer.LayerWidth;
+
         // edit tiles
         bool isBoatTunnel = location is BoatTunnel { Name: "BoatTunnel" };
         bool isBusStop = location is BusStop { Name: "BusStop" };
-        for (int y = 0, maxY = layer.LayerHeight; y <= maxY; y++)
+        for (int y = 0; y < layerHeight; y++)
         {
-            for (int x = 0, maxX = layer.LayerWidth; x <= maxX; x++)
+            for (int x = 0; x < layerWidth; x++)
             {
                 // get tile
                 Tile? tile = layer.Tiles[x, y];
@@ -476,9 +485,12 @@ internal class ContentManager
         Map map = assetData.Data;
         Layer buildingsLayer = map.RequireLayer("Buildings");
         Layer pathsLayer = map.RequireLayer("Paths");
-        for (int y = 0, maxY = pathsLayer.TileHeight; y <= maxY; y++)
+        int layerHeight = pathsLayer.LayerHeight;
+        int layerWidth = pathsLayer.LayerWidth;
+
+        for (int y = 0; y < layerHeight; y++)
         {
-            for (int x = 0, maxX = pathsLayer.TileWidth; x <= maxX; x++)
+            for (int x = 0; x < layerWidth; x++)
             {
                 // check preconditions
                 if (pathsLayer.Tiles[x, y]?.TileIndex is not 7) // red circle marks spawn points
@@ -545,9 +557,12 @@ internal class ContentManager
         Layer? layer = asset.Data.GetLayer("Buildings");
         if (layer != null)
         {
-            for (int y = 0, maxY = layer.LayerHeight; y <= maxY; y++)
+            int layerHeight = layer.LayerHeight;
+            int layerWidth = layer.LayerWidth;
+
+            for (int y = 0; y < layerHeight; y++)
             {
-                for (int x = 0, maxX = layer.LayerWidth; x <= maxX; x++)
+                for (int x = 0; x < layerWidth; x++)
                 {
                     // get tile
                     Tile? tile = layer.Tiles[x, y];
