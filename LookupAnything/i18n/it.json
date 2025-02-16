@@ -622,19 +622,28 @@
     /*********
     ** Tile lookups
     *********/
+    // Note for translators:
+    // The translations in this section are a bit more technical. Quick summary:
+    //
+    //  - A 'map' sets the layout and appearance for an in-game location (like the farmhouse).
+    //  - Each map is divided into a grid of 64x64 pixel 'tiles'. A map can have multiple 'layers' of tiles (e.g. 'Back', 'Front', 'Buildings', etc).
+    //  - Each tile's visual appearance is set by assigning it a 'tile index', which is its position in a larger texture called a 'tilesheet'.
+    //  - Each tile can be assigned 'properties'. These are metadata which tell the game about the tile (like "Type: Dirt" or "Action: OpenShop HatMouse").
+    //  - There are two property types: 'tile property' (set for a specific tile position) and 'index property' (set for all tiles which use that tile index).
+
     // labels
     "tile.description": "La posizione di un tassello della mappa. Ti viene mostrato perchè hai abilitato la visione dei tasselli dalle opzioni.",
     "tile.game-location": "Posizione",
     "tile.map-name": "Nome mappa",
-    "tile.tile": "Tassello della mappa",
-    "tile.tile-index": "{{layerName}}: indice tasselli della mappa",
-    "tile.tilesheet": "{{layerName}}: listatassellimappa",
-    "tile.blend-mode": "{{layerName}}: modalità mimetizzazione",
-    "tile.index-property": "{{layerName}}: oggetti ix: {{propertyName}}",
-    "tile.tile-property": "{{layerName}}: oggetti: {{propertyName}}",
+    "tile.layer-tile": "{{layer}} tile", // TODO
+    "tile.layer-tile-none": "Tassello della mappa",
 
     // values
-    "tile.tile.none-here": "nessun tassello della mappa qui",
+    "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
+    "tile.layer-tile.blend-mode": "modalità mimetizzazione: {{value}}",
+    "tile.layer-tile.index-property": "oggetti ix: {{name}}: {{value}}",
+    "tile.layer-tile.tile-property": "oggetti: {{name}}: {{value}}",
+    "tile.layer-tile.none-here": "nessun tassello della mappa qui",
 
 
     /*********

@@ -624,19 +624,28 @@
     /*********
     ** Tile lookups
     *********/
+    // Note for translators:
+    // The translations in this section are a bit more technical. Quick summary:
+    //
+    //  - A 'map' sets the layout and appearance for an in-game location (like the farmhouse).
+    //  - Each map is divided into a grid of 64x64 pixel 'tiles'. A map can have multiple 'layers' of tiles (e.g. 'Back', 'Front', 'Buildings', etc).
+    //  - Each tile's visual appearance is set by assigning it a 'tile index', which is its position in a larger texture called a 'tilesheet'.
+    //  - Each tile can be assigned 'properties'. These are metadata which tell the game about the tile (like "Type: Dirt" or "Action: OpenShop HatMouse").
+    //  - There are two property types: 'tile property' (set for a specific tile position) and 'index property' (set for all tiles which use that tile index).
+
     // labels
     "tile.description": "지도상의 타일 위치. 이는 당신이 '타일 찾아보기(tile lookup)'를 활성화 했기 때문에 표시됨.",
     "tile.game-location": "위치",
     "tile.map-name": "맵 이름",
-    "tile.tile": "타일",
-    "tile.tile-index": "{{layerName}}: 타일 인덱스",
-    "tile.tilesheet": "{{layerName}}: 타일 시트",
-    "tile.blend-mode": "{{layerName}}: 혼합 모드",
-    "tile.index-property": "{{layerName}}: 건물 인덱스: {{propertyName}}",
-    "tile.tile-property": "{{layerName}}: 건물: {{propertyName}}",
+    "tile.layer-tile": "{{layer}} tile", // TODO
+    "tile.layer-tile-none": "타일",
 
     // values
-    "tile.tile.none-here": "타일 없음",
+    "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
+    "tile.layer-tile.blend-mode": "혼합 모드: {{value}}",
+    "tile.layer-tile.index-property": "건물 인덱스: {{name}}: {{value}}",
+    "tile.layer-tile.tile-property": "건물: {{name}}: {{value}}",
+    "tile.layer-tile.none-here": "타일 없음",
 
 
     /*********

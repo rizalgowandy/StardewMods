@@ -623,19 +623,28 @@
     /*********
     ** Tile lookups (图块查询)
     *********/
+    // Note for translators:
+    // The translations in this section are a bit more technical. Quick summary:
+    //
+    //  - A 'map' sets the layout and appearance for an in-game location (like the farmhouse).
+    //  - Each map is divided into a grid of 64x64 pixel 'tiles'. A map can have multiple 'layers' of tiles (e.g. 'Back', 'Front', 'Buildings', etc).
+    //  - Each tile's visual appearance is set by assigning it a 'tile index', which is its position in a larger texture called a 'tilesheet'.
+    //  - Each tile can be assigned 'properties'. These are metadata which tell the game about the tile (like "Type: Dirt" or "Action: OpenShop HatMouse").
+    //  - There are two property types: 'tile property' (set for a specific tile position) and 'index property' (set for all tiles which use that tile index).
+
     // labels (标签)
     "tile.description": "地图上此位置的图块。显示此信息是因为你在设置中启用了图块查询功能。",
     "tile.game-location": "位置",
     "tile.map-name": "地图名",
-    "tile.tile": "图块",
-    "tile.tile-index": "{{layerName}}: 图块索引",
-    "tile.tilesheet": "{{layerName}}: 图块集",
-    "tile.blend-mode": "{{layerName}}: 混合模式",
-    "tile.index-property": "{{layerName}}: 索引属性: {{propertyName}}",
-    "tile.tile-property": "{{layerName}}: 图块属性: {{propertyName}}",
+    "tile.layer-tile": "{{layer}} tile", // TODO
+    "tile.layer-tile-none": "图块",
 
     // values (数值)
-    "tile.tile.none-here": "此处无图块",
+    "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
+    "tile.layer-tile.blend-mode": "混合模式: {{value}}",
+    "tile.layer-tile.index-property": "索引属性: {{name}}: {{value}}",
+    "tile.layer-tile.tile-property": "图块属性: {{name}}: {{value}}",
+    "tile.layer-tile.none-here": "此处无图块",
 
 
     /*********
