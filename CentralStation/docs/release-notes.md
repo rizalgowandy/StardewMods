@@ -4,6 +4,7 @@
 ## Upcoming release
 * For players:
   * Added more tourist spots in gift shop.
+  * Added rare chance for station to be dark when traveling late.
 
 * For mod authors:
   * Fixed stops with `"Tile": null` ignoring ticket machines past tile position (64, 64) when choosing a default position.

@@ -8,8 +8,10 @@ using Pathoschild.Stardew.CentralStation.Framework.ContentModels;
 using Pathoschild.Stardew.Common;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Extensions;
+using StardewValley.GameData;
 using StardewValley.Locations;
 using StardewValley.TokenizableStrings;
 using xTile;
@@ -24,9 +26,6 @@ internal class ContentManager
     /*********
     ** Fields
     *********/
-    /// <summary>The probability that a tourist will spawn on a given spawn tile, as a value between 0 (never) and 1 (always).</summary>
-    private const float TouristSpawnChance = 0.35f;
-
     /// <summary>The SMAPI API for loading and managing content assets.</summary>
     private readonly IGameContentHelper ContentHelper;
 
@@ -44,6 +43,9 @@ internal class ContentManager
 
     /// <summary>The 'strange occurrence' messages shown in rare cases.</summary>
     private readonly Dictionary<string, LiveMessageQueue> StrangeMessages = new();
+
+    /// <summary>Whether the central station is showing the rare dark form (lighting dimmed, shops closed, etc.).</summary>
+    private readonly PerScreen<bool> StationDark = new();
 
 
     /*********
@@ -70,13 +72,14 @@ internal class ContentManager
         this.TouristDialogues.Clear();
 
         // reapply map edits (e.g. random tourists)
+        this.StationDark.Value = false;
         this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
 
         // add ticket machine if player wakes up in a location
         this.AddTicketMachineForMapProperty(Game1.currentLocation);
     }
 
-    /// <inheritdoc cref="IPlayerEvents.Warped" />
+    /// <inheritdoc cref="IContentEvents.AssetRequested" />
     public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
         // edit vanilla locations
@@ -88,6 +91,32 @@ internal class ContentManager
         // edit Central Station map
         if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Constant.ModId}"))
             e.Edit(this.EditCentralStationMap, AssetEditPriority.Early);
+    }
+
+    /// <inheritdoc cref="IPlayerEvents.Warped" />
+    public void OnWarped(object? sender, WarpedEventArgs e)
+    {
+        // apply ticket machines
+        this.ConvertPreviousTicketMachines(e.NewLocation);
+        this.AddTicketMachineForMapProperty(e.NewLocation);
+
+        // rare dark station
+        if (e.NewLocation.NameOrUniqueName is Constant.CentralStationLocationId)
+        {
+            if (this.StationDark.Value)
+            {
+                this.StationDark.Value = false;
+                this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
+                e.NewLocation.resetForPlayerEntry();
+            }
+            else if (Game1.timeOfDay >= Constant.DarkStationMinTime && Game1.random.NextBool(Constant.DarkStationChance))
+            {
+                this.StationDark.Value = true;
+                Game1.stopMusicTrack(MusicContext.Default);
+                this.ContentHelper.InvalidateCache($"Maps/{Constant.ModId}");
+                e.NewLocation.resetForPlayerEntry();
+            }
+        }
     }
 
     /// <summary>Get the stops which can be selected from the current location.</summary>
@@ -347,9 +376,13 @@ internal class ContentManager
         return true;
     }
 
+
+    /*********
+    ** Private methods
+    *********/
     /// <summary>Add the Central Station action properties for vanilla or legacy ticket machines.</summary>
     /// <param name="location">The location whose map to change.</param>
-    public void ConvertPreviousTicketMachines(GameLocation location)
+    private void ConvertPreviousTicketMachines(GameLocation location)
     {
         // get map info
         Map map = location.Map;
@@ -397,7 +430,7 @@ internal class ContentManager
 
     /// <summary>Add a Central Station ticket machine if the location has a <see cref="Constant.TicketMachineMapProperty"/> map property.</summary>
     /// <param name="location">The location to edit.</param>
-    public void AddTicketMachineForMapProperty(GameLocation location)
+    private void AddTicketMachineForMapProperty(GameLocation location)
     {
         // get property
         if (!location.TryGetMapProperty(Constant.TicketMachineMapProperty, out string? rawProperty))
@@ -415,15 +448,65 @@ internal class ContentManager
         this.TryAddTicketMachine(location.Map, tile.X, tile.Y, networks);
     }
 
-
-    /*********
-    ** Private methods
-    *********/
     /// <summary>Apply edits to the Central Station map when it's loaded.</summary>
     /// <param name="assetData">The asset data.</param>
     private void EditCentralStationMap(IAssetData assetData)
     {
-        this.AddCentralStationTourists(assetData.AsMap());
+        var map = assetData.AsMap().Data;
+
+        if (this.StationDark.Value)
+        {
+            // make it darker
+            map.Properties["AmbientLight"] = "200 200 100";
+
+            // edit map tiles
+            Layer backLayer = map.RequireLayer("Back");
+            Layer buildingsLayer = map.RequireLayer("Buildings");
+            Layer pathsLayer = map.RequireLayer("Paths");
+            Layer frontLayer = map.RequireLayer("Front");
+            const int lightPathIndex = 8;
+
+            int layerHeight = pathsLayer.LayerHeight;
+            int layerWidth = pathsLayer.LayerWidth;
+
+            for (int y = 0; y < layerHeight; y++)
+            {
+                for (int x = 0; x < layerWidth; x++)
+                {
+                    // get tiles
+                    Tile? backTile = backLayer.Tiles[x, y];
+                    Tile? frontTile = frontLayer.Tiles[x, y];
+                    Tile? pathTile = pathsLayer.Tiles[x, y];
+                    Tile? buildingsTile = buildingsLayer.Tiles[x, y];
+
+                    // get action property
+                    if (buildingsTile?.Properties.TryGetValue("Action", out string? action) is not true)
+                        action = null;
+
+                    // remove lighting, but light up ticket booth & machine
+                    if (pathTile?.TileIndex == lightPathIndex)
+                        pathsLayer.Tiles[x, y] = null;
+                    if (action != null && (action.StartsWithIgnoreCase($"{Constant.InternalAction} {MapSubActions.TicketBooth}") || action.StartsWithIgnoreCase($"{Constant.InternalAction} {MapSubActions.TicketMachine}")))
+                        pathsLayer.Tiles[x, y - 1] ??= new StaticTile(pathsLayer, map.GetTileSheet("paths"), BlendMode.Alpha, lightPathIndex);
+
+                    // remove gift shop clerk
+                    if (frontTile?.TileIndex == 1910 && frontTile.TileSheet.Id == GameLocation.DefaultTileSheetId) // gift shop clerk's head
+                        frontLayer.Tiles[x, y] = null;
+                    else if (buildingsTile?.TileIndex == 1942 && buildingsTile.TileSheet.Id == GameLocation.DefaultTileSheetId)
+                        buildingsLayer.Tiles[x, y] = null;
+
+                    // close food court
+                    if (backTile?.TileSheet.Id == "centralStation" && backTile.TileIndex is 152 or 153 or 154 or 155 or 172 or 173 or 174 or 175)
+                        backLayer.Tiles[x, y] = new StaticTile(backTile.Layer, backTile.TileSheet, BlendMode.Alpha, backTile.TileIndex + 4);
+
+                    // remove some interactions
+                    if (action != null && (action.StartsWithIgnoreCase("OpenShop") || action.StartsWithIgnoreCase($"{Constant.InternalAction} {MapSubActions.Bookshelf}") || action.StartsWithIgnoreCase($"{Constant.InternalAction} {MapSubActions.PopUpShop}")))
+                        buildingsTile!.Properties.Remove("Action");
+                }
+            }
+        }
+        else
+            this.AddCentralStationTourists(assetData.AsMap());
     }
 
     /// <summary>Add random tourist NPCs to the Central Station map.</summary>
@@ -497,7 +580,7 @@ internal class ContentManager
                     continue;
                 if (validTourists.Count is 0)
                     return; // no further tourists can spawn
-                if (!random.NextBool(ContentManager.TouristSpawnChance))
+                if (!random.NextBool(Constant.TouristSpawnChance))
                     continue;
 
                 // get tourist data
