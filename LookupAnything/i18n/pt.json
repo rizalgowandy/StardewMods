@@ -638,10 +638,12 @@
     "tile.description": "A posição de um bloco no mapa. Isso é exibido porque você ativou as pesquisas de blocos na configuração",
     "tile.game-location": "Localização",
     "tile.map-name": "Nome do mapa",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "Bloco",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "Modo de mistura: {{value}}",
     "tile.layer-tile.index-property": "Índice da propriedade: {{name}}: {{value}}",

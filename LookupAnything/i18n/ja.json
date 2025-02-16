@@ -637,10 +637,12 @@
     "tile.description": "マップでのタイル位置です 設定で有効化されたので表示しています",
     "tile.game-location": "場所",
     "tile.map-name": "マップ名",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "タイル",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "ブレンド方法: {{value}}",
     "tile.layer-tile.index-property": "インデックスプロパティ: {{name}}: {{value}}",

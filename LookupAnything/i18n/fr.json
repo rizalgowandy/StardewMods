@@ -640,10 +640,12 @@
     "tile.description": "Une case sur la carte. Ceci est affiché car vous avez activé la recherche des cases dans les paramètres.",
     "tile.game-location": "Zone",
     "tile.map-name": "Nom de la carte",
+    "tile.map-properties": "Propriétés de la carte",
     "tile.layer-tile": "Case du calque '{{layer}}'",
     "tile.layer-tile-none": "Case",
 
     // values
+    "tile.map-properties.value": "{{name}} : {{value}}",
     "tile.layer-tile.appearance": "affiche l'index {{index}} de la feuille de tuiles '{{tilesheetId}}' (chemin : '{{tilesheetPath}}')",
     "tile.layer-tile.blend-mode": "mode de fusion: {{value}}",
     "tile.layer-tile.index-property": "propriété d'index: {{name}}: {{value}}",

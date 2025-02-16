@@ -51,6 +51,22 @@ internal class TileSubject : BaseSubject
             // yield map data
             yield return new GenericField(I18n.Tile_MapName(), this.Location.Name);
 
+            // yield map properties
+            StringBuilder summary = new();
+            if (this.Location.Map.Properties.Count > 0)
+            {
+                foreach ((string key, string value) in this.Location.Map.Properties)
+                    summary.AppendLine(I18n.Tile_MapProperties_Value(name: key, value: value));
+
+                var field = new GenericField(I18n.Tile_MapProperties(), summary.ToString());
+                if (summary.Length > 50)
+                    field.CollapseByDefault(I18n.Generic_ShowXResults(this.Location.Map.Properties.Count));
+
+                yield return field;
+                summary.Clear();
+            }
+
+
             // get tile on each layer
             Tile[] tiles = this.GetTiles(this.Location, this.Position).ToArray();
             if (!tiles.Any())
@@ -60,7 +76,6 @@ internal class TileSubject : BaseSubject
             }
 
             // fetch tile data
-            StringBuilder summary = new();
             foreach (Tile tile in tiles)
             {
                 summary.AppendLine(I18n.Tile_LayerTile_Appearance(index: this.Stringify(tile.TileIndex), tilesheetId: tile.TileSheet.Id, tilesheetPath: tile.TileSheet.ImageSource.Replace("\\", ": ").Replace("/", ": ")));

@@ -636,10 +636,12 @@
     "tile.description": "Bir karonun haritadaki konumu. Bu gösteriliyor çünkü konfigürasyonda karo gösterimini etkinleştirdin.",
     "tile.game-location": "Konum",
     "tile.map-name": "Harita ismi",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "Karo",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "karışım modu: {{value}}",
     "tile.layer-tile.index-property": "ix destekleri: {{name}}: {{value}}",

@@ -2,6 +2,7 @@
 
 # Release notes
 ## Upcoming release
+* Added map properties to tile lookup.
 * Overhauled tile lookups so they're much easier to read and show more info.
 * Fixed overlapping text when displayed data contains explicit line breaks (e.g. some custom machine recipes).
 

@@ -637,10 +637,12 @@
     "tile.description": "지도상의 타일 위치. 이는 당신이 '타일 찾아보기(tile lookup)'를 활성화 했기 때문에 표시됨.",
     "tile.game-location": "위치",
     "tile.map-name": "맵 이름",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "타일",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "혼합 모드: {{value}}",
     "tile.layer-tile.index-property": "건물 인덱스: {{name}}: {{value}}",

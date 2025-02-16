@@ -636,10 +636,12 @@
     "tile.description": "地图上此位置的图块。显示此信息是因为你在设置中启用了图块查询功能。",
     "tile.game-location": "位置",
     "tile.map-name": "地图名",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "图块",
 
     // values (数值)
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "混合模式: {{value}}",
     "tile.layer-tile.index-property": "索引属性: {{name}}: {{value}}",

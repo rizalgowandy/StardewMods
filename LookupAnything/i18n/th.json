@@ -640,10 +640,12 @@
     "tile.description": "ตำแหน่งไทล์บนแผนที่ สิ่งนี้แสดงขึ้นเนื่องจากคุณเปิดใช้งานการค้นหาไทล์ในการกำหนดค่า",
     "tile.game-location": "ตำแหน่งที่ตั้ง",
     "tile.map-name": "ชื่อแผนที่",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "ไทล์",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "โหมดผสมผสาน: {{value}}",
     "tile.layer-tile.index-property": "ix คุณสมบัติ: {{name}}: {{value}}",

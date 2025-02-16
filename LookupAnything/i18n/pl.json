@@ -637,10 +637,12 @@
     "tile.description": "Położenie kafelka na mapie. Jest to wyświetlane, ponieważ w konfiguracji włączono podgląd kafelków.",
     "tile.game-location": "Lokacja",
     "tile.map-name": "Nazwa mapy",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "Kafelek",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "rodzaj łączenia: {{value}}",
     "tile.layer-tile.index-property": "index property: {{name}}: {{value}}", // TODO

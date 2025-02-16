@@ -637,10 +637,12 @@
     "tile.description": "Vị trí 1 ô trên bản đồ. Điều này hiển thị khi bạn đã bật tile lookups trong configuration.",
     "tile.game-location": "Vị trí",
     "tile.map-name": "Tên bản đồ",
+    "tile.map-properties": "Map properties", // TODO
     "tile.layer-tile": "{{layer}} tile", // TODO
     "tile.layer-tile-none": "Ô",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}", // TODO
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')", // TODO
     "tile.layer-tile.blend-mode": "chế độ hòa trộn: {{value}}",
     "tile.layer-tile.index-property": "thuộc tính ix: {{name}}: {{value}}",

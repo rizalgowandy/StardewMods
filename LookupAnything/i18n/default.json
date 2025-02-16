@@ -636,10 +636,12 @@
     "tile.description": "A tile position on the map. This is displayed because you enabled tile lookups in the configuration.",
     "tile.game-location": "Location",
     "tile.map-name": "Map name",
+    "tile.map-properties": "Map properties",
     "tile.layer-tile": "{{layer}} tile",
     "tile.layer-tile-none": "Tile",
 
     // values
+    "tile.map-properties.value": "{{name}}: {{value}}",
     "tile.layer-tile.appearance": "index {{index}} from tilesheet '{{tilesheetId}}' (path: '{{tilesheetPath}}')",
     "tile.layer-tile.blend-mode": "blend mode: {{value}}",
     "tile.layer-tile.index-property": "index property: {{name}}: {{value}}",
